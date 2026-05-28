@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:LifeRPG.Core.Models;assembly=LifeRPG.Core"
         mc:Ignorable="d"
         Title="Life RPG Native"
-        Height="640"
+        Height="760"
         Width="1100"
-        MinHeight="560"
+        MinHeight="680"
         MinWidth="960"
         WindowStartupLocation="CenterScreen"
         Background="#F5F6FA">
@@ -60,49 +61,189 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Column="2"
-                    Padding="24"
-                    Background="White"
-                    CornerRadius="18">
+            <ScrollViewer Grid.Column="2"
+                          VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="系统概览"
-                               FontSize="22"
-                               FontWeight="SemiBold"
-                               Foreground="#111827" />
-                    <TextBlock Margin="0,18,0,8"
-                               Text="当前版本：v0.1.0-native-dev"
-                               FontSize="15"
-                               Foreground="#374151" />
-                    <TextBlock Margin="0,0,0,8"
-                               Text="存储模式：本地 SQLite + 本地图片目录"
-                               FontSize="15"
-                               Foreground="#374151" />
-                    <TextBlock Margin="0,0,0,8"
-                               Text="Obsidian 依赖：否"
-                               FontSize="15"
-                               Foreground="#374151" />
-                    <TextBlock Margin="0,0,0,8"
-                               Text="浏览器内核：否"
-                               FontSize="15"
-                               Foreground="#374151" />
-                    <TextBlock Margin="0,12,0,4"
-                               Text="当前数据库路径"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               Foreground="#111827" />
-                    <TextBlock x:Name="DatabasePathTextBlock"
-                               TextWrapping="Wrap"
-                               Foreground="#4B5563" />
-                    <TextBlock Margin="0,16,0,4"
-                               Text="当前图片目录路径"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               Foreground="#111827" />
-                    <TextBlock x:Name="AssetsPathTextBlock"
-                               TextWrapping="Wrap"
-                               Foreground="#4B5563" />
+                    <Border Padding="24"
+                            Background="White"
+                            CornerRadius="18">
+                        <StackPanel>
+                            <TextBlock Text="首页"
+                                       FontSize="22"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock Margin="0,10,0,0"
+                                       Text="先完成最小闭环：新增行为记录、写入 SQLite、回显最近记录。"
+                                       FontSize="14"
+                                       Foreground="#4B5563" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,16,0,0"
+                            Padding="24"
+                            Background="White"
+                            CornerRadius="18">
+                        <StackPanel>
+                            <TextBlock Text="新增行为记录"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+
+                            <Grid Margin="0,18,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="220" />
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="140" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="标题" Foreground="#374151" />
+                                    <TextBox x:Name="TitleTextBox"
+                                             Margin="0,6,0,0"
+                                             Padding="10" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="分类" Foreground="#374151" />
+                                    <TextBox x:Name="CategoryTextBox"
+                                             Margin="0,6,0,0"
+                                             Padding="10" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="经验值" Foreground="#374151" />
+                                    <TextBox x:Name="ExperienceTextBox"
+                                             Margin="0,6,0,0"
+                                             Padding="10" />
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Margin="0,16,0,0"
+                                       Text="内容"
+                                       Foreground="#374151" />
+                            <TextBox x:Name="ContentTextBox"
+                                     Margin="0,6,0,0"
+                                     Padding="10"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto"
+                                     MinHeight="120" />
+
+                            <Button x:Name="SaveRecordButton"
+                                    Margin="0,18,0,0"
+                                    Width="120"
+                                    Padding="14,10"
+                                    HorizontalAlignment="Left"
+                                    Background="#1F2937"
+                                    Foreground="White"
+                                    Click="SaveRecordButton_Click"
+                                    Content="保存记录" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,16,0,0"
+                            Padding="24"
+                            Background="White"
+                            CornerRadius="18">
+                        <StackPanel>
+                            <TextBlock Text="最近行为记录"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <ListBox x:Name="RecordsListBox"
+                                     Margin="0,18,0,0"
+                                     BorderThickness="0"
+                                     Background="Transparent">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:LifeRecord}">
+                                        <Border Margin="0,0,0,12"
+                                                Padding="16"
+                                                Background="#F9FAFB"
+                                                CornerRadius="12">
+                                            <StackPanel>
+                                                <DockPanel LastChildFill="False">
+                                                    <TextBlock DockPanel.Dock="Left"
+                                                               FontSize="16"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#111827"
+                                                               Text="{Binding Title}" />
+                                                    <TextBlock DockPanel.Dock="Right"
+                                                               Foreground="#6B7280"
+                                                               Text="{Binding CreatedAt, StringFormat=yyyy-MM-dd HH:mm}" />
+                                                </DockPanel>
+                                                <TextBlock Margin="0,8,0,0"
+                                                           Foreground="#374151"
+                                                           Text="{Binding Category, StringFormat=分类：{0}}" />
+                                                <TextBlock Margin="0,4,0,0"
+                                                           Foreground="#374151"
+                                                           Text="{Binding Experience, StringFormat=经验值：{0}}" />
+                                                <TextBlock Margin="0,8,0,0"
+                                                           TextWrapping="Wrap"
+                                                           Foreground="#4B5563"
+                                                           Text="{Binding ContentSummary}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,16,0,0"
+                            Padding="24"
+                            Background="White"
+                            CornerRadius="18">
+                        <StackPanel>
+                            <TextBlock Text="系统状态"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock Margin="0,18,0,8"
+                                       Text="当前版本：v0.1.0-native-dev"
+                                       FontSize="15"
+                                       Foreground="#374151" />
+                            <TextBlock Margin="0,0,0,8"
+                                       Text="存储模式：本地 SQLite + 本地图片目录"
+                                       FontSize="15"
+                                       Foreground="#374151" />
+                            <TextBlock Margin="0,0,0,8"
+                                       Text="Obsidian 依赖：否"
+                                       FontSize="15"
+                                       Foreground="#374151" />
+                            <TextBlock Margin="0,0,0,8"
+                                       Text="浏览器内核：否"
+                                       FontSize="15"
+                                       Foreground="#374151" />
+                            <TextBlock Margin="0,12,0,4"
+                                       Text="当前数据根目录"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="RootPathTextBlock"
+                                       TextWrapping="Wrap"
+                                       Foreground="#4B5563" />
+                            <TextBlock Margin="0,16,0,4"
+                                       Text="当前数据库路径"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="DatabasePathTextBlock"
+                                       TextWrapping="Wrap"
+                                       Foreground="#4B5563" />
+                            <TextBlock Margin="0,16,0,4"
+                                       Text="当前图片目录路径"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="AssetsPathTextBlock"
+                                       TextWrapping="Wrap"
+                                       Foreground="#4B5563" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

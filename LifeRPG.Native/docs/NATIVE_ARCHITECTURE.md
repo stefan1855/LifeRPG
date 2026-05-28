@@ -11,11 +11,11 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 
 ## 存储设计
 
-- 应用数据根目录：`%AppData%\LifeRPG.Native`
-- SQLite 数据库目录：`%AppData%\LifeRPG.Native\data`
-- 图片目录：`%AppData%\LifeRPG.Native\assets`
-- 备份目录：`%AppData%\LifeRPG.Native\backups`
-- 日志目录：`%AppData%\LifeRPG.Native\logs`
+- 应用数据根目录：`%LocalAppData%\LifeRPG.Native`
+- SQLite 数据库目录：`%LocalAppData%\LifeRPG.Native\data`
+- 图片目录：`%LocalAppData%\LifeRPG.Native\assets`
+- 备份目录：`%LocalAppData%\LifeRPG.Native\backups`
+- 日志目录：`%LocalAppData%\LifeRPG.Native\logs`
 
 数据库文件当前使用 `liferpg.db`，保存在 `data` 目录下。
 
@@ -29,4 +29,5 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 
 ## 后续扩展方向
 
-后续可以支持 Markdown、PDF、JSON 等导出能力，但这些能力只作为导出格式，不作为应用运行依赖。
+- 后续可以在设置中支持用户自定义图片目录，例如 D 盘目录
+- 后续可以支持 Markdown、PDF、JSON 等导出能力，但这些能力只作为导出格式，不作为应用运行依赖
