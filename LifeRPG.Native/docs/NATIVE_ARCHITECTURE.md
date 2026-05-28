@@ -26,6 +26,12 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 文件夹命名格式：`yyyyMMdd_HHmmss_记录标题_LifeRecordId前8位`
 - 图片文件命名格式：`序号_原始文件名_图片Id前8位.扩展名`
 - SQLite 保存图片元数据和完整本地路径
+- 软件支持本地 zip 备份
+- 备份内容包括 SQLite 数据库、`assets` 图片资源、`manifest.json`
+- 默认备份目录为 `%LocalAppData%\LifeRPG.Native\backups`
+- 恢复备份会覆盖当前数据库和 `assets`
+- 恢复前会自动创建恢复前安全备份
+- 备份与恢复均为本地功能，不依赖云端
 - 原始图片不会被删除
 - 没有图片的记录不会创建空 `assets` 子文件夹
 - 行为记录支持新增和编辑

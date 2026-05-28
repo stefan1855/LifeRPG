@@ -1,4 +1,5 @@
 using System.IO;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -7,7 +8,10 @@ using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
 using LifeRPG.Data.Services;
 using LifeRPG.Storage.Services;
-using Microsoft.Win32;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
+using Forms = System.Windows.Forms;
 
 namespace LifeRPG.App;
 
@@ -16,6 +20,7 @@ public partial class MainWindow : Window
     private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
     private readonly ImageStorageService _imageStorageService = new();
+    private readonly BackupService _backupService = new();
     private readonly List<string> _selectedImagePaths = [];
 
     private string? _selectedRecordId;
@@ -319,6 +324,141 @@ public partial class MainWindow : Window
         }
     }
 
+    private void CreateBackupButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var backupPath = _backupService.CreateBackup();
+            UpdateBackupStatus(backupPath, $"备份成功：{backupPath}");
+
+            MessageBox.Show(
+                $"备份成功：{backupPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            BackupStatusTextBlock.Text = $"备份失败：{ex.Message}";
+            MessageBox.Show(
+                $"创建备份失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void CreateBackupToDirectoryButton_Click(object sender, RoutedEventArgs e)
+    {
+        using var dialog = new Forms.FolderBrowserDialog
+        {
+            Description = "请选择备份输出目录",
+            UseDescriptionForTitle = true,
+            AutoUpgradeEnabled = true,
+            ShowNewFolderButton = true
+        };
+
+        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))
+        {
+            return;
+        }
+
+        try
+        {
+            var backupPath = _backupService.CreateBackup(dialog.SelectedPath);
+            UpdateBackupStatus(backupPath, $"备份成功：{backupPath}");
+
+            MessageBox.Show(
+                $"备份成功：{backupPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            BackupStatusTextBlock.Text = $"备份失败：{ex.Message}";
+            MessageBox.Show(
+                $"选择目录备份失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void OpenBackupsDirectoryButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Directory.CreateDirectory(AppStoragePaths.BackupsDirectory);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = AppStoragePaths.BackupsDirectory,
+                UseShellExecute = true
+            });
+
+            BackupStatusTextBlock.Text = $"已打开备份目录：{AppStoragePaths.BackupsDirectory}";
+        }
+        catch (Exception ex)
+        {
+            BackupStatusTextBlock.Text = $"打开备份目录失败：{ex.Message}";
+            MessageBox.Show(
+                $"打开备份目录失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void RestoreBackupButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFileDialog
+        {
+            Filter = "备份压缩包|*.zip",
+            Multiselect = false
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        var confirm = MessageBox.Show(
+            "恢复备份会覆盖当前数据库和图片资源，此操作会先自动创建一份恢复前备份。\n是否继续？",
+            "确认恢复",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (confirm != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        try
+        {
+            PrepareForRestore();
+            var restoreResult = _backupService.RestoreFromBackup(dialog.FileName);
+            LoadLifeRecords();
+            UpdateBackupStatus(dialog.FileName, restoreResult);
+
+            MessageBox.Show(
+                restoreResult,
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            BackupStatusTextBlock.Text = $"恢复失败：{ex.Message}";
+            MessageBox.Show(
+                $"从备份恢复失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            LoadLifeRecords();
+        }
+    }
+
     private void LoadLifeRecords(string? preserveSelectedRecordId = null)
     {
         var records = _lifeRecordRepository.GetAll();
@@ -467,5 +607,18 @@ public partial class MainWindow : Window
         DetailCreatedAtTextBlock.Text = string.Empty;
         DetailUpdatedAtTextBlock.Text = string.Empty;
         ImagePreviewItemsControl.ItemsSource = null;
+    }
+
+    private void PrepareForRestore()
+    {
+        ClearForm();
+        ClearSelectedRecordDetail();
+        RecordsListBox.ItemsSource = null;
+    }
+
+    private void UpdateBackupStatus(string latestBackupPath, string statusMessage)
+    {
+        LatestBackupPathTextBlock.Text = latestBackupPath;
+        BackupStatusTextBlock.Text = statusMessage;
     }
 }

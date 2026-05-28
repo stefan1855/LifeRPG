@@ -430,6 +430,60 @@
                             <TextBlock x:Name="AssetsPathTextBlock"
                                        TextWrapping="Wrap"
                                        Foreground="#4B5563" />
+
+                            <Separator Margin="0,20,0,20" />
+
+                            <TextBlock Text="数据备份"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <WrapPanel Margin="0,18,0,0">
+                                <Button x:Name="CreateBackupButton"
+                                        Width="120"
+                                        Padding="14,10"
+                                        Background="#1F2937"
+                                        Foreground="White"
+                                        Click="CreateBackupButton_Click"
+                                        Content="创建备份" />
+                                <Button x:Name="CreateBackupToDirectoryButton"
+                                        Margin="12,0,0,0"
+                                        Width="150"
+                                        Padding="14,10"
+                                        Click="CreateBackupToDirectoryButton_Click"
+                                        Content="选择目录并备份" />
+                                <Button x:Name="OpenBackupsDirectoryButton"
+                                        Margin="12,0,0,0"
+                                        Width="120"
+                                        Padding="14,10"
+                                        Click="OpenBackupsDirectoryButton_Click"
+                                        Content="打开备份目录" />
+                                <Button x:Name="RestoreBackupButton"
+                                        Margin="12,0,0,0"
+                                        Width="120"
+                                        Padding="14,10"
+                                        Background="#B45309"
+                                        Foreground="White"
+                                        Click="RestoreBackupButton_Click"
+                                        Content="从备份恢复" />
+                            </WrapPanel>
+                            <TextBlock Margin="0,18,0,4"
+                                       Text="最近备份路径"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="LatestBackupPathTextBlock"
+                                       Text="暂无"
+                                       TextWrapping="Wrap"
+                                       Foreground="#4B5563" />
+                            <TextBlock Margin="0,16,0,4"
+                                       Text="备份状态提示"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="BackupStatusTextBlock"
+                                       Text="尚未执行备份或恢复操作。"
+                                       TextWrapping="Wrap"
+                                       Foreground="#4B5563" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
