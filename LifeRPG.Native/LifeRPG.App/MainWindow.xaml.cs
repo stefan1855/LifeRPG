@@ -53,7 +53,7 @@ public partial class MainWindow : Window
             };
 
             _lifeRecordRepository.Create(record);
-            var copiedImages = _imageStorageService.CopyImagesForRecord(record.Id, _selectedImagePaths);
+            var copiedImages = _imageStorageService.CopyImagesForRecord(record.Id, record.Title, _selectedImagePaths);
 
             foreach (var image in copiedImages)
             {

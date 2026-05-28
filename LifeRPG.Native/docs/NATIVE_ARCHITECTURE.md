@@ -21,9 +21,13 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 
 图片证据文件当前设计为直接存储在本地 `assets` 文件夹中。
 
-- 每条行为记录的图片存储在 `assets/{LifeRecordId}` 子目录
-- SQLite 只保存图片元数据和本地路径
+- 图片证据保存在 `%LocalAppData%\LifeRPG.Native\assets`
+- 每条带图片的记录创建一个可读子文件夹
+- 文件夹命名格式：`yyyyMMdd_HHmmss_记录标题_LifeRecordId前8位`
+- 图片文件命名格式：`序号_原始文件名_图片Id前8位.扩展名`
+- SQLite 保存图片元数据和完整本地路径
 - 原始图片不会被删除
+- 没有图片的记录不会创建空 `assets` 子文件夹
 
 ## 架构边界
 
