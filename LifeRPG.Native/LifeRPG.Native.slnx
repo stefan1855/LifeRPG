@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="LifeRPG.App/LifeRPG.App.csproj" />
+  <Project Path="LifeRPG.Core/LifeRPG.Core.csproj" />
+  <Project Path="LifeRPG.Data/LifeRPG.Data.csproj" />
+  <Project Path="LifeRPG.Storage/LifeRPG.Storage.csproj" />
+  <Project Path="LifeRPG.Tests/LifeRPG.Tests.csproj" />
+</Solution>
