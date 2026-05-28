@@ -31,26 +31,7 @@ public sealed class LifeRecordRepository
 
     public List<LifeRecord> GetAll()
     {
-        var records = new List<LifeRecord>();
-
-        using var connection = CreateConnection();
-        connection.Open();
-
-        using var command = connection.CreateCommand();
-        command.CommandText =
-            """
-            SELECT Id, Title, Content, Category, Experience, CreatedAt, UpdatedAt
-            FROM LifeRecords
-            ORDER BY CreatedAt DESC;
-            """;
-
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            records.Add(Map(reader));
-        }
-
-        return records;
+        return Search(null, null, null, null);
     }
 
     public LifeRecord? GetById(string id)
@@ -111,6 +92,86 @@ public sealed class LifeRecordRepository
         command.CommandText = "DELETE FROM LifeRecords WHERE Id = @Id;";
         command.Parameters.AddWithValue("@Id", id);
         command.ExecuteNonQuery();
+    }
+
+    public List<LifeRecord> Search(string? keyword, string? category, DateTime? startDate, DateTime? endDate)
+    {
+        var records = new List<LifeRecord>();
+        var normalizedKeyword = string.IsNullOrWhiteSpace(keyword) ? null : keyword.Trim();
+        var normalizedCategory = string.IsNullOrWhiteSpace(category) ? null : category.Trim();
+        var inclusiveEndDate = endDate?.Date.AddDays(1).AddTicks(-1);
+
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        var conditions = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(normalizedKeyword))
+        {
+            conditions.Add("(Title LIKE @Keyword OR Content LIKE @Keyword OR Category LIKE @Keyword)");
+            command.Parameters.AddWithValue("@Keyword", $"%{normalizedKeyword}%");
+        }
+
+        if (!string.IsNullOrWhiteSpace(normalizedCategory))
+        {
+            conditions.Add("Category = @Category");
+            command.Parameters.AddWithValue("@Category", normalizedCategory);
+        }
+
+        if (startDate.HasValue)
+        {
+            conditions.Add("CreatedAt >= @StartDate");
+            command.Parameters.AddWithValue("@StartDate", startDate.Value.ToString("O"));
+        }
+
+        if (inclusiveEndDate.HasValue)
+        {
+            conditions.Add("CreatedAt <= @EndDate");
+            command.Parameters.AddWithValue("@EndDate", inclusiveEndDate.Value.ToString("O"));
+        }
+
+        command.CommandText =
+            $"""
+            SELECT Id, Title, Content, Category, Experience, CreatedAt, UpdatedAt
+            FROM LifeRecords
+            {(conditions.Count > 0 ? $"WHERE {string.Join(" AND ", conditions)}" : string.Empty)}
+            ORDER BY CreatedAt DESC;
+            """;
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            records.Add(Map(reader));
+        }
+
+        return records;
+    }
+
+    public List<string> GetAllCategories()
+    {
+        var categories = new List<string>();
+
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            SELECT DISTINCT Category
+            FROM LifeRecords
+            WHERE Category IS NOT NULL
+              AND TRIM(Category) <> ''
+            ORDER BY Category COLLATE NOCASE ASC;
+            """;
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            categories.Add(reader.GetString(0));
+        }
+
+        return categories;
     }
 
     private static SqliteConnection CreateConnection()

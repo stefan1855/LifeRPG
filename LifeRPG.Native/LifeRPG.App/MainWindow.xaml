@@ -179,6 +179,78 @@
                                            FontSize="20"
                                            FontWeight="SemiBold"
                                            Foreground="#111827" />
+                                <Border Margin="0,18,0,0"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="筛选与搜索"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#111827" />
+                                        <Grid Margin="0,14,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="140" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="120" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="关键词"
+                                                           Foreground="#374151" />
+                                                <TextBox x:Name="SearchKeywordTextBox"
+                                                         Margin="0,6,0,0"
+                                                         Padding="10" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="分类"
+                                                           Foreground="#374151" />
+                                                <ComboBox x:Name="CategoryFilterComboBox"
+                                                          Margin="0,6,0,0"
+                                                          Padding="8" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="4">
+                                                <TextBlock Text="开始日期"
+                                                           Foreground="#374151" />
+                                                <DatePicker x:Name="StartDatePicker"
+                                                            Margin="0,6,0,0" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="6">
+                                                <TextBlock Text="结束日期"
+                                                           Foreground="#374151" />
+                                                <DatePicker x:Name="EndDatePicker"
+                                                            Margin="0,6,0,0" />
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <WrapPanel Margin="0,14,0,0">
+                                            <Button x:Name="SearchRecordsButton"
+                                                    Width="100"
+                                                    Padding="14,10"
+                                                    Background="#1F2937"
+                                                    Foreground="White"
+                                                    Click="SearchRecordsButton_Click"
+                                                    Content="搜索" />
+                                            <Button x:Name="ResetSearchButton"
+                                                    Margin="12,0,0,0"
+                                                    Width="100"
+                                                    Padding="14,10"
+                                                    Click="ResetSearchButton_Click"
+                                                    Content="重置" />
+                                            <TextBlock x:Name="ResultCountTextBlock"
+                                                       Margin="16,10,0,0"
+                                                       Foreground="#4B5563"
+                                                       Text="当前显示 0 条记录" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Border>
                                 <ListBox x:Name="RecordsListBox"
                                          Margin="0,18,0,0"
                                          BorderThickness="0"

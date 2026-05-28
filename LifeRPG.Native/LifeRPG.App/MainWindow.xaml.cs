@@ -17,6 +17,8 @@ namespace LifeRPG.App;
 
 public partial class MainWindow : Window
 {
+    private const string AllCategoriesOption = "全部分类";
+
     private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
     private readonly ImageStorageService _imageStorageService = new();
@@ -35,7 +37,8 @@ public partial class MainWindow : Window
         AssetsPathTextBlock.Text = AppStoragePaths.AssetsDirectory;
         UpdateSelectedImagesDisplay();
         ClearSelectedRecordDetail();
-        LoadLifeRecords();
+        LoadCategories();
+        RefreshRecordsList();
     }
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)
@@ -73,8 +76,8 @@ public partial class MainWindow : Window
             }
 
             ClearForm();
-            LoadLifeRecords(record.Id);
-            LoadRecordDetail(record.Id);
+            LoadCategories(GetSelectedCategoryFilter());
+            RefreshRecordsList(record.Id);
         }
         catch (Exception ex)
         {
@@ -138,7 +141,7 @@ public partial class MainWindow : Window
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 ClearSelectedRecordDetail();
-                LoadLifeRecords();
+                RefreshRecordsList();
                 return;
             }
 
@@ -160,8 +163,8 @@ public partial class MainWindow : Window
             existingRecord.UpdatedAt = DateTime.Now;
 
             _lifeRecordRepository.Update(existingRecord);
-            LoadLifeRecords(existingRecord.Id);
-            LoadRecordDetail(existingRecord.Id);
+            LoadCategories(GetSelectedCategoryFilter());
+            RefreshRecordsList(existingRecord.Id);
         }
         catch (Exception ex)
         {
@@ -207,7 +210,8 @@ public partial class MainWindow : Window
                     "LifeRPG.Native",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
-                LoadLifeRecords();
+                LoadCategories(GetSelectedCategoryFilter());
+                RefreshRecordsList();
                 ClearSelectedRecordDetail();
                 return;
             }
@@ -244,7 +248,8 @@ public partial class MainWindow : Window
                 _imageStorageService.TryDeleteEmptyRecordImageFolder(folderPath);
             }
 
-            LoadLifeRecords();
+            LoadCategories(GetSelectedCategoryFilter());
+            RefreshRecordsList();
             ClearSelectedRecordDetail();
 
             MessageBox.Show(
@@ -293,7 +298,7 @@ public partial class MainWindow : Window
                     MessageBoxImage.Information);
                 if (!string.IsNullOrWhiteSpace(_selectedRecordId))
                 {
-                    LoadLifeRecords(_selectedRecordId);
+                    RefreshRecordsList(_selectedRecordId);
                     LoadRecordDetail(_selectedRecordId);
                 }
                 return;
@@ -311,7 +316,7 @@ public partial class MainWindow : Window
 
             if (!string.IsNullOrWhiteSpace(image.LifeRecordId))
             {
-                LoadLifeRecords(image.LifeRecordId);
+                RefreshRecordsList(image.LifeRecordId);
                 LoadRecordDetail(image.LifeRecordId);
             }
         }
@@ -439,7 +444,8 @@ public partial class MainWindow : Window
         {
             PrepareForRestore();
             var restoreResult = _backupService.RestoreFromBackup(dialog.FileName);
-            LoadLifeRecords();
+            LoadCategories();
+            RefreshRecordsList();
             UpdateBackupStatus(dialog.FileName, restoreResult);
 
             MessageBox.Show(
@@ -456,8 +462,30 @@ public partial class MainWindow : Window
                 "LifeRPG.Native",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
-            LoadLifeRecords();
+            LoadCategories();
+            RefreshRecordsList();
         }
+    }
+
+    private void SearchRecordsButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryGetSearchCriteria(out _, out _, out _, out _, showValidationMessage: true))
+        {
+            return;
+        }
+
+        ClearSelectedRecordDetail();
+        RefreshRecordsList();
+    }
+
+    private void ResetSearchButton_Click(object sender, RoutedEventArgs e)
+    {
+        SearchKeywordTextBox.Clear();
+        CategoryFilterComboBox.SelectedItem = AllCategoriesOption;
+        StartDatePicker.SelectedDate = null;
+        EndDatePicker.SelectedDate = null;
+        ClearSelectedRecordDetail();
+        RefreshRecordsList();
     }
 
     private void ExportMarkdownButton_Click(object sender, RoutedEventArgs e)
@@ -546,9 +574,9 @@ public partial class MainWindow : Window
         }
     }
 
-    private void LoadLifeRecords(string? preserveSelectedRecordId = null)
+    private void RefreshRecordsList(string? preserveSelectedRecordId = null)
     {
-        var records = _lifeRecordRepository.GetAll();
+        var records = GetFilteredRecords();
         var items = records.Select(record =>
         {
             var images = _lifeRecordImageRepository.GetByLifeRecordId(record.Id);
@@ -565,6 +593,7 @@ public partial class MainWindow : Window
         }).ToList();
 
         RecordsListBox.ItemsSource = items;
+        UpdateResultCount(items.Count);
 
         var selectedId = preserveSelectedRecordId ?? _selectedRecordId;
         if (string.IsNullOrWhiteSpace(selectedId))
@@ -701,6 +730,7 @@ public partial class MainWindow : Window
         ClearForm();
         ClearSelectedRecordDetail();
         RecordsListBox.ItemsSource = null;
+        UpdateResultCount(0);
     }
 
     private void UpdateBackupStatus(string latestBackupPath, string statusMessage)
@@ -713,5 +743,76 @@ public partial class MainWindow : Window
     {
         LatestExportPathTextBlock.Text = latestExportPath;
         ExportStatusTextBlock.Text = statusMessage;
+    }
+
+    private List<LifeRecord> GetFilteredRecords()
+    {
+        return TryGetSearchCriteria(out var keyword, out var category, out var startDate, out var endDate, showValidationMessage: false)
+            ? _lifeRecordRepository.Search(keyword, category, startDate, endDate)
+            : _lifeRecordRepository.Search(null, null, null, null);
+    }
+
+    private bool TryGetSearchCriteria(
+        out string? keyword,
+        out string? category,
+        out DateTime? startDate,
+        out DateTime? endDate,
+        bool showValidationMessage)
+    {
+        keyword = string.IsNullOrWhiteSpace(SearchKeywordTextBox.Text)
+            ? null
+            : SearchKeywordTextBox.Text.Trim();
+        category = GetSelectedCategoryFilter();
+        startDate = StartDatePicker.SelectedDate;
+        endDate = EndDatePicker.SelectedDate;
+
+        if (startDate.HasValue && endDate.HasValue && startDate.Value.Date > endDate.Value.Date)
+        {
+            if (showValidationMessage)
+            {
+                MessageBox.Show(
+                    "开始日期不能晚于结束日期",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    private string? GetSelectedCategoryFilter()
+    {
+        if (CategoryFilterComboBox.SelectedItem is not string selectedCategory)
+        {
+            return null;
+        }
+
+        return string.Equals(selectedCategory, AllCategoriesOption, StringComparison.Ordinal)
+            ? null
+            : selectedCategory;
+    }
+
+    private void LoadCategories(string? preserveSelectedCategory = null)
+    {
+        var categories = _lifeRecordRepository.GetAllCategories();
+        var items = new List<string> { AllCategoriesOption };
+        items.AddRange(categories);
+
+        CategoryFilterComboBox.ItemsSource = items;
+
+        var targetCategory = string.IsNullOrWhiteSpace(preserveSelectedCategory)
+            ? AllCategoriesOption
+            : preserveSelectedCategory;
+
+        CategoryFilterComboBox.SelectedItem = items.Contains(targetCategory)
+            ? targetCategory
+            : AllCategoriesOption;
+    }
+
+    private void UpdateResultCount(int count)
+    {
+        ResultCountTextBlock.Text = $"当前显示 {count} 条记录";
     }
 }
