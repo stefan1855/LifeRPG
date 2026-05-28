@@ -1,3 +1,5 @@
+using System.Windows.Media;
+
 namespace LifeRPG.App.ViewModels;
 
 public sealed class LifeRecordImageListItem
@@ -6,4 +8,5 @@ public sealed class LifeRecordImageListItem
     public string FileName { get; set; } = string.Empty;
     public string FilePath { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+    public ImageSource? PreviewImageSource { get; set; }
 }

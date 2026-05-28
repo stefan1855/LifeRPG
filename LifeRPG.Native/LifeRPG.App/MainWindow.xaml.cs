@@ -1,6 +1,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
@@ -205,6 +206,7 @@ public partial class MainWindow : Window
             }
 
             var folderPath = Path.GetDirectoryName(image.FilePath);
+            ImagePreviewItemsControl.ItemsSource = null;
             _imageStorageService.DeleteImageFile(image.FilePath);
             _lifeRecordImageRepository.Delete(image.Id);
 
@@ -332,11 +334,39 @@ public partial class MainWindow : Window
                 Id = image.Id,
                 FileName = image.FileName,
                 FilePath = image.FilePath,
-                CreatedAt = image.CreatedAt
+                CreatedAt = image.CreatedAt,
+                PreviewImageSource = LoadBitmapWithoutFileLock(image.FilePath)
             })
+            .Where(item => item.PreviewImageSource is not null)
             .ToList();
 
         ImagePreviewItemsControl.ItemsSource = previews;
+    }
+
+    private static BitmapImage? LoadBitmapWithoutFileLock(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            return null;
+        }
+
+        try
+        {
+            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            return bitmap;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private void ClearDetailPanel()

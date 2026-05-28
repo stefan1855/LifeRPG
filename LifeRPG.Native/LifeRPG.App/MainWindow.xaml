@@ -344,7 +344,7 @@
                                                                     Background="#E5E7EB"
                                                                     CornerRadius="8"
                                                                     ClipToBounds="True">
-                                                                <Image Source="{Binding FilePath}"
+                                                                <Image Source="{Binding PreviewImageSource}"
                                                                        Stretch="UniformToFill" />
                                                             </Border>
                                                             <TextBlock Margin="0,8,0,0"
