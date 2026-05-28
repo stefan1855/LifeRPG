@@ -1,14 +1,20 @@
+using System.IO;
 using System.Windows;
+using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
 using LifeRPG.Data.Services;
 using LifeRPG.Storage.Services;
+using Microsoft.Win32;
 
 namespace LifeRPG.App;
 
 public partial class MainWindow : Window
 {
     private readonly LifeRecordRepository _lifeRecordRepository = new();
+    private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
+    private readonly ImageStorageService _imageStorageService = new();
+    private readonly List<string> _selectedImagePaths = [];
 
     public MainWindow()
     {
@@ -16,6 +22,7 @@ public partial class MainWindow : Window
         RootPathTextBlock.Text = AppStoragePaths.RootDirectory;
         DatabasePathTextBlock.Text = DatabaseInitializer.DatabasePath;
         AssetsPathTextBlock.Text = AppStoragePaths.AssetsDirectory;
+        UpdateSelectedImagesDisplay();
         LoadLifeRecords();
     }
 
@@ -46,8 +53,16 @@ public partial class MainWindow : Window
             };
 
             _lifeRecordRepository.Create(record);
+            var copiedImages = _imageStorageService.CopyImagesForRecord(record.Id, _selectedImagePaths);
+
+            foreach (var image in copiedImages)
+            {
+                _lifeRecordImageRepository.Create(image);
+            }
+
             ClearForm();
             LoadLifeRecords();
+            LoadImagePreviews(record.Id);
         }
         catch (Exception ex)
         {
@@ -59,9 +74,54 @@ public partial class MainWindow : Window
         }
     }
 
+    private void SelectImagesButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFileDialog
+        {
+            Multiselect = true,
+            Filter = "图片文件|*.jpg;*.jpeg;*.png;*.bmp;*.gif"
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        _selectedImagePaths.Clear();
+        _selectedImagePaths.AddRange(dialog.FileNames);
+        UpdateSelectedImagesDisplay();
+    }
+
+    private void RecordsListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (RecordsListBox.SelectedItem is LifeRecordListItem selectedItem)
+        {
+            LoadImagePreviews(selectedItem.Id);
+            return;
+        }
+
+        ImagePreviewItemsControl.ItemsSource = null;
+    }
+
     private void LoadLifeRecords()
     {
-        RecordsListBox.ItemsSource = _lifeRecordRepository.GetAll();
+        var records = _lifeRecordRepository.GetAll();
+        var items = records.Select(record =>
+        {
+            var images = _lifeRecordImageRepository.GetByLifeRecordId(record.Id);
+            return new LifeRecordListItem
+            {
+                Id = record.Id,
+                Title = record.Title,
+                Category = record.Category,
+                Experience = record.Experience,
+                CreatedAt = record.CreatedAt,
+                ContentPreview = record.ContentSummary,
+                ImageCount = images.Count
+            };
+        }).ToList();
+
+        RecordsListBox.ItemsSource = items;
     }
 
     private void ClearForm()
@@ -70,5 +130,25 @@ public partial class MainWindow : Window
         CategoryTextBox.Clear();
         ExperienceTextBox.Clear();
         ContentTextBox.Clear();
+        _selectedImagePaths.Clear();
+        UpdateSelectedImagesDisplay();
+    }
+
+    private void UpdateSelectedImagesDisplay()
+    {
+        SelectedImagesCountTextBlock.Text = $"已选择 {_selectedImagePaths.Count} 张图片";
+        SelectedImagesListBox.ItemsSource = _selectedImagePaths
+            .Select(Path.GetFileName)
+            .ToList();
+    }
+
+    private void LoadImagePreviews(string lifeRecordId)
+    {
+        var previews = _lifeRecordImageRepository
+            .GetByLifeRecordId(lifeRecordId)
+            .Where(image => File.Exists(image.FilePath))
+            .ToList();
+
+        ImagePreviewItemsControl.ItemsSource = previews;
     }
 }
