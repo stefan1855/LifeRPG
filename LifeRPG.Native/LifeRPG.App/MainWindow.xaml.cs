@@ -25,6 +25,7 @@ public partial class MainWindow : Window
     private readonly BackupService _backupService = new();
     private readonly MarkdownExportService _markdownExportService = new();
     private readonly List<string> _selectedImagePaths = [];
+    private List<LifeRecord> _currentDisplayedRecords = [];
 
     private string? _selectedRecordId;
     private LifeRecordDetailViewModel? _currentRecordDetail;
@@ -512,6 +513,32 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ExportFilteredMarkdownButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var exportPath = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords);
+            UpdateExportStatus(
+                exportPath,
+                $"已导出当前筛选结果 Markdown，共 {_currentDisplayedRecords.Count} 条记录");
+
+            MessageBox.Show(
+                $"Markdown 导出成功：{exportPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            ExportStatusTextBlock.Text = $"Markdown 导出失败：{ex.Message}";
+            MessageBox.Show(
+                $"导出当前筛选结果 Markdown 失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
     private void ExportMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
         using var dialog = new Forms.FolderBrowserDialog
@@ -549,6 +576,45 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ExportFilteredMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
+    {
+        using var dialog = new Forms.FolderBrowserDialog
+        {
+            Description = "请选择当前筛选结果 Markdown 导出目录",
+            UseDescriptionForTitle = true,
+            AutoUpgradeEnabled = true,
+            ShowNewFolderButton = true
+        };
+
+        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))
+        {
+            return;
+        }
+
+        try
+        {
+            var exportPath = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords, dialog.SelectedPath);
+            UpdateExportStatus(
+                exportPath,
+                $"已导出当前筛选结果 Markdown，共 {_currentDisplayedRecords.Count} 条记录");
+
+            MessageBox.Show(
+                $"Markdown 导出成功：{exportPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            ExportStatusTextBlock.Text = $"Markdown 导出失败：{ex.Message}";
+            MessageBox.Show(
+                $"选择目录导出当前筛选结果 Markdown 失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
     private void OpenExportsDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -577,6 +643,7 @@ public partial class MainWindow : Window
     private void RefreshRecordsList(string? preserveSelectedRecordId = null)
     {
         var records = GetFilteredRecords();
+        _currentDisplayedRecords = records;
         var items = records.Select(record =>
         {
             var images = _lifeRecordImageRepository.GetByLifeRecordId(record.Id);
