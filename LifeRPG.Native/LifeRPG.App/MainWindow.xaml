@@ -83,6 +83,174 @@
                             Background="White"
                             CornerRadius="18">
                         <StackPanel>
+                            <DockPanel LastChildFill="False">
+                                <TextBlock DockPanel.Dock="Left"
+                                           Text="基础统计看板"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="#111827" />
+                                <Button x:Name="RefreshStatisticsButton"
+                                        DockPanel.Dock="Right"
+                                        Width="100"
+                                        Padding="12,8"
+                                        Click="RefreshStatisticsButton_Click"
+                                        Content="刷新统计" />
+                            </DockPanel>
+
+                            <UniformGrid Margin="0,18,0,0"
+                                         Columns="3">
+                                <Border Margin="0,0,12,12"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="记录总数" Foreground="#6B7280" />
+                                        <TextBlock x:Name="TotalRecordsTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,0,12,12"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="总经验值" Foreground="#6B7280" />
+                                        <TextBlock x:Name="TotalExperienceTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,0,0,12"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="图片证据数" Foreground="#6B7280" />
+                                        <TextBlock x:Name="TotalImagesTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,0,12,0"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="有图记录数" Foreground="#6B7280" />
+                                        <TextBlock x:Name="RecordsWithImagesTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,0,12,0"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="无图记录数" Foreground="#6B7280" />
+                                        <TextBlock x:Name="RecordsWithoutImagesTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,0,0,0"
+                                        Padding="16"
+                                        Background="#F9FAFB"
+                                        CornerRadius="12">
+                                    <StackPanel>
+                                        <TextBlock Text="分类数量" Foreground="#6B7280" />
+                                        <TextBlock x:Name="CategoryCountTextBlock"
+                                                   Margin="0,8,0,0"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#111827"
+                                                   Text="0" />
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+
+                            <TextBlock Margin="0,16,0,0"
+                                       Text="最新记录创建时间"
+                                       FontWeight="SemiBold"
+                                       Foreground="#111827" />
+                            <TextBlock x:Name="LatestRecordCreatedAtTextBlock"
+                                       Margin="0,6,0,0"
+                                       Foreground="#4B5563"
+                                       Text="暂无记录" />
+
+                            <Grid Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="分类统计"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#111827" />
+                                    <DataGrid x:Name="CategoryStatisticsDataGrid"
+                                              Margin="0,12,0,0"
+                                              AutoGenerateColumns="False"
+                                              IsReadOnly="True"
+                                              CanUserAddRows="False"
+                                              HeadersVisibility="Column"
+                                              MinHeight="180">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="*" />
+                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="90" />
+                                            <DataGridTextColumn Header="总经验值" Binding="{Binding TotalExperience}" Width="110" />
+                                            <DataGridTextColumn Header="图片数" Binding="{Binding ImageCount}" Width="90" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="最近 7 天统计"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#111827" />
+                                    <DataGrid x:Name="DailyStatisticsDataGrid"
+                                              Margin="0,12,0,0"
+                                              AutoGenerateColumns="False"
+                                              IsReadOnly="True"
+                                              CanUserAddRows="False"
+                                              HeadersVisibility="Column"
+                                              MinHeight="180">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="日期" Binding="{Binding Date, StringFormat=yyyy-MM-dd}" Width="*" />
+                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="90" />
+                                            <DataGridTextColumn Header="总经验值" Binding="{Binding TotalExperience}" Width="110" />
+                                            <DataGridTextColumn Header="图片数" Binding="{Binding ImageCount}" Width="90" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,16,0,0"
+                            Padding="24"
+                            Background="White"
+                            CornerRadius="18">
+                        <StackPanel>
                             <TextBlock Text="新增行为记录"
                                        FontSize="20"
                                        FontWeight="SemiBold"

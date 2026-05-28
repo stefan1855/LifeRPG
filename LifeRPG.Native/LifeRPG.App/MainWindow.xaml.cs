@@ -21,6 +21,7 @@ public partial class MainWindow : Window
 
     private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
+    private readonly StatisticsRepository _statisticsRepository = new();
     private readonly ImageStorageService _imageStorageService = new();
     private readonly BackupService _backupService = new();
     private readonly MarkdownExportService _markdownExportService = new();
@@ -40,6 +41,7 @@ public partial class MainWindow : Window
         ClearSelectedRecordDetail();
         LoadCategories();
         RefreshRecordsList();
+        LoadStatisticsDashboard();
     }
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)
@@ -79,6 +81,7 @@ public partial class MainWindow : Window
             ClearForm();
             LoadCategories(GetSelectedCategoryFilter());
             RefreshRecordsList(record.Id);
+            LoadStatisticsDashboard();
         }
         catch (Exception ex)
         {
@@ -166,6 +169,7 @@ public partial class MainWindow : Window
             _lifeRecordRepository.Update(existingRecord);
             LoadCategories(GetSelectedCategoryFilter());
             RefreshRecordsList(existingRecord.Id);
+            LoadStatisticsDashboard();
         }
         catch (Exception ex)
         {
@@ -214,6 +218,7 @@ public partial class MainWindow : Window
                 LoadCategories(GetSelectedCategoryFilter());
                 RefreshRecordsList();
                 ClearSelectedRecordDetail();
+                LoadStatisticsDashboard();
                 return;
             }
 
@@ -252,6 +257,7 @@ public partial class MainWindow : Window
             LoadCategories(GetSelectedCategoryFilter());
             RefreshRecordsList();
             ClearSelectedRecordDetail();
+            LoadStatisticsDashboard();
 
             MessageBox.Show(
                 "记录已删除。",
@@ -320,6 +326,8 @@ public partial class MainWindow : Window
                 RefreshRecordsList(image.LifeRecordId);
                 LoadRecordDetail(image.LifeRecordId);
             }
+
+            LoadStatisticsDashboard();
         }
         catch (Exception ex)
         {
@@ -447,6 +455,7 @@ public partial class MainWindow : Window
             var restoreResult = _backupService.RestoreFromBackup(dialog.FileName);
             LoadCategories();
             RefreshRecordsList();
+            LoadStatisticsDashboard();
             UpdateBackupStatus(dialog.FileName, restoreResult);
 
             MessageBox.Show(
@@ -465,7 +474,13 @@ public partial class MainWindow : Window
                 MessageBoxImage.Error);
             LoadCategories();
             RefreshRecordsList();
+            LoadStatisticsDashboard();
         }
+    }
+
+    private void RefreshStatisticsButton_Click(object sender, RoutedEventArgs e)
+    {
+        LoadStatisticsDashboard(showErrorMessage: true);
     }
 
     private void SearchRecordsButton_Click(object sender, RoutedEventArgs e)
@@ -881,5 +896,37 @@ public partial class MainWindow : Window
     private void UpdateResultCount(int count)
     {
         ResultCountTextBlock.Text = $"当前显示 {count} 条记录";
+    }
+
+    private void LoadStatisticsDashboard(bool showErrorMessage = false)
+    {
+        try
+        {
+            var summary = _statisticsRepository.GetSummary();
+            var categoryStatistics = _statisticsRepository.GetCategoryStatistics();
+            var dailyStatistics = _statisticsRepository.GetRecentDailyStatistics(7);
+
+            TotalRecordsTextBlock.Text = summary.TotalRecords.ToString();
+            TotalExperienceTextBlock.Text = summary.TotalExperience.ToString();
+            TotalImagesTextBlock.Text = summary.TotalImages.ToString();
+            RecordsWithImagesTextBlock.Text = summary.RecordsWithImages.ToString();
+            RecordsWithoutImagesTextBlock.Text = summary.RecordsWithoutImages.ToString();
+            CategoryCountTextBlock.Text = summary.CategoryCount.ToString();
+            LatestRecordCreatedAtTextBlock.Text = summary.LatestRecordCreatedAt?.ToString("yyyy-MM-dd HH:mm:ss") ?? "暂无记录";
+
+            CategoryStatisticsDataGrid.ItemsSource = categoryStatistics;
+            DailyStatisticsDataGrid.ItemsSource = dailyStatistics;
+        }
+        catch (Exception ex)
+        {
+            if (showErrorMessage)
+            {
+                MessageBox.Show(
+                    $"加载基础统计失败：{ex.Message}",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
     }
 }
