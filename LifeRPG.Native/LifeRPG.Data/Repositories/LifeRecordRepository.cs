@@ -72,6 +72,36 @@ public sealed class LifeRecordRepository
         return reader.Read() ? Map(reader) : null;
     }
 
+    public void Update(LifeRecord record)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE LifeRecords
+            SET Title = @Title,
+                Content = @Content,
+                Category = @Category,
+                Experience = @Experience,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", record.Id);
+        command.Parameters.AddWithValue("@Title", record.Title);
+        command.Parameters.AddWithValue("@Content", record.Content);
+        command.Parameters.AddWithValue("@Category", record.Category);
+        command.Parameters.AddWithValue("@Experience", record.Experience);
+        command.Parameters.AddWithValue("@UpdatedAt", record.UpdatedAt.ToString("O"));
+
+        var affectedRows = command.ExecuteNonQuery();
+        if (affectedRows == 0)
+        {
+            throw new InvalidOperationException($"未找到要更新的行为记录：{record.Id}");
+        }
+    }
+
     public void Delete(string id)
     {
         using var connection = CreateConnection();

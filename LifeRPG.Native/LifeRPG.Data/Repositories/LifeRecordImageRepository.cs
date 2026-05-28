@@ -60,6 +60,37 @@ public sealed class LifeRecordImageRepository
         return images;
     }
 
+    public LifeRecordImage? GetById(string id)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            SELECT Id, LifeRecordId, FileName, FilePath, CreatedAt
+            FROM LifeRecordImages
+            WHERE Id = @Id
+            LIMIT 1;
+            """;
+        command.Parameters.AddWithValue("@Id", id);
+
+        using var reader = command.ExecuteReader();
+        if (!reader.Read())
+        {
+            return null;
+        }
+
+        return new LifeRecordImage
+        {
+            Id = reader.GetString(0),
+            LifeRecordId = reader.GetString(1),
+            FileName = reader.GetString(2),
+            FilePath = reader.GetString(3),
+            CreatedAt = DateTime.Parse(reader.GetString(4), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind)
+        };
+    }
+
     public void DeleteByLifeRecordId(string lifeRecordId)
     {
         using var connection = CreateConnection();
@@ -68,6 +99,17 @@ public sealed class LifeRecordImageRepository
         using var command = connection.CreateCommand();
         command.CommandText = "DELETE FROM LifeRecordImages WHERE LifeRecordId = @LifeRecordId;";
         command.Parameters.AddWithValue("@LifeRecordId", lifeRecordId);
+        command.ExecuteNonQuery();
+    }
+
+    public void Delete(string id)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM LifeRecordImages WHERE Id = @Id;";
+        command.Parameters.AddWithValue("@Id", id);
         command.ExecuteNonQuery();
     }
 

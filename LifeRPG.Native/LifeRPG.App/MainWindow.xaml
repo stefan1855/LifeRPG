@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Life RPG Native"
-        Height="760"
-        Width="1260"
-        MinHeight="680"
-        MinWidth="1120"
+        Height="900"
+        Width="1360"
+        MinHeight="760"
+        MinWidth="1200"
         WindowStartupLocation="CenterScreen"
         Background="#F5F6FA">
     <Grid>
@@ -72,7 +72,7 @@
                                        FontWeight="SemiBold"
                                        Foreground="#111827" />
                             <TextBlock Margin="0,10,0,0"
-                                       Text="先完成最小闭环：新增行为记录、写入 SQLite、回显最近记录。"
+                                       Text="当前阶段聚焦行为记录新增、详情查看、编辑与图片证据删除。"
                                        FontSize="14"
                                        Foreground="#4B5563" />
                         </StackPanel>
@@ -169,100 +169,206 @@
                             CornerRadius="18">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="420" />
                                 <ColumnDefinition Width="24" />
-                                <ColumnDefinition Width="320" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                            <TextBlock Text="最近行为记录"
-                                       FontSize="20"
-                                       FontWeight="SemiBold"
-                                       Foreground="#111827" />
-                            <ListBox x:Name="RecordsListBox"
-                                     Margin="0,18,0,0"
-                                     BorderThickness="0"
-                                     Background="Transparent"
-                                     SelectionChanged="RecordsListBox_SelectionChanged">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Margin="0,0,0,12"
-                                                Padding="16"
-                                                Background="#F9FAFB"
-                                                CornerRadius="12">
-                                            <StackPanel>
-                                                <DockPanel LastChildFill="False">
-                                                    <TextBlock DockPanel.Dock="Left"
-                                                               FontSize="16"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="#111827"
-                                                               Text="{Binding Title}" />
-                                                    <TextBlock DockPanel.Dock="Right"
-                                                               Foreground="#6B7280"
-                                                               Text="{Binding CreatedAt, StringFormat=yyyy-MM-dd HH:mm}" />
-                                                </DockPanel>
-                                                <TextBlock Margin="0,8,0,0"
-                                                           Foreground="#374151"
-                                                           Text="{Binding Category, StringFormat=分类：{0}}" />
-                                                <TextBlock Margin="0,4,0,0"
-                                                           Foreground="#374151"
-                                                           Text="{Binding Experience, StringFormat=经验值：{0}}" />
-                                                <TextBlock Margin="0,4,0,0"
-                                                           Foreground="#374151"
-                                                           Text="{Binding ImageCount, StringFormat=图片数量：{0}}" />
-                                                <TextBlock Margin="0,8,0,0"
-                                                           TextWrapping="Wrap"
-                                                           Foreground="#4B5563"
-                                                           Text="{Binding ContentPreview}" />
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="图片证据预览"
+                                <TextBlock Text="最近行为记录"
                                            FontSize="20"
                                            FontWeight="SemiBold"
                                            Foreground="#111827" />
-                                <TextBlock Margin="0,10,0,0"
-                                           Foreground="#4B5563"
-                                           Text="选中记录后显示关联图片。" />
-                                <ScrollViewer Margin="0,18,0,0"
-                                              VerticalScrollBarVisibility="Auto">
-                                    <ItemsControl x:Name="ImagePreviewItemsControl">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Margin="0,0,12,12"
-                                                        Padding="6"
-                                                        Background="#F9FAFB"
-                                                        CornerRadius="10">
-                                                    <StackPanel Width="132">
-                                                        <Border Width="120"
-                                                                Height="120"
-                                                                Background="#E5E7EB"
-                                                                CornerRadius="8"
-                                                                ClipToBounds="True">
-                                                            <Image Source="{Binding FilePath}"
-                                                                   Stretch="UniformToFill" />
-                                                        </Border>
-                                                        <TextBlock Margin="0,8,0,0"
-                                                                   TextWrapping="Wrap"
-                                                                   FontSize="12"
-                                                                   Foreground="#4B5563"
-                                                                   Text="{Binding FileName}" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
+                                <ListBox x:Name="RecordsListBox"
+                                         Margin="0,18,0,0"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         SelectionChanged="RecordsListBox_SelectionChanged">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,0,12"
+                                                    Padding="16"
+                                                    Background="#F9FAFB"
+                                                    CornerRadius="12">
+                                                <StackPanel>
+                                                    <DockPanel LastChildFill="False">
+                                                        <TextBlock DockPanel.Dock="Left"
+                                                                   FontSize="16"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="#111827"
+                                                                   Text="{Binding Title}" />
+                                                        <TextBlock DockPanel.Dock="Right"
+                                                                   Foreground="#6B7280"
+                                                                   Text="{Binding CreatedAt, StringFormat=yyyy-MM-dd HH:mm}" />
+                                                    </DockPanel>
+                                                    <TextBlock Margin="0,8,0,0"
+                                                               Foreground="#374151"
+                                                               Text="{Binding Category, StringFormat=分类：{0}}" />
+                                                    <TextBlock Margin="0,4,0,0"
+                                                               Foreground="#374151"
+                                                               Text="{Binding Experience, StringFormat=经验值：{0}}" />
+                                                    <TextBlock Margin="0,4,0,0"
+                                                               Foreground="#374151"
+                                                               Text="{Binding ImageCount, StringFormat=图片数量：{0}}" />
+                                                    <TextBlock Margin="0,8,0,0"
+                                                               TextWrapping="Wrap"
+                                                               Foreground="#4B5563"
+                                                               Text="{Binding ContentPreview}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="记录详情"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="#111827" />
+
+                                <TextBlock x:Name="DetailPlaceholderTextBlock"
+                                           Margin="0,18,0,0"
+                                           Foreground="#6B7280"
+                                           Text="请选择一条记录" />
+
+                                <StackPanel x:Name="DetailPanel"
+                                            Margin="0,18,0,0"
+                                            Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="220" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="140" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="标题" Foreground="#374151" />
+                                            <TextBox x:Name="DetailTitleTextBox"
+                                                     Margin="0,6,0,0"
+                                                     Padding="10" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="分类" Foreground="#374151" />
+                                            <TextBox x:Name="DetailCategoryTextBox"
+                                                     Margin="0,6,0,0"
+                                                     Padding="10" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="4">
+                                            <TextBlock Text="经验值" Foreground="#374151" />
+                                            <TextBox x:Name="DetailExperienceTextBox"
+                                                     Margin="0,6,0,0"
+                                                     Padding="10" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <TextBlock Margin="0,16,0,0"
+                                               Text="内容"
+                                               Foreground="#374151" />
+                                    <TextBox x:Name="DetailContentTextBox"
+                                             Margin="0,6,0,0"
+                                             Padding="10"
+                                             MinHeight="120"
+                                             AcceptsReturn="True"
+                                             TextWrapping="Wrap"
+                                             VerticalScrollBarVisibility="Auto" />
+
+                                    <Grid Margin="0,16,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="24" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="创建时间"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#111827" />
+                                            <TextBlock x:Name="DetailCreatedAtTextBlock"
+                                                       Margin="0,6,0,0"
+                                                       Foreground="#4B5563" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="更新时间"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#111827" />
+                                            <TextBlock x:Name="DetailUpdatedAtTextBlock"
+                                                       Margin="0,6,0,0"
+                                                       Foreground="#4B5563" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Button x:Name="SaveDetailButton"
+                                            Margin="0,18,0,0"
+                                            Width="120"
+                                            Padding="14,10"
+                                            HorizontalAlignment="Left"
+                                            Background="#1F2937"
+                                            Foreground="White"
+                                            Click="SaveDetailButton_Click"
+                                            Content="保存修改" />
+
+                                    <TextBlock Margin="0,24,0,0"
+                                               Text="图片证据"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#111827" />
+                                    <TextBlock Margin="0,8,0,0"
+                                               Foreground="#4B5563"
+                                               Text="可预览并删除当前记录的图片证据。" />
+
+                                    <ScrollViewer Margin="0,18,0,0"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  MaxHeight="340">
+                                        <ItemsControl x:Name="ImagePreviewItemsControl">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Margin="0,0,12,12"
+                                                            Padding="10"
+                                                            Width="172"
+                                                            Background="#F9FAFB"
+                                                            CornerRadius="10">
+                                                        <StackPanel>
+                                                            <Border Width="150"
+                                                                    Height="120"
+                                                                    Background="#E5E7EB"
+                                                                    CornerRadius="8"
+                                                                    ClipToBounds="True">
+                                                                <Image Source="{Binding FilePath}"
+                                                                       Stretch="UniformToFill" />
+                                                            </Border>
+                                                            <TextBlock Margin="0,8,0,0"
+                                                                       TextWrapping="Wrap"
+                                                                       FontSize="12"
+                                                                       Foreground="#374151"
+                                                                       Text="{Binding FileName}" />
+                                                            <TextBlock Margin="0,4,0,0"
+                                                                       FontSize="11"
+                                                                       Foreground="#6B7280"
+                                                                       Text="{Binding CreatedAt, StringFormat=上传时间：yyyy-MM-dd HH:mm}" />
+                                                            <Button Margin="0,10,0,0"
+                                                                    Padding="10,6"
+                                                                    HorizontalAlignment="Left"
+                                                                    Click="DeleteImageButton_Click"
+                                                                    Tag="{Binding Id}"
+                                                                    Content="删除图片" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
                     </Border>

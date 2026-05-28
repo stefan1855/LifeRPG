@@ -61,6 +61,53 @@ public sealed class ImageStorageService
         return copiedImages;
     }
 
+    public void DeleteImageFile(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+        {
+            return;
+        }
+
+        try
+        {
+            File.Delete(filePath);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"删除图片文件失败：{filePath}", ex);
+        }
+    }
+
+    public void TryDeleteEmptyRecordImageFolder(string folderPath)
+    {
+        if (string.IsNullOrWhiteSpace(folderPath))
+        {
+            return;
+        }
+
+        var normalizedAssetsRoot = Path.GetFullPath(AppStoragePaths.AssetsDirectory)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var normalizedFolderPath = Path.GetFullPath(folderPath)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        if (string.Equals(normalizedFolderPath, normalizedAssetsRoot, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if (!Directory.Exists(normalizedFolderPath))
+        {
+            return;
+        }
+
+        if (Directory.EnumerateFileSystemEntries(normalizedFolderPath).Any())
+        {
+            return;
+        }
+
+        Directory.Delete(normalizedFolderPath, recursive: false);
+    }
+
     private static string BuildRecordDirectoryName(string lifeRecordId, string recordTitle, DateTime createdAt)
     {
         var safeRecordTitle = SanitizeSegment(recordTitle, "未命名记录", 30);
