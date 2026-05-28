@@ -303,15 +303,23 @@
                                         </StackPanel>
                                     </Grid>
 
-                                    <Button x:Name="SaveDetailButton"
-                                            Margin="0,18,0,0"
-                                            Width="120"
-                                            Padding="14,10"
-                                            HorizontalAlignment="Left"
-                                            Background="#1F2937"
-                                            Foreground="White"
-                                            Click="SaveDetailButton_Click"
-                                            Content="保存修改" />
+                                    <WrapPanel Margin="0,18,0,0">
+                                        <Button x:Name="SaveDetailButton"
+                                                Width="120"
+                                                Padding="14,10"
+                                                Background="#1F2937"
+                                                Foreground="White"
+                                                Click="SaveDetailButton_Click"
+                                                Content="保存修改" />
+                                        <Button x:Name="DeleteRecordButton"
+                                                Margin="12,0,0,0"
+                                                Width="140"
+                                                Padding="14,10"
+                                                Background="#B91C1C"
+                                                Foreground="White"
+                                                Click="DeleteRecordButton_Click"
+                                                Content="删除当前记录" />
+                                    </WrapPanel>
 
                                     <TextBlock Margin="0,24,0,0"
                                                Text="图片证据"

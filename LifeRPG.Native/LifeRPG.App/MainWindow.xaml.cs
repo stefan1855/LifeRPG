@@ -28,7 +28,7 @@ public partial class MainWindow : Window
         DatabasePathTextBlock.Text = DatabaseInitializer.DatabasePath;
         AssetsPathTextBlock.Text = AppStoragePaths.AssetsDirectory;
         UpdateSelectedImagesDisplay();
-        ClearDetailPanel();
+        ClearSelectedRecordDetail();
         LoadLifeRecords();
     }
 
@@ -106,9 +106,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        _selectedRecordId = null;
-        _currentRecordDetail = null;
-        ClearDetailPanel();
+        ClearSelectedRecordDetail();
     }
 
     private void SaveDetailButton_Click(object sender, RoutedEventArgs e)
@@ -133,7 +131,7 @@ public partial class MainWindow : Window
                     "LifeRPG.Native",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
-                ClearDetailPanel();
+                ClearSelectedRecordDetail();
                 LoadLifeRecords();
                 return;
             }
@@ -163,6 +161,96 @@ public partial class MainWindow : Window
         {
             MessageBox.Show(
                 $"保存记录修改失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void DeleteRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_selectedRecordId))
+            {
+                MessageBox.Show(
+                    "请先选择一条记录。",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            var recordId = _selectedRecordId;
+            var confirm = MessageBox.Show(
+                "删除后将同时删除该记录、该记录关联的图片数据库记录，以及本地图片文件。\n此操作不可撤销。",
+                "确认删除",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirm != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            var record = _lifeRecordRepository.GetById(recordId);
+            if (record is null)
+            {
+                MessageBox.Show(
+                    "当前记录不存在，可能已被删除。",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                LoadLifeRecords();
+                ClearSelectedRecordDetail();
+                return;
+            }
+
+            var images = _lifeRecordImageRepository.GetByLifeRecordId(recordId);
+            var folderPaths = images
+                .Select(image => Path.GetDirectoryName(image.FilePath))
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .Cast<string>()
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            ImagePreviewItemsControl.ItemsSource = null;
+
+            foreach (var image in images)
+            {
+                try
+                {
+                    _imageStorageService.DeleteImageFile(image.FilePath);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(
+                        $"删除记录关联图片失败：{image.FilePath}。{ex.Message}",
+                        ex);
+                }
+            }
+
+            _lifeRecordImageRepository.DeleteByLifeRecordId(recordId);
+            _lifeRecordRepository.Delete(recordId);
+
+            foreach (var folderPath in folderPaths)
+            {
+                _imageStorageService.TryDeleteEmptyRecordImageFolder(folderPath);
+            }
+
+            LoadLifeRecords();
+            ClearSelectedRecordDetail();
+
+            MessageBox.Show(
+                "记录已删除。",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"删除记录失败：{ex.Message}",
                 "LifeRPG.Native",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
@@ -260,9 +348,7 @@ public partial class MainWindow : Window
         var selectedItem = items.FirstOrDefault(item => item.Id == selectedId);
         if (selectedItem is null)
         {
-            _selectedRecordId = null;
-            _currentRecordDetail = null;
-            ClearDetailPanel();
+            ClearSelectedRecordDetail();
             return;
         }
 
@@ -275,9 +361,7 @@ public partial class MainWindow : Window
         var record = _lifeRecordRepository.GetById(recordId);
         if (record is null)
         {
-            _selectedRecordId = null;
-            _currentRecordDetail = null;
-            ClearDetailPanel();
+            ClearSelectedRecordDetail();
             return;
         }
 
@@ -369,8 +453,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private void ClearDetailPanel()
+    private void ClearSelectedRecordDetail()
     {
+        _selectedRecordId = null;
+        _currentRecordDetail = null;
+        RecordsListBox.SelectedItem = null;
         DetailPlaceholderTextBlock.Visibility = Visibility.Visible;
         DetailPanel.Visibility = Visibility.Collapsed;
         DetailTitleTextBox.Text = string.Empty;
