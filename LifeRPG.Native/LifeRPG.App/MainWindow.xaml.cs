@@ -21,6 +21,7 @@ public partial class MainWindow : Window
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
     private readonly ImageStorageService _imageStorageService = new();
     private readonly BackupService _backupService = new();
+    private readonly MarkdownExportService _markdownExportService = new();
     private readonly List<string> _selectedImagePaths = [];
 
     private string? _selectedRecordId;
@@ -459,6 +460,92 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ExportMarkdownButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var exportPath = _markdownExportService.ExportAllRecordsToMarkdown();
+            UpdateExportStatus(exportPath, $"Markdown 导出成功：{exportPath}");
+
+            MessageBox.Show(
+                $"Markdown 导出成功：{exportPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            ExportStatusTextBlock.Text = $"Markdown 导出失败：{ex.Message}";
+            MessageBox.Show(
+                $"导出 Markdown 失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void ExportMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
+    {
+        using var dialog = new Forms.FolderBrowserDialog
+        {
+            Description = "请选择 Markdown 导出目录",
+            UseDescriptionForTitle = true,
+            AutoUpgradeEnabled = true,
+            ShowNewFolderButton = true
+        };
+
+        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath))
+        {
+            return;
+        }
+
+        try
+        {
+            var exportPath = _markdownExportService.ExportAllRecordsToMarkdown(dialog.SelectedPath);
+            UpdateExportStatus(exportPath, $"Markdown 导出成功：{exportPath}");
+
+            MessageBox.Show(
+                $"Markdown 导出成功：{exportPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            ExportStatusTextBlock.Text = $"Markdown 导出失败：{ex.Message}";
+            MessageBox.Show(
+                $"选择目录导出 Markdown 失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void OpenExportsDirectoryButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Directory.CreateDirectory(AppStoragePaths.ExportsDirectory);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = AppStoragePaths.ExportsDirectory,
+                UseShellExecute = true
+            });
+
+            ExportStatusTextBlock.Text = $"已打开导出目录：{AppStoragePaths.ExportsDirectory}";
+        }
+        catch (Exception ex)
+        {
+            ExportStatusTextBlock.Text = $"打开导出目录失败：{ex.Message}";
+            MessageBox.Show(
+                $"打开导出目录失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
     private void LoadLifeRecords(string? preserveSelectedRecordId = null)
     {
         var records = _lifeRecordRepository.GetAll();
@@ -620,5 +707,11 @@ public partial class MainWindow : Window
     {
         LatestBackupPathTextBlock.Text = latestBackupPath;
         BackupStatusTextBlock.Text = statusMessage;
+    }
+
+    private void UpdateExportStatus(string latestExportPath, string statusMessage)
+    {
+        LatestExportPathTextBlock.Text = latestExportPath;
+        ExportStatusTextBlock.Text = statusMessage;
     }
 }

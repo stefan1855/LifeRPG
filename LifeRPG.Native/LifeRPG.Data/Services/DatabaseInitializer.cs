@@ -1,4 +1,3 @@
-using LifeRPG.Storage.Services;
 using Microsoft.Data.Sqlite;
 
 namespace LifeRPG.Data.Services;
@@ -7,11 +6,12 @@ public static class DatabaseInitializer
 {
     public const string DatabaseFileName = "liferpg.db";
 
-    public static string DatabasePath => Path.Combine(AppStoragePaths.DataDirectory, DatabaseFileName);
+    public static string DatabasePath => Path.Combine(GetDataDirectory(), DatabaseFileName);
 
     public static void Initialize()
     {
-        AppStoragePaths.EnsureCreated();
+        Directory.CreateDirectory(GetRootDirectory());
+        Directory.CreateDirectory(GetDataDirectory());
 
         var builder = new SqliteConnectionStringBuilder
         {
@@ -55,5 +55,17 @@ public static class DatabaseInitializer
             """;
 
         command.ExecuteNonQuery();
+    }
+
+    private static string GetRootDirectory()
+    {
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "LifeRPG.Native");
+    }
+
+    private static string GetDataDirectory()
+    {
+        return Path.Combine(GetRootDirectory(), "data");
     }
 }

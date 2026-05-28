@@ -29,6 +29,12 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 软件支持本地 zip 备份
 - 备份内容包括 SQLite 数据库、`assets` 图片资源、`manifest.json`
 - 默认备份目录为 `%LocalAppData%\LifeRPG.Native\backups`
+- 软件支持 Markdown 本地导出
+- 导出文件默认保存在 `%LocalAppData%\LifeRPG.Native\exports`
+- Markdown 导出读取 SQLite 中的 `LifeRecords` 和 `LifeRecordImages`
+- Markdown 中图片证据使用本地图片路径引用
+- Markdown 导出只是归档能力，不作为软件运行依赖
+- 软件运行不依赖 Obsidian
 - 恢复备份会覆盖当前数据库和 `assets`
 - 恢复前会自动创建恢复前安全备份
 - 备份与恢复均为本地功能，不依赖云端
@@ -50,7 +56,7 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 当前阶段不引入 Entity Framework，数据库初始化采用轻量 SQL
 - 当前阶段尚未支持自定义图片目录
 - 当前阶段尚未支持图片压缩
-- 当前阶段尚未支持图片导出
+- 当前阶段尚未支持 PDF 导出
 
 ## 后续扩展方向
 

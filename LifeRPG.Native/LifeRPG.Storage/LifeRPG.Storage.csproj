@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LifeRPG.Core\LifeRPG.Core.csproj" />
+    <ProjectReference Include="..\LifeRPG.Data\LifeRPG.Data.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LifeRPG.Core\LifeRPG.Core.csproj" />
-    <ProjectReference Include="..\LifeRPG.Storage\LifeRPG.Storage.csproj" />
   </ItemGroup>
 
   <ItemGroup>
