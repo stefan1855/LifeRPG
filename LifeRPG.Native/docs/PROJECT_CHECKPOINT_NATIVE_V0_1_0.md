@@ -2,6 +2,10 @@
 
 ## 当前已完成的基础能力
 
+- `v0.1.0-native-dev` 当前已完成完整功能闭环
+- 已完成 Windows 原生 WPF 基础软件骨架
+- 已完成 LocalAppData 本地数据目录
+- 已完成 SQLite 本地数据库
 - 建立 `LifeRPG.App`、`LifeRPG.Core`、`LifeRPG.Data`、`LifeRPG.Storage`、`LifeRPG.Tests` 五个项目
 - 建立基础领域模型：`LifeRecord`、`LifeRecordImage`、`GrowthAttribute`
 - 建立本地存储路径管理
@@ -60,6 +64,8 @@
 - 已新增 WPF 原生主题资源文件
 - 已统一主窗口基础控件视觉
 - 已保留所有现有业务功能
+- `dotnet build` 已通过
+- WPF 程序已正常启动
 
 ## 当前项目结构
 
@@ -76,7 +82,16 @@
 - 数据库目录：`%LocalAppData%\LifeRPG.Native\data`
 - 图片目录：`%LocalAppData%\LifeRPG.Native\assets`
 - 备份目录：`%LocalAppData%\LifeRPG.Native\backups`
+- 导出目录：`%LocalAppData%\LifeRPG.Native\exports`
 - 日志目录：`%LocalAppData%\LifeRPG.Native\logs`
+
+## 最终验证状态
+
+- 当前数据根目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native`
+- 当前数据库路径为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\data\liferpg.db`
+- 当前图片目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\assets`
+- 当前备份目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\backups`
+- 当前导出目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\exports`
 
 ## 当前数据库文件位置
 

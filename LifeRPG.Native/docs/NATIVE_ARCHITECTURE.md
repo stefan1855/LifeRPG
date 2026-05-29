@@ -4,10 +4,17 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 
 ## 当前技术路线
 
+- 当前项目是 Windows 原生 WPF 软件
 - UI：C# + WPF
 - 数据库：SQLite 本地存储
 - 文件存储：本地文件系统
 - 项目目标：不依赖 Obsidian，不依赖浏览器内核，不使用 Tauri、Electron、WebView、React
+- 不使用 Node.js
+- 使用 SQLite 做本地数据存储
+- 使用 LocalAppData 做运行数据目录
+- 使用 WPF ResourceDictionary 管理暗黑亡灵术士主题
+- 当前主题是原生 WPF 主题，不是网页 CSS
+- 当前已具备 `v0.1.0-native-dev` 可用原型基础
 
 ## 存储设计
 
@@ -72,6 +79,11 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 ## 架构边界
 
 - 运行时不依赖 Obsidian
+- 运行时不使用 Tauri
+- 运行时不使用 Electron
+- 运行时不使用 WebView
+- 运行时不使用 React
+- 运行时不使用 Node.js
 - 运行时不使用任何浏览器套壳
 - 当前阶段不引入 Entity Framework，数据库初始化采用轻量 SQL
 - 当前阶段尚未支持自定义图片目录
