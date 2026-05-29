@@ -1,0 +1,308 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="WarlockBlackColor">#0E0714</Color>
+    <Color x:Key="WarlockAbyssColor">#171020</Color>
+    <Color x:Key="WarlockCardColor">#21162C</Color>
+    <Color x:Key="WarlockCardAltColor">#2A1D37</Color>
+    <Color x:Key="WarlockSoulGreenColor">#7CFF6B</Color>
+    <Color x:Key="WarlockArcanePurpleColor">#9A5CFF</Color>
+    <Color x:Key="WarlockGoldColor">#C8A45D</Color>
+    <Color x:Key="WarlockDangerColor">#E35D5D</Color>
+    <Color x:Key="WarlockTextPrimaryColor">#F3ECFF</Color>
+    <Color x:Key="WarlockTextSecondaryColor">#B9A7D2</Color>
+    <Color x:Key="WarlockTextMutedColor">#7E7192</Color>
+    <Color x:Key="WarlockBorderColor">#46305D</Color>
+    <Color x:Key="WarlockHighlightBorderColor">#7CFF6B</Color>
+    <Color x:Key="WarlockHeaderColor">#130C1C</Color>
+    <Color x:Key="WarlockRowColor">#1B1325</Color>
+    <Color x:Key="WarlockRowAltColor">#20172B</Color>
+    <Color x:Key="WarlockSelectionColor">#3A2552</Color>
+
+    <SolidColorBrush x:Key="WarlockBlackBrush" Color="{StaticResource WarlockBlackColor}" />
+    <SolidColorBrush x:Key="WarlockAbyssBrush" Color="{StaticResource WarlockAbyssColor}" />
+    <SolidColorBrush x:Key="WarlockCardBrush" Color="{StaticResource WarlockCardColor}" />
+    <SolidColorBrush x:Key="WarlockCardAltBrush" Color="{StaticResource WarlockCardAltColor}" />
+    <SolidColorBrush x:Key="WarlockSoulGreenBrush" Color="{StaticResource WarlockSoulGreenColor}" />
+    <SolidColorBrush x:Key="WarlockArcanePurpleBrush" Color="{StaticResource WarlockArcanePurpleColor}" />
+    <SolidColorBrush x:Key="WarlockGoldBrush" Color="{StaticResource WarlockGoldColor}" />
+    <SolidColorBrush x:Key="WarlockDangerBrush" Color="{StaticResource WarlockDangerColor}" />
+    <SolidColorBrush x:Key="WarlockTextPrimaryBrush" Color="{StaticResource WarlockTextPrimaryColor}" />
+    <SolidColorBrush x:Key="WarlockTextSecondaryBrush" Color="{StaticResource WarlockTextSecondaryColor}" />
+    <SolidColorBrush x:Key="WarlockTextMutedBrush" Color="{StaticResource WarlockTextMutedColor}" />
+    <SolidColorBrush x:Key="WarlockBorderBrush" Color="{StaticResource WarlockBorderColor}" />
+    <SolidColorBrush x:Key="WarlockHighlightBorderBrush" Color="{StaticResource WarlockHighlightBorderColor}" />
+    <SolidColorBrush x:Key="WarlockHeaderBrush" Color="{StaticResource WarlockHeaderColor}" />
+    <SolidColorBrush x:Key="WarlockRowBrush" Color="{StaticResource WarlockRowColor}" />
+    <SolidColorBrush x:Key="WarlockRowAltBrush" Color="{StaticResource WarlockRowAltColor}" />
+    <SolidColorBrush x:Key="WarlockSelectionBrush" Color="{StaticResource WarlockSelectionColor}" />
+
+    <LinearGradientBrush x:Key="WarlockWindowBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#0A0510" />
+        <GradientStop Offset="0.45" Color="#140A1D" />
+        <GradientStop Offset="1" Color="#07050B" />
+    </LinearGradientBrush>
+
+    <DropShadowEffect x:Key="WarlockCardShadow"
+                      BlurRadius="20"
+                      ShadowDepth="0"
+                      Color="#66000000"
+                      Opacity="0.75" />
+
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource WarlockWindowBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="Palatino Linotype" />
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="MutedTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextSecondaryBrush}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="SectionTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
+    </Style>
+
+    <Style x:Key="SectionSubtitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockGoldBrush}" />
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockArcanePurpleBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource WarlockCardAltBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#2F2140" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+        <Setter Property="Background" Value="#120B19" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+    </Style>
+
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="#341317" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockDangerBrush}" />
+    </Style>
+
+    <Style x:Key="SoulAccentButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="#102014" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="CaretBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
+        <Setter Property="SelectionBrush" Value="{StaticResource WarlockArcanePurpleBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource WarlockArcanePurpleBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="10,6" />
+    </Style>
+
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="Padding" Value="8,4" />
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="8,4" />
+    </Style>
+
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="6" />
+    </Style>
+
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Background" Value="{StaticResource WarlockRowBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="ItemBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource WarlockArcanePurpleBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="RowBackground" Value="{StaticResource WarlockRowBrush}" />
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource WarlockRowAltBrush}" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource WarlockHeaderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockGoldBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource WarlockRowBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+        <Setter Property="Padding" Value="8,6" />
+    </Style>
+
+    <Style TargetType="ScrollViewer">
+        <Setter Property="PanningMode" Value="VerticalFirst" />
+    </Style>
+
+    <Style TargetType="Separator">
+        <Setter Property="Margin" Value="0,18,0,18" />
+        <Setter Property="Background" Value="{StaticResource WarlockBorderBrush}" />
+    </Style>
+
+    <Style x:Key="CardBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource WarlockCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="22" />
+        <Setter Property="Effect" Value="{StaticResource WarlockCardShadow}" />
+    </Style>
+
+    <Style x:Key="StatCardBorderStyle" TargetType="Border" BasedOn="{StaticResource CardBorderStyle}">
+        <Setter Property="Background" Value="{StaticResource WarlockCardAltBrush}" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style x:Key="ImagePreviewBorderStyle" TargetType="Border" BasedOn="{StaticResource CardBorderStyle}">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Background" Value="#140E1A" />
+    </Style>
+
+    <Style x:Key="StatValueTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
+    </Style>
+</ResourceDictionary>
