@@ -24,6 +24,7 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
   - `dotnet run --project .\LifeRPG.App\LifeRPG.App.csproj`
 - 当前 `LifeRPG.Native.slnx` 构建入口在本机存在异常，暂不作为功能验证依据。
 - 后续可以考虑重建传统 `.sln` 解决方案文件，替代当前 `.slnx`。
+- `v0.2-sln-entry-fix` 分支已新增传统解决方案文件 `LifeRPG.Native.sln`，作为重建稳定解决方案入口的处理起点。
 
 ## 存储设计
 
