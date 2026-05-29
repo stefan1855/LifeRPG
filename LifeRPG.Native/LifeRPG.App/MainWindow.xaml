@@ -416,7 +416,9 @@
                                 </ListBox>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="2">
+                            <StackPanel x:Name="DetailPanel"
+                                        Grid.Column="2"
+                                        Visibility="Collapsed">
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="记录详情" />
                                 <TextBlock x:Name="DetailPlaceholderTextBlock"
                                            Margin="0,10,0,0"
