@@ -16,6 +16,15 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 当前主题是原生 WPF 主题，不是网页 CSS
 - 当前已具备 `v0.1.0-native-dev` 可用原型基础
 
+## 构建入口说明
+
+- 当前主程序为 `LifeRPG.App`
+- 推荐开发验证命令：
+  - `dotnet build .\LifeRPG.App\LifeRPG.App.csproj`
+  - `dotnet run --project .\LifeRPG.App\LifeRPG.App.csproj`
+- 当前 `LifeRPG.Native.slnx` 构建入口在本机存在异常，暂不作为功能验证依据。
+- 后续可以考虑重建传统 `.sln` 解决方案文件，替代当前 `.slnx`。
+
 ## 存储设计
 
 - 应用数据根目录：`%LocalAppData%\LifeRPG.Native`

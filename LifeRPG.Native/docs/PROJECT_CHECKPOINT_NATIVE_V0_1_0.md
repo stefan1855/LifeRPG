@@ -93,6 +93,24 @@
 - 当前备份目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\backups`
 - 当前导出目录为：`C:\Users\stefa\AppData\Local\LifeRPG.Native\exports`
 
+## 构建验证说明
+
+- 当前可靠构建命令为：`dotnet build .\LifeRPG.App\LifeRPG.App.csproj`
+- 当前可靠启动命令为：`dotnet run --project .\LifeRPG.App\LifeRPG.App.csproj`
+- `LifeRPG.Native.slnx` 在当前本机环境中存在构建入口异常：输出“生成失败。0 个警告，0 个错误”，未给出具体错误文本。
+- 该问题当前未影响：
+  - `LifeRPG.App` 项目级构建
+  - WPF 程序启动
+  - SQLite 数据功能
+  - 图片上传与预览
+  - 编辑 / 删除
+  - 备份恢复
+  - Markdown 导出
+  - 筛选搜索
+  - 统计看板
+  - 暗黑主题加载
+- 当前将该问题记录为：解决方案入口构建异常，后续 `v0.2` 阶段再处理；`v0.1.0-native-dev` 以 App 项目级 build 作为封存依据。
+
 ## 当前数据库文件位置
 
 - `"%LocalAppData%\LifeRPG.Native\data\liferpg.db"`
