@@ -34,9 +34,16 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        RootPathTextBlock.Text = AppStoragePaths.RootDirectory;
-        DatabasePathTextBlock.Text = DatabaseInitializer.DatabasePath;
-        AssetsPathTextBlock.Text = AppStoragePaths.AssetsDirectory;
+        SystemStatusControl.SetStatus(
+            version: "v0.1.0-native-dev",
+            storageMode: "本地 SQLite + 本地图片目录",
+            obsidianDependency: "否",
+            browserEngine: "否",
+            rootDirectory: AppStoragePaths.RootDirectory,
+            databasePath: DatabaseInitializer.DatabasePath,
+            assetsDirectory: AppStoragePaths.AssetsDirectory,
+            backupsDirectory: AppStoragePaths.BackupsDirectory,
+            exportsDirectory: AppStoragePaths.ExportsDirectory);
         UpdateSelectedImagesDisplay();
         ClearSelectedRecordDetail();
         LoadCategories();

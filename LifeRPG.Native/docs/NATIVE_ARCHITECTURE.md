@@ -32,6 +32,13 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 构建验证以用户本机 PowerShell 的 `dotnet build` exit code 为准
 - Codex 的无明细构建失败不作为代码失败依据
 
+## 主窗口拆分试点
+
+- `v0.2` 开始逐步将 `MainWindow` 中相对独立的区域拆成 WPF `UserControl`
+- `SystemStatusControl` 是第一个拆分试点
+- 该拆分不改变业务功能，只降低 `MainWindow.xaml` 复杂度
+- 当前仍不引入复杂 MVVM
+
 ## 存储设计
 
 - 应用数据根目录：`%LocalAppData%\LifeRPG.Native`

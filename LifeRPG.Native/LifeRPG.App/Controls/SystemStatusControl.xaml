@@ -1,0 +1,60 @@
+<UserControl x:Class="LifeRPG.App.Controls.SystemStatusControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <StackPanel>
+        <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="系统状态" />
+        <TextBlock Margin="0,16,0,0" Foreground="#E8E1F2" Text="当前版本：v0.1.0-native-dev" TextWrapping="Wrap" />
+        <TextBlock Margin="0,6,0,0" Foreground="#E8E1F2" Text="存储模式：本地 SQLite + 本地图片目录" TextWrapping="Wrap" />
+        <TextBlock Margin="0,6,0,0" Foreground="#E8E1F2" Text="Obsidian 依赖：否" TextWrapping="Wrap" />
+        <TextBlock Margin="0,6,0,0" Foreground="#E8E1F2" Text="浏览器内核：否" TextWrapping="Wrap" />
+
+        <Grid Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource StatCardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Foreground="#7CFF6B" FontWeight="Bold" Text="当前数据根目录" TextWrapping="Wrap" />
+                    <TextBlock x:Name="RootPathTextBlock" Margin="0,8,0,0" Foreground="#B7A8C8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource StatCardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Foreground="#7CFF6B" FontWeight="Bold" Text="当前数据库路径" TextWrapping="Wrap" />
+                    <TextBlock x:Name="DatabasePathTextBlock" Margin="0,8,0,0" Foreground="#B7A8C8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="4" Style="{StaticResource StatCardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Foreground="#7CFF6B" FontWeight="Bold" Text="当前图片目录路径" TextWrapping="Wrap" />
+                    <TextBlock x:Name="AssetsPathTextBlock" Margin="0,8,0,0" Foreground="#B7A8C8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource StatCardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Foreground="#7CFF6B" FontWeight="Bold" Text="当前备份目录" TextWrapping="Wrap" />
+                    <TextBlock x:Name="BackupsPathTextBlock" Margin="0,8,0,0" Foreground="#B7A8C8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource StatCardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Foreground="#7CFF6B" FontWeight="Bold" Text="当前导出目录" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ExportsPathTextBlock" Margin="0,8,0,0" Foreground="#B7A8C8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </StackPanel>
+</UserControl>
