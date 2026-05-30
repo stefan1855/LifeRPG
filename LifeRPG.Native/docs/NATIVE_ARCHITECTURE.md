@@ -26,6 +26,12 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 后续可以考虑重建传统 `.sln` 解决方案文件，替代当前 `.slnx`。
 - `v0.2-sln-entry-fix` 分支已新增传统解决方案文件 `LifeRPG.Native.sln`，作为重建稳定解决方案入口的处理起点。
 
+## 开发流程规则
+
+- 项目新增 [DEVELOPMENT_WORKFLOW.md](D:/Projects/LifeRPG/LifeRPG.Native/docs/DEVELOPMENT_WORKFLOW.md)
+- 构建验证以用户本机 PowerShell 的 `dotnet build` exit code 为准
+- Codex 的无明细构建失败不作为代码失败依据
+
 ## 存储设计
 
 - 应用数据根目录：`%LocalAppData%\LifeRPG.Native`
