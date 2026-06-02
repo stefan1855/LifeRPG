@@ -1,6 +1,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
@@ -30,6 +33,23 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
         _hasLoaded = true;
         ShowAllTasks();
+    }
+
+    private void ActionTaskControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (IsDropDownOpen(e.OriginalSource as DependencyObject))
+        {
+            return;
+        }
+
+        var scrollViewer = FindParentScrollViewer(this);
+        if (scrollViewer is null)
+        {
+            return;
+        }
+
+        scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (e.Delta / 3.0));
+        e.Handled = true;
     }
 
     private void CreateTaskButton_Click(object sender, RoutedEventArgs e)
@@ -557,5 +577,62 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         Overdue,
         All,
         Completed
+    }
+
+    private static System.Windows.Controls.ScrollViewer? FindParentScrollViewer(DependencyObject? source)
+    {
+        var current = source;
+        while (current is not null)
+        {
+            if (current is System.Windows.Controls.ScrollViewer scrollViewer)
+            {
+                return scrollViewer;
+            }
+
+            current = GetParentObject(current);
+        }
+
+        return null;
+    }
+
+    private static bool IsDropDownOpen(DependencyObject? source)
+    {
+        var current = source;
+        while (current is not null)
+        {
+            if (current is System.Windows.Controls.ComboBox comboBox && comboBox.IsDropDownOpen)
+            {
+                return true;
+            }
+
+            if (current is System.Windows.Controls.DatePicker datePicker && datePicker.IsDropDownOpen)
+            {
+                return true;
+            }
+
+            current = GetParentObject(current);
+        }
+
+        return false;
+    }
+
+    private static DependencyObject? GetParentObject(DependencyObject? source)
+    {
+        if (source is null)
+        {
+            return null;
+        }
+
+        if (source is Visual || source is Visual3D)
+        {
+            return VisualTreeHelper.GetParent(source);
+        }
+
+        return source switch
+        {
+            FrameworkElement frameworkElement => frameworkElement.Parent,
+            FrameworkContentElement frameworkContentElement => frameworkContentElement.Parent,
+            _ => null
+        };
     }
 }
