@@ -69,6 +69,21 @@ public static class DatabaseInitializer
                 CreatedAt TEXT NOT NULL,
                 UpdatedAt TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS ActionTaskImages (
+                Id TEXT NOT NULL PRIMARY KEY,
+                ActionTaskId TEXT NOT NULL,
+                OriginalFileName TEXT NOT NULL,
+                FileName TEXT NOT NULL,
+                FilePath TEXT NOT NULL,
+                RelativePath TEXT NOT NULL,
+                FileExtension TEXT NOT NULL,
+                FileSizeBytes INTEGER NOT NULL,
+                CreatedAt TEXT NOT NULL
+            );
+
+            CREATE INDEX IF NOT EXISTS IX_ActionTaskImages_ActionTaskId
+            ON ActionTaskImages(ActionTaskId);
             """;
 
         command.ExecuteNonQuery();

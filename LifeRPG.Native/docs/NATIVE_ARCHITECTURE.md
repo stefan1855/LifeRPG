@@ -56,7 +56,14 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 完成任务时会写入 `CompletedAt`
 - 完成任务时会写入 `CompletionNote`
 - 完成任务时会按四象限重新计算 `Experience`
-- 当前尚未接入图片证据
+- `v0.2` 新增行动任务图片证据数据底座
+- 行动任务图片使用 `ActionTaskImage` 模型
+- 行动任务图片使用 `ActionTaskImages` 表
+- 行动任务图片使用 `ActionTaskImageRepository`
+- 行动任务图片存储在 `assets/action-tasks` 下
+- 当前尚未接入 UI 上传和预览
+- 当前尚未接入任务完成流程
+- 当前不影响行为记录图片系统
 - 当前尚未支持生成行为记录
 - 当前尚未接入统计看板
 - 当前尚未接入 Markdown 导出

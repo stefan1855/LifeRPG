@@ -1,13 +1,14 @@
 # LifeRPG Native v0.2.0 Checkpoint
 
-- 分支：`v0.2-action-task-ui-polish`
-- 本次任务：行动任务 UI 可读性与滚轮体验修复
-- 已修复四象限 `ComboBox` 白底浅字 / 灰字问题
-- 已修复 `DatePicker` 选择后文字看不清问题
-- 已改善鼠标悬停业务控件时主页面滚轮无法滚动的问题
-- 不改业务逻辑
-- 不改数据库结构
-- 不改存储逻辑
+- 分支：`v0.2-action-task-image-core`
+- 本次任务：行动任务图片证据数据底座
+- 新增 `ActionTaskImage` 模型
+- 新增 `ActionTaskImages` 表
+- 新增 `ActionTaskImageRepository`
+- 新增 `ActionTaskImageStorageService`
+- 不改 UI
+- 不改现有行为记录图片逻辑
+- 当前尚未支持任务图片上传和预览
 - 验证命令：
   - `.\scripts\verify-build.ps1`
   - `.\scripts\verify-build.ps1 -Run`
