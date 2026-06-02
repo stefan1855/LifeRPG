@@ -39,6 +39,18 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 该拆分不改变业务功能，只降低 `MainWindow.xaml` 复杂度
 - 当前仍不引入复杂 MVVM
 
+## 行动任务模块
+
+- `v0.2` 开始新增“行动任务”模块
+- 行动任务定位是待办 + RPG 任务系统
+- 行动任务与行为记录是不同模型
+- 行动任务未来可以关联或生成行为记录
+- 当前已建立 `ActionTask` 数据模型、状态枚举、四象限枚举、SQLite 表和 `Repository`
+- 当前尚未接入 UI
+- 当前尚未接入图片证据
+- 当前尚未接入统计看板
+- 当前尚未接入 Markdown 导出
+
 ## 存储设计
 
 - 应用数据根目录：`%LocalAppData%\LifeRPG.Native`

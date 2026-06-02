@@ -52,6 +52,23 @@ public static class DatabaseInitializer
                 Value INTEGER NOT NULL,
                 UpdatedAt TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS ActionTasks (
+                Id TEXT NOT NULL PRIMARY KEY,
+                Title TEXT NOT NULL,
+                Content TEXT NOT NULL,
+                Category TEXT NOT NULL,
+                Status TEXT NOT NULL,
+                Quadrant TEXT NOT NULL,
+                GrowthAttribute TEXT NOT NULL,
+                Experience INTEGER NOT NULL,
+                DueAt TEXT NULL,
+                CompletedAt TEXT NULL,
+                CompletionNote TEXT NOT NULL,
+                LinkedLifeRecordId TEXT NULL,
+                CreatedAt TEXT NOT NULL,
+                UpdatedAt TEXT NOT NULL
+            );
             """;
 
         command.ExecuteNonQuery();

@@ -51,6 +51,28 @@ if ($LASTEXITCODE -eq 0) {
 }
 ```
 
+## 推荐构建验证脚本
+
+以后 Codex 不应直接根据 `dotnet build` 的终端摘要判断成败。
+
+推荐命令：
+
+```powershell
+.\scripts\verify-build.ps1
+```
+
+如需构建后启动：
+
+```powershell
+.\scripts\verify-build.ps1 -Run
+```
+
+判断标准：
+
+- 读取 `logs/dev-build-result.txt`
+- 如果 `BuildExitCode = 0` 且 `BuildSucceeded = true`，则视为构建通过
+- 如果 Codex 终端显示“生成失败。0 个警告，0 个错误”，但 `dev-build-result.txt` 显示 `BuildExitCode = 0`，则以 `dev-build-result.txt` 为准
+
 ## 6. Codex 报错处理规则
 
 如果 Codex 反馈：
