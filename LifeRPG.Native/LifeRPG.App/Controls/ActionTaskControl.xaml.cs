@@ -14,6 +14,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private readonly ActionTaskRepository _actionTaskRepository = new();
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
+    private string? _editingTaskId;
 
     public ActionTaskControl()
     {
@@ -117,6 +118,72 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         UpdateSelectedTaskStatus(ActionTaskStatus.Cancelled);
     }
 
+    private void TaskDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is ActionTaskListItem selectedTask)
+        {
+            LoadTaskForEdit(selectedTask.Id);
+        }
+    }
+
+    private void SaveEditTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_editingTaskId))
+            {
+                MessageBox.Show("请先选择一个任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var task = _actionTaskRepository.GetById(_editingTaskId);
+            if (task is null)
+            {
+                MessageBox.Show("当前行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                ClearEditTaskForm();
+                RefreshCurrentView();
+                return;
+            }
+
+            var title = EditTaskTitleTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                MessageBox.Show("任务标题不能为空。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!TryGetDueAt(EditTaskDueDatePicker, EditTaskDueTimeTextBox, requireDateForTime: true, out var dueAt))
+            {
+                return;
+            }
+
+            var quadrant = GetSelectedQuadrant(EditTaskQuadrantComboBox);
+            task.Title = title;
+            task.Content = EditTaskContentTextBox.Text ?? string.Empty;
+            task.Category = string.IsNullOrWhiteSpace(EditTaskCategoryTextBox.Text) ? "未分类" : EditTaskCategoryTextBox.Text.Trim();
+            task.GrowthAttribute = EditTaskGrowthAttributeTextBox.Text?.Trim() ?? string.Empty;
+            task.Quadrant = quadrant;
+            task.Experience = LifeActionTask.CalculateExperience(quadrant);
+            task.DueAt = dueAt;
+            task.UpdatedAt = DateTime.Now;
+
+            _actionTaskRepository.Update(task);
+            RefreshCurrentView(task.Id);
+            LoadTaskForEdit(task.Id);
+
+            MessageBox.Show("行动任务已保存。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"保存行动任务失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void CancelEditTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        ClearEditTaskForm();
+    }
+
     private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
     {
         if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
@@ -139,6 +206,11 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         try
         {
             _actionTaskRepository.Delete(selectedTask.Id);
+            if (string.Equals(_editingTaskId, selectedTask.Id, StringComparison.Ordinal))
+            {
+                ClearEditTaskForm();
+            }
+
             RefreshCurrentView();
         }
         catch (Exception ex)
@@ -153,7 +225,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         RefreshCurrentView();
     }
 
-    private void RefreshCurrentView()
+    private void RefreshCurrentView(string? preserveSelectedTaskId = null)
     {
         var tasks = _currentView switch
         {
@@ -163,9 +235,30 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             _ => _actionTaskRepository.GetAll()
         };
 
-        TaskDataGrid.ItemsSource = tasks.Select(ToListItem).ToList();
+        var items = tasks.Select(ToListItem).ToList();
+        TaskDataGrid.ItemsSource = items;
         CurrentTaskViewTextBlock.Text = $"当前视图：{GetViewText(_currentView)}";
         TaskCountTextBlock.Text = $"当前显示 {tasks.Count} 条任务";
+
+        var targetTaskId = preserveSelectedTaskId ?? _editingTaskId;
+        if (string.IsNullOrWhiteSpace(targetTaskId))
+        {
+            return;
+        }
+
+        var selectedItem = items.FirstOrDefault(item => string.Equals(item.Id, targetTaskId, StringComparison.Ordinal));
+        if (selectedItem is null)
+        {
+            if (string.Equals(_editingTaskId, targetTaskId, StringComparison.Ordinal))
+            {
+                ClearEditTaskForm();
+            }
+
+            return;
+        }
+
+        TaskDataGrid.SelectedItem = selectedItem;
+        TaskDataGrid.ScrollIntoView(selectedItem);
     }
 
     private void UpdateSelectedTaskStatus(ActionTaskStatus status)
@@ -203,7 +296,11 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             }
 
             _actionTaskRepository.Update(task);
-            RefreshCurrentView();
+            RefreshCurrentView(task.Id);
+            if (string.Equals(_editingTaskId, task.Id, StringComparison.Ordinal))
+            {
+                LoadTaskForEdit(task.Id);
+            }
         }
         catch (Exception ex)
         {
@@ -213,8 +310,13 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     private bool TryGetDueAt(out DateTime? dueAt)
     {
+        return TryGetDueAt(TaskDueDatePicker, TaskDueTimeTextBox, requireDateForTime: false, out dueAt);
+    }
+
+    private static bool TryGetDueAt(DatePicker datePicker, System.Windows.Controls.TextBox timeTextBox, bool requireDateForTime, out DateTime? dueAt)
+    {
         dueAt = null;
-        var timeText = TaskDueTimeTextBox.Text.Trim();
+        var timeText = timeTextBox.Text.Trim();
 
         if (!string.IsNullOrWhiteSpace(timeText) &&
             !TimeSpan.TryParseExact(timeText, "hh\\:mm", CultureInfo.InvariantCulture, out _))
@@ -223,31 +325,101 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             return false;
         }
 
-        if (!TaskDueDatePicker.SelectedDate.HasValue)
+        if (!datePicker.SelectedDate.HasValue)
         {
+            if (requireDateForTime && !string.IsNullOrWhiteSpace(timeText))
+            {
+                MessageBox.Show("请先选择截止日期", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             return true;
         }
 
         if (string.IsNullOrWhiteSpace(timeText))
         {
-            dueAt = TaskDueDatePicker.SelectedDate.Value.Date.AddDays(1).AddTicks(-1);
+            dueAt = datePicker.SelectedDate.Value.Date.AddDays(1).AddTicks(-1);
             return true;
         }
 
         var dueTime = TimeSpan.ParseExact(timeText, "hh\\:mm", CultureInfo.InvariantCulture);
-        dueAt = TaskDueDatePicker.SelectedDate.Value.Date.Add(dueTime);
+        dueAt = datePicker.SelectedDate.Value.Date.Add(dueTime);
         return true;
     }
 
     private ActionTaskQuadrant GetSelectedQuadrant()
     {
-        if (TaskQuadrantComboBox.SelectedItem is ComboBoxItem { Tag: string tag } &&
+        return GetSelectedQuadrant(TaskQuadrantComboBox);
+    }
+
+    private static ActionTaskQuadrant GetSelectedQuadrant(System.Windows.Controls.ComboBox comboBox)
+    {
+        if (comboBox.SelectedItem is ComboBoxItem { Tag: string tag } &&
             Enum.TryParse<ActionTaskQuadrant>(tag, out var quadrant))
         {
             return quadrant;
         }
 
         return ActionTaskQuadrant.ImportantNotUrgent;
+    }
+
+    private void LoadTaskForEdit(string taskId)
+    {
+        var task = _actionTaskRepository.GetById(taskId);
+        if (task is null)
+        {
+            ClearEditTaskForm();
+            return;
+        }
+
+        _editingTaskId = task.Id;
+        EditTaskStatusTextBlock.Text = $"正在编辑：{task.Title}";
+        EditTaskTitleTextBox.Text = task.Title;
+        EditTaskContentTextBox.Text = task.Content;
+        EditTaskCategoryTextBox.Text = task.Category;
+        EditTaskGrowthAttributeTextBox.Text = task.GrowthAttribute;
+        SelectQuadrant(EditTaskQuadrantComboBox, task.Quadrant);
+
+        if (task.DueAt.HasValue)
+        {
+            EditTaskDueDatePicker.SelectedDate = task.DueAt.Value.Date;
+            EditTaskDueTimeTextBox.Text = task.DueAt.Value.TimeOfDay == TimeSpan.FromTicks(TimeSpan.TicksPerDay - 1)
+                ? string.Empty
+                : task.DueAt.Value.ToString("HH:mm");
+        }
+        else
+        {
+            EditTaskDueDatePicker.SelectedDate = null;
+            EditTaskDueTimeTextBox.Clear();
+        }
+    }
+
+    private void ClearEditTaskForm()
+    {
+        _editingTaskId = null;
+        EditTaskStatusTextBlock.Text = "请选择一个任务进行编辑";
+        EditTaskTitleTextBox.Clear();
+        EditTaskContentTextBox.Clear();
+        EditTaskCategoryTextBox.Clear();
+        EditTaskGrowthAttributeTextBox.Clear();
+        EditTaskQuadrantComboBox.SelectedIndex = 1;
+        EditTaskDueDatePicker.SelectedDate = null;
+        EditTaskDueTimeTextBox.Clear();
+    }
+
+    private static void SelectQuadrant(System.Windows.Controls.ComboBox comboBox, ActionTaskQuadrant quadrant)
+    {
+        var targetTag = quadrant.ToString();
+        foreach (var item in comboBox.Items.OfType<ComboBoxItem>())
+        {
+            if (string.Equals(item.Tag as string, targetTag, StringComparison.Ordinal))
+            {
+                comboBox.SelectedItem = item;
+                return;
+            }
+        }
+
+        comboBox.SelectedIndex = 1;
     }
 
     private void ClearCreateTaskForm()
