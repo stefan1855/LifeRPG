@@ -1,0 +1,156 @@
+<UserControl x:Class="LifeRPG.App.Controls.ActionTaskControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Loaded="ActionTaskControl_Loaded">
+    <Border Background="#21162C"
+            BorderBrush="#3A2A4A"
+            BorderThickness="1.5"
+            CornerRadius="12"
+            Padding="22">
+        <StackPanel>
+            <TextBlock Text="行动任务"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#7CFF6B" />
+            <TextBlock Margin="0,8,0,0"
+                       Foreground="#B7A8C8"
+                       Text="用任务系统承接下一步行动，暂不关联图片证据或行为记录。"
+                       TextWrapping="Wrap" />
+
+            <TextBlock Margin="0,18,0,0"
+                       Foreground="#C8A45D"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Text="新增行动任务" />
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="220" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Foreground="#B7A8C8" Text="任务标题" />
+                    <TextBox x:Name="TaskTitleTextBox" Margin="0,6,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Foreground="#B7A8C8" Text="任务分类" />
+                    <TextBox x:Name="TaskCategoryTextBox" Margin="0,6,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                    <TextBlock Foreground="#B7A8C8" Text="成长属性" />
+                    <TextBox x:Name="TaskGrowthAttributeTextBox" Margin="0,6,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="6">
+                    <TextBlock Foreground="#B7A8C8" Text="四象限" />
+                    <ComboBox x:Name="TaskQuadrantComboBox"
+                              Margin="0,6,0,0"
+                              SelectedIndex="1">
+                        <ComboBoxItem Content="重要且紧急" Tag="ImportantUrgent" />
+                        <ComboBoxItem Content="重要不紧急" Tag="ImportantNotUrgent" />
+                        <ComboBoxItem Content="不重要但紧急" Tag="NotImportantUrgent" />
+                        <ComboBoxItem Content="不重要不紧急" Tag="NotImportantNotUrgent" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Foreground="#B7A8C8" Text="任务内容" />
+                    <TextBox x:Name="TaskContentTextBox"
+                             Margin="0,6,0,0"
+                             MinHeight="84"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Foreground="#B7A8C8" Text="截止日期" />
+                    <DatePicker x:Name="TaskDueDatePicker" Margin="0,6,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                    <TextBlock Foreground="#B7A8C8" Text="截止时间 HH:mm" />
+                    <TextBox x:Name="TaskDueTimeTextBox" Margin="0,6,0,0" />
+                </StackPanel>
+                <Button x:Name="CreateTaskButton"
+                        Grid.Column="6"
+                        Margin="0,24,0,0"
+                        Height="42"
+                        Click="CreateTaskButton_Click"
+                        Content="新增任务" />
+            </Grid>
+
+            <Separator Margin="0,20,0,18" />
+
+            <DockPanel LastChildFill="False">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <Button Width="100" Click="ShowTodayTasksButton_Click" Content="今日任务" />
+                    <Button Margin="10,0,0,0" Width="100" Click="ShowOverdueTasksButton_Click" Content="逾期任务" />
+                    <Button Margin="10,0,0,0" Width="100" Click="ShowAllTasksButton_Click" Content="全部任务" />
+                    <Button Margin="10,0,0,0" Width="110" Click="ShowCompletedTasksButton_Click" Content="已完成任务" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBlock x:Name="CurrentTaskViewTextBlock"
+                               Margin="0,9,16,0"
+                               Foreground="#C8A45D"
+                               FontWeight="Bold"
+                               Text="当前视图：全部任务" />
+                    <TextBlock x:Name="TaskCountTextBlock"
+                               Margin="0,9,0,0"
+                               Foreground="#B7A8C8"
+                               Text="当前显示 0 条任务" />
+                </StackPanel>
+            </DockPanel>
+
+            <DataGrid x:Name="TaskDataGrid"
+                      Margin="0,14,0,0"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      MinHeight="220"
+                      SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="标题" Binding="{Binding Title}" Width="2*" />
+                    <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="120" />
+                    <DataGridTextColumn Header="成长属性" Binding="{Binding GrowthAttribute}" Width="120" />
+                    <DataGridTextColumn Header="状态" Binding="{Binding StatusText}" Width="100" />
+                    <DataGridTextColumn Header="四象限" Binding="{Binding QuadrantText}" Width="130" />
+                    <DataGridTextColumn Header="经验值" Binding="{Binding Experience}" Width="80" />
+                    <DataGridTextColumn Header="截止时间" Binding="{Binding DueAtText}" Width="150" />
+                    <DataGridTextColumn Header="创建时间" Binding="{Binding CreatedAtText}" Width="150" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <WrapPanel Margin="0,14,0,0">
+                <Button Width="120" Click="MarkNotStartedButton_Click" Content="标记为待开始" />
+                <Button Margin="10,0,0,0" Width="120" Click="MarkInProgressButton_Click" Content="标记为进行中" />
+                <Button Margin="10,0,0,0" Width="120" Click="MarkCompletedButton_Click" Content="标记为已完成" />
+                <Button Margin="10,0,0,0" Width="120" Click="MarkCancelledButton_Click" Content="标记为已取消" />
+                <Button Margin="10,0,0,0"
+                        Width="100"
+                        Background="#341317"
+                        BorderBrush="#E35D5D"
+                        Click="DeleteTaskButton_Click"
+                        Content="删除任务" />
+            </WrapPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

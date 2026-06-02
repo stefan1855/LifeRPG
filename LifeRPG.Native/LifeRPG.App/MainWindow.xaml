@@ -126,6 +126,9 @@
                         </StackPanel>
                     </Border>
 
+                    <controls:ActionTaskControl x:Name="ActionTaskControl"
+                                                Margin="0,16,0,0" />
+
                     <Border Margin="0,16,0,0"
                             Style="{StaticResource CardBorderStyle}">
                         <StackPanel>

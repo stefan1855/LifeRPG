@@ -1,15 +1,15 @@
 # LifeRPG Native v0.2.0 Checkpoint
 
-- 分支：`v0.2-build-verification-script`
-- 本次任务：新增项目专用构建验证脚本
-- 新增 `scripts/verify-build.ps1`
-- 新增标准构建结果文件 `logs/dev-build-result.txt`
-- 后续 Codex 构建判断以脚本结果文件为准
-- 减少 Codex 对 `dotnet build` 终端摘要的误判
-- 不改业务代码
-- 不改 XAML
-- 不改数据库
-- 不改主题
+- 分支：`v0.2-action-task-ui-v1`
+- 本次任务：行动任务 UI 第一版
+- 已支持新增行动任务
+- 已支持今日 / 逾期 / 全部 / 已完成任务视图
+- 已支持切换任务状态
+- 已支持删除任务
+- 当前尚未支持任务详情编辑
+- 当前尚未支持任务完成图片证据
+- 当前尚未支持任务生成行为记录
+- 当前尚未支持任务统计和导出
 - 验证命令：
   - `.\scripts\verify-build.ps1`
   - `.\scripts\verify-build.ps1 -Run`
