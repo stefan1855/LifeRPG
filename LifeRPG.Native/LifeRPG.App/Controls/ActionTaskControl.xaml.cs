@@ -110,7 +110,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     private void MarkCompletedButton_Click(object sender, RoutedEventArgs e)
     {
-        UpdateSelectedTaskStatus(ActionTaskStatus.Completed);
+        CompleteSelectedTask();
     }
 
     private void MarkCancelledButton_Click(object sender, RoutedEventArgs e)
@@ -122,7 +122,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     {
         if (TaskDataGrid.SelectedItem is ActionTaskListItem selectedTask)
         {
-            LoadTaskForEdit(selectedTask.Id);
+            LoadTaskForSelectedState(selectedTask.Id);
         }
     }
 
@@ -169,7 +169,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
             _actionTaskRepository.Update(task);
             RefreshCurrentView(task.Id);
-            LoadTaskForEdit(task.Id);
+            LoadTaskForSelectedState(task.Id);
 
             MessageBox.Show("行动任务已保存。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -182,6 +182,16 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private void CancelEditTaskButton_Click(object sender, RoutedEventArgs e)
     {
         ClearEditTaskForm();
+    }
+
+    private void CompleteTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        CompleteSelectedTask();
+    }
+
+    private void ClearCompletionNoteButton_Click(object sender, RoutedEventArgs e)
+    {
+        CompletionNoteTextBox.Clear();
     }
 
     private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
@@ -208,7 +218,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             _actionTaskRepository.Delete(selectedTask.Id);
             if (string.Equals(_editingTaskId, selectedTask.Id, StringComparison.Ordinal))
             {
-                ClearEditTaskForm();
+                ClearSelectedTaskState();
             }
 
             RefreshCurrentView();
@@ -247,11 +257,11 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
 
         var selectedItem = items.FirstOrDefault(item => string.Equals(item.Id, targetTaskId, StringComparison.Ordinal));
-        if (selectedItem is null)
+            if (selectedItem is null)
         {
             if (string.Equals(_editingTaskId, targetTaskId, StringComparison.Ordinal))
             {
-                ClearEditTaskForm();
+                ClearSelectedTaskState();
             }
 
             return;
@@ -282,24 +292,13 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             task.Status = status;
             task.UpdatedAt = DateTime.Now;
 
-            if (status == ActionTaskStatus.Completed)
-            {
-                task.CompletedAt = DateTime.Now;
-                if (task.Experience <= 0)
-                {
-                    task.Experience = LifeActionTask.CalculateExperience(task.Quadrant);
-                }
-            }
-            else
-            {
-                task.CompletedAt = null;
-            }
+            task.CompletedAt = null;
 
             _actionTaskRepository.Update(task);
             RefreshCurrentView(task.Id);
             if (string.Equals(_editingTaskId, task.Id, StringComparison.Ordinal))
             {
-                LoadTaskForEdit(task.Id);
+                LoadTaskForSelectedState(task.Id);
             }
         }
         catch (Exception ex)
@@ -368,7 +367,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         var task = _actionTaskRepository.GetById(taskId);
         if (task is null)
         {
-            ClearEditTaskForm();
+            ClearSelectedTaskState();
             return;
         }
 
@@ -394,6 +393,25 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
     }
 
+    private void LoadTaskForCompletion(string taskId)
+    {
+        var task = _actionTaskRepository.GetById(taskId);
+        if (task is null)
+        {
+            ClearCompletionTaskForm();
+            return;
+        }
+
+        CompleteTaskStatusTextBlock.Text = $"准备完成：{task.Title}";
+        CompletionNoteTextBox.Text = task.CompletionNote;
+    }
+
+    private void LoadTaskForSelectedState(string taskId)
+    {
+        LoadTaskForEdit(taskId);
+        LoadTaskForCompletion(taskId);
+    }
+
     private void ClearEditTaskForm()
     {
         _editingTaskId = null;
@@ -405,6 +423,18 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         EditTaskQuadrantComboBox.SelectedIndex = 1;
         EditTaskDueDatePicker.SelectedDate = null;
         EditTaskDueTimeTextBox.Clear();
+    }
+
+    private void ClearCompletionTaskForm()
+    {
+        CompleteTaskStatusTextBlock.Text = "请选择一个任务进行完成";
+        CompletionNoteTextBox.Clear();
+    }
+
+    private void ClearSelectedTaskState()
+    {
+        ClearEditTaskForm();
+        ClearCompletionTaskForm();
     }
 
     private static void SelectQuadrant(System.Windows.Controls.ComboBox comboBox, ActionTaskQuadrant quadrant)
@@ -431,6 +461,43 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         TaskQuadrantComboBox.SelectedIndex = 1;
         TaskDueDatePicker.SelectedDate = null;
         TaskDueTimeTextBox.Clear();
+    }
+
+    private void CompleteSelectedTask()
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            var task = _actionTaskRepository.GetById(selectedTask.Id);
+            if (task is null)
+            {
+                MessageBox.Show("任务不存在或已被删除", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                RefreshCurrentView();
+                ClearSelectedTaskState();
+                return;
+            }
+
+            task.Status = ActionTaskStatus.Completed;
+            task.CompletedAt = DateTime.Now;
+            task.CompletionNote = CompletionNoteTextBox.Text ?? string.Empty;
+            task.Experience = LifeActionTask.CalculateExperience(task.Quadrant);
+            task.UpdatedAt = DateTime.Now;
+
+            _actionTaskRepository.Update(task);
+            RefreshCurrentView(task.Id);
+            LoadTaskForSelectedState(task.Id);
+
+            MessageBox.Show("任务已完成", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"完成任务失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private static ActionTaskListItem ToListItem(LifeActionTask task)
