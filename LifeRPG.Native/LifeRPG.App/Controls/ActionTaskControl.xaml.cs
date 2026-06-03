@@ -283,6 +283,78 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
     }
 
+    private void DeleteSelectedTaskImageButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (TaskImageEvidenceDataGrid.SelectedItem is not ActionTaskImageListItem selectedImage)
+        {
+            MessageBox.Show("请先选择一张图片", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var confirm = MessageBox.Show(
+            "确认删除这张任务图片证据吗？",
+            "LifeRPG.Native",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (confirm != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        try
+        {
+            var image = _actionTaskImageRepository.GetById(selectedImage.Id);
+            if (image is null)
+            {
+                MessageBox.Show("图片记录不存在或已被删除", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTaskImages(selectedTask.Id);
+                return;
+            }
+
+            TaskImageEvidenceDataGrid.SelectedItem = null;
+
+            var directoryPath = Path.GetDirectoryName(image.FilePath);
+            var fileDeleted = _actionTaskImageStorageService.DeleteImageFile(image.FilePath);
+
+            _actionTaskImageRepository.Delete(image.Id);
+
+            if (!string.IsNullOrWhiteSpace(directoryPath))
+            {
+                _actionTaskImageStorageService.TryDeleteEmptyDirectory(directoryPath);
+            }
+
+            LoadTaskImages(selectedTask.Id);
+
+            if (fileDeleted)
+            {
+                MessageBox.Show("任务图片已删除", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("图片文件不存在，已清理数据库记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        catch (IOException)
+        {
+            MessageBox.Show("图片文件删除失败，请确认文件是否被占用", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            MessageBox.Show("图片文件删除失败，请确认文件是否被占用", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"数据库记录删除失败，请重新刷新或从备份恢复。{Environment.NewLine}{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
     private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
     {
         if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
@@ -666,6 +738,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private void ClearAssociatedTaskImages()
     {
         TaskImageEvidenceDataGrid.ItemsSource = null;
+        TaskImageEvidenceDataGrid.SelectedItem = null;
         AssociatedTaskImagesCountTextBlock.Text = "已关联图片：0 张";
     }
 

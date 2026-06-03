@@ -83,14 +83,15 @@ public sealed class ActionTaskImageStorageService
         return copiedImages;
     }
 
-    public void DeleteImageFile(string filePath)
+    public bool DeleteImageFile(string filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
         {
-            return;
+            return false;
         }
 
         File.Delete(filePath);
+        return true;
     }
 
     public void DeleteTaskImageFolderIfEmpty(string actionTaskId)
@@ -126,12 +127,25 @@ public sealed class ActionTaskImageStorageService
             return;
         }
 
-        if (Directory.EnumerateFileSystemEntries(directoryPath).Any())
+        var normalizedAssetsRoot = Path.GetFullPath(AppStoragePaths.AssetsDirectory)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var normalizedActionTasksRoot = Path.GetFullPath(GetActionTaskAssetsRoot())
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var normalizedDirectoryPath = Path.GetFullPath(directoryPath)
+            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        if (string.Equals(normalizedDirectoryPath, normalizedAssetsRoot, StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(normalizedDirectoryPath, normalizedActionTasksRoot, StringComparison.OrdinalIgnoreCase))
         {
             return;
         }
 
-        Directory.Delete(directoryPath, recursive: false);
+        if (Directory.EnumerateFileSystemEntries(normalizedDirectoryPath).Any())
+        {
+            return;
+        }
+
+        Directory.Delete(normalizedDirectoryPath, recursive: false);
     }
 
     private static string GetActionTaskAssetsRoot()

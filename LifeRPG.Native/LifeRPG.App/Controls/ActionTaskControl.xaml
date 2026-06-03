@@ -487,6 +487,15 @@
                                     HorizontalAlignment="Left"
                                     Click="OpenTaskImageFolderButton_Click"
                                     Content="打开图片目录" />
+                            <Button Margin="10,10,0,0"
+                                    Width="120"
+                                    Height="38"
+                                    HorizontalAlignment="Left"
+                                    Background="#4A1C28"
+                                    BorderBrush="#8A3348"
+                                    Foreground="#F4D7DE"
+                                    Click="DeleteSelectedTaskImageButton_Click"
+                                    Content="删除选中图片" />
                         </StackPanel>
                     </Border>
 

@@ -20,11 +20,16 @@
 
 主构建命令：
 
-`dotnet build .\LifeRPG.Native.sln -v:minimal -p:GenerateFullPaths=true -p:UseSharedCompilation=false`
+`dotnet build .\LifeRPG.Native.sln -v:normal -p:GenerateFullPaths=true -p:UseSharedCompilation=false`
 
 主程序启动命令：
 
 `dotnet run --project .\LifeRPG.App\LifeRPG.App.csproj`
+
+说明：
+
+- `scripts/verify-build.ps1` 已移除
+- 当前恢复为直接使用 `dotnet build` 和 `dotnet run` 做验证
 
 ## 4. 构建结果判断规则
 
@@ -35,43 +40,21 @@
 - 如果 build exit code = 0，则视为构建通过
 - 如果 build exit code 非 0，则需要根据完整 PowerShell 原文继续排查
 
-## 5. 标准验证脚本
+## 5. 标准验证命令
 
 ```powershell
 cd "D:\Projects\LifeRPG\LifeRPG.Native"
 
-dotnet build-server shutdown
+dotnet build .\LifeRPG.Native.sln -v:normal -p:GenerateFullPaths=true -p:UseSharedCompilation=false
 
-dotnet build .\LifeRPG.Native.sln -v:minimal -p:GenerateFullPaths=true -p:UseSharedCompilation=false
-
-Write-Host "build exit code: $LASTEXITCODE"
-
-if ($LASTEXITCODE -eq 0) {
-    dotnet run --project .\LifeRPG.App\LifeRPG.App.csproj
-}
-```
-
-## 推荐构建验证脚本
-
-以后 Codex 不应直接根据 `dotnet build` 的终端摘要判断成败。
-
-推荐命令：
-
-```powershell
-.\scripts\verify-build.ps1
-```
-
-如需构建后启动：
-
-```powershell
-.\scripts\verify-build.ps1 -Run
+Write-Host "direct build exit code: $LASTEXITCODE"
 ```
 
 判断标准：
 
-- 读取 `logs/dev-build-result.txt`
-- 如果 `BuildExitCode = 0` 且 `BuildSucceeded = true`，则视为构建通过
-- 如果 Codex 终端显示“生成失败。0 个警告，0 个错误”，但 `dev-build-result.txt` 显示 `BuildExitCode = 0`，则以 `dev-build-result.txt` 为准
+- 直接读取 PowerShell 中的 `$LASTEXITCODE`
+- 如果 `direct build exit code = 0`，则视为构建通过
+- 如果 `direct build exit code` 非 `0`，则根据 PowerShell 原始错误文本继续排查
 
 ## 6. Codex 报错处理规则
 
@@ -87,8 +70,8 @@ if ($LASTEXITCODE -eq 0) {
 
 正确处理流程是：
 
-1. 用户在本机 PowerShell 执行标准验证脚本
-2. 查看 build exit code
+1. 用户在本机 PowerShell 执行标准构建命令
+2. 查看 `direct build exit code`
 3. 如果 exit code = 0，忽略 Codex 的失败反馈
 4. 如果 exit code 非 0，把 PowerShell 原始错误文本发给 ChatGPT 或 Codex 继续定位
 5. 不要根据 Codex 的无明细失败进行盲修

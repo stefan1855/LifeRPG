@@ -8,4 +8,3 @@ packages/
 *.db
 *.log
 *.zip
-logs/
