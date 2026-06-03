@@ -1,14 +1,15 @@
 # LifeRPG Native v0.2.0 Checkpoint
 
-- 分支：`v0.2-action-task-image-core`
-- 本次任务：行动任务图片证据数据底座
-- 新增 `ActionTaskImage` 模型
-- 新增 `ActionTaskImages` 表
-- 新增 `ActionTaskImageRepository`
-- 新增 `ActionTaskImageStorageService`
-- 不改 UI
-- 不改现有行为记录图片逻辑
-- 当前尚未支持任务图片上传和预览
+- 分支：`v0.2-action-task-complete-images`
+- 本次任务：行动任务完成时上传图片证据
+- 已支持选择待上传图片
+- 已支持完成任务时复制图片到 `assets/action-tasks`
+- 已支持写入 `ActionTaskImages` 表
+- 已支持显示已关联图片数量和文件列表
+- 已支持打开图片目录
+- 当前尚未支持任务图片预览
+- 当前尚未支持任务图片删除
+- 当前尚未支持任务生成行为记录
 - 验证命令：
   - `.\scripts\verify-build.ps1`
   - `.\scripts\verify-build.ps1 -Run`

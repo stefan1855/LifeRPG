@@ -12,6 +12,7 @@ public sealed class ActionTaskImageStorageService
         ".jpg",
         ".jpeg",
         ".png",
+        ".webp",
         ".bmp",
         ".gif"
     ];

@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,6 +9,7 @@ using System.Windows.Media.Media3D;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
+using LifeRPG.Storage.Services;
 using LifeActionTask = LifeRPG.Core.Models.ActionTask;
 using MessageBox = System.Windows.MessageBox;
 
@@ -15,6 +18,9 @@ namespace LifeRPG.App.Controls;
 public partial class ActionTaskControl : System.Windows.Controls.UserControl
 {
     private readonly ActionTaskRepository _actionTaskRepository = new();
+    private readonly ActionTaskImageRepository _actionTaskImageRepository = new();
+    private readonly ActionTaskImageStorageService _actionTaskImageStorageService = new();
+    private readonly List<string> _pendingImagePaths = [];
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
     private string? _editingTaskId;
@@ -212,6 +218,69 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private void ClearCompletionNoteButton_Click(object sender, RoutedEventArgs e)
     {
         CompletionNoteTextBox.Clear();
+    }
+
+    private void SelectCompletionImagesButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Multiselect = true,
+            Filter = "图片文件|*.png;*.jpg;*.jpeg;*.webp;*.bmp"
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        foreach (var fileName in dialog.FileNames)
+        {
+            if (_pendingImagePaths.Any(path => string.Equals(path, fileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+
+            _pendingImagePaths.Add(fileName);
+        }
+
+        RefreshPendingImageList();
+    }
+
+    private void ClearPendingImagesButton_Click(object sender, RoutedEventArgs e)
+    {
+        _pendingImagePaths.Clear();
+        RefreshPendingImageList();
+    }
+
+    private void OpenTaskImageFolderButton_Click(object sender, RoutedEventArgs e)
+    {
+        var images = TaskImageEvidenceDataGrid.ItemsSource as IEnumerable<ActionTaskImageListItem>;
+        var firstImage = images?.FirstOrDefault();
+        if (firstImage is null)
+        {
+            MessageBox.Show("当前任务还没有图片证据", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var directoryPath = Path.GetDirectoryName(firstImage.FilePath);
+        if (string.IsNullOrWhiteSpace(directoryPath) || !Directory.Exists(directoryPath))
+        {
+            MessageBox.Show("图片目录不存在或已被移动。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = directoryPath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"打开图片目录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
@@ -428,8 +497,15 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     private void LoadTaskForSelectedState(string taskId)
     {
+        if (!string.Equals(_editingTaskId, taskId, StringComparison.Ordinal))
+        {
+            _pendingImagePaths.Clear();
+            RefreshPendingImageList();
+        }
+
         LoadTaskForEdit(taskId);
         LoadTaskForCompletion(taskId);
+        LoadTaskImages(taskId);
     }
 
     private void ClearEditTaskForm()
@@ -449,6 +525,9 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     {
         CompleteTaskStatusTextBlock.Text = "请选择一个任务进行完成";
         CompletionNoteTextBox.Clear();
+        _pendingImagePaths.Clear();
+        RefreshPendingImageList();
+        ClearAssociatedTaskImages();
     }
 
     private void ClearSelectedTaskState()
@@ -509,15 +588,103 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             task.UpdatedAt = DateTime.Now;
 
             _actionTaskRepository.Update(task);
+            var imageSaveWarning = SavePendingImagesForTask(task);
             RefreshCurrentView(task.Id);
             LoadTaskForSelectedState(task.Id);
 
-            MessageBox.Show("任务已完成", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (string.IsNullOrWhiteSpace(imageSaveWarning))
+            {
+                MessageBox.Show("任务已完成", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show($"任务已完成，但{imageSaveWarning}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         catch (Exception ex)
         {
             MessageBox.Show($"完成任务失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    private string? SavePendingImagesForTask(LifeActionTask task)
+    {
+        if (_pendingImagePaths.Count == 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            var copiedImages = _actionTaskImageStorageService.CopyImagesForTask(
+                task.Id,
+                task.Title,
+                task.CreatedAt,
+                _pendingImagePaths);
+
+            foreach (var copiedImage in copiedImages)
+            {
+                _actionTaskImageRepository.Create(copiedImage);
+            }
+
+            _pendingImagePaths.Clear();
+            RefreshPendingImageList();
+            return null;
+        }
+        catch
+        {
+            return "部分图片可能未成功保存";
+        }
+    }
+
+    private void LoadTaskImages(string taskId)
+    {
+        var images = _actionTaskImageRepository.GetByActionTaskId(taskId)
+            .Select(image => new ActionTaskImageListItem
+            {
+                Id = image.Id,
+                FileName = image.FileName,
+                OriginalFileName = image.OriginalFileName,
+                FilePath = image.FilePath,
+                RelativePath = image.RelativePath,
+                FileSizeText = FormatFileSize(image.FileSizeBytes),
+                CreatedAtText = image.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+            })
+            .ToList();
+
+        TaskImageEvidenceDataGrid.ItemsSource = images;
+        AssociatedTaskImagesCountTextBlock.Text = $"已关联图片：{images.Count} 张";
+    }
+
+    private void RefreshPendingImageList()
+    {
+        PendingTaskImagesListBox.ItemsSource = null;
+        PendingTaskImagesListBox.ItemsSource = _pendingImagePaths.Select(Path.GetFileName).ToList();
+        PendingTaskImagesCountTextBlock.Text = $"待上传图片：{_pendingImagePaths.Count} 张";
+    }
+
+    private void ClearAssociatedTaskImages()
+    {
+        TaskImageEvidenceDataGrid.ItemsSource = null;
+        AssociatedTaskImagesCountTextBlock.Text = "已关联图片：0 张";
+    }
+
+    private static string FormatFileSize(long fileSizeBytes)
+    {
+        const double kb = 1024;
+        const double mb = kb * 1024;
+
+        if (fileSizeBytes >= mb)
+        {
+            return $"{fileSizeBytes / mb:F1} MB";
+        }
+
+        if (fileSizeBytes >= kb)
+        {
+            return $"{fileSizeBytes / kb:F1} KB";
+        }
+
+        return $"{fileSizeBytes} B";
     }
 
     private static ActionTaskListItem ToListItem(LifeActionTask task)
