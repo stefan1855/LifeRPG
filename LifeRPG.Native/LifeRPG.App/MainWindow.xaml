@@ -495,6 +495,23 @@
                                             Content="删除当前记录" />
                                 </WrapPanel>
 
+                                <Border Margin="0,18,0,0"
+                                        Style="{StaticResource StatCardBorderStyle}"
+                                        Background="#140F1E">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="来源行动任务" />
+                                        <TextBlock x:Name="SourceActionTaskTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}"
+                                                   Text="无" />
+                                        <Button x:Name="ViewSourceActionTaskButton"
+                                                Margin="0,12,0,0"
+                                                Width="100"
+                                                HorizontalAlignment="Left"
+                                                Click="ViewSourceActionTaskButton_Click"
+                                                Content="查看任务" />
+                                    </StackPanel>
+                                </Border>
+
                                 <TextBlock Margin="0,24,0,0"
                                            Style="{StaticResource SectionSubtitleTextBlockStyle}"
                                            Text="图片证据预览" />

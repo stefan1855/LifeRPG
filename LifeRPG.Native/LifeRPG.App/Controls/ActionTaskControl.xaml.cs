@@ -13,6 +13,12 @@ using LifeRPG.Data.Repositories;
 using LifeRPG.Storage.Services;
 using LifeActionTask = LifeRPG.Core.Models.ActionTask;
 using MessageBox = System.Windows.MessageBox;
+using MediaColor = System.Windows.Media.Color;
+using MediaColorConverter = System.Windows.Media.ColorConverter;
+using MediaSolidColorBrush = System.Windows.Media.SolidColorBrush;
+using WpfButton = System.Windows.Controls.Button;
+using WpfListBox = System.Windows.Controls.ListBox;
+using WpfTextBox = System.Windows.Controls.TextBox;
 
 namespace LifeRPG.App.Controls;
 
@@ -20,6 +26,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 {
     private readonly ActionTaskRepository _actionTaskRepository = new();
     private readonly ActionTaskImageRepository _actionTaskImageRepository = new();
+    private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly ActionTaskImageStorageService _actionTaskImageStorageService = new();
     private readonly List<string> _pendingImagePaths = [];
     private ActionTaskView _currentView = ActionTaskView.All;
@@ -27,6 +34,9 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private string? _editingTaskId;
     private ActionTaskImageListItem? _selectedActionTaskImage;
     private string? _selectedActionTaskImagePath;
+
+    public event Action<string>? LifeRecordSelectionRequested;
+    public event Action? LifeRecordLinkChanged;
 
     public ActionTaskControl()
     {
@@ -211,6 +221,218 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private void CancelEditTaskButton_Click(object sender, RoutedEventArgs e)
     {
         ClearEditTaskForm();
+    }
+
+    private void GenerateLifeRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个行动任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            var task = _actionTaskRepository.GetById(selectedTask.Id);
+            if (task is null)
+            {
+                MessageBox.Show("当前行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                RefreshCurrentView();
+                ClearSelectedTaskState();
+                return;
+            }
+
+            if (task.Status != ActionTaskStatus.Completed)
+            {
+                MessageBox.Show("只有已完成任务可以生成行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
+            {
+                MessageBox.Show("当前任务已关联行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTaskForSelectedState(task.Id);
+                return;
+            }
+
+            var createdAt = task.CompletedAt ?? DateTime.Now;
+            var record = new LifeRecord
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = task.Title,
+                Content = string.IsNullOrWhiteSpace(task.CompletionNote) ? task.Content : task.CompletionNote,
+                Category = string.IsNullOrWhiteSpace(task.Category) ? "未分类" : task.Category,
+                Experience = task.Experience,
+                CreatedAt = createdAt,
+                UpdatedAt = DateTime.Now
+            };
+
+            _lifeRecordRepository.Create(record);
+            _actionTaskRepository.LinkLifeRecord(task.Id, record.Id);
+
+            RefreshCurrentView(task.Id);
+            LoadTaskForSelectedState(task.Id);
+            LifeRecordLinkChanged?.Invoke();
+
+            MessageBox.Show("行为记录生成成功", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"生成行为记录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void LinkExistingLifeRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个行动任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            var task = _actionTaskRepository.GetById(selectedTask.Id);
+            if (task is null)
+            {
+                MessageBox.Show("当前行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                RefreshCurrentView();
+                ClearSelectedTaskState();
+                return;
+            }
+
+            var selectedRecord = ShowLifeRecordSelectionWindow();
+            if (selectedRecord is null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
+            {
+                var overwrite = MessageBox.Show(
+                    "当前任务已关联行为记录，是否覆盖为新的关联？",
+                    "LifeRPG.Native",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (overwrite != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            var existingOwnerTask = _actionTaskRepository.GetByLinkedLifeRecordId(selectedRecord.Id);
+            if (existingOwnerTask is not null &&
+                !string.Equals(existingOwnerTask.Id, task.Id, StringComparison.Ordinal))
+            {
+                var overwriteExistingOwner = MessageBox.Show(
+                    $"该行为记录已被任务“{existingOwnerTask.Title}”关联，是否改为关联到当前任务？",
+                    "LifeRPG.Native",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (overwriteExistingOwner != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                _actionTaskRepository.UnlinkLifeRecord(existingOwnerTask.Id);
+            }
+
+            _actionTaskRepository.LinkLifeRecord(task.Id, selectedRecord.Id);
+            RefreshCurrentView(task.Id);
+            LoadTaskForSelectedState(task.Id);
+            LifeRecordLinkChanged?.Invoke();
+
+            MessageBox.Show("行为记录关联成功", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"关联行为记录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void UnlinkLifeRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个行动任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            var task = _actionTaskRepository.GetById(selectedTask.Id);
+            if (task is null)
+            {
+                MessageBox.Show("当前行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                RefreshCurrentView();
+                ClearSelectedTaskState();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
+            {
+                MessageBox.Show("当前任务未关联行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "取消关联只会解除任务和行为记录的关系，不会删除行为记录。是否继续？",
+                "LifeRPG.Native",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirm != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            _actionTaskRepository.UnlinkLifeRecord(task.Id);
+            RefreshCurrentView(task.Id);
+            LoadTaskForSelectedState(task.Id);
+            LifeRecordLinkChanged?.Invoke();
+
+            MessageBox.Show("已取消关联", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"取消关联失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ViewLinkedLifeRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
+        {
+            MessageBox.Show("请先选择一个行动任务", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var task = _actionTaskRepository.GetById(selectedTask.Id);
+        if (task is null)
+        {
+            MessageBox.Show("当前行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            RefreshCurrentView();
+            ClearSelectedTaskState();
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
+        {
+            MessageBox.Show("当前任务未关联行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var record = _lifeRecordRepository.GetById(task.LinkedLifeRecordId);
+        if (record is null)
+        {
+            MessageBox.Show("关联的行为记录不存在或已被删除", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            LoadTaskForSelectedState(task.Id);
+            return;
+        }
+
+        LifeRecordSelectionRequested?.Invoke(record.Id);
     }
 
     private void CompleteTaskButton_Click(object sender, RoutedEventArgs e)
@@ -507,7 +729,10 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             task.Status = status;
             task.UpdatedAt = DateTime.Now;
 
-            task.CompletedAt = null;
+            if (status != ActionTaskStatus.Completed)
+            {
+                task.CompletedAt = null;
+            }
 
             _actionTaskRepository.Update(task);
             RefreshCurrentView(task.Id);
@@ -606,6 +831,8 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             EditTaskDueDatePicker.SelectedDate = null;
             EditTaskDueTimeTextBox.Clear();
         }
+
+        UpdateLinkedLifeRecordDisplay(task);
     }
 
     private void LoadTaskForCompletion(string taskId)
@@ -646,6 +873,11 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         EditTaskQuadrantComboBox.SelectedIndex = 1;
         EditTaskDueDatePicker.SelectedDate = null;
         EditTaskDueTimeTextBox.Clear();
+        LinkedLifeRecordStatusTextBlock.Text = "关联行为记录：未关联";
+        GenerateLifeRecordButton.IsEnabled = false;
+        LinkExistingLifeRecordButton.IsEnabled = false;
+        UnlinkLifeRecordButton.IsEnabled = false;
+        ViewLinkedLifeRecordButton.IsEnabled = false;
     }
 
     private void ClearCompletionTaskForm()
@@ -765,6 +997,156 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
     }
 
+    private void UpdateLinkedLifeRecordDisplay(LifeActionTask task)
+    {
+        LinkExistingLifeRecordButton.IsEnabled = true;
+
+        if (string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
+        {
+            LinkedLifeRecordStatusTextBlock.Text = "关联行为记录：未关联";
+            GenerateLifeRecordButton.IsEnabled = task.Status == ActionTaskStatus.Completed;
+            UnlinkLifeRecordButton.IsEnabled = false;
+            ViewLinkedLifeRecordButton.IsEnabled = false;
+            return;
+        }
+
+        var linkedRecord = _lifeRecordRepository.GetById(task.LinkedLifeRecordId);
+        GenerateLifeRecordButton.IsEnabled = false;
+        UnlinkLifeRecordButton.IsEnabled = true;
+
+        if (linkedRecord is null)
+        {
+            LinkedLifeRecordStatusTextBlock.Text = "关联行为记录：关联的行为记录不存在或已被删除";
+            ViewLinkedLifeRecordButton.IsEnabled = false;
+            return;
+        }
+
+        LinkedLifeRecordStatusTextBlock.Text = $"关联行为记录：{linkedRecord.Title}";
+        ViewLinkedLifeRecordButton.IsEnabled = true;
+    }
+
+    private LifeRecord? ShowLifeRecordSelectionWindow()
+    {
+        var records = _lifeRecordRepository.GetAll();
+        var items = records.Select(record => new LifeRecordSelectionItem(record)).ToList();
+        if (items.Count == 0)
+        {
+            MessageBox.Show("请先选择一条行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            return null;
+        }
+
+        var searchTextBox = new WpfTextBox
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            MinWidth = 420
+        };
+
+        var listBox = new WpfListBox
+        {
+            Margin = new Thickness(0, 12, 0, 0),
+            MinHeight = 260,
+            Background = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#140C1E")!),
+            BorderBrush = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#3A2A4A")!),
+            Foreground = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#E8E1F2")!),
+            DisplayMemberPath = nameof(LifeRecordSelectionItem.DisplayText),
+            ItemsSource = items
+        };
+
+        if (items.Count > 0)
+        {
+            listBox.SelectedIndex = 0;
+        }
+
+        searchTextBox.TextChanged += (_, _) =>
+        {
+            var keyword = searchTextBox.Text.Trim();
+            var filteredItems = string.IsNullOrWhiteSpace(keyword)
+                ? items
+                : items.Where(item => item.Record.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase)
+                                      || item.Record.Content.Contains(keyword, StringComparison.OrdinalIgnoreCase)
+                                      || item.Record.Category.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+            listBox.ItemsSource = filteredItems;
+            if (filteredItems.Count > 0)
+            {
+                listBox.SelectedIndex = 0;
+            }
+        };
+
+        var confirmButton = new WpfButton
+        {
+            Content = "确认关联",
+            Width = 100,
+            Height = 36,
+            Margin = new Thickness(0, 0, 10, 0),
+            IsDefault = true
+        };
+
+        var cancelButton = new WpfButton
+        {
+            Content = "取消",
+            Width = 90,
+            Height = 36,
+            IsCancel = true
+        };
+
+        var buttons = new WrapPanel
+        {
+            Margin = new Thickness(0, 14, 0, 0)
+        };
+        buttons.Children.Add(confirmButton);
+        buttons.Children.Add(cancelButton);
+
+        var panel = new StackPanel
+        {
+            Margin = new Thickness(18)
+        };
+        panel.Children.Add(new TextBlock
+        {
+            Text = "选择要关联的行为记录",
+            FontWeight = FontWeights.Bold,
+            Foreground = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#7CFF6B")!)
+        });
+        panel.Children.Add(new TextBlock
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            Text = "可按标题、内容或分类搜索。",
+            Foreground = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#B7A8C8")!)
+        });
+        panel.Children.Add(searchTextBox);
+        panel.Children.Add(listBox);
+        panel.Children.Add(buttons);
+
+        var window = new Window
+        {
+            Title = "关联已有行为记录",
+            Width = 560,
+            Height = 460,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Owner = Window.GetWindow(this),
+            Background = new MediaSolidColorBrush((MediaColor)MediaColorConverter.ConvertFromString("#21162C")!),
+            Content = panel,
+            ResizeMode = ResizeMode.NoResize
+        };
+
+        LifeRecord? selectedRecord = null;
+        confirmButton.Click += (_, _) =>
+        {
+            if (listBox.SelectedItem is not LifeRecordSelectionItem selectedItem)
+            {
+                MessageBox.Show("请先选择一条行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            selectedRecord = selectedItem.Record;
+            window.DialogResult = true;
+            window.Close();
+        };
+
+        return window.ShowDialog() == true ? selectedRecord : null;
+    }
+
     private void LoadTaskImages(string taskId)
     {
         ClearActionTaskImagePreview(clearGridSelection: false);
@@ -783,6 +1165,18 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
         TaskImageEvidenceDataGrid.ItemsSource = images;
         AssociatedTaskImagesCountTextBlock.Text = $"已关联图片：{images.Count} 张";
+    }
+
+    public void FocusTask(string taskId)
+    {
+        if (string.IsNullOrWhiteSpace(taskId))
+        {
+            return;
+        }
+
+        _currentView = ActionTaskView.All;
+        RefreshCurrentView(taskId);
+        LoadTaskForSelectedState(taskId);
     }
 
     private void RefreshPendingImageList()
@@ -934,6 +1328,19 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         Overdue,
         All,
         Completed
+    }
+
+    private sealed class LifeRecordSelectionItem
+    {
+        public LifeRecordSelectionItem(LifeRecord record)
+        {
+            Record = record;
+            DisplayText = $"{record.Title} | {record.Category} | {record.CreatedAt:yyyy-MM-dd HH:mm}";
+        }
+
+        public LifeRecord Record { get; }
+
+        public string DisplayText { get; }
     }
 
     private static System.Windows.Controls.ScrollViewer? FindParentScrollViewer(DependencyObject? source)

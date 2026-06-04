@@ -388,6 +388,49 @@
                                     Content="取消编辑" />
                         </WrapPanel>
                     </Grid>
+
+                    <Border Margin="0,14,0,0"
+                            Background="#21162C"
+                            BorderBrush="#3A2A4A"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="12">
+                        <StackPanel>
+                            <TextBlock Foreground="#C8A45D"
+                                       FontWeight="Bold"
+                                       Text="行为记录关联" />
+                            <TextBlock x:Name="LinkedLifeRecordStatusTextBlock"
+                                       Margin="0,8,0,0"
+                                       Foreground="#B7A8C8"
+                                       Text="关联行为记录：未关联"
+                                       TextWrapping="Wrap" />
+                            <WrapPanel Margin="0,12,0,0">
+                                <Button x:Name="GenerateLifeRecordButton"
+                                        Width="120"
+                                        Height="38"
+                                        Click="GenerateLifeRecordButton_Click"
+                                        Content="生成行为记录" />
+                                <Button x:Name="LinkExistingLifeRecordButton"
+                                        Margin="10,0,0,0"
+                                        Width="150"
+                                        Height="38"
+                                        Click="LinkExistingLifeRecordButton_Click"
+                                        Content="关联已有行为记录" />
+                                <Button x:Name="UnlinkLifeRecordButton"
+                                        Margin="10,0,0,0"
+                                        Width="100"
+                                        Height="38"
+                                        Click="UnlinkLifeRecordButton_Click"
+                                        Content="取消关联" />
+                                <Button x:Name="ViewLinkedLifeRecordButton"
+                                        Margin="10,0,0,0"
+                                        Width="100"
+                                        Height="38"
+                                        Click="ViewLinkedLifeRecordButton_Click"
+                                        Content="查看行为记录" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Border>
 

@@ -1,5 +1,9 @@
 # LifeRPG Native v0.2.0 Checkpoint
 
+- `v0.3-action-task-life-record-link` 分支已开始推进行动任务与行为记录关联能力
+- 当前目标是支持从已完成任务生成行为记录、关联已有行为记录，以及在记录详情区反向查看来源任务
+- 不影响 `v0.2` 已完成功能和 `v0.2` 检查点封存状态
+
 - 分支：`v0.2-action-task-image-preview`
 - 本次任务：行动任务图片证据预览功能
 - 已支持删除选中任务图片

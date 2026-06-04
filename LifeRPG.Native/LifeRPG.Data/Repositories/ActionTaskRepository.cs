@@ -93,6 +93,81 @@ public sealed class ActionTaskRepository
         return reader.Read() ? Map(reader) : null;
     }
 
+    public ActionTask? GetByLinkedLifeRecordId(string lifeRecordId)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            SELECT Id, Title, Content, Category, Status, Quadrant, GrowthAttribute, Experience,
+                   DueAt, CompletedAt, CompletionNote, LinkedLifeRecordId, CreatedAt, UpdatedAt
+            FROM ActionTasks
+            WHERE LinkedLifeRecordId = @LinkedLifeRecordId
+            LIMIT 1;
+            """;
+        command.Parameters.AddWithValue("@LinkedLifeRecordId", lifeRecordId);
+
+        using var reader = command.ExecuteReader();
+        return reader.Read() ? Map(reader) : null;
+    }
+
+    public void LinkLifeRecord(string actionTaskId, string lifeRecordId)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE ActionTasks
+            SET LinkedLifeRecordId = @LinkedLifeRecordId,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", actionTaskId);
+        command.Parameters.AddWithValue("@LinkedLifeRecordId", lifeRecordId);
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
+    public void UnlinkLifeRecord(string actionTaskId)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE ActionTasks
+            SET LinkedLifeRecordId = NULL,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", actionTaskId);
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
+    public void UnlinkByLifeRecordId(string lifeRecordId)
+    {
+        using var connection = CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE ActionTasks
+            SET LinkedLifeRecordId = NULL,
+                UpdatedAt = @UpdatedAt
+            WHERE LinkedLifeRecordId = @LinkedLifeRecordId;
+            """;
+        command.Parameters.AddWithValue("@LinkedLifeRecordId", lifeRecordId);
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
     public List<ActionTask> GetAll()
     {
         return Search(null, null, null, null, null);

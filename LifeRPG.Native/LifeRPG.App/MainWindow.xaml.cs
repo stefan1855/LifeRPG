@@ -21,6 +21,7 @@ public partial class MainWindow : Window
 
     private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
+    private readonly ActionTaskRepository _actionTaskRepository = new();
     private readonly StatisticsRepository _statisticsRepository = new();
     private readonly ImageStorageService _imageStorageService = new();
     private readonly BackupService _backupService = new();
@@ -34,6 +35,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ActionTaskControl.LifeRecordSelectionRequested += ActionTaskControl_LifeRecordSelectionRequested;
+        ActionTaskControl.LifeRecordLinkChanged += ActionTaskControl_LifeRecordLinkChanged;
         SystemStatusControl.SetStatus(
             version: "v0.1.0-native-dev",
             storageMode: "本地 SQLite + 本地图片目录",
@@ -254,6 +257,7 @@ public partial class MainWindow : Window
             }
 
             _lifeRecordImageRepository.DeleteByLifeRecordId(recordId);
+            _actionTaskRepository.UnlinkByLifeRecordId(recordId);
             _lifeRecordRepository.Delete(recordId);
 
             foreach (var folderPath in folderPaths)
@@ -731,8 +735,36 @@ public partial class MainWindow : Window
         DetailContentTextBox.Text = _currentRecordDetail.Content;
         DetailCreatedAtTextBlock.Text = _currentRecordDetail.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
         DetailUpdatedAtTextBlock.Text = _currentRecordDetail.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+        UpdateSourceActionTaskDisplay(record.Id);
 
         LoadImagePreviews(record.Id);
+    }
+
+    private void ViewSourceActionTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewSourceActionTaskButton.Tag is not string taskId || string.IsNullOrWhiteSpace(taskId))
+        {
+            MessageBox.Show(
+                "当前记录没有关联来源任务。",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        var task = _actionTaskRepository.GetById(taskId);
+        if (task is null)
+        {
+            MessageBox.Show(
+                "来源行动任务不存在或已被删除。",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            UpdateSourceActionTaskDisplay(_selectedRecordId);
+            return;
+        }
+
+        ActionTaskControl.FocusTask(task.Id);
     }
 
     private void ClearForm()
@@ -811,6 +843,9 @@ public partial class MainWindow : Window
         DetailContentTextBox.Text = string.Empty;
         DetailCreatedAtTextBlock.Text = string.Empty;
         DetailUpdatedAtTextBlock.Text = string.Empty;
+        SourceActionTaskTextBlock.Text = "无";
+        ViewSourceActionTaskButton.Tag = null;
+        ViewSourceActionTaskButton.IsEnabled = false;
         ImagePreviewItemsControl.ItemsSource = null;
     }
 
@@ -935,5 +970,66 @@ public partial class MainWindow : Window
                     MessageBoxImage.Error);
             }
         }
+    }
+
+    private void ActionTaskControl_LifeRecordSelectionRequested(string recordId)
+    {
+        if (string.IsNullOrWhiteSpace(recordId))
+        {
+            return;
+        }
+
+        RefreshRecordsList(recordId);
+        LoadRecordDetail(recordId);
+    }
+
+    private void ActionTaskControl_LifeRecordLinkChanged()
+    {
+        var selectedRecordId = _selectedRecordId;
+        LoadCategories(GetSelectedCategoryFilter());
+        RefreshRecordsList(selectedRecordId);
+
+        if (!string.IsNullOrWhiteSpace(selectedRecordId))
+        {
+            LoadRecordDetail(selectedRecordId);
+        }
+
+        LoadStatisticsDashboard();
+    }
+
+    private void UpdateSourceActionTaskDisplay(string? lifeRecordId)
+    {
+        if (string.IsNullOrWhiteSpace(lifeRecordId))
+        {
+            SourceActionTaskTextBlock.Text = "无";
+            ViewSourceActionTaskButton.Tag = null;
+            ViewSourceActionTaskButton.IsEnabled = false;
+            return;
+        }
+
+        var sourceTask = _actionTaskRepository.GetByLinkedLifeRecordId(lifeRecordId);
+        if (sourceTask is null)
+        {
+            SourceActionTaskTextBlock.Text = "无";
+            ViewSourceActionTaskButton.Tag = null;
+            ViewSourceActionTaskButton.IsEnabled = false;
+            return;
+        }
+
+        SourceActionTaskTextBlock.Text = $"{sourceTask.Title}（{GetActionTaskStatusDisplayName(sourceTask.Status)}）";
+        ViewSourceActionTaskButton.Tag = sourceTask.Id;
+        ViewSourceActionTaskButton.IsEnabled = true;
+    }
+
+    private static string GetActionTaskStatusDisplayName(ActionTaskStatus status)
+    {
+        return status switch
+        {
+            ActionTaskStatus.NotStarted => "未开始",
+            ActionTaskStatus.InProgress => "进行中",
+            ActionTaskStatus.Completed => "已完成",
+            ActionTaskStatus.Cancelled => "已取消",
+            _ => status.ToString()
+        };
     }
 }
