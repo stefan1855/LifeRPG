@@ -8,6 +8,7 @@ public sealed class MarkdownExportService
 {
     private readonly LifeRecordRepository _lifeRecordRepository = new();
     private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
+    private readonly ActionTaskRepository _actionTaskRepository = new();
 
     public string ExportAllRecordsToMarkdown()
     {
@@ -96,6 +97,7 @@ public sealed class MarkdownExportService
         var category = string.IsNullOrWhiteSpace(record.Category) ? "未分类" : record.Category.Trim();
         var content = string.IsNullOrWhiteSpace(record.Content) ? "无" : record.Content;
         var images = _lifeRecordImageRepository.GetByLifeRecordId(record.Id);
+        var sourceTask = _actionTaskRepository.GetByLinkedLifeRecordId(record.Id);
 
         builder.AppendLine($"## {title}");
         builder.AppendLine();
@@ -104,6 +106,10 @@ public sealed class MarkdownExportService
         builder.AppendLine($"- 创建时间：{record.CreatedAt:yyyy-MM-dd HH:mm:ss}");
         builder.AppendLine($"- 更新时间：{record.UpdatedAt:yyyy-MM-dd HH:mm:ss}");
         builder.AppendLine($"- 图片数量：{images.Count}");
+        if (sourceTask is not null && !string.IsNullOrWhiteSpace(sourceTask.Title))
+        {
+            builder.AppendLine($"- 来源行动任务：{sourceTask.Title.Trim()}");
+        }
         builder.AppendLine();
         builder.AppendLine("### 内容");
         builder.AppendLine();

@@ -260,7 +260,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             {
                 Id = Guid.NewGuid().ToString(),
                 Title = task.Title,
-                Content = string.IsNullOrWhiteSpace(task.CompletionNote) ? task.Content : task.CompletionNote,
+                Content = BuildLifeRecordContentFromTask(task),
                 Category = string.IsNullOrWhiteSpace(task.Category) ? "未分类" : task.Category,
                 Experience = task.Experience,
                 CreatedAt = createdAt,
@@ -310,7 +310,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             if (!string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
             {
                 var overwrite = MessageBox.Show(
-                    "当前任务已关联行为记录，是否覆盖为新的关联？",
+                    "当前任务已关联行为记录，继续操作会覆盖原有关联。是否继续？",
                     "LifeRPG.Native",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
@@ -373,7 +373,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
             if (string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
             {
-                MessageBox.Show("当前任务未关联行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("当前任务没有关联行为记录。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -393,7 +393,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             LoadTaskForSelectedState(task.Id);
             LifeRecordLinkChanged?.Invoke();
 
-            MessageBox.Show("已取消关联", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("已取消关联。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {
@@ -420,7 +420,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
         if (string.IsNullOrWhiteSpace(task.LinkedLifeRecordId))
         {
-            MessageBox.Show("当前任务未关联行为记录", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("当前任务没有关联行为记录。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -1025,6 +1025,34 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         ViewLinkedLifeRecordButton.IsEnabled = true;
     }
 
+    private static string BuildLifeRecordContentFromTask(LifeActionTask task)
+    {
+        var completionNote = task.CompletionNote?.Trim() ?? string.Empty;
+        var content = task.Content?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(completionNote) && string.IsNullOrWhiteSpace(content))
+        {
+            return $"来源行动任务：{task.Title}{Environment.NewLine}{Environment.NewLine}由行动任务生成，原任务未填写完成备注或任务内容。";
+        }
+
+        var sections = new List<string>
+        {
+            $"来源行动任务：{task.Title}"
+        };
+
+        if (!string.IsNullOrWhiteSpace(completionNote))
+        {
+            sections.Add($"完成备注：{Environment.NewLine}{completionNote}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            sections.Add($"原任务内容：{Environment.NewLine}{content}");
+        }
+
+        return string.Join($"{Environment.NewLine}{Environment.NewLine}", sections);
+    }
+
     private LifeRecord? ShowLifeRecordSelectionWindow()
     {
         var records = _lifeRecordRepository.GetAll();
@@ -1335,7 +1363,9 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         public LifeRecordSelectionItem(LifeRecord record)
         {
             Record = record;
-            DisplayText = $"{record.Title} | {record.Category} | {record.CreatedAt:yyyy-MM-dd HH:mm}";
+            var title = string.IsNullOrWhiteSpace(record.Title) ? "未命名记录" : record.Title.Trim();
+            var category = string.IsNullOrWhiteSpace(record.Category) ? "未分类" : record.Category.Trim();
+            DisplayText = $"{title} | 分类：{category} | 经验：{record.Experience} | 创建：{record.CreatedAt:yyyy-MM-dd HH:mm}";
         }
 
         public LifeRecord Record { get; }
