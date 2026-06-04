@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Windows.Media.Imaging;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
@@ -24,6 +25,8 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
     private string? _editingTaskId;
+    private ActionTaskImageListItem? _selectedActionTaskImage;
+    private string? _selectedActionTaskImagePath;
 
     public ActionTaskControl()
     {
@@ -283,6 +286,51 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
     }
 
+    private void OpenSelectedActionTaskImageButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_selectedActionTaskImage is null)
+        {
+            MessageBox.Show("请先选择一张任务图片", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_selectedActionTaskImagePath))
+        {
+            MessageBox.Show("未选择可打开的图片", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!File.Exists(_selectedActionTaskImagePath))
+        {
+            MessageBox.Show("图片文件不存在", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ClearActionTaskImagePreview();
+            return;
+        }
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = _selectedActionTaskImagePath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"打开原图失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ClearActionTaskImagePreviewButton_Click(object sender, RoutedEventArgs e)
+    {
+        ClearActionTaskImagePreview();
+    }
+
+    private void TaskImageEvidenceDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        PreviewSelectedActionTaskImage(TaskImageEvidenceDataGrid.SelectedItem as ActionTaskImageListItem);
+    }
+
     private void DeleteSelectedTaskImageButton_Click(object sender, RoutedEventArgs e)
     {
         if (TaskDataGrid.SelectedItem is not ActionTaskListItem selectedTask)
@@ -319,6 +367,12 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             }
 
             TaskImageEvidenceDataGrid.SelectedItem = null;
+
+            if (!string.IsNullOrWhiteSpace(_selectedActionTaskImagePath) &&
+                string.Equals(_selectedActionTaskImagePath, image.FilePath, StringComparison.OrdinalIgnoreCase))
+            {
+                ClearActionTaskImagePreview(clearGridSelection: false);
+            }
 
             var directoryPath = Path.GetDirectoryName(image.FilePath);
             var fileDeleted = _actionTaskImageStorageService.DeleteImageFile(image.FilePath);
@@ -575,6 +629,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             RefreshPendingImageList();
         }
 
+        ClearActionTaskImagePreview(clearGridSelection: false);
         LoadTaskForEdit(taskId);
         LoadTaskForCompletion(taskId);
         LoadTaskImages(taskId);
@@ -599,6 +654,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         CompletionNoteTextBox.Clear();
         _pendingImagePaths.Clear();
         RefreshPendingImageList();
+        ClearActionTaskImagePreview(clearGridSelection: false);
         ClearAssociatedTaskImages();
     }
 
@@ -711,6 +767,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     private void LoadTaskImages(string taskId)
     {
+        ClearActionTaskImagePreview(clearGridSelection: false);
         var images = _actionTaskImageRepository.GetByActionTaskId(taskId)
             .Select(image => new ActionTaskImageListItem
             {
@@ -737,9 +794,55 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     private void ClearAssociatedTaskImages()
     {
+        ClearActionTaskImagePreview(clearGridSelection: false);
         TaskImageEvidenceDataGrid.ItemsSource = null;
         TaskImageEvidenceDataGrid.SelectedItem = null;
         AssociatedTaskImagesCountTextBlock.Text = "已关联图片：0 张";
+    }
+
+    private void PreviewSelectedActionTaskImage(ActionTaskImageListItem? imageItem)
+    {
+        if (imageItem is null)
+        {
+            ClearActionTaskImagePreview(clearGridSelection: false);
+            return;
+        }
+
+        _selectedActionTaskImage = imageItem;
+        _selectedActionTaskImagePath = imageItem.FilePath;
+
+        if (string.IsNullOrWhiteSpace(imageItem.FilePath) || !File.Exists(imageItem.FilePath))
+        {
+            MessageBox.Show("图片文件不存在", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ClearActionTaskImagePreview(clearGridSelection: false);
+            return;
+        }
+
+        try
+        {
+            ActionTaskImagePreview.Source = LoadBitmapWithoutLock(imageItem.FilePath);
+            SelectedActionTaskImageNameText.Text = string.IsNullOrWhiteSpace(imageItem.OriginalFileName)
+                ? imageItem.FileName
+                : imageItem.OriginalFileName;
+        }
+        catch
+        {
+            MessageBox.Show("图片预览失败", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ClearActionTaskImagePreview(clearGridSelection: false);
+        }
+    }
+
+    private void ClearActionTaskImagePreview(bool clearGridSelection = true)
+    {
+        ActionTaskImagePreview.Source = null;
+        SelectedActionTaskImageNameText.Text = "未选择图片";
+        _selectedActionTaskImage = null;
+        _selectedActionTaskImagePath = null;
+
+        if (clearGridSelection)
+        {
+            TaskImageEvidenceDataGrid.SelectedItem = null;
+        }
     }
 
     private static string FormatFileSize(long fileSizeBytes)
@@ -758,6 +861,20 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
 
         return $"{fileSizeBytes} B";
+    }
+
+    private static BitmapImage LoadBitmapWithoutLock(string filePath)
+    {
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+        var bitmap = new BitmapImage();
+        bitmap.BeginInit();
+        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+        bitmap.StreamSource = stream;
+        bitmap.EndInit();
+        bitmap.Freeze();
+
+        return bitmap;
     }
 
     private static ActionTaskListItem ToListItem(LifeActionTask task)
