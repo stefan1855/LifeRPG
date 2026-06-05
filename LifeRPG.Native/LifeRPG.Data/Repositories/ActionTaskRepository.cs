@@ -274,6 +274,53 @@ public sealed class ActionTaskRepository
         return tasks;
     }
 
+    public ActionTaskStatistics GetStatistics()
+    {
+        var tasks = GetAll();
+        var now = DateTime.Now;
+        var todayStart = now.Date;
+        var todayEnd = todayStart.AddDays(1).AddTicks(-1);
+        var weekEnd = todayStart.AddDays(7).AddDays(1).AddTicks(-1);
+
+        var activeTasks = tasks.Where(task => task.Status is not ActionTaskStatus.Completed and not ActionTaskStatus.Cancelled).ToList();
+
+        return new ActionTaskStatistics
+        {
+            TotalTasks = tasks.Count,
+            NotStartedTasks = tasks.Count(task => task.Status == ActionTaskStatus.NotStarted),
+            InProgressTasks = tasks.Count(task => task.Status == ActionTaskStatus.InProgress),
+            CompletedTasks = tasks.Count(task => task.Status == ActionTaskStatus.Completed),
+            CancelledTasks = tasks.Count(task => task.Status == ActionTaskStatus.Cancelled),
+            OverdueTasks = activeTasks.Count(task => task.DueAt.HasValue && task.DueAt.Value < now),
+            DueTodayTasks = activeTasks.Count(task => task.DueAt.HasValue && task.DueAt.Value >= todayStart && task.DueAt.Value <= todayEnd),
+            DueThisWeekTasks = activeTasks.Count(task => task.DueAt.HasValue && task.DueAt.Value >= todayStart && task.DueAt.Value <= weekEnd),
+            TotalExperience = tasks.Sum(task => task.Experience),
+            CompletedExperience = tasks.Where(task => task.Status == ActionTaskStatus.Completed).Sum(task => task.Experience),
+            QuadrantStatistics = tasks
+                .GroupBy(task => task.Quadrant)
+                .Select(group => new ActionTaskQuadrantStatistic
+                {
+                    Quadrant = group.Key.ToString(),
+                    QuadrantDisplayName = GetQuadrantDisplayName(group.Key),
+                    Count = group.Count(),
+                    Experience = group.Sum(task => task.Experience)
+                })
+                .OrderBy(stat => GetQuadrantSortOrder(stat.Quadrant))
+                .ToList(),
+            AttributeStatistics = tasks
+                .GroupBy(task => string.IsNullOrWhiteSpace(task.GrowthAttribute) ? "未设置" : task.GrowthAttribute.Trim())
+                .Select(group => new ActionTaskAttributeStatistic
+                {
+                    GrowthAttribute = group.Key,
+                    Count = group.Count(),
+                    Experience = group.Sum(task => task.Experience)
+                })
+                .OrderByDescending(stat => stat.Count)
+                .ThenBy(stat => stat.GrowthAttribute, StringComparer.OrdinalIgnoreCase)
+                .ToList()
+        };
+    }
+
     public List<ActionTask> Search(
         string? keyword,
         string? category,
@@ -420,5 +467,29 @@ public sealed class ActionTaskRepository
         return Enum.TryParse<ActionTaskQuadrant>(value, ignoreCase: true, out var quadrant)
             ? quadrant
             : ActionTaskQuadrant.ImportantNotUrgent;
+    }
+
+    private static string GetQuadrantDisplayName(ActionTaskQuadrant quadrant)
+    {
+        return quadrant switch
+        {
+            ActionTaskQuadrant.ImportantUrgent => "重要且紧急",
+            ActionTaskQuadrant.ImportantNotUrgent => "重要不紧急",
+            ActionTaskQuadrant.NotImportantUrgent => "不重要但紧急",
+            ActionTaskQuadrant.NotImportantNotUrgent => "不重要不紧急",
+            _ => quadrant.ToString()
+        };
+    }
+
+    private static int GetQuadrantSortOrder(string quadrant)
+    {
+        return quadrant switch
+        {
+            nameof(ActionTaskQuadrant.ImportantUrgent) => 0,
+            nameof(ActionTaskQuadrant.ImportantNotUrgent) => 1,
+            nameof(ActionTaskQuadrant.NotImportantUrgent) => 2,
+            nameof(ActionTaskQuadrant.NotImportantNotUrgent) => 3,
+            _ => int.MaxValue
+        };
     }
 }

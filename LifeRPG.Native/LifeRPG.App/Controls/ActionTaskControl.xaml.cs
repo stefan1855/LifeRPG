@@ -54,6 +54,11 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         ShowAllTasks();
     }
 
+    public void RefreshFromExternalChange()
+    {
+        RefreshCurrentView(_editingTaskId);
+    }
+
     private void ActionTaskControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (IsDropDownOpen(e.OriginalSource as DependencyObject))
@@ -686,6 +691,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         TaskDataGrid.ItemsSource = items;
         CurrentTaskViewTextBlock.Text = $"当前视图：{GetViewText(_currentView)}";
         TaskCountTextBlock.Text = $"当前显示 {tasks.Count} 条任务";
+        RefreshActionTaskStatistics();
 
         var targetTaskId = preserveSelectedTaskId ?? _editingTaskId;
         if (string.IsNullOrWhiteSpace(targetTaskId))
@@ -1175,6 +1181,53 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         return window.ShowDialog() == true ? selectedRecord : null;
     }
 
+    private void RefreshActionTaskStatistics()
+    {
+        try
+        {
+            var statistics = _actionTaskRepository.GetStatistics();
+
+            TotalTasksTextBlock.Text = statistics.TotalTasks.ToString();
+            NotStartedTasksTextBlock.Text = statistics.NotStartedTasks.ToString();
+            InProgressTasksTextBlock.Text = statistics.InProgressTasks.ToString();
+            CompletedTasksTextBlock.Text = statistics.CompletedTasks.ToString();
+            CancelledTasksTextBlock.Text = statistics.CancelledTasks.ToString();
+            OverdueTasksTextBlock.Text = statistics.OverdueTasks.ToString();
+            DueTodayTasksTextBlock.Text = statistics.DueTodayTasks.ToString();
+            DueThisWeekTasksTextBlock.Text = statistics.DueThisWeekTasks.ToString();
+            TotalTaskExperienceTextBlock.Text = statistics.TotalExperience.ToString();
+            CompletedTaskExperienceTextBlock.Text = statistics.CompletedExperience.ToString();
+
+            QuadrantStatisticsItemsControl.ItemsSource = statistics.QuadrantStatistics
+                .Select(item => new StatisticDisplayItem($"{item.QuadrantDisplayName}：{item.Count} 个 / {item.Experience} EXP"))
+                .ToList();
+
+            AttributeStatisticsItemsControl.ItemsSource = statistics.AttributeStatistics
+                .Select(item => new StatisticDisplayItem($"{item.GrowthAttribute}：{item.Count} 个 / {item.Experience} EXP"))
+                .ToList();
+
+            ActionTaskStatisticsEmptyTextBlock.Visibility = statistics.TotalTasks == 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+        catch
+        {
+            TotalTasksTextBlock.Text = "0";
+            NotStartedTasksTextBlock.Text = "0";
+            InProgressTasksTextBlock.Text = "0";
+            CompletedTasksTextBlock.Text = "0";
+            CancelledTasksTextBlock.Text = "0";
+            OverdueTasksTextBlock.Text = "0";
+            DueTodayTasksTextBlock.Text = "0";
+            DueThisWeekTasksTextBlock.Text = "0";
+            TotalTaskExperienceTextBlock.Text = "0";
+            CompletedTaskExperienceTextBlock.Text = "0";
+            QuadrantStatisticsItemsControl.ItemsSource = null;
+            AttributeStatisticsItemsControl.ItemsSource = null;
+            ActionTaskStatisticsEmptyTextBlock.Visibility = Visibility.Visible;
+        }
+    }
+
     private void LoadTaskImages(string taskId)
     {
         ClearActionTaskImagePreview(clearGridSelection: false);
@@ -1369,6 +1422,16 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
 
         public LifeRecord Record { get; }
+
+        public string DisplayText { get; }
+    }
+
+    private sealed class StatisticDisplayItem
+    {
+        public StatisticDisplayItem(string displayText)
+        {
+            DisplayText = displayText;
+        }
 
         public string DisplayText { get; }
     }

@@ -269,6 +269,7 @@ public partial class MainWindow : Window
             RefreshRecordsList();
             ClearSelectedRecordDetail();
             LoadStatisticsDashboard();
+            ActionTaskControl.RefreshFromExternalChange();
 
             MessageBox.Show(
                 "记录已删除。",
@@ -467,6 +468,7 @@ public partial class MainWindow : Window
             LoadCategories();
             RefreshRecordsList();
             LoadStatisticsDashboard();
+            ActionTaskControl.RefreshFromExternalChange();
             UpdateBackupStatus(dialog.FileName, restoreResult);
 
             MessageBox.Show(
@@ -988,6 +990,7 @@ public partial class MainWindow : Window
         var selectedRecordId = _selectedRecordId;
         LoadCategories(GetSelectedCategoryFilter());
         RefreshRecordsList(selectedRecordId);
+        ActionTaskControl.RefreshFromExternalChange();
 
         if (!string.IsNullOrWhiteSpace(selectedRecordId))
         {
