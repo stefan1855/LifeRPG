@@ -1,4 +1,5 @@
 using System.Windows;
+using LifeRPG.App.Infrastructure;
 using LifeRPG.Data.Services;
 using LifeRPG.Storage.Services;
 using MessageBox = System.Windows.MessageBox;
@@ -14,9 +15,10 @@ public partial class App : System.Windows.Application
         try
         {
             AppStoragePaths.EnsureCreated();
+            AppServiceProvider.Configure();
             DatabaseInitializer.Initialize();
 
-            var mainWindow = new MainWindow();
+            var mainWindow = (MainWindow)AppServiceProvider.Services.GetService(typeof(MainWindow))!;
             MainWindow = mainWindow;
             mainWindow.Show();
         }

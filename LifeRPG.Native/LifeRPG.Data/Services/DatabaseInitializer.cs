@@ -1,3 +1,5 @@
+using LifeRPG.Core.Rpg;
+using LifeRPG.Data.Repositories;
 using Microsoft.Data.Sqlite;
 
 namespace LifeRPG.Data.Services;
@@ -13,13 +15,7 @@ public static class DatabaseInitializer
         Directory.CreateDirectory(GetRootDirectory());
         Directory.CreateDirectory(GetDataDirectory());
 
-        var builder = new SqliteConnectionStringBuilder
-        {
-            DataSource = DatabasePath,
-            Mode = SqliteOpenMode.ReadWriteCreate
-        };
-
-        using var connection = new SqliteConnection(builder.ToString());
+        using var connection = CreateConnection();
         connection.Open();
 
         using var command = connection.CreateCommand();
@@ -87,6 +83,35 @@ public static class DatabaseInitializer
             """;
 
         command.ExecuteNonQuery();
+
+        var migrationService = new DatabaseMigrationService();
+        migrationService.ApplyMigrations(connection);
+
+        var characterRepository = new CharacterRepository(new RpgEngine());
+        characterRepository.GetOrCreateDefaultCharacter();
+
+        var equipmentRepository = new EquipmentRepository();
+        equipmentRepository.EnsureSeedData();
+
+        var skillRepository = new SkillRepository();
+        skillRepository.EnsureSeedData();
+
+        var npcRepository = new NpcRepository();
+        npcRepository.EnsureSeedData();
+
+        var mapRepository = new MapRepository();
+        mapRepository.EnsureSeedData();
+    }
+
+    public static SqliteConnection CreateConnection()
+    {
+        var builder = new SqliteConnectionStringBuilder
+        {
+            DataSource = DatabasePath,
+            Mode = SqliteOpenMode.ReadWriteCreate
+        };
+
+        return new SqliteConnection(builder.ToString());
     }
 
     private static string GetRootDirectory()

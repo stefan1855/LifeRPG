@@ -1,0 +1,191 @@
+<UserControl x:Class="LifeRPG.App.Controls.CharacterDashboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Border Style="{StaticResource CardBorderStyle}">
+        <StackPanel>
+            <DockPanel LastChildFill="False">
+                <TextBlock DockPanel.Dock="Left"
+                           Style="{StaticResource SectionTitleTextBlockStyle}"
+                           Text="角色仪表盘" />
+                <Button x:Name="RefreshDashboardButton"
+                        DockPanel.Dock="Right"
+                        Width="110"
+                        Click="RefreshDashboardButton_Click"
+                        Content="刷新角色" />
+            </DockPanel>
+
+            <TextBlock Margin="0,8,0,0"
+                       Style="{StaticResource MutedTextBlockStyle}"
+                       Text="RPG 骨架阶段先显示角色总览、属性进度、最近成长日志和扩展系统占位。" />
+
+            <Grid Margin="0,18,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.4*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Style="{StaticResource StatCardBorderStyle}"
+                        Background="#14101D">
+                    <StackPanel>
+                        <TextBlock Text="主角色"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource WarlockSoulGreenBrush}" />
+                        <TextBlock x:Name="CharacterNameTextBlock"
+                                   Margin="0,10,0,0"
+                                   FontSize="26"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                   Text="加载中" />
+                        <TextBlock x:Name="CharacterLevelTextBlock"
+                                   Margin="0,8,0,0"
+                                   Style="{StaticResource SectionSubtitleTextBlockStyle}"
+                                   Text="等级 Lv.1" />
+                        <TextBlock x:Name="CharacterTotalExperienceTextBlock"
+                                   Margin="0,8,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="总经验 0" />
+                        <TextBlock x:Name="CharacterNextLevelTextBlock"
+                                   Margin="0,4,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="距离下一级 0 EXP" />
+                        <ProgressBar x:Name="CharacterLevelProgressBar"
+                                     Margin="0,16,0,0"
+                                     Height="18"
+                                     Minimum="0"
+                                     Maximum="100"
+                                     Value="0" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2"
+                        Style="{StaticResource StatCardBorderStyle}"
+                        Background="#14101D">
+                    <StackPanel>
+                        <TextBlock Text="当前装备"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource WarlockGoldBrush}" />
+                        <ItemsControl x:Name="EquippedItemsControl"
+                                      Margin="0,12,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,0,0,8">
+                                        <TextBlock FontWeight="Bold"
+                                                   Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                                   Text="{Binding GameItemName}" />
+                                        <TextBlock Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="{Binding RealItemName}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock x:Name="EquippedItemsEmptyTextBlock"
+                                   Margin="0,10,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="当前没有装备数据" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Margin="0,18,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="属性经验" />
+                    <ItemsControl x:Name="AttributesItemsControl" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,10"
+                                        Style="{StaticResource StatCardBorderStyle}"
+                                        Background="#15101D">
+                                    <StackPanel>
+                                        <DockPanel LastChildFill="False">
+                                            <TextBlock DockPanel.Dock="Left"
+                                                       FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                                       Text="{Binding DisplayName, Mode=OneWay}" />
+                                            <TextBlock DockPanel.Dock="Right"
+                                                       Style="{StaticResource MutedTextBlockStyle}"
+                                                       Text="{Binding LevelText, Mode=OneWay}" />
+                                        </DockPanel>
+                                        <TextBlock Margin="0,6,0,0"
+                                                   Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="{Binding ExperienceText, Mode=OneWay}" />
+                                        <ProgressBar Margin="0,10,0,0"
+                                                     Height="14"
+                                                     Minimum="0"
+                                                     Maximum="{Binding ProgressMaximum, Mode=OneWay}"
+                                                     Value="{Binding ProgressValue, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="最近属性变化" />
+                    <ItemsControl x:Name="AttributeLogsItemsControl" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,10"
+                                        Style="{StaticResource StatCardBorderStyle}"
+                                        Background="#15101D">
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold"
+                                                   Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                                   Text="{Binding Title}" />
+                                        <TextBlock Margin="0,6,0,0"
+                                                   Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="{Binding Detail}" />
+                                        <TextBlock Margin="0,4,0,0"
+                                                   Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="{Binding CreatedAtText}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock x:Name="AttributeLogsEmptyTextBlock"
+                               Margin="0,10,0,0"
+                               Style="{StaticResource MutedTextBlockStyle}"
+                               Text="暂无属性变化记录" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,18,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Style="{StaticResource StatCardBorderStyle}"
+                        Background="#14101D">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="技能骨架" />
+                        <ItemsControl x:Name="SkillsItemsControl" Margin="0,12,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2"
+                        Style="{StaticResource StatCardBorderStyle}"
+                        Background="#14101D">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="NPC / 地图骨架" />
+                        <ItemsControl x:Name="NpcAndMapItemsControl" Margin="0,12,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
-using LifeRPG.Data.Services;
 using LifeRPG.Storage.Services;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Button = System.Windows.Controls.Button;
@@ -19,31 +18,47 @@ public partial class MainWindow : Window
 {
     private const string AllCategoriesOption = "全部分类";
 
-    private readonly LifeRecordRepository _lifeRecordRepository = new();
-    private readonly LifeRecordImageRepository _lifeRecordImageRepository = new();
-    private readonly ActionTaskRepository _actionTaskRepository = new();
-    private readonly StatisticsRepository _statisticsRepository = new();
-    private readonly ImageStorageService _imageStorageService = new();
-    private readonly BackupService _backupService = new();
-    private readonly MarkdownExportService _markdownExportService = new();
+    private readonly LifeRecordRepository _lifeRecordRepository;
+    private readonly LifeRecordImageRepository _lifeRecordImageRepository;
+    private readonly ActionTaskRepository _actionTaskRepository;
+    private readonly StatisticsRepository _statisticsRepository;
+    private readonly ImageStorageService _imageStorageService;
+    private readonly BackupService _backupService;
+    private readonly MarkdownExportService _markdownExportService;
     private readonly List<string> _selectedImagePaths = [];
     private List<LifeRecord> _currentDisplayedRecords = [];
 
     private string? _selectedRecordId;
     private LifeRecordDetailViewModel? _currentRecordDetail;
 
-    public MainWindow()
+    public MainWindow(
+        LifeRecordRepository lifeRecordRepository,
+        LifeRecordImageRepository lifeRecordImageRepository,
+        ActionTaskRepository actionTaskRepository,
+        StatisticsRepository statisticsRepository,
+        ImageStorageService imageStorageService,
+        BackupService backupService,
+        MarkdownExportService markdownExportService)
     {
+        _lifeRecordRepository = lifeRecordRepository;
+        _lifeRecordImageRepository = lifeRecordImageRepository;
+        _actionTaskRepository = actionTaskRepository;
+        _statisticsRepository = statisticsRepository;
+        _imageStorageService = imageStorageService;
+        _backupService = backupService;
+        _markdownExportService = markdownExportService;
+
         InitializeComponent();
         ActionTaskControl.LifeRecordSelectionRequested += ActionTaskControl_LifeRecordSelectionRequested;
         ActionTaskControl.LifeRecordLinkChanged += ActionTaskControl_LifeRecordLinkChanged;
+        ActionTaskControl.RpgProgressUpdated += ActionTaskControl_RpgProgressUpdated;
         SystemStatusControl.SetStatus(
-            version: "v0.1.0-native-dev",
+            version: "v1.0-pre-foundation",
             storageMode: "本地 SQLite + 本地图片目录",
             obsidianDependency: "否",
             browserEngine: "否",
             rootDirectory: AppStoragePaths.RootDirectory,
-            databasePath: DatabaseInitializer.DatabasePath,
+            databasePath: LifeRPG.Data.Services.DatabaseInitializer.DatabasePath,
             assetsDirectory: AppStoragePaths.AssetsDirectory,
             backupsDirectory: AppStoragePaths.BackupsDirectory,
             exportsDirectory: AppStoragePaths.ExportsDirectory);
@@ -52,6 +67,7 @@ public partial class MainWindow : Window
         LoadCategories();
         RefreshRecordsList();
         LoadStatisticsDashboard();
+        CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
     }
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)
@@ -469,6 +485,7 @@ public partial class MainWindow : Window
             RefreshRecordsList();
             LoadStatisticsDashboard();
             ActionTaskControl.RefreshFromExternalChange();
+            CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
             UpdateBackupStatus(dialog.FileName, restoreResult);
 
             MessageBox.Show(
@@ -488,6 +505,7 @@ public partial class MainWindow : Window
             LoadCategories();
             RefreshRecordsList();
             LoadStatisticsDashboard();
+            CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
         }
     }
 
@@ -998,6 +1016,11 @@ public partial class MainWindow : Window
         }
 
         LoadStatisticsDashboard();
+    }
+
+    private void ActionTaskControl_RpgProgressUpdated()
+    {
+        CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
     }
 
     private void UpdateSourceActionTaskDisplay(string? lifeRecordId)

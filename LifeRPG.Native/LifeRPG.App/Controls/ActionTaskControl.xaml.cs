@@ -7,9 +7,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Imaging;
+using LifeRPG.App.Infrastructure;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
+using LifeRPG.Data.Services;
 using LifeRPG.Storage.Services;
 using LifeActionTask = LifeRPG.Core.Models.ActionTask;
 using MessageBox = System.Windows.MessageBox;
@@ -24,10 +26,11 @@ namespace LifeRPG.App.Controls;
 
 public partial class ActionTaskControl : System.Windows.Controls.UserControl
 {
-    private readonly ActionTaskRepository _actionTaskRepository = new();
-    private readonly ActionTaskImageRepository _actionTaskImageRepository = new();
-    private readonly LifeRecordRepository _lifeRecordRepository = new();
-    private readonly ActionTaskImageStorageService _actionTaskImageStorageService = new();
+    private readonly ActionTaskRepository _actionTaskRepository;
+    private readonly ActionTaskImageRepository _actionTaskImageRepository;
+    private readonly LifeRecordRepository _lifeRecordRepository;
+    private readonly ActionTaskImageStorageService _actionTaskImageStorageService;
+    private readonly RpgProgressionService _rpgProgressionService;
     private readonly List<string> _pendingImagePaths = [];
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
@@ -37,9 +40,16 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     public event Action<string>? LifeRecordSelectionRequested;
     public event Action? LifeRecordLinkChanged;
+    public event Action? RpgProgressUpdated;
 
     public ActionTaskControl()
     {
+        _actionTaskRepository = (ActionTaskRepository)AppServiceProvider.Services.GetService(typeof(ActionTaskRepository))!;
+        _actionTaskImageRepository = (ActionTaskImageRepository)AppServiceProvider.Services.GetService(typeof(ActionTaskImageRepository))!;
+        _lifeRecordRepository = (LifeRecordRepository)AppServiceProvider.Services.GetService(typeof(LifeRecordRepository))!;
+        _actionTaskImageStorageService = (ActionTaskImageStorageService)AppServiceProvider.Services.GetService(typeof(ActionTaskImageStorageService))!;
+        _rpgProgressionService = (RpgProgressionService)AppServiceProvider.Services.GetService(typeof(RpgProgressionService))!;
+
         InitializeComponent();
     }
 
@@ -947,6 +957,13 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
                 return;
             }
 
+            if (task.Status == ActionTaskStatus.Completed)
+            {
+                MessageBox.Show("当前任务已经完成，不能重复发放成长经验。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTaskForSelectedState(task.Id);
+                return;
+            }
+
             task.Status = ActionTaskStatus.Completed;
             task.CompletedAt = DateTime.Now;
             task.CompletionNote = CompletionNoteTextBox.Text ?? string.Empty;
@@ -955,16 +972,30 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
             _actionTaskRepository.Update(task);
             var imageSaveWarning = SavePendingImagesForTask(task);
+            var experienceResult = _rpgProgressionService.ApplyActionTaskCompletion(task);
             RefreshCurrentView(task.Id);
             LoadTaskForSelectedState(task.Id);
+            RpgProgressUpdated?.Invoke();
 
             if (string.IsNullOrWhiteSpace(imageSaveWarning))
             {
-                MessageBox.Show("任务已完成", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(
+                    experienceResult.IsDuplicate
+                        ? "任务已完成，成长经验已存在，未重复发放。"
+                        : "任务已完成，并已结算 RPG 成长经验。",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show($"任务已完成，但{imageSaveWarning}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    experienceResult.IsDuplicate
+                        ? $"任务已完成，但{imageSaveWarning}，且成长经验未重复发放。"
+                        : $"任务已完成，并已结算 RPG 成长经验，但{imageSaveWarning}",
+                    "LifeRPG.Native",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
         catch (Exception ex)
