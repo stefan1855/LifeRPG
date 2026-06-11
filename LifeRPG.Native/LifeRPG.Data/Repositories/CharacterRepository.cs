@@ -361,11 +361,74 @@ public sealed class CharacterRepository
             SELECT COUNT(1)
             FROM RpgExperienceEvents
             WHERE SourceType = @SourceType
-              AND SourceId = @SourceId;
+              AND SourceId = @SourceId
+              AND RolledBackAt IS NULL;
             """;
         command.Parameters.AddWithValue("@SourceType", sourceType);
         command.Parameters.AddWithValue("@SourceId", sourceId.ToString());
         return Convert.ToInt32(command.ExecuteScalar()) > 0;
+    }
+
+    public bool RollbackExperienceEvent(Guid characterId, string sourceType, Guid sourceId)
+    {
+        using var connection = LifeRPG.Data.Services.DatabaseInitializer.CreateConnection();
+        connection.Open();
+
+        // Find the active (non-rolled-back) event
+        var (eventExp, eventNote) = GetActiveExperienceEvent(connection, sourceType, sourceId);
+        if (eventExp == 0)
+        {
+            return false;
+        }
+
+        var rolledBackTotalExperience = eventExp;
+        var rolledBackNote = eventNote;
+
+        using var transaction = connection.BeginTransaction();
+        var now = DateTime.Now;
+
+        var character = GetById(connection, transaction, characterId)
+            ?? throw new InvalidOperationException($"未找到角色：{characterId}");
+
+        character.TotalExperience = Math.Max(0, character.TotalExperience - rolledBackTotalExperience);
+        var levelResult = _rpgEngine.CalculateLevel(character.TotalExperience);
+        character.Level = levelResult.Level;
+        character.UpdatedAt = now;
+        UpdateCharacter(connection, transaction, character);
+
+        // Reverse attribute gains — find all attribute logs for this event
+        var attributeGains = GetAttributeLogsForEvent(connection, transaction, sourceType, sourceId);
+        foreach (var (attributeKey, experienceDelta) in attributeGains)
+        {
+            var attribute = GetAttributeByKey(connection, transaction, characterId, attributeKey);
+            if (attribute is null)
+            {
+                continue;
+            }
+
+            attribute.Experience = Math.Max(0, attribute.Experience - experienceDelta);
+            attribute.Level = _rpgEngine.CalculateLevel(attribute.Experience).Level;
+            attribute.UpdatedAt = now;
+            UpdateAttribute(connection, transaction, attribute);
+
+            // Add a compensating negative log
+            InsertAttributeLog(connection, transaction, characterId,
+                new RpgAttributeGain
+                {
+                    AttributeKey = attributeKey,
+                    DisplayName = attribute.DisplayName,
+                    ExperienceDelta = -experienceDelta
+                },
+                sourceType, sourceId,
+                $"回滚：{rolledBackNote}",
+                now);
+        }
+
+        // Mark the event as rolled back
+        MarkEventRolledBack(connection, transaction, sourceType, sourceId, now);
+
+        transaction.Commit();
+        return true;
     }
 
     private static void EnsureDefaultAttributes(SqliteConnection connection, Guid characterId)
@@ -575,6 +638,106 @@ public sealed class CharacterRepository
         command.Parameters.AddWithValue("@Note", note);
         command.Parameters.AddWithValue("@CreatedAt", createdAt.ToString("O"));
         command.ExecuteNonQuery();
+    }
+
+    private static (int TotalExperience, string Note) GetActiveExperienceEvent(
+        SqliteConnection connection, string sourceType, Guid sourceId)
+    {
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            SELECT TotalExperience, Note
+            FROM RpgExperienceEvents
+            WHERE SourceType = @SourceType
+              AND SourceId = @SourceId
+              AND RolledBackAt IS NULL
+            LIMIT 1;
+            """;
+        command.Parameters.AddWithValue("@SourceType", sourceType);
+        command.Parameters.AddWithValue("@SourceId", sourceId.ToString());
+
+        using var reader = command.ExecuteReader();
+        if (reader.Read())
+        {
+            return (reader.GetInt32(0), reader.GetString(1));
+        }
+
+        return (0, string.Empty);
+    }
+
+    private static List<(string AttributeKey, int ExperienceDelta)> GetAttributeLogsForEvent(
+        SqliteConnection connection, SqliteTransaction transaction, string sourceType, Guid sourceId)
+    {
+        var results = new List<(string, int)>();
+        using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText =
+            """
+            SELECT AttributeKey, ExperienceDelta
+            FROM AttributeLogs
+            WHERE SourceType = @SourceType
+              AND SourceId = @SourceId;
+            """;
+        command.Parameters.AddWithValue("@SourceType", sourceType);
+        command.Parameters.AddWithValue("@SourceId", sourceId.ToString());
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            results.Add((reader.GetString(0), reader.GetInt32(1)));
+        }
+
+        return results;
+    }
+
+    private static CharacterAttribute? GetAttributeByKey(
+        SqliteConnection connection, SqliteTransaction? transaction, Guid characterId, string attributeKey)
+    {
+        var key = CharacterAttributeCatalog.NormalizeKey(attributeKey);
+        using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText =
+            """
+            SELECT Id, CharacterId, AttributeKey, DisplayName, Level, Experience, BaseValue, CreatedAt, UpdatedAt
+            FROM CharacterAttributes
+            WHERE CharacterId = @CharacterId
+              AND AttributeKey = @AttributeKey
+            LIMIT 1;
+            """;
+        command.Parameters.AddWithValue("@CharacterId", characterId.ToString());
+        command.Parameters.AddWithValue("@AttributeKey", key);
+
+        using var reader = command.ExecuteReader();
+        return reader.Read() ? MapAttribute(reader) : null;
+    }
+
+    private static void MarkEventRolledBack(
+        SqliteConnection connection, SqliteTransaction transaction,
+        string sourceType, Guid sourceId, DateTime rolledBackAt)
+    {
+        using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText =
+            """
+            UPDATE RpgExperienceEvents
+            SET RolledBackAt = @RolledBackAt
+            WHERE SourceType = @SourceType
+              AND SourceId = @SourceId
+              AND RolledBackAt IS NULL;
+            """;
+        command.Parameters.AddWithValue("@SourceType", sourceType);
+        command.Parameters.AddWithValue("@SourceId", sourceId.ToString());
+        command.Parameters.AddWithValue("@RolledBackAt", rolledBackAt.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
+    private static (int TotalExperience, string Note)? GetActiveExperienceEventNullable(
+        SqliteConnection connection, string sourceType, Guid sourceId)
+    {
+        var row = GetActiveExperienceEvent(connection, sourceType, sourceId);
+        return row.TotalExperience > 0 || !string.IsNullOrEmpty(row.Note)
+            ? row
+            : null;
     }
 
     private static Character MapCharacter(SqliteDataReader reader)

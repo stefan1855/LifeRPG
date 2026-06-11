@@ -795,6 +795,8 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
                 return;
             }
 
+            var wasCompleted = task.Status == ActionTaskStatus.Completed;
+
             task.Status = status;
             task.UpdatedAt = DateTime.Now;
 
@@ -804,6 +806,13 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             }
 
             _actionTaskRepository.Update(task);
+
+            // Rollback RPG experience if un-completing a previously completed task
+            if (task.Status != ActionTaskStatus.Completed && wasCompleted)
+            {
+                _rpgProgressionService.RollbackActionTaskCompletion(task);
+                RpgProgressUpdated?.Invoke();
+            }
             RefreshCurrentView(task.Id);
             if (string.Equals(_editingTaskId, task.Id, StringComparison.Ordinal))
             {

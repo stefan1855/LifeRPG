@@ -174,7 +174,13 @@ public sealed class DatabaseMigrationService
         new(
             "20260605_004_CharacterProfile",
             "Character profile fields",
-            ApplyCharacterProfileMigration)
+            ApplyCharacterProfileMigration),
+        new(
+            "20260610_005_ExperienceRollback",
+            "Experience rollback support",
+            """
+            ALTER TABLE RpgExperienceEvents ADD COLUMN RolledBackAt TEXT NULL;
+            """)
     ];
 
     public void ApplyMigrations(SqliteConnection connection)

@@ -27,11 +27,12 @@ public sealed class DatabaseMigrationServiceTests : IDisposable
         _service.ApplyMigrations(_connection);
 
         var applied = GetAppliedMigrationIds();
-        Assert.Equal(4, applied.Count);
+        Assert.Equal(5, applied.Count);
         Assert.Contains("20260605_001_RpgFoundation", applied);
         Assert.Contains("20260605_002_Character", applied);
         Assert.Contains("20260605_003_EquipmentSkillNpcMap", applied);
         Assert.Contains("20260605_004_CharacterProfile", applied);
+        Assert.Contains("20260610_005_ExperienceRollback", applied);
     }
 
     [Fact]
@@ -45,7 +46,7 @@ public sealed class DatabaseMigrationServiceTests : IDisposable
         var secondCount = GetAppliedMigrationCount();
 
         Assert.Equal(firstCount, secondCount);
-        Assert.Equal(4, secondCount);
+        Assert.Equal(5, secondCount);
     }
 
     [Fact]
@@ -134,6 +135,15 @@ public sealed class DatabaseMigrationServiceTests : IDisposable
         Assert.True(reader.Read());
         Assert.Equal("测试", reader.GetString(0));
         Assert.NotNull(reader.GetString(1));
+    }
+
+    [Fact]
+    public void Migration005_AddsRolledBackAtColumn()
+    {
+        _service.ApplyMigrations(_connection);
+
+        var columns = GetColumns("RpgExperienceEvents");
+        Assert.Contains(columns, c => c == "RolledBackAt");
     }
 
     private List<string> GetAppliedMigrationIds()

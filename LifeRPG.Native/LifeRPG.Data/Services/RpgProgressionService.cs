@@ -30,4 +30,15 @@ public sealed class RpgProgressionService
             gains,
             $"完成行动任务：{task.Title}");
     }
+
+    public bool RollbackActionTaskCompletion(ActionTask task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+
+        var character = _characterRepository.GetOrCreateDefaultCharacter();
+        return _characterRepository.RollbackExperienceEvent(
+            character.Id,
+            "ActionTask",
+            Guid.Parse(task.Id));
+    }
 }
