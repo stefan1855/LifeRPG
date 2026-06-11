@@ -40,13 +40,14 @@ public sealed class ImageStorageService
         {
             var sourceFilePath = validSourceFiles[index];
             var extension = Path.GetExtension(sourceFilePath).ToLowerInvariant();
+            var compressedExtension = ImageCompressor.GetCompressedExtension(sourceFilePath);
             var imageId = Guid.NewGuid().ToString();
             var sourceFileNameWithoutExtension = Path.GetFileNameWithoutExtension(sourceFilePath);
             var safeSourceFileName = SanitizeSegment(sourceFileNameWithoutExtension, "未命名图片", 40);
-            var newFileName = $"{index + 1:00}_{safeSourceFileName}_{imageId[..8]}{extension}";
+            var newFileName = $"{index + 1:00}_{safeSourceFileName}_{imageId[..8]}{compressedExtension}";
 
             var destinationPath = Path.Combine(recordDirectory, newFileName);
-            File.Copy(sourceFilePath, destinationPath, overwrite: false);
+            ImageCompressor.CompressAndSave(sourceFilePath, destinationPath);
 
             copiedImages.Add(new LifeRecordImage
             {

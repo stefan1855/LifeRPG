@@ -52,20 +52,20 @@ public sealed class ActionTaskImageStorageService
             var sourcePath = validSourceFiles[index];
             var imageId = Guid.NewGuid().ToString();
             var extension = NormalizeExtension(Path.GetExtension(sourcePath));
+            var compressedExtension = ImageCompressor.GetCompressedExtension(sourcePath);
             var originalFileName = Path.GetFileName(sourcePath);
             var originalBaseName = Path.GetFileNameWithoutExtension(sourcePath);
             var safeBaseName = SanitizeSegment(originalBaseName, "image", 40);
-            var fileName = $"{index + 1:00}_{safeBaseName}_{imageId[..8]}{extension}";
+            var fileName = $"{index + 1:00}_{safeBaseName}_{imageId[..8]}{compressedExtension}";
             var destinationPath = EnsureUniqueDestinationPath(taskDirectory, fileName);
 
-            File.Copy(sourcePath, destinationPath, overwrite: false);
+            var fileSize = ImageCompressor.CompressAndSave(sourcePath, destinationPath);
 
             var relativePath = Path.Combine(
                 ActionTaskAssetsFolderName,
                 taskFolderName,
                 Path.GetFileName(destinationPath));
 
-            var fileInfo = new FileInfo(destinationPath);
             copiedImages.Add(new ActionTaskImage
             {
                 Id = imageId,
@@ -74,8 +74,8 @@ public sealed class ActionTaskImageStorageService
                 FileName = Path.GetFileName(destinationPath),
                 FilePath = destinationPath,
                 RelativePath = relativePath,
-                FileExtension = extension,
-                FileSizeBytes = fileInfo.Exists ? fileInfo.Length : 0,
+                FileExtension = compressedExtension,
+                FileSizeBytes = fileSize,
                 CreatedAt = createdAt
             });
         }

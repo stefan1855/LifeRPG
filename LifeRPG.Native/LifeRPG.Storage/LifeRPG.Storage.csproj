@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LifeRPG.Core\LifeRPG.Core.csproj" />
     <ProjectReference Include="..\LifeRPG.Data\LifeRPG.Data.csproj" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.14" />
   </ItemGroup>
 
   <PropertyGroup>
