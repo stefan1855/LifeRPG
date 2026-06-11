@@ -86,12 +86,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void ToggleThemeButton_Click(object sender, RoutedEventArgs e)
-    {
-        App.SwitchTheme();
-        ToggleThemeButton.Content = App.IsLightTheme ? "切换为深色主题" : "切换为浅色主题";
-    }
-
     private static bool IsInsideScrollableControl(DependencyObject? element)
     {
         while (element is not null)

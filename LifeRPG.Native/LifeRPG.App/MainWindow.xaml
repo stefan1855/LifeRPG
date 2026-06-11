@@ -53,40 +53,22 @@
                                Text="当前主题：亡灵术士原生雏形" />
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <Border Padding="16,10"
-                            Background="{StaticResource WarlockCardAltBrush}"
-                            BorderBrush="{StaticResource WarlockGoldBrush}"
-                            BorderThickness="1.5"
-                            CornerRadius="12">
-                        <StackPanel>
-                            <TextBlock Text="Soulforge Status"
-                                       Foreground="{StaticResource WarlockGoldBrush}"
-                                       FontWeight="Bold" />
-                            <TextBlock Margin="0,4,0,0"
-                                       Style="{StaticResource MutedTextBlockStyle}"
-                                       Text="原生 WPF · SQLite · Local Assets" />
-                        </StackPanel>
-                    </Border>
-                    <Border Margin="0,10,0,0"
-                            Padding="16,10"
-                            Background="{StaticResource WarlockCardAltBrush}"
-                            BorderBrush="{StaticResource WarlockSoulGreenBrush}"
-                            BorderThickness="1.5"
-                            CornerRadius="12">
-                        <StackPanel>
-                            <TextBlock Text="主题切换"
-                                       Foreground="{StaticResource WarlockSoulGreenBrush}"
-                                       FontWeight="Bold" />
-                            <Button x:Name="ToggleThemeButton"
-                                    Margin="0,6,0,0"
-                                    Width="130"
-                                    Style="{StaticResource SoulAccentButtonStyle}"
-                                    Click="ToggleThemeButton_Click"
-                                    Content="切换为浅色主题" />
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
+                <Border Grid.Column="1"
+                        Padding="16,10"
+                        Background="{StaticResource WarlockCardAltBrush}"
+                        BorderBrush="{StaticResource WarlockGoldBrush}"
+                        BorderThickness="1.5"
+                        CornerRadius="12"
+                        VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Soulforge Status"
+                                   Foreground="{StaticResource WarlockGoldBrush}"
+                                   FontWeight="Bold" />
+                        <TextBlock Margin="0,4,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="原生 WPF · SQLite · Local Assets" />
+                    </StackPanel>
+                </Border>
             </Grid>
         </Border>
 
