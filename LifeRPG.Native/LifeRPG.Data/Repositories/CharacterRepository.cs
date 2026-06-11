@@ -24,7 +24,7 @@ public sealed class CharacterRepository
         using var connection = LifeRPG.Data.Services.DatabaseInitializer.CreateConnection();
         connection.Open();
 
-        var existing = GetDefaultCharacter(connection);
+        var existing = QueryDefaultCharacter(connection);
         if (existing is not null)
         {
             EnsureDefaultAttributes(connection, existing.Id);
@@ -35,7 +35,8 @@ public sealed class CharacterRepository
         var character = new Character
         {
             Id = Guid.NewGuid(),
-            Name = "亡灵术士",
+            Name = "人生主角",
+            Description = "这是我的人生RPG角色。",
             Level = 1,
             TotalExperience = 0,
             CreatedAt = now,
@@ -49,14 +50,19 @@ public sealed class CharacterRepository
             command.Transaction = transaction;
             command.CommandText =
                 """
-                INSERT INTO Characters (Id, Name, Level, TotalExperience, CreatedAt, UpdatedAt)
-                VALUES (@Id, @Name, @Level, @TotalExperience, @CreatedAt, @UpdatedAt);
+                INSERT INTO Characters (
+                    Id, Name, AvatarImagePath, Description, Level, TotalExperience, CreatedAt, LastGrowthAt, UpdatedAt)
+                VALUES (
+                    @Id, @Name, @AvatarImagePath, @Description, @Level, @TotalExperience, @CreatedAt, @LastGrowthAt, @UpdatedAt);
                 """;
             command.Parameters.AddWithValue("@Id", character.Id.ToString());
             command.Parameters.AddWithValue("@Name", character.Name);
+            command.Parameters.AddWithValue("@AvatarImagePath", character.AvatarImagePath ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@Description", character.Description ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@Level", character.Level);
             command.Parameters.AddWithValue("@TotalExperience", character.TotalExperience);
             command.Parameters.AddWithValue("@CreatedAt", character.CreatedAt.ToString("O"));
+            command.Parameters.AddWithValue("@LastGrowthAt", character.LastGrowthAt?.ToString("O") ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@UpdatedAt", character.UpdatedAt.ToString("O"));
             command.ExecuteNonQuery();
         }
@@ -64,6 +70,75 @@ public sealed class CharacterRepository
         EnsureDefaultAttributes(connection, transaction, character.Id);
         transaction.Commit();
         return character;
+    }
+
+    public Character GetDefaultCharacter()
+    {
+        return GetOrCreateDefaultCharacter();
+    }
+
+    public void UpdateProfile(Guid characterId, string name, string? description)
+    {
+        var normalizedName = string.IsNullOrWhiteSpace(name) ? "人生主角" : name.Trim();
+        var normalizedDescription = string.IsNullOrWhiteSpace(description) ? null : description.Trim();
+
+        using var connection = LifeRPG.Data.Services.DatabaseInitializer.CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE Characters
+            SET Name = @Name,
+                Description = @Description,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", characterId.ToString());
+        command.Parameters.AddWithValue("@Name", normalizedName);
+        command.Parameters.AddWithValue("@Description", normalizedDescription ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
+    public void UpdateAvatar(Guid characterId, string? avatarImagePath)
+    {
+        var normalizedPath = string.IsNullOrWhiteSpace(avatarImagePath) ? null : avatarImagePath.Trim();
+
+        using var connection = LifeRPG.Data.Services.DatabaseInitializer.CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE Characters
+            SET AvatarImagePath = @AvatarImagePath,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", characterId.ToString());
+        command.Parameters.AddWithValue("@AvatarImagePath", normalizedPath ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
+    }
+
+    public void UpdateLastGrowthTime(Guid characterId, DateTime lastGrowthAt)
+    {
+        using var connection = LifeRPG.Data.Services.DatabaseInitializer.CreateConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            """
+            UPDATE Characters
+            SET LastGrowthAt = @LastGrowthAt,
+                UpdatedAt = @UpdatedAt
+            WHERE Id = @Id;
+            """;
+        command.Parameters.AddWithValue("@Id", characterId.ToString());
+        command.Parameters.AddWithValue("@LastGrowthAt", lastGrowthAt.ToString("O"));
+        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now.ToString("O"));
+        command.ExecuteNonQuery();
     }
 
     public IReadOnlyList<CharacterAttribute> GetAttributes(Guid characterId)
@@ -196,6 +271,7 @@ public sealed class CharacterRepository
         character.TotalExperience += Math.Max(0, totalExperience);
         var levelResult = _rpgEngine.CalculateLevel(character.TotalExperience);
         character.Level = levelResult.Level;
+        character.LastGrowthAt = now;
         character.UpdatedAt = now;
         UpdateCharacter(connection, transaction, character);
 
@@ -237,12 +313,12 @@ public sealed class CharacterRepository
         UpdateCharacter(connection, null, character);
     }
 
-    private static Character? GetDefaultCharacter(SqliteConnection connection)
+    private static Character? QueryDefaultCharacter(SqliteConnection connection)
     {
         using var command = connection.CreateCommand();
         command.CommandText =
             """
-            SELECT Id, Name, Level, TotalExperience, CreatedAt, UpdatedAt
+            SELECT Id, Name, AvatarImagePath, Description, Level, TotalExperience, CreatedAt, LastGrowthAt, UpdatedAt
             FROM Characters
             ORDER BY CreatedAt ASC
             LIMIT 1;
@@ -258,7 +334,7 @@ public sealed class CharacterRepository
         command.Transaction = transaction;
         command.CommandText =
             """
-            SELECT Id, Name, Level, TotalExperience, CreatedAt, UpdatedAt
+            SELECT Id, Name, AvatarImagePath, Description, Level, TotalExperience, CreatedAt, LastGrowthAt, UpdatedAt
             FROM Characters
             WHERE Id = @Id
             LIMIT 1;
@@ -392,15 +468,21 @@ public sealed class CharacterRepository
             """
             UPDATE Characters
             SET Name = @Name,
+                AvatarImagePath = @AvatarImagePath,
+                Description = @Description,
                 Level = @Level,
                 TotalExperience = @TotalExperience,
+                LastGrowthAt = @LastGrowthAt,
                 UpdatedAt = @UpdatedAt
             WHERE Id = @Id;
             """;
         command.Parameters.AddWithValue("@Id", character.Id.ToString());
         command.Parameters.AddWithValue("@Name", character.Name);
+        command.Parameters.AddWithValue("@AvatarImagePath", character.AvatarImagePath ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@Description", character.Description ?? (object)DBNull.Value);
         command.Parameters.AddWithValue("@Level", character.Level);
         command.Parameters.AddWithValue("@TotalExperience", character.TotalExperience);
+        command.Parameters.AddWithValue("@LastGrowthAt", character.LastGrowthAt?.ToString("O") ?? (object)DBNull.Value);
         command.Parameters.AddWithValue("@UpdatedAt", character.UpdatedAt.ToString("O"));
         command.ExecuteNonQuery();
     }
@@ -493,10 +575,17 @@ public sealed class CharacterRepository
         {
             Id = Guid.Parse(reader.GetString(0)),
             Name = reader.GetString(1),
-            Level = reader.GetInt32(2),
-            TotalExperience = reader.GetInt32(3),
-            CreatedAt = DateTime.Parse(reader.GetString(4), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind),
-            UpdatedAt = DateTime.Parse(reader.GetString(5), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind)
+            AvatarImagePath = reader.IsDBNull(2) ? null : reader.GetString(2),
+            Description = reader.IsDBNull(3) ? null : reader.GetString(3),
+            Level = reader.GetInt32(4),
+            TotalExperience = reader.GetInt32(5),
+            CreatedAt = reader.IsDBNull(6)
+                ? DateTime.Now
+                : DateTime.Parse(reader.GetString(6), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind),
+            LastGrowthAt = reader.IsDBNull(7)
+                ? null
+                : DateTime.Parse(reader.GetString(7), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind),
+            UpdatedAt = DateTime.Parse(reader.GetString(8), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind)
         };
     }
 

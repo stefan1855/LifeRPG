@@ -8,3 +8,5 @@ packages/
 *.db
 *.log
 *.zip
+.buildobj/
+artifacts/

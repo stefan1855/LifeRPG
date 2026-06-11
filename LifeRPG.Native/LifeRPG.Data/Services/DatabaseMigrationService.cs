@@ -170,7 +170,11 @@ public sealed class DatabaseMigrationService
                 CreatedAt TEXT NOT NULL,
                 UpdatedAt TEXT NOT NULL
             );
-            """)
+            """),
+        new(
+            "20260605_004_CharacterProfile",
+            "Character profile fields",
+            ApplyCharacterProfileMigration)
     ];
 
     public void ApplyMigrations(SqliteConnection connection)
@@ -187,10 +191,15 @@ public sealed class DatabaseMigrationService
             using var transaction = connection.BeginTransaction();
             try
             {
-                using var command = connection.CreateCommand();
-                command.Transaction = transaction;
-                command.CommandText = migration.Sql;
-                command.ExecuteNonQuery();
+                if (!string.IsNullOrWhiteSpace(migration.Sql))
+                {
+                    using var command = connection.CreateCommand();
+                    command.Transaction = transaction;
+                    command.CommandText = migration.Sql;
+                    command.ExecuteNonQuery();
+                }
+
+                migration.Apply?.Invoke(connection, transaction);
 
                 using var insertCommand = connection.CreateCommand();
                 insertCommand.Transaction = transaction;
@@ -236,5 +245,76 @@ public sealed class DatabaseMigrationService
         return Convert.ToInt32(command.ExecuteScalar()) > 0;
     }
 
-    private sealed record DatabaseMigration(string Id, string Name, string Sql);
+    private static void ApplyCharacterProfileMigration(SqliteConnection connection, SqliteTransaction transaction)
+    {
+        AddColumnIfMissing(connection, transaction, "Characters", "AvatarImagePath", "TEXT");
+        AddColumnIfMissing(connection, transaction, "Characters", "Description", "TEXT");
+        AddColumnIfMissing(connection, transaction, "Characters", "CreatedAt", "TEXT");
+        AddColumnIfMissing(connection, transaction, "Characters", "LastGrowthAt", "TEXT");
+    }
+
+    private static void AddColumnIfMissing(
+        SqliteConnection connection,
+        SqliteTransaction transaction,
+        string tableName,
+        string columnName,
+        string columnDefinition)
+    {
+        if (ColumnExists(connection, transaction, tableName, columnName))
+        {
+            return;
+        }
+
+        using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText = $"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnDefinition};";
+        command.ExecuteNonQuery();
+    }
+
+    private static bool ColumnExists(
+        SqliteConnection connection,
+        SqliteTransaction transaction,
+        string tableName,
+        string columnName)
+    {
+        using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText = $"PRAGMA table_info({tableName});";
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            if (string.Equals(reader.GetString(1), columnName, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private sealed record DatabaseMigration
+    {
+        public DatabaseMigration(string id, string name, string sql)
+        {
+            Id = id;
+            Name = name;
+            Sql = sql;
+        }
+
+        public DatabaseMigration(string id, string name, Action<SqliteConnection, SqliteTransaction> apply)
+        {
+            Id = id;
+            Name = name;
+            Apply = apply;
+        }
+
+        public string Id { get; }
+
+        public string Name { get; }
+
+        public string? Sql { get; }
+
+        public Action<SqliteConnection, SqliteTransaction>? Apply { get; }
+    }
 }

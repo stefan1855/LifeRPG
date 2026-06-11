@@ -32,15 +32,62 @@
                         Style="{StaticResource StatCardBorderStyle}"
                         Background="#14101D">
                     <StackPanel>
-                        <TextBlock Text="主角色"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource WarlockSoulGreenBrush}" />
-                        <TextBlock x:Name="CharacterNameTextBlock"
-                                   Margin="0,10,0,0"
-                                   FontSize="26"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource WarlockTextPrimaryBrush}"
-                                   Text="加载中" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="136" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                    Width="132"
+                                    Height="132"
+                                    Style="{StaticResource ImagePreviewBorderStyle}"
+                                    Background="#0E1114">
+                                <Grid>
+                                    <Image x:Name="CharacterAvatarImage"
+                                           Stretch="UniformToFill" />
+                                    <TextBlock x:Name="CharacterAvatarPlaceholderTextBlock"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Style="{StaticResource MutedTextBlockStyle}"
+                                               Text="暂无头像" />
+                                </Grid>
+                            </Border>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="主角色"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource WarlockSoulGreenBrush}" />
+                                <TextBlock x:Name="CharacterNameTextBlock"
+                                           Margin="0,10,0,0"
+                                           FontSize="26"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                           Text="加载中" />
+                                <TextBlock x:Name="CharacterDescriptionTextBlock"
+                                           Margin="0,8,0,0"
+                                           TextWrapping="Wrap"
+                                           Style="{StaticResource MutedTextBlockStyle}"
+                                           Text="暂无简介" />
+                            </StackPanel>
+                        </Grid>
+
+                        <WrapPanel Margin="0,16,0,0">
+                            <Button Width="110"
+                                    Click="SelectAvatarButton_Click"
+                                    Content="选择头像" />
+                            <Button Margin="10,0,0,0"
+                                    Width="110"
+                                    Click="ClearAvatarButton_Click"
+                                    Content="清除头像" />
+                            <Button Margin="10,0,0,0"
+                                    Width="130"
+                                    Style="{StaticResource SoulAccentButtonStyle}"
+                                    Click="EditProfileButton_Click"
+                                    Content="编辑角色资料" />
+                        </WrapPanel>
+
                         <TextBlock x:Name="CharacterLevelTextBlock"
                                    Margin="0,8,0,0"
                                    Style="{StaticResource SectionSubtitleTextBlockStyle}"
@@ -53,6 +100,14 @@
                                    Margin="0,4,0,0"
                                    Style="{StaticResource MutedTextBlockStyle}"
                                    Text="距离下一级 0 EXP" />
+                        <TextBlock x:Name="CharacterCreatedAtTextBlock"
+                                   Margin="0,10,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="创建时间：-" />
+                        <TextBlock x:Name="CharacterLastGrowthAtTextBlock"
+                                   Margin="0,4,0,0"
+                                   Style="{StaticResource MutedTextBlockStyle}"
+                                   Text="最后成长时间：暂无" />
                         <ProgressBar x:Name="CharacterLevelProgressBar"
                                      Margin="0,16,0,0"
                                      Height="18"

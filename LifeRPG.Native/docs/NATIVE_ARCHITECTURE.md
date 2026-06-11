@@ -39,6 +39,18 @@ LifeRPG.Native 当前是一个完全独立的 Windows 原生 WPF 桌面软件。
 - 该拆分不改变业务功能，只降低 `MainWindow.xaml` 复杂度
 - 当前仍不引入复杂 MVVM
 
+## 角色资料系统
+
+- `v1.0-pre` 已接入 RPG Foundation 和 `CharacterDashboardControl`
+- `v1.0.1` 开始补齐角色资料系统
+- `Characters` 表通过迁移追加 `AvatarImagePath`、`Description`、`LastGrowthAt`
+- 角色头像只保存本地图片路径，不保存图片二进制
+- 头像预览使用 `BitmapCacheOption.OnLoad`，避免锁定源文件
+- 默认角色名称为“人生主角”
+- 默认角色简介为“这是我的人生RPG角色。”
+- 任务完成并成功发放 RPG 经验后会更新 `LastGrowthAt`
+- 当前角色资料系统不改变装备、技能、NPC、地图骨架玩法
+
 ## 行动任务模块
 
 - `v0.2` 开始新增“行动任务”模块
