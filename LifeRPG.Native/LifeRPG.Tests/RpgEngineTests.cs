@@ -174,4 +174,88 @@ public sealed class RpgEngineTests
         var result = _engine.CalculateExperienceToNextLevel(10);
         Assert.Equal(1000, result);
     }
+
+    [Fact]
+    public void CalculateExperienceToNextLevel_WithNegativeLevel_ClampsToOne()
+    {
+        var result = _engine.CalculateExperienceToNextLevel(-3);
+        Assert.Equal(100, result);
+    }
+
+    [Fact]
+    public void CalculateExperienceToNextLevel_WithZeroLevel_ClampsToOne()
+    {
+        var result = _engine.CalculateExperienceToNextLevel(0);
+        Assert.Equal(100, result);
+    }
+
+    [Fact]
+    public void CalculateLevel_WithVeryHighExperience_ReturnsCorrectLevel()
+    {
+        // Sum of 100*k for k=1..44 = 100 * 44*45/2 = 99000
+        // So 99000 exp = level 45 (0-99 = Lv1, 100-299 = Lv2, ..., 99000 = Lv45)
+        var result = _engine.CalculateLevel(99000);
+        Assert.Equal(45, result.Level);
+    }
+
+    [Fact]
+    public void ApplyEquipmentBonuses_WithUnknownAttributeKey_AddsToResult()
+    {
+        IReadOnlyDictionary<string, int> baseAttributes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["physique"] = 10
+        };
+
+        var result = _engine.ApplyEquipmentBonuses(baseAttributes, [new RpgEquipmentBonus
+        {
+            AttributeKey = "charisma",
+            BonusValue = 5
+        }]);
+
+        Assert.Equal(10, result["physique"]);
+        Assert.Equal(5, result["charisma"]);
+    }
+
+    [Fact]
+    public void AllocateTaskExperience_WithEmptyString_UsesGeneralAttribute()
+    {
+        var result = _engine.AllocateTaskExperience(15, string.Empty);
+
+        var gain = Assert.Single(result);
+        Assert.Equal(CharacterAttributeCatalog.GeneralAttributeKey, gain.AttributeKey);
+        Assert.Equal(CharacterAttributeCatalog.GeneralDisplayName, gain.DisplayName);
+    }
+
+    [Fact]
+    public void AllocateTaskExperience_WithWhitespace_UsesGeneralAttribute()
+    {
+        var result = _engine.AllocateTaskExperience(10, "   ");
+
+        var gain = Assert.Single(result);
+        Assert.Equal(CharacterAttributeCatalog.GeneralAttributeKey, gain.AttributeKey);
+    }
+
+    [Fact]
+    public void CalculateLevel_AtEachTierBoundary_HandlesCorrectly()
+    {
+        // Tier transitions should be exact
+        Assert.Equal(1, _engine.CalculateLevel(0).Level);
+        Assert.Equal(2, _engine.CalculateLevel(100).Level);
+        Assert.Equal(3, _engine.CalculateLevel(300).Level);
+        Assert.Equal(4, _engine.CalculateLevel(600).Level);
+        Assert.Equal(5, _engine.CalculateLevel(1000).Level);
+        Assert.Equal(6, _engine.CalculateLevel(1500).Level);
+    }
+
+    [Fact]
+    public void CalculateLevel_ExperienceIntoCurrentLevel_ResetsAtEachTier()
+    {
+        // At exact tier boundaries, experience into current level should be 0
+        var lv2 = _engine.CalculateLevel(100);
+        Assert.Equal(0, lv2.ExperienceIntoCurrentLevel);
+
+        // Mid-tier should have non-zero
+        var lv2Mid = _engine.CalculateLevel(150);
+        Assert.Equal(50, lv2Mid.ExperienceIntoCurrentLevel);
+    }
 }
