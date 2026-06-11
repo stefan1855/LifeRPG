@@ -27,10 +27,11 @@
     <Grid Margin="22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="18" />
+            <RowDefinition Height="12" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!-- ===== 顶部横幅 ===== -->
         <Border Grid.Row="0"
                 Style="{StaticResource CardBorderStyle}"
                 Padding="26">
@@ -72,13 +73,15 @@
             </Grid>
         </Border>
 
+        <!-- ===== 主体内容区 ===== -->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="230" />
-                <ColumnDefinition Width="18" />
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="12" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- 侧边栏 -->
             <Border Grid.Column="0"
                     Style="{StaticResource CardBorderStyle}"
                     Background="{StaticResource WarlockBlackBrush}">
@@ -113,28 +116,37 @@
                 </StackPanel>
             </Border>
 
-            <ScrollViewer x:Name="MainScrollViewer"
-                          Grid.Column="2"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
-                <StackPanel>
-                    <Border Style="{StaticResource CardBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="首页" />
-                            <TextBlock Margin="0,10,0,0"
-                                       Style="{StaticResource MutedTextBlockStyle}"
-                                       Text="以暗黑魔法书风格整理行为记录、图片证据、本地备份、导出与统计看板。" />
-                        </StackPanel>
+            <!-- Dashboard 主体网格 -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Row 0: 角色仪表盘 + 基础统计 -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="4*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 角色仪表盘 -->
+                    <Border Grid.Column="0"
+                            Style="{StaticResource CardBorderStyle}"
+                            Padding="16">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <controls:CharacterDashboardControl x:Name="CharacterDashboardControl" />
+                        </ScrollViewer>
                     </Border>
 
-                    <controls:ActionTaskControl x:Name="ActionTaskControl"
-                                                Margin="0,16,0,0" />
-
-                    <controls:CharacterDashboardControl x:Name="CharacterDashboardControl"
-                                                        Margin="0,16,0,0" />
-
-                    <Border Margin="0,16,0,0"
+                    <!-- 基础统计看板 -->
+                    <Border Grid.Column="2"
                             Style="{StaticResource CardBorderStyle}">
                         <StackPanel>
                             <DockPanel LastChildFill="False">
@@ -148,8 +160,8 @@
                                         Content="刷新统计" />
                             </DockPanel>
 
-                            <UniformGrid Margin="0,18,0,0" Columns="3">
-                                <Border Margin="0,0,12,12" Style="{StaticResource StatCardBorderStyle}">
+                            <UniformGrid Margin="0,12,0,0" Columns="2">
+                                <Border Margin="0,0,6,8" Style="{StaticResource StatCardBorderStyle}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="记录总数" />
                                         <TextBlock x:Name="TotalRecordsTextBlock"
@@ -157,7 +169,7 @@
                                                    Text="0" />
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,0,12,12" Style="{StaticResource StatCardBorderStyle}">
+                                <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="总经验值" />
                                         <TextBlock x:Name="TotalExperienceTextBlock"
@@ -165,7 +177,7 @@
                                                    Text="0" />
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,0,0,12" Style="{StaticResource StatCardBorderStyle}">
+                                <Border Margin="0,0,6,8" Style="{StaticResource StatCardBorderStyle}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="图片证据数" />
                                         <TextBlock x:Name="TotalImagesTextBlock"
@@ -173,7 +185,7 @@
                                                    Text="0" />
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,0,12,0" Style="{StaticResource StatCardBorderStyle}">
+                                <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="有图记录数" />
                                         <TextBlock x:Name="RecordsWithImagesTextBlock"
@@ -181,7 +193,7 @@
                                                    Text="0" />
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,0,12,0" Style="{StaticResource StatCardBorderStyle}">
+                                <Border Margin="0,0,6,0" Style="{StaticResource StatCardBorderStyle}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="无图记录数" />
                                         <TextBlock x:Name="RecordsWithoutImagesTextBlock"
@@ -199,7 +211,7 @@
                                 </Border>
                             </UniformGrid>
 
-                            <Border Margin="0,14,0,0"
+                            <Border Margin="0,10,0,0"
                                     Style="{StaticResource StatCardBorderStyle}"
                                     Background="{StaticResource WarlockCardAltBrush}">
                                 <StackPanel>
@@ -210,237 +222,249 @@
                                 </StackPanel>
                             </Border>
 
-                            <Grid Margin="0,18,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="18" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0">
+                            <Grid Margin="0,10,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0">
                                     <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="分类统计" />
                                     <DataGrid x:Name="CategoryStatisticsDataGrid"
-                                              Margin="0,12,0,0"
+                                              Margin="0,6,0,0"
                                               AutoGenerateColumns="False"
                                               IsReadOnly="True"
                                               CanUserAddRows="False"
-                                              MinHeight="190">
+                                              MinHeight="100">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="*" />
-                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="90" />
-                                            <DataGridTextColumn Header="总经验值" Binding="{Binding TotalExperience}" Width="110" />
-                                            <DataGridTextColumn Header="图片数" Binding="{Binding ImageCount}" Width="90" />
+                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="70" />
+                                            <DataGridTextColumn Header="经验" Binding="{Binding TotalExperience}" Width="70" />
+                                            <DataGridTextColumn Header="图片" Binding="{Binding ImageCount}" Width="60" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
-
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="最近 7 天统计" />
+                                <StackPanel Grid.Row="2">
+                                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="最近 7 天" />
                                     <DataGrid x:Name="DailyStatisticsDataGrid"
-                                              Margin="0,12,0,0"
+                                              Margin="0,6,0,0"
                                               AutoGenerateColumns="False"
                                               IsReadOnly="True"
                                               CanUserAddRows="False"
-                                              MinHeight="190">
+                                              MinHeight="100">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="日期" Binding="{Binding Date, StringFormat=yyyy-MM-dd}" Width="*" />
-                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="90" />
-                                            <DataGridTextColumn Header="总经验值" Binding="{Binding TotalExperience}" Width="110" />
-                                            <DataGridTextColumn Header="图片数" Binding="{Binding ImageCount}" Width="90" />
+                                            <DataGridTextColumn Header="记录数" Binding="{Binding RecordCount}" Width="70" />
+                                            <DataGridTextColumn Header="经验" Binding="{Binding TotalExperience}" Width="70" />
+                                            <DataGridTextColumn Header="图片" Binding="{Binding ImageCount}" Width="60" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
+                </Grid>
 
-                    <Border Margin="0,16,0,0"
-                            Style="{StaticResource CardBorderStyle}">
+                <!-- Row 2: 行动任务 -->
+                <Border Grid.Row="2"
+                        Style="{StaticResource CardBorderStyle}"
+                        Padding="12">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
+                        <controls:ActionTaskControl x:Name="ActionTaskControl" />
+                    </ScrollViewer>
+                </Border>
+
+                <!-- Row 4: 行为记录区 -->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 左侧：新增 + 筛选 + 列表 -->
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="新增行为记录" />
-                            <TextBlock Margin="0,8,0,0"
-                                       Style="{StaticResource MutedTextBlockStyle}"
-                                       Text="将每日行动、经验与证据封印进本地生命档案。" />
+                            <!-- 新增行为记录 -->
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="新增行为记录" />
+                                    <TextBlock Margin="0,8,0,0"
+                                               Style="{StaticResource MutedTextBlockStyle}"
+                                               Text="将每日行动、经验与证据封印进本地生命档案。" />
 
-                            <Grid Margin="0,18,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="16" />
-                                    <ColumnDefinition Width="230" />
-                                    <ColumnDefinition Width="16" />
-                                    <ColumnDefinition Width="150" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="标题" />
-                                    <TextBox x:Name="TitleTextBox" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="分类" />
-                                    <TextBox x:Name="CategoryTextBox" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="4">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="经验值" />
-                                    <TextBox x:Name="ExperienceTextBox" />
-                                </StackPanel>
-                            </Grid>
+                                    <Grid Margin="0,12,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="120" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="标题" />
+                                            <TextBox x:Name="TitleTextBox" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="分类" />
+                                            <TextBox x:Name="CategoryTextBox" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="4">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="经验值" />
+                                            <TextBox x:Name="ExperienceTextBox" />
+                                        </StackPanel>
+                                    </Grid>
 
-                            <TextBlock Margin="0,16,0,0" Style="{StaticResource LabelTextStyle}" Text="内容" />
-                            <TextBox x:Name="ContentTextBox"
-                                     MinHeight="120"
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     VerticalScrollBarVisibility="Auto" />
+                                    <TextBlock Margin="0,12,0,0" Style="{StaticResource LabelTextStyle}" Text="内容" />
+                                    <TextBox x:Name="ContentTextBox"
+                                             MinHeight="100"
+                                             AcceptsReturn="True"
+                                             TextWrapping="Wrap"
+                                             VerticalScrollBarVisibility="Auto" />
 
-                            <TextBlock Margin="0,16,0,0" Style="{StaticResource LabelTextStyle}" Text="图片证据" />
-                            <WrapPanel Margin="0,8,0,0">
-                                <Button x:Name="SelectImagesButton"
-                                        Style="{StaticResource SoulAccentButtonStyle}"
-                                        Width="120"
-                                        Click="SelectImagesButton_Click"
-                                        Content="选择图片" />
-                                <TextBlock x:Name="SelectedImagesCountTextBlock"
-                                           Margin="12,10,0,0"
-                                           Style="{StaticResource MutedTextBlockStyle}"
-                                           Text="已选择 0 张图片" />
-                            </WrapPanel>
-                            <ListBox x:Name="SelectedImagesListBox"
-                                     Margin="0,10,0,0"
-                                     MaxHeight="100" />
+                                    <TextBlock Margin="0,12,0,0" Style="{StaticResource LabelTextStyle}" Text="图片证据" />
+                                    <WrapPanel Margin="0,6,0,0">
+                                        <Button x:Name="SelectImagesButton"
+                                                Style="{StaticResource SoulAccentButtonStyle}"
+                                                Width="120"
+                                                Click="SelectImagesButton_Click"
+                                                Content="选择图片" />
+                                        <TextBlock x:Name="SelectedImagesCountTextBlock"
+                                                   Margin="12,10,0,0"
+                                                   Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="已选择 0 张图片" />
+                                    </WrapPanel>
+                                    <ListBox x:Name="SelectedImagesListBox"
+                                             Margin="0,8,0,0"
+                                             MaxHeight="80" />
 
-                            <Button x:Name="SaveRecordButton"
-                                    Margin="0,18,0,0"
-                                    Width="120"
-                                    HorizontalAlignment="Left"
-                                    Click="SaveRecordButton_Click"
-                                    Content="保存记录" />
-                        </StackPanel>
-                    </Border>
-
-                    <Border Margin="0,16,0,0"
-                            Style="{StaticResource CardBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="筛选与搜索" />
-                            <Grid Margin="0,16,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="14" />
-                                    <ColumnDefinition Width="1.3*" />
-                                    <ColumnDefinition Width="14" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="14" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="14" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="12" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="关键词" />
-                                    <TextBox x:Name="SearchKeywordTextBox" />
+                                    <Button x:Name="SaveRecordButton"
+                                            Margin="0,14,0,0"
+                                            Width="120"
+                                            HorizontalAlignment="Left"
+                                            Click="SaveRecordButton_Click"
+                                            Content="保存记录" />
                                 </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="分类" />
-                                    <ComboBox x:Name="CategoryFilterComboBox" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="4">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="开始日期" />
-                                    <DatePicker x:Name="StartDatePicker" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="6">
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="结束日期" />
-                                    <DatePicker x:Name="EndDatePicker" />
-                                </StackPanel>
-                                <Button Grid.Column="8"
-                                        VerticalAlignment="Bottom"
-                                        Click="SearchRecordsButton_Click"
-                                        Content="搜索" />
-                                <Button Grid.Column="10"
-                                        VerticalAlignment="Bottom"
-                                        Style="{StaticResource SoulAccentButtonStyle}"
-                                        Click="ResetSearchButton_Click"
-                                        Content="重置" />
-                            </Grid>
+                            </Border>
 
-                            <Border Margin="0,16,0,0"
-                                    Style="{StaticResource StatCardBorderStyle}"
-                                    Background="{StaticResource WarlockCardAltBrush}"
-                                    BorderBrush="{StaticResource WarlockGoldBrush}">
-                                <TextBlock x:Name="ResultCountTextBlock"
-                                           Style="{StaticResource FieldValueTextStyle}"
-                                           Text="当前显示 0 条记录" />
+                            <!-- 筛选与搜索 -->
+                            <Border Margin="0,10,0,0"
+                                    Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="筛选与搜索" />
+                                    <Grid Margin="0,12,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="1.3*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="关键词" />
+                                            <TextBox x:Name="SearchKeywordTextBox" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="分类" />
+                                            <ComboBox x:Name="CategoryFilterComboBox" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="4">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="开始日期" />
+                                            <DatePicker x:Name="StartDatePicker" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="6">
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="结束日期" />
+                                            <DatePicker x:Name="EndDatePicker" />
+                                        </StackPanel>
+                                        <Button Grid.Column="8" VerticalAlignment="Bottom"
+                                                Click="SearchRecordsButton_Click" Content="搜索" />
+                                        <Button Grid.Column="10" VerticalAlignment="Bottom"
+                                                Style="{StaticResource SoulAccentButtonStyle}"
+                                                Click="ResetSearchButton_Click" Content="重置" />
+                                    </Grid>
+
+                                    <Border Margin="0,12,0,0"
+                                            Style="{StaticResource StatCardBorderStyle}"
+                                            Background="{StaticResource WarlockCardAltBrush}"
+                                            BorderBrush="{StaticResource WarlockGoldBrush}">
+                                        <TextBlock x:Name="ResultCountTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}"
+                                                   Text="当前显示 0 条记录" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- 最近行为记录 -->
+                            <Border Margin="0,10,0,0"
+                                    Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="最近行为记录" />
+                                    <ListBox x:Name="RecordsListBox"
+                                             Margin="0,12,0,0"
+                                             MinHeight="140"
+                                             SelectionChanged="RecordsListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <DockPanel LastChildFill="False">
+                                                        <TextBlock FontWeight="Bold"
+                                                                   Foreground="{StaticResource WarlockSoulGreenBrush}"
+                                                                   Text="{Binding Title}" />
+                                                        <Border DockPanel.Dock="Right"
+                                                                Padding="8,3"
+                                                                Background="{StaticResource WarlockSelectionBrush}"
+                                                                BorderBrush="{StaticResource WarlockSoulGreenBrush}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="10">
+                                                            <TextBlock FontSize="12"
+                                                                       Foreground="{StaticResource WarlockSoulGreenBrush}"
+                                                                       Text="{Binding ImageCount, StringFormat=图片 {0}}" />
+                                                        </Border>
+                                                    </DockPanel>
+                                                    <TextBlock Margin="0,6,0,0"
+                                                               Style="{StaticResource MutedTextBlockStyle}"
+                                                               Text="{Binding Category, StringFormat=分类：{0}}" />
+                                                    <TextBlock Style="{StaticResource MutedTextBlockStyle}"
+                                                               Text="{Binding Experience, StringFormat=经验值：{0}}" />
+                                                    <TextBlock Style="{StaticResource MutedTextBlockStyle}"
+                                                               Text="{Binding CreatedAt, StringFormat=创建时间：{0:yyyy-MM-dd HH:mm}}" />
+                                                    <TextBlock Margin="0,8,0,0"
+                                                               TextWrapping="Wrap"
+                                                               Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                                               Text="{Binding ContentPreview}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
                             </Border>
                         </StackPanel>
-                    </Border>
+                    </ScrollViewer>
 
-                    <Border Margin="0,16,0,0"
-                            Style="{StaticResource CardBorderStyle}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="430" />
-                                <ColumnDefinition Width="18" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="最近行为记录" />
-                                <TextBlock Margin="0,8,0,0"
-                                           Style="{StaticResource MutedTextBlockStyle}"
-                                           Text="选择一条记录，查看完整详情、编辑内容或清理证据。" />
-                                <ListBox x:Name="RecordsListBox"
-                                         Margin="0,16,0,0"
-                                         SelectionChanged="RecordsListBox_SelectionChanged">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <DockPanel LastChildFill="False">
-                                                    <TextBlock FontWeight="Bold"
-                                                               Foreground="{StaticResource WarlockSoulGreenBrush}"
-                                                               Text="{Binding Title}" />
-                                                    <Border DockPanel.Dock="Right"
-                                                            Padding="8,3"
-                                                            Background="{StaticResource WarlockSelectionBrush}"
-                                                            BorderBrush="{StaticResource WarlockSoulGreenBrush}"
-                                                            BorderThickness="1"
-                                                            CornerRadius="10">
-                                                        <TextBlock FontSize="12"
-                                                                   Foreground="{StaticResource WarlockSoulGreenBrush}"
-                                                                   Text="{Binding ImageCount, StringFormat=图片 {0}}" />
-                                                    </Border>
-                                                </DockPanel>
-                                                <TextBlock Margin="0,6,0,0"
-                                                           Style="{StaticResource MutedTextBlockStyle}"
-                                                           Text="{Binding Category, StringFormat=分类：{0}}" />
-                                                <TextBlock Style="{StaticResource MutedTextBlockStyle}"
-                                                           Text="{Binding Experience, StringFormat=经验值：{0}}" />
-                                                <TextBlock Style="{StaticResource MutedTextBlockStyle}"
-                                                           Text="{Binding CreatedAt, StringFormat=创建时间：{0:yyyy-MM-dd HH:mm}}" />
-                                                <TextBlock Margin="0,8,0,0"
-                                                           TextWrapping="Wrap"
-                                                           Foreground="{StaticResource WarlockTextPrimaryBrush}"
-                                                           Text="{Binding ContentPreview}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </StackPanel>
-
-                            <StackPanel x:Name="DetailPanel"
-                                        Grid.Column="2"
-                                        Visibility="Collapsed">
+                    <!-- 右侧：记录详情 -->
+                    <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                        <Border Style="{StaticResource CardBorderStyle}">
+                            <StackPanel x:Name="DetailPanel" Visibility="Collapsed">
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="记录详情" />
                                 <TextBlock x:Name="DetailPlaceholderTextBlock"
-                                           Margin="0,10,0,0"
+                                           Margin="0,8,0,0"
                                            Style="{StaticResource MutedTextBlockStyle}"
                                            Text="请选择一条记录" />
 
-                                <Grid Margin="0,18,0,0">
+                                <Grid Margin="0,14,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition Width="220" />
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="120" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="标题" />
@@ -456,20 +480,19 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <TextBlock Margin="0,16,0,0" Style="{StaticResource LabelTextStyle}" Text="内容" />
+                                <TextBlock Margin="0,12,0,0" Style="{StaticResource LabelTextStyle}" Text="内容" />
                                 <TextBox x:Name="DetailContentTextBox"
-                                         MinHeight="130"
+                                         MinHeight="110"
                                          AcceptsReturn="True"
                                          TextWrapping="Wrap"
                                          VerticalScrollBarVisibility="Auto" />
 
-                                <Grid Margin="0,16,0,0">
+                                <Grid Margin="0,12,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="10" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-
                                     <Border Grid.Column="0" Style="{StaticResource StatCardBorderStyle}">
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource LabelTextStyle}" Text="创建时间" />
@@ -477,7 +500,6 @@
                                                        Style="{StaticResource FieldValueTextStyle}" />
                                         </StackPanel>
                                     </Border>
-
                                     <Border Grid.Column="2" Style="{StaticResource StatCardBorderStyle}">
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource LabelTextStyle}" Text="更新时间" />
@@ -487,20 +509,20 @@
                                     </Border>
                                 </Grid>
 
-                                <WrapPanel Margin="0,18,0,0">
+                                <WrapPanel Margin="0,14,0,0">
                                     <Button x:Name="SaveDetailButton"
                                             Width="120"
                                             Click="SaveDetailButton_Click"
                                             Content="保存修改" />
                                     <Button x:Name="DeleteRecordButton"
-                                            Margin="12,0,0,0"
+                                            Margin="10,0,0,0"
                                             Width="140"
                                             Style="{StaticResource DangerButtonStyle}"
                                             Click="DeleteRecordButton_Click"
                                             Content="删除当前记录" />
                                 </WrapPanel>
 
-                                <Border Margin="0,18,0,0"
+                                <Border Margin="0,14,0,0"
                                         Style="{StaticResource StatCardBorderStyle}"
                                         Background="{StaticResource WarlockCardAltBrush}">
                                     <StackPanel>
@@ -509,7 +531,7 @@
                                                    Style="{StaticResource FieldValueTextStyle}"
                                                    Text="无" />
                                         <Button x:Name="ViewSourceActionTaskButton"
-                                                Margin="0,12,0,0"
+                                                Margin="0,10,0,0"
                                                 Width="100"
                                                 HorizontalAlignment="Left"
                                                 Click="ViewSourceActionTaskButton_Click"
@@ -517,15 +539,11 @@
                                     </StackPanel>
                                 </Border>
 
-                                <TextBlock Margin="0,24,0,0"
+                                <TextBlock Margin="0,18,0,0"
                                            Style="{StaticResource SectionSubtitleTextBlockStyle}"
                                            Text="图片证据预览" />
-                                <TextBlock Margin="0,8,0,0"
-                                           Style="{StaticResource MutedTextBlockStyle}"
-                                           Text="预览区域继续使用无文件锁方式载入图片，避免删除时被占用。" />
-
-                                <ScrollViewer Margin="0,16,0,0"
-                                              MaxHeight="360"
+                                <ScrollViewer Margin="0,12,0,0"
+                                              MaxHeight="240"
                                               VerticalScrollBarVisibility="Auto">
                                     <ItemsControl x:Name="ImagePreviewItemsControl">
                                         <ItemsControl.ItemsPanel>
@@ -535,26 +553,26 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Margin="0,0,12,12"
-                                                        Width="178"
+                                                <Border Margin="0,0,10,10"
+                                                        Width="170"
                                                         Style="{StaticResource StatCardBorderStyle}"
                                                         Background="{StaticResource WarlockCardAltBrush}">
                                                     <StackPanel>
-                                                        <Border Width="152"
-                                                                Height="122"
+                                                        <Border Width="144"
+                                                                Height="112"
                                                                 HorizontalAlignment="Center"
                                                                 Style="{StaticResource ImagePreviewBorderStyle}">
                                                             <Image Source="{Binding PreviewImageSource}"
                                                                    Stretch="UniformToFill" />
                                                         </Border>
-                                                        <TextBlock Margin="0,10,0,0"
-                                                                   FontSize="12"
+                                                        <TextBlock Margin="0,8,0,0"
+                                                                   FontSize="11"
                                                                    Foreground="{StaticResource WarlockTextPrimaryBrush}"
                                                                    Text="{Binding FileName}" />
                                                         <TextBlock Margin="0,4,0,0"
                                                                    Style="{StaticResource MutedTextBlockStyle}"
-                                                                   Text="{Binding CreatedAt, StringFormat=上传时间：{0:yyyy-MM-dd HH:mm}}" />
-                                                        <Button Margin="0,10,0,0"
+                                                                   Text="{Binding CreatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm}}" />
+                                                        <Button Margin="0,8,0,0"
                                                                 HorizontalAlignment="Left"
                                                                 Style="{StaticResource DangerButtonStyle}"
                                                                 Click="DeleteImageButton_Click"
@@ -567,103 +585,87 @@
                                     </ItemsControl>
                                 </ScrollViewer>
                             </StackPanel>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+
+                <!-- Row 6: 系统状态 + 备份 + 导出 -->
+                <Border Grid.Row="6" Style="{StaticResource CardBorderStyle}">
+                    <StackPanel>
+                        <controls:SystemStatusControl x:Name="SystemStatusControl" />
+
+                        <Separator />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 数据备份 -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据备份" />
+                                <WrapPanel Margin="0,12,0,0">
+                                    <Button x:Name="CreateBackupButton" Width="120"
+                                            Click="CreateBackupButton_Click" Content="创建备份" />
+                                    <Button x:Name="CreateBackupToDirectoryButton" Margin="10,0,0,0" Width="150"
+                                            Click="CreateBackupToDirectoryButton_Click" Content="选择目录并备份" />
+                                    <Button x:Name="OpenBackupsDirectoryButton" Margin="10,0,0,0" Width="120"
+                                            Style="{StaticResource SoulAccentButtonStyle}"
+                                            Click="OpenBackupsDirectoryButton_Click" Content="打开备份目录" />
+                                    <Button x:Name="RestoreBackupButton" Margin="10,0,0,0" Width="120"
+                                            Style="{StaticResource DangerButtonStyle}"
+                                            Click="RestoreBackupButton_Click" Content="从备份恢复" />
+                                </WrapPanel>
+                                <Border Margin="0,12,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="最近备份路径" />
+                                        <TextBlock x:Name="LatestBackupPathTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}" Text="暂无" />
+                                        <TextBlock Margin="0,8,0,4" Style="{StaticResource LabelTextStyle}" Text="备份状态提示" />
+                                        <TextBlock x:Name="BackupStatusTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}"
+                                                   Text="尚未执行备份或恢复操作。" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- 数据导出 -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据导出" />
+                                <WrapPanel Margin="0,12,0,0">
+                                    <Button x:Name="ExportMarkdownButton" Width="140"
+                                            Click="ExportMarkdownButton_Click" Content="导出 Markdown" />
+                                    <Button x:Name="ExportMarkdownToDirectoryButton" Margin="10,0,0,0" Width="160"
+                                            Click="ExportMarkdownToDirectoryButton_Click" Content="选择目录导出" />
+                                    <Button x:Name="OpenExportsDirectoryButton" Margin="10,0,0,0" Width="120"
+                                            Style="{StaticResource SoulAccentButtonStyle}"
+                                            Click="OpenExportsDirectoryButton_Click" Content="打开导出目录" />
+                                </WrapPanel>
+                                <WrapPanel Margin="0,10,0,0">
+                                    <Button x:Name="ExportFilteredMarkdownButton" Width="160"
+                                            Style="{StaticResource SoulAccentButtonStyle}"
+                                            Click="ExportFilteredMarkdownButton_Click" Content="导出筛选结果" />
+                                    <Button x:Name="ExportFilteredMarkdownToDirectoryButton" Margin="10,0,0,0" Width="180"
+                                            Click="ExportFilteredMarkdownToDirectoryButton_Click" Content="选择目录导出筛选" />
+                                </WrapPanel>
+                                <Border Margin="0,12,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="最近导出路径" />
+                                        <TextBlock x:Name="LatestExportPathTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}" Text="暂无" />
+                                        <TextBlock Margin="0,8,0,4" Style="{StaticResource LabelTextStyle}" Text="导出状态提示" />
+                                        <TextBlock x:Name="ExportStatusTextBlock"
+                                                   Style="{StaticResource FieldValueTextStyle}"
+                                                   Text="尚未执行 Markdown 导出操作。" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
                         </Grid>
-                    </Border>
-
-                    <Border Margin="0,16,0,0"
-                            Style="{StaticResource CardBorderStyle}">
-                        <StackPanel>
-                            <controls:SystemStatusControl x:Name="SystemStatusControl" />
-
-                            <Separator />
-
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据备份" />
-                            <WrapPanel Margin="0,16,0,0">
-                                <Button x:Name="CreateBackupButton"
-                                        Width="120"
-                                        Click="CreateBackupButton_Click"
-                                        Content="创建备份" />
-                                <Button x:Name="CreateBackupToDirectoryButton"
-                                        Margin="12,0,0,0"
-                                        Width="150"
-                                        Click="CreateBackupToDirectoryButton_Click"
-                                        Content="选择目录并备份" />
-                                <Button x:Name="OpenBackupsDirectoryButton"
-                                        Margin="12,0,0,0"
-                                        Width="120"
-                                        Style="{StaticResource SoulAccentButtonStyle}"
-                                        Click="OpenBackupsDirectoryButton_Click"
-                                        Content="打开备份目录" />
-                                <Button x:Name="RestoreBackupButton"
-                                        Margin="12,0,0,0"
-                                        Width="120"
-                                        Style="{StaticResource DangerButtonStyle}"
-                                        Click="RestoreBackupButton_Click"
-                                        Content="从备份恢复" />
-                            </WrapPanel>
-
-                            <Border Margin="0,16,0,0" Style="{StaticResource StatCardBorderStyle}">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="最近备份路径" />
-                                    <TextBlock x:Name="LatestBackupPathTextBlock"
-                                               Style="{StaticResource FieldValueTextStyle}"
-                                               Text="暂无" />
-                                    <TextBlock Margin="0,12,0,6" Style="{StaticResource LabelTextStyle}" Text="备份状态提示" />
-                                    <TextBlock x:Name="BackupStatusTextBlock"
-                                               Style="{StaticResource FieldValueTextStyle}"
-                                               Text="尚未执行备份或恢复操作。" />
-                                </StackPanel>
-                            </Border>
-
-                            <Separator />
-
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据导出" />
-                            <WrapPanel Margin="0,16,0,0">
-                                <Button x:Name="ExportMarkdownButton"
-                                        Width="140"
-                                        Click="ExportMarkdownButton_Click"
-                                        Content="导出 Markdown" />
-                                <Button x:Name="ExportMarkdownToDirectoryButton"
-                                        Margin="12,0,0,0"
-                                        Width="190"
-                                        Click="ExportMarkdownToDirectoryButton_Click"
-                                        Content="选择目录并导出 Markdown" />
-                                <Button x:Name="OpenExportsDirectoryButton"
-                                        Margin="12,0,0,0"
-                                        Width="120"
-                                        Style="{StaticResource SoulAccentButtonStyle}"
-                                        Click="OpenExportsDirectoryButton_Click"
-                                        Content="打开导出目录" />
-                            </WrapPanel>
-                            <WrapPanel Margin="0,12,0,0">
-                                <Button x:Name="ExportFilteredMarkdownButton"
-                                        Width="190"
-                                        Style="{StaticResource SoulAccentButtonStyle}"
-                                        Click="ExportFilteredMarkdownButton_Click"
-                                        Content="导出当前筛选结果 Markdown" />
-                                <Button x:Name="ExportFilteredMarkdownToDirectoryButton"
-                                        Margin="12,0,0,0"
-                                        Width="220"
-                                        Click="ExportFilteredMarkdownToDirectoryButton_Click"
-                                        Content="选择目录并导出当前筛选结果" />
-                            </WrapPanel>
-
-                            <Border Margin="0,16,0,0" Style="{StaticResource StatCardBorderStyle}">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource LabelTextStyle}" Text="最近导出路径" />
-                                    <TextBlock x:Name="LatestExportPathTextBlock"
-                                               Style="{StaticResource FieldValueTextStyle}"
-                                               Text="暂无" />
-                                    <TextBlock Margin="0,12,0,6" Style="{StaticResource LabelTextStyle}" Text="导出状态提示" />
-                                    <TextBlock x:Name="ExportStatusTextBlock"
-                                               Style="{StaticResource FieldValueTextStyle}"
-                                               Text="尚未执行 Markdown 导出操作。" />
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

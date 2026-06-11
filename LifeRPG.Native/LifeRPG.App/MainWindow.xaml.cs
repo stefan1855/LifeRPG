@@ -78,10 +78,10 @@ public partial class MainWindow : Window
     {
         var source = e.OriginalSource as DependencyObject;
 
-        if (IsInsideScrollableControl(source))
+        if (IsInsideScrollableControl(source) && sender is ScrollViewer scrollViewer)
         {
-            MainScrollViewer.ScrollToVerticalOffset(
-                MainScrollViewer.VerticalOffset - e.Delta);
+            scrollViewer.ScrollToVerticalOffset(
+                scrollViewer.VerticalOffset - e.Delta);
             e.Handled = true;
         }
     }
