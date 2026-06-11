@@ -251,6 +251,17 @@ public sealed class DatabaseMigrationService
         AddColumnIfMissing(connection, transaction, "Characters", "Description", "TEXT");
         AddColumnIfMissing(connection, transaction, "Characters", "CreatedAt", "TEXT");
         AddColumnIfMissing(connection, transaction, "Characters", "LastGrowthAt", "TEXT");
+
+        using var backfillCommand = connection.CreateCommand();
+        backfillCommand.Transaction = transaction;
+        backfillCommand.CommandText =
+            """
+            UPDATE Characters
+            SET CreatedAt = COALESCE(CreatedAt, UpdatedAt, @Now)
+            WHERE CreatedAt IS NULL;
+            """;
+        backfillCommand.Parameters.AddWithValue("@Now", DateTime.Now.ToString("O"));
+        backfillCommand.ExecuteNonQuery();
     }
 
     private static void AddColumnIfMissing(

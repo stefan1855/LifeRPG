@@ -110,7 +110,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
                 Title = title,
                 Content = TaskContentTextBox.Text ?? string.Empty,
                 Category = string.IsNullOrWhiteSpace(TaskCategoryTextBox.Text) ? "未分类" : TaskCategoryTextBox.Text.Trim(),
-                GrowthAttribute = TaskGrowthAttributeTextBox.Text?.Trim() ?? string.Empty,
+                GrowthAttribute = GetGrowthAttributeFromComboBox(TaskGrowthAttributeComboBox),
                 Quadrant = quadrant,
                 Status = ActionTaskStatus.NotStarted,
                 Experience = LifeActionTask.CalculateExperience(quadrant),
@@ -215,7 +215,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             task.Title = title;
             task.Content = EditTaskContentTextBox.Text ?? string.Empty;
             task.Category = string.IsNullOrWhiteSpace(EditTaskCategoryTextBox.Text) ? "未分类" : EditTaskCategoryTextBox.Text.Trim();
-            task.GrowthAttribute = EditTaskGrowthAttributeTextBox.Text?.Trim() ?? string.Empty;
+            task.GrowthAttribute = GetGrowthAttributeFromComboBox(EditTaskGrowthAttributeComboBox);
             task.Quadrant = quadrant;
             task.Experience = LifeActionTask.CalculateExperience(quadrant);
             task.DueAt = dueAt;
@@ -655,7 +655,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         }
 
         var confirm = MessageBox.Show(
-            "确定删除这个行动任务吗？",
+            "确定删除这个行动任务吗？关联的图片证据也会一并删除。",
             "LifeRPG.Native",
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
@@ -667,9 +667,21 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
         try
         {
+            var images = _actionTaskImageRepository.GetByActionTaskId(selectedTask.Id);
+            foreach (var image in images)
+            {
+                _actionTaskImageStorageService.DeleteImageFile(image.FilePath);
+            }
+
+            _actionTaskImageRepository.DeleteByActionTaskId(selectedTask.Id);
+            _actionTaskImageStorageService.DeleteTaskImageFolderIfEmpty(selectedTask.Id);
             _actionTaskRepository.Delete(selectedTask.Id);
+
             if (string.Equals(_editingTaskId, selectedTask.Id, StringComparison.Ordinal))
             {
+                _pendingImagePaths.Clear();
+                RefreshPendingImageList();
+                ClearActionTaskImagePreview(clearGridSelection: false);
                 ClearSelectedTaskState();
             }
 
@@ -832,7 +844,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         EditTaskTitleTextBox.Text = task.Title;
         EditTaskContentTextBox.Text = task.Content;
         EditTaskCategoryTextBox.Text = task.Category;
-        EditTaskGrowthAttributeTextBox.Text = task.GrowthAttribute;
+        SelectGrowthAttribute(EditTaskGrowthAttributeComboBox, task.GrowthAttribute);
         SelectQuadrant(EditTaskQuadrantComboBox, task.Quadrant);
 
         if (task.DueAt.HasValue)
@@ -885,7 +897,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         EditTaskTitleTextBox.Clear();
         EditTaskContentTextBox.Clear();
         EditTaskCategoryTextBox.Clear();
-        EditTaskGrowthAttributeTextBox.Clear();
+        EditTaskGrowthAttributeComboBox.SelectedIndex = 0;
         EditTaskQuadrantComboBox.SelectedIndex = 1;
         EditTaskDueDatePicker.SelectedDate = null;
         EditTaskDueTimeTextBox.Clear();
@@ -932,7 +944,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         TaskTitleTextBox.Clear();
         TaskContentTextBox.Clear();
         TaskCategoryTextBox.Clear();
-        TaskGrowthAttributeTextBox.Clear();
+        TaskGrowthAttributeComboBox.SelectedIndex = 0;
         TaskQuadrantComboBox.SelectedIndex = 1;
         TaskDueDatePicker.SelectedDate = null;
         TaskDueTimeTextBox.Clear();
@@ -1522,5 +1534,41 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             FrameworkContentElement frameworkContentElement => frameworkContentElement.Parent,
             _ => null
         };
+    }
+
+    private static string GetGrowthAttributeFromComboBox(System.Windows.Controls.ComboBox comboBox)
+    {
+        var item = comboBox.SelectedItem as ComboBoxItem;
+        if (item is null)
+        {
+            return string.Empty;
+        }
+
+        var tag = item.Tag?.ToString();
+        return tag ?? item.Content?.ToString() ?? string.Empty;
+    }
+
+    private static void SelectGrowthAttribute(System.Windows.Controls.ComboBox comboBox, string? value)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        foreach (ComboBoxItem item in comboBox.Items)
+        {
+            var content = item.Content?.ToString() ?? string.Empty;
+            var tag = item.Tag?.ToString();
+
+            if (string.IsNullOrEmpty(normalized) && (string.IsNullOrEmpty(tag) || content == "未设置（通用经验）"))
+            {
+                item.IsSelected = true;
+                return;
+            }
+
+            if (string.Equals(content, normalized, StringComparison.OrdinalIgnoreCase))
+            {
+                item.IsSelected = true;
+                return;
+            }
+        }
+
+        comboBox.SelectedIndex = 0;
     }
 }

@@ -87,19 +87,19 @@ public static class DatabaseInitializer
         var migrationService = new DatabaseMigrationService();
         migrationService.ApplyMigrations(connection);
 
-        var characterRepository = new CharacterRepository(new RpgEngine());
+        var rpgEngine = new RpgEngine();
+        var equipmentRepository = new EquipmentRepository();
+        var skillRepository = new SkillRepository();
+        var npcRepository = new NpcRepository();
+        var mapRepository = new MapRepository();
+
+        var characterRepository = new CharacterRepository(
+            rpgEngine, equipmentRepository, skillRepository, npcRepository, mapRepository);
         characterRepository.GetOrCreateDefaultCharacter();
 
-        var equipmentRepository = new EquipmentRepository();
         equipmentRepository.EnsureSeedData();
-
-        var skillRepository = new SkillRepository();
         skillRepository.EnsureSeedData();
-
-        var npcRepository = new NpcRepository();
         npcRepository.EnsureSeedData();
-
-        var mapRepository = new MapRepository();
         mapRepository.EnsureSeedData();
     }
 

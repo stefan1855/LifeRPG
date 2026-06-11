@@ -368,7 +368,18 @@
                 </StackPanel>
                 <StackPanel Grid.Column="4">
                     <TextBlock Foreground="#B7A8C8" Text="成长属性" />
-                    <TextBox x:Name="TaskGrowthAttributeTextBox" Margin="0,6,0,0" />
+                    <ComboBox x:Name="TaskGrowthAttributeComboBox"
+                              Style="{StaticResource ActionTaskComboBoxStyle}"
+                              Margin="0,6,0,0"
+                              SelectedIndex="0">
+                        <ComboBoxItem Content="未设置（通用经验）" Tag="" />
+                        <ComboBoxItem Content="体魄" />
+                        <ComboBoxItem Content="心智" />
+                        <ComboBoxItem Content="纪律" />
+                        <ComboBoxItem Content="表达" />
+                        <ComboBoxItem Content="创造" />
+                        <ComboBoxItem Content="资源" />
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Column="6">
                     <TextBlock Foreground="#B7A8C8" Text="四象限" />
@@ -465,7 +476,18 @@
                         </StackPanel>
                         <StackPanel Grid.Column="4">
                             <TextBlock Foreground="#B7A8C8" Text="编辑成长属性" />
-                            <TextBox x:Name="EditTaskGrowthAttributeTextBox" Margin="0,6,0,0" />
+                            <ComboBox x:Name="EditTaskGrowthAttributeComboBox"
+                                      Style="{StaticResource ActionTaskComboBoxStyle}"
+                                      Margin="0,6,0,0"
+                                      SelectedIndex="0">
+                                <ComboBoxItem Content="未设置（通用经验）" Tag="" />
+                                <ComboBoxItem Content="体魄" />
+                                <ComboBoxItem Content="心智" />
+                                <ComboBoxItem Content="纪律" />
+                                <ComboBoxItem Content="表达" />
+                                <ComboBoxItem Content="创造" />
+                                <ComboBoxItem Content="资源" />
+                            </ComboBox>
                         </StackPanel>
                         <StackPanel Grid.Column="6">
                             <TextBlock Foreground="#B7A8C8" Text="编辑四象限" />

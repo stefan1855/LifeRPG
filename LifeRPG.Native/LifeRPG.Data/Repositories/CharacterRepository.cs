@@ -8,15 +8,23 @@ namespace LifeRPG.Data.Repositories;
 public sealed class CharacterRepository
 {
     private readonly RpgEngine _rpgEngine;
+    private readonly EquipmentRepository _equipmentRepository;
+    private readonly SkillRepository _skillRepository;
+    private readonly NpcRepository _npcRepository;
+    private readonly MapRepository _mapRepository;
 
-    public CharacterRepository()
-        : this(new RpgEngine())
-    {
-    }
-
-    public CharacterRepository(RpgEngine rpgEngine)
+    public CharacterRepository(
+        RpgEngine rpgEngine,
+        EquipmentRepository equipmentRepository,
+        SkillRepository skillRepository,
+        NpcRepository npcRepository,
+        MapRepository mapRepository)
     {
         _rpgEngine = rpgEngine;
+        _equipmentRepository = equipmentRepository;
+        _skillRepository = skillRepository;
+        _npcRepository = npcRepository;
+        _mapRepository = mapRepository;
     }
 
     public Character GetOrCreateDefaultCharacter()
@@ -216,10 +224,10 @@ public sealed class CharacterRepository
             CurrentLevelExperienceSpan = Math.Max(1, levelResult.ExperienceRequiredForNextLevel - levelResult.ExperienceRequiredForCurrentLevel),
             Attributes = GetAttributes(character.Id),
             RecentAttributeLogs = GetRecentAttributeLogs(character.Id),
-            EquippedItems = new EquipmentRepository().GetEquippedItems(character.Id),
-            Skills = new SkillRepository().GetUnlockedSkills(character.Id),
-            NpcRelationships = new NpcRepository().GetRelationships(character.Id),
-            MapLocations = new MapRepository().GetLocations()
+            EquippedItems = _equipmentRepository.GetEquippedItems(character.Id),
+            Skills = _skillRepository.GetUnlockedSkills(character.Id),
+            NpcRelationships = _npcRepository.GetRelationships(character.Id),
+            MapLocations = _mapRepository.GetLocations()
         };
     }
 
