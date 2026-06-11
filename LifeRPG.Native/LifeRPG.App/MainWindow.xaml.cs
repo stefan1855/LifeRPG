@@ -86,6 +86,11 @@ public partial class MainWindow : Window
         }
     }
 
+    private void NavButton_Click(object sender, RoutedEventArgs e)
+    {
+        // 导航按钮（当前为占位）
+    }
+
     private static bool IsInsideScrollableControl(DependencyObject? element)
     {
         while (element is not null)

@@ -93,12 +93,12 @@
                     <TextBlock Margin="0,6,0,18"
                                Style="{StaticResource MutedTextBlockStyle}"
                                Text="当前阶段专注记录、证据与存档。" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="首页" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="行为记录" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="成长属性" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="图片证据" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="复盘归档" />
-                    <Button Style="{StaticResource NavButtonStyle}" Content="设置" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="首页" Click="NavButton_Click" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="行为记录" Click="NavButton_Click" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="成长属性" Click="NavButton_Click" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="图片证据" Click="NavButton_Click" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="复盘归档" Click="NavButton_Click" />
+                    <Button Style="{StaticResource NavButtonStyle}" Content="设置" Click="NavButton_Click" />
 
                     <Border Margin="0,18,0,0"
                             Style="{StaticResource StatCardBorderStyle}"
@@ -269,8 +269,7 @@
                 <Border Grid.Row="2"
                         Style="{StaticResource CardBorderStyle}"
                         Padding="12">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <controls:ActionTaskControl x:Name="ActionTaskControl" />
                     </ScrollViewer>
                 </Border>
