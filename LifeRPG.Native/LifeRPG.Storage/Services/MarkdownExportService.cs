@@ -237,7 +237,7 @@ public sealed class MarkdownExportService
         builder.AppendLine($"- 状态：{statusDisplay}");
         builder.AppendLine($"- 分类：{task.Category}");
         builder.AppendLine($"- 四象限：{quadrantDisplay}");
-        builder.AppendLine($"- 成长属性：{string.IsNullOrWhiteSpace(task.GrowthAttribute) ? "未设置" : task.GrowthAttribute}");
+        builder.AppendLine($"- 成长属性：{(string.IsNullOrWhiteSpace(task.GrowthAttribute) ? "未设置" : task.GrowthAttribute)}");
         builder.AppendLine($"- 经验值：{task.Experience}");
         builder.AppendLine($"- 创建时间：{task.CreatedAt:yyyy-MM-dd HH:mm:ss}");
         builder.AppendLine($"- 更新时间：{task.UpdatedAt:yyyy-MM-dd HH:mm:ss}");
@@ -282,3 +282,4 @@ public sealed class MarkdownExportService
         builder.AppendLine("---");
         builder.AppendLine();
     }
+}
