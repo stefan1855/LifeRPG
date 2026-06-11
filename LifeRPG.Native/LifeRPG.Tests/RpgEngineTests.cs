@@ -69,4 +69,106 @@ public sealed class RpgEngineTests
 
         Assert.True(result >= 0);
     }
+
+    [Fact]
+    public void CalculateLevel_WithNegativeExperience_ReturnsLevelOne()
+    {
+        var result = _engine.CalculateLevel(-50);
+
+        Assert.Equal(1, result.Level);
+        Assert.Equal(0, result.ExperienceIntoCurrentLevel);
+    }
+
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(99, 1)]
+    [InlineData(100, 2)]
+    [InlineData(299, 2)]
+    [InlineData(300, 3)]
+    [InlineData(599, 3)]
+    [InlineData(600, 4)]
+    [InlineData(1500, 5)]
+    public void CalculateLevel_MatchesLevelFormula(int exp, int expectedLevel)
+    {
+        var result = _engine.CalculateLevel(exp);
+        Assert.Equal(expectedLevel, result.Level);
+    }
+
+    [Fact]
+    public void CalculateLevel_LevelFiveNeeds400ExpForNextLevel()
+    {
+        var result = _engine.CalculateLevel(1500);
+
+        Assert.Equal(5, result.Level);
+        Assert.Equal(500, result.ExperienceToNextLevel);
+    }
+
+    [Fact]
+    public void AllocateTaskExperience_WithUnknownAttribute_CreatesItAsDisplayName()
+    {
+        var result = _engine.AllocateTaskExperience(20, "魅力");
+
+        var gain = Assert.Single(result);
+        Assert.Equal("魅力", gain.DisplayName);
+        Assert.Equal(20, gain.ExperienceDelta);
+    }
+
+    [Fact]
+    public void AllocateTaskExperience_WithZeroExperience_ReturnsZeroGain()
+    {
+        var result = _engine.AllocateTaskExperience(0, "体魄");
+
+        var gain = Assert.Single(result);
+        Assert.Equal(0, gain.ExperienceDelta);
+    }
+
+    [Fact]
+    public void ApplyEquipmentBonuses_WithEmptyList_ReturnsCopyOfBase()
+    {
+        IReadOnlyDictionary<string, int> baseAttributes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["physique"] = 5
+        };
+
+        var result = _engine.ApplyEquipmentBonuses(baseAttributes, []);
+
+        Assert.Equal(5, result["physique"]);
+        Assert.NotSame(baseAttributes, result);
+    }
+
+    [Fact]
+    public void ApplyEquipmentBonuses_WithMultipleBonuses_Accumulates()
+    {
+        IReadOnlyDictionary<string, int> baseAttributes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["mind"] = 10,
+            ["physique"] = 5
+        };
+
+        var bonuses = new List<RpgEquipmentBonus>
+        {
+            new() { AttributeKey = "mind", BonusValue = 3 },
+            new() { AttributeKey = "mind", BonusValue = 2 },
+            new() { AttributeKey = "physique", BonusValue = 1 }
+        };
+
+        var result = _engine.ApplyEquipmentBonuses(baseAttributes, bonuses);
+
+        Assert.Equal(15, result["mind"]);
+        Assert.Equal(6, result["physique"]);
+    }
+
+    [Fact]
+    public void CalculateExperienceToNextLevel_LevelOne_Returns100()
+    {
+        var result = _engine.CalculateExperienceToNextLevel(1);
+        Assert.Equal(100, result);
+    }
+
+    [Fact]
+    public void CalculateExperienceToNextLevel_LevelTen_Returns1000()
+    {
+        var result = _engine.CalculateExperienceToNextLevel(10);
+        Assert.Equal(1000, result);
+    }
 }

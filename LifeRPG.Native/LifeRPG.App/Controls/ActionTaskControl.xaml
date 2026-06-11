@@ -777,9 +777,12 @@
                                FontWeight="Bold"
                                Text="当前视图：全部任务" />
                     <TextBlock x:Name="TaskCountTextBlock"
-                               Margin="0,9,0,0"
+                               Margin="0,9,16,0"
                                Foreground="#B7A8C8"
                                Text="当前显示 0 条任务" />
+                    <Button Width="130"
+                            Click="ExportActionTasksButton_Click"
+                            Content="导出任务 Markdown" />
                 </StackPanel>
             </DockPanel>
 

@@ -31,6 +31,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     private readonly LifeRecordRepository _lifeRecordRepository;
     private readonly ActionTaskImageStorageService _actionTaskImageStorageService;
     private readonly RpgProgressionService _rpgProgressionService;
+    private readonly MarkdownExportService _markdownExportService;
     private readonly List<string> _pendingImagePaths = [];
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
@@ -49,6 +50,7 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
         _lifeRecordRepository = (LifeRecordRepository)AppServiceProvider.Services.GetService(typeof(LifeRecordRepository))!;
         _actionTaskImageStorageService = (ActionTaskImageStorageService)AppServiceProvider.Services.GetService(typeof(ActionTaskImageStorageService))!;
         _rpgProgressionService = (RpgProgressionService)AppServiceProvider.Services.GetService(typeof(RpgProgressionService))!;
+        _markdownExportService = (MarkdownExportService)AppServiceProvider.Services.GetService(typeof(MarkdownExportService))!;
 
         InitializeComponent();
     }
@@ -697,6 +699,45 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
     {
         _currentView = ActionTaskView.All;
         RefreshCurrentView();
+    }
+
+    private void ExportActionTasksButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var tasks = _currentView switch
+            {
+                ActionTaskView.Today => _actionTaskRepository.GetTodayTasks(),
+                ActionTaskView.Overdue => _actionTaskRepository.GetOverdueTasks(),
+                ActionTaskView.Completed => _actionTaskRepository.GetCompletedTasks(),
+                _ => _actionTaskRepository.GetAll()
+            };
+
+            var viewLabel = _currentView switch
+            {
+                ActionTaskView.Today => "今日",
+                ActionTaskView.Overdue => "逾期",
+                ActionTaskView.Completed => "已完成",
+                _ => "全部"
+            };
+
+            var exportPath = _markdownExportService.ExportActionTasksToMarkdown(
+                tasks, AppStoragePaths.ExportsDirectory);
+
+            MessageBox.Show(
+                $"行动任务 Markdown 导出成功（{viewLabel}视图，{tasks.Count} 条）\n{exportPath}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"导出行动任务 Markdown 失败：{ex.Message}",
+                "LifeRPG.Native",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
     }
 
     private void RefreshCurrentView(string? preserveSelectedTaskId = null)
