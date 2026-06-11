@@ -91,6 +91,43 @@ public partial class MainWindow : Window
         // 导航按钮（当前为占位）
     }
 
+    private void TogglePanel_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button) return;
+
+        UIElement? panel = button.Tag switch
+        {
+            "Dashboard" => DashboardPanel,
+            "ActionTask" => ActionTaskPanel,
+            "Records" => RecordsPanel,
+            "System" => SystemPanel,
+            _ => null
+        };
+
+        // Fallback: find panel by naming convention
+        panel ??= FindName(button.Name.Replace("Toggle", "").Replace("Button", "Panel")) as UIElement;
+
+        if (panel is null) return;
+
+        var isExpanded = panel.Visibility == Visibility.Visible;
+        panel.Visibility = isExpanded ? Visibility.Collapsed : Visibility.Visible;
+        button.Content = isExpanded
+            ? $"▶ {button.Content.ToString()!.TrimStart('▾', ' ')}"
+            : $"▾ {button.Content.ToString()!.TrimStart('▶', ' ')}";
+    }
+
+    private void PanelScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        var source = e.OriginalSource as DependencyObject;
+
+        if (IsInsideScrollableControl(source) && sender is ScrollViewer scrollViewer)
+        {
+            scrollViewer.ScrollToVerticalOffset(
+                scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+    }
+
     private static bool IsInsideScrollableControl(DependencyObject? element)
     {
         while (element is not null)
