@@ -87,7 +87,10 @@ public sealed class RpgEngineTests
     [InlineData(300, 3)]
     [InlineData(599, 3)]
     [InlineData(600, 4)]
-    [InlineData(1500, 5)]
+    [InlineData(999, 4)]
+    [InlineData(1000, 5)]
+    [InlineData(1499, 5)]
+    [InlineData(1500, 6)]
     public void CalculateLevel_MatchesLevelFormula(int exp, int expectedLevel)
     {
         var result = _engine.CalculateLevel(exp);
@@ -95,9 +98,9 @@ public sealed class RpgEngineTests
     }
 
     [Fact]
-    public void CalculateLevel_LevelFiveNeeds400ExpForNextLevel()
+    public void CalculateLevel_LevelFiveNeeds500ExpForNextLevel()
     {
-        var result = _engine.CalculateLevel(1500);
+        var result = _engine.CalculateLevel(1000);
 
         Assert.Equal(5, result.Level);
         Assert.Equal(500, result.ExperienceToNextLevel);
