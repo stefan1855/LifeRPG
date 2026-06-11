@@ -50,6 +50,18 @@ public static class CharacterAttributeCatalog
         };
     }
 
+    public static bool IsCoreAttribute(string attributeKey)
+    {
+        if (string.IsNullOrWhiteSpace(attributeKey))
+        {
+            return false;
+        }
+
+        var normalized = NormalizeKey(attributeKey);
+        return DefaultDefinitions.Any(d =>
+            string.Equals(d.Key, normalized, StringComparison.OrdinalIgnoreCase));
+    }
+
     public static string NormalizeKey(string value)
     {
         if (string.IsNullOrWhiteSpace(value))

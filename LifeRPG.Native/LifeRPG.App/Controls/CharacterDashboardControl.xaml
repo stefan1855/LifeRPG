@@ -154,8 +154,45 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="属性经验" />
-                    <ItemsControl x:Name="AttributesItemsControl" Margin="0,12,0,0">
+                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="核心属性" />
+                    <ItemsControl x:Name="CoreAttributesItemsControl" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,10"
+                                        Style="{StaticResource StatCardBorderStyle}"
+                                        Background="#15101D">
+                                    <StackPanel>
+                                        <DockPanel LastChildFill="False">
+                                            <TextBlock DockPanel.Dock="Left"
+                                                       FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}"
+                                                       Text="{Binding DisplayName, Mode=OneWay}" />
+                                            <TextBlock DockPanel.Dock="Right"
+                                                       Style="{StaticResource MutedTextBlockStyle}"
+                                                       Text="{Binding LevelText, Mode=OneWay}" />
+                                        </DockPanel>
+                                        <TextBlock Margin="0,6,0,0"
+                                                   Style="{StaticResource MutedTextBlockStyle}"
+                                                   Text="{Binding ExperienceText, Mode=OneWay}" />
+                                        <ProgressBar Margin="0,10,0,0"
+                                                     Height="14"
+                                                     Minimum="0"
+                                                     Maximum="{Binding ProgressMaximum, Mode=OneWay}"
+                                                     Value="{Binding ProgressValue, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock x:Name="ExtendedAttributesHeader"
+                               Margin="0,18,0,0"
+                               Style="{StaticResource SectionSubtitleTextBlockStyle}"
+                               Text="扩展属性"
+                               Visibility="Collapsed" />
+                    <ItemsControl x:Name="ExtendedAttributesItemsControl"
+                                  Margin="0,12,0,0"
+                                  Visibility="Collapsed">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="0,0,0,10"

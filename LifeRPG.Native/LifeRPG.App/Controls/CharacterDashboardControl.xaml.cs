@@ -55,7 +55,7 @@ public partial class CharacterDashboardControl : WpfUserControl
             CharacterLevelProgressBar.Value = Math.Min(snapshot.CurrentLevelExperienceSpan, snapshot.ExperienceIntoCurrentLevel);
             LoadAvatar(snapshot.Character.AvatarImagePath);
 
-            AttributesItemsControl.ItemsSource = snapshot.Attributes.Select(attribute =>
+            var attributeViewModels = snapshot.Attributes.Select(attribute =>
             {
                 var attributeLevel = _rpgEngine.CalculateLevel(attribute.Experience);
                 return new
@@ -67,6 +67,21 @@ public partial class CharacterDashboardControl : WpfUserControl
                     ProgressMaximum = Math.Max(1, attributeLevel.ExperienceRequiredForNextLevel - attributeLevel.ExperienceRequiredForCurrentLevel)
                 };
             }).ToList();
+
+            var coreAttributes = attributeViewModels
+                .Where((_, index) => CharacterAttributeCatalog.IsCoreAttribute(snapshot.Attributes[index].AttributeKey))
+                .ToList();
+
+            var extendedAttributes = attributeViewModels
+                .Where((_, index) => !CharacterAttributeCatalog.IsCoreAttribute(snapshot.Attributes[index].AttributeKey))
+                .ToList();
+
+            CoreAttributesItemsControl.ItemsSource = coreAttributes;
+
+            var hasExtended = extendedAttributes.Count > 0;
+            ExtendedAttributesHeader.Visibility = hasExtended ? Visibility.Visible : Visibility.Collapsed;
+            ExtendedAttributesItemsControl.Visibility = hasExtended ? Visibility.Visible : Visibility.Collapsed;
+            ExtendedAttributesItemsControl.ItemsSource = hasExtended ? extendedAttributes : null;
 
             var logs = snapshot.RecentAttributeLogs
                 .Select(log => new
