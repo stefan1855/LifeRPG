@@ -8,6 +8,11 @@ namespace LifeRPG.App;
 
 public partial class App : System.Windows.Application
 {
+    private const string DarkThemePath = "Themes/UndeadWarlockTheme.xaml";
+    private const string LightThemePath = "Themes/LightTheme.xaml";
+
+    public static bool IsLightTheme { get; private set; }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -32,5 +37,17 @@ public partial class App : System.Windows.Application
 
             Shutdown(-1);
         }
+    }
+
+    public static void SwitchTheme()
+    {
+        IsLightTheme = !IsLightTheme;
+        var themePath = IsLightTheme ? LightThemePath : DarkThemePath;
+
+        var dict = new ResourceDictionary { Source = new Uri(themePath, UriKind.Relative) };
+
+        var merged = Current.Resources.MergedDictionaries;
+        merged.Clear();
+        merged.Add(dict);
     }
 }

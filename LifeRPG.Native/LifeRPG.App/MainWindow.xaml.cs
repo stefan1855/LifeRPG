@@ -78,13 +78,18 @@ public partial class MainWindow : Window
     {
         var source = e.OriginalSource as DependencyObject;
 
-        // Forward mouse wheel from nested DataGrid/ListBox to the parent ScrollViewer
         if (IsInsideScrollableControl(source))
         {
             MainScrollViewer.ScrollToVerticalOffset(
                 MainScrollViewer.VerticalOffset - e.Delta);
             e.Handled = true;
         }
+    }
+
+    private void ToggleThemeButton_Click(object sender, RoutedEventArgs e)
+    {
+        App.SwitchTheme();
+        ToggleThemeButton.Content = App.IsLightTheme ? "切换为深色主题" : "切换为浅色主题";
     }
 
     private static bool IsInsideScrollableControl(DependencyObject? element)

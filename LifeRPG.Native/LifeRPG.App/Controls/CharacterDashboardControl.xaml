@@ -30,7 +30,7 @@
 
                 <Border Grid.Column="0"
                         Style="{StaticResource StatCardBorderStyle}"
-                        Background="#14101D">
+                        Background="{StaticResource WarlockCardAltBrush}">
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
                                     Width="132"
                                     Height="132"
                                     Style="{StaticResource ImagePreviewBorderStyle}"
-                                    Background="#0E1114">
+                                    Background="{StaticResource WarlockAbyssBrush}">
                                 <Grid>
                                     <Image x:Name="CharacterAvatarImage"
                                            Stretch="UniformToFill" />
@@ -119,7 +119,7 @@
 
                 <Border Grid.Column="2"
                         Style="{StaticResource StatCardBorderStyle}"
-                        Background="#14101D">
+                        Background="{StaticResource WarlockCardAltBrush}">
                     <StackPanel>
                         <TextBlock Text="当前装备"
                                    FontWeight="Bold"
@@ -160,7 +160,7 @@
                             <DataTemplate>
                                 <Border Margin="0,0,0,10"
                                         Style="{StaticResource StatCardBorderStyle}"
-                                        Background="#15101D">
+                                        Background="{StaticResource WarlockCardAltBrush}">
                                     <StackPanel>
                                         <DockPanel LastChildFill="False">
                                             <TextBlock DockPanel.Dock="Left"
@@ -197,7 +197,7 @@
                             <DataTemplate>
                                 <Border Margin="0,0,0,10"
                                         Style="{StaticResource StatCardBorderStyle}"
-                                        Background="#15101D">
+                                        Background="{StaticResource WarlockCardAltBrush}">
                                     <StackPanel>
                                         <DockPanel LastChildFill="False">
                                             <TextBlock DockPanel.Dock="Left"
@@ -230,7 +230,7 @@
                             <DataTemplate>
                                 <Border Margin="0,0,0,10"
                                         Style="{StaticResource StatCardBorderStyle}"
-                                        Background="#15101D">
+                                        Background="{StaticResource WarlockCardAltBrush}">
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold"
                                                    Foreground="{StaticResource WarlockTextPrimaryBrush}"
@@ -262,7 +262,7 @@
 
                 <Border Grid.Column="0"
                         Style="{StaticResource StatCardBorderStyle}"
-                        Background="#14101D">
+                        Background="{StaticResource WarlockCardAltBrush}">
                     <StackPanel>
                         <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="技能骨架" />
                         <ItemsControl x:Name="SkillsItemsControl" Margin="0,12,0,0" />
@@ -271,7 +271,7 @@
 
                 <Border Grid.Column="2"
                         Style="{StaticResource StatCardBorderStyle}"
-                        Background="#14101D">
+                        Background="{StaticResource WarlockCardAltBrush}">
                     <StackPanel>
                         <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="NPC / 地图骨架" />
                         <ItemsControl x:Name="NpcAndMapItemsControl" Margin="0,12,0,0" />
