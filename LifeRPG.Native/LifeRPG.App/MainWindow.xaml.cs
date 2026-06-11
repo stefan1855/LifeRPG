@@ -2,6 +2,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
@@ -11,6 +13,8 @@ using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
 using Forms = System.Windows.Forms;
+using WpfDataGrid = System.Windows.Controls.DataGrid;
+using WpfListBox = System.Windows.Controls.ListBox;
 
 namespace LifeRPG.App;
 
@@ -68,6 +72,30 @@ public partial class MainWindow : Window
         RefreshRecordsList();
         LoadStatisticsDashboard();
         CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
+    }
+
+    private void MainScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        var source = e.OriginalSource as DependencyObject;
+
+        // Forward mouse wheel from nested DataGrid/ListBox to the parent ScrollViewer
+        if (IsInsideScrollableControl(source))
+        {
+            MainScrollViewer.ScrollToVerticalOffset(
+                MainScrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+    }
+
+    private static bool IsInsideScrollableControl(DependencyObject? element)
+    {
+        while (element is not null)
+        {
+            if (element is WpfDataGrid || element is WpfListBox)
+                return true;
+            element = VisualTreeHelper.GetParent(element);
+        }
+        return false;
     }
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)

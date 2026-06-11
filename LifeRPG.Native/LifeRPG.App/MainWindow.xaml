@@ -113,9 +113,11 @@
                 </StackPanel>
             </Border>
 
-            <ScrollViewer Grid.Column="2"
+            <ScrollViewer x:Name="MainScrollViewer"
+                          Grid.Column="2"
                           VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
+                          HorizontalScrollBarVisibility="Disabled"
+                          PreviewMouseWheel="MainScrollViewer_PreviewMouseWheel">
                 <StackPanel>
                     <Border Style="{StaticResource CardBorderStyle}">
                         <StackPanel>
