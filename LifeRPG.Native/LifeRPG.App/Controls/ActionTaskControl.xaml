@@ -9,8 +9,8 @@
              PreviewMouseWheel="ActionTaskControl_PreviewMouseWheel">
     <UserControl.Resources>
         <Style x:Key="ActionTaskComboBoxItemStyle" TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#21162C" />
-            <Setter Property="Foreground" Value="#E8E1F2" />
+            <Setter Property="Background" Value="{StaticResource WarlockCardBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -26,15 +26,15 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="ItemBorder" Property="Background" Value="#3A2A4A" />
-                                <Setter Property="Foreground" Value="#7CFF6B" />
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="ItemBorder" Property="Background" Value="#4B2D68" />
-                                <Setter Property="Foreground" Value="#7CFF6B" />
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#7A6A8A" />
+                                <Setter Property="Foreground" Value="{StaticResource WarlockTextMutedBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -42,15 +42,15 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="#7A6A8A" />
+                    <Setter Property="Foreground" Value="{StaticResource WarlockTextMutedBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="ActionTaskComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Background" Value="#140C1E" />
-            <Setter Property="Foreground" Value="#E8E1F2" />
-            <Setter Property="BorderBrush" Value="#5A3D73" />
+            <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="MinHeight" Value="28" />
             <Setter Property="Padding" Value="8,3" />
@@ -83,7 +83,7 @@
                                                       IsHitTestVisible="False">
                                         <ContentPresenter.Resources>
                                             <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Foreground" Value="#E8E1F2" />
+                                                <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
                                             </Style>
                                         </ContentPresenter.Resources>
                                     </ContentPresenter>
@@ -98,7 +98,7 @@
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontSize="12"
-                                                               Foreground="#B7A8C8"
+                                                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                                                Text="▼" />
                                                 </Border>
                                             </ControlTemplate>
@@ -115,8 +115,8 @@
                                    PopupAnimation="Slide">
                                 <Border Margin="0,4,0,0"
                                         MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Background="#21162C"
-                                        BorderBrush="#5A3D73"
+                                        Background="{StaticResource WarlockCardBrush}"
+                                        BorderBrush="{StaticResource WarlockBorderBrush}"
                                         BorderThickness="1"
                                         CornerRadius="6">
                                     <ScrollViewer Margin="1"
@@ -128,14 +128,14 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="OuterBorder" Property="Background" Value="#21162C" />
-                                <Setter Property="Foreground" Value="#7A6A8A" />
+                                <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource WarlockCardBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource WarlockTextMutedBrush}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="#7CFF6B" />
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="#7CFF6B" />
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -144,40 +144,40 @@
         </Style>
 
         <Style x:Key="ActionTaskDatePickerTextBoxStyle" TargetType="{x:Type primitives:DatePickerTextBox}">
-            <Setter Property="Background" Value="#140C1E" />
-            <Setter Property="Foreground" Value="#E8E1F2" />
-            <Setter Property="BorderBrush" Value="#5A3D73" />
+            <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
             <Setter Property="BorderThickness" Value="1.5" />
         </Style>
 
         <Style x:Key="ActionTaskCalendarDayButtonStyle" TargetType="CalendarDayButton">
-            <Setter Property="Background" Value="#21162C" />
-            <Setter Property="Foreground" Value="#E8E1F2" />
-            <Setter Property="BorderBrush" Value="#3A2A4A" />
+            <Setter Property="Background" Value="{StaticResource WarlockCardBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WarlockSelectionBrush}" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3A2A4A" />
-                    <Setter Property="Foreground" Value="#7CFF6B" />
+                    <Setter Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                    <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#4B2D68" />
-                    <Setter Property="Foreground" Value="#7CFF6B" />
+                    <Setter Property="Background" Value="{StaticResource WarlockSelectionBrush}" />
+                    <Setter Property="Foreground" Value="{StaticResource WarlockSoulGreenBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="ActionTaskDatePickerStyle" TargetType="DatePicker">
-            <Setter Property="Background" Value="#140C1E" />
-            <Setter Property="Foreground" Value="#E8E1F2" />
-            <Setter Property="BorderBrush" Value="#5A3D73" />
+            <Setter Property="Background" Value="{StaticResource WarlockAbyssBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
             <Setter Property="BorderThickness" Value="1.5" />
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="CalendarStyle">
                 <Setter.Value>
                     <Style TargetType="Calendar">
-                        <Setter Property="Background" Value="#21162C" />
-                        <Setter Property="Foreground" Value="#E8E1F2" />
-                        <Setter Property="BorderBrush" Value="#5A3D73" />
+                        <Setter Property="Background" Value="{StaticResource WarlockCardBrush}" />
+                        <Setter Property="Foreground" Value="{StaticResource WarlockTextPrimaryBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource WarlockBorderBrush}" />
                         <Setter Property="BorderThickness" Value="1.5" />
                         <Setter Property="CalendarDayButtonStyle" Value="{StaticResource ActionTaskCalendarDayButtonStyle}" />
                     </Style>
@@ -186,8 +186,8 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Background="#21162C"
-            BorderBrush="#3A2A4A"
+    <Border Background="{StaticResource WarlockCardBrush}"
+            BorderBrush="{StaticResource WarlockBorderBrush}"
             BorderThickness="1.5"
             CornerRadius="12"
             Padding="22">
@@ -195,98 +195,98 @@
             <TextBlock Text="行动任务"
                        FontSize="20"
                        FontWeight="Bold"
-                       Foreground="#7CFF6B" />
+                       Foreground="{StaticResource WarlockSoulGreenBrush}" />
             <TextBlock Margin="0,8,0,0"
-                       Foreground="#B7A8C8"
+                       Foreground="{StaticResource WarlockTextSecondaryBrush}"
                        Text="用任务系统承接下一步行动，当前支持在完成任务时附带图片证据。"
                        TextWrapping="Wrap" />
 
             <Border Margin="0,18,0,0"
-                    Background="#171020"
-                    BorderBrush="#3A2A4A"
+                    Background="{StaticResource WarlockAbyssBrush}"
+                    BorderBrush="{StaticResource WarlockBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="10"
                     Padding="16">
                 <StackPanel>
                     <TextBlock Text="行动任务统计"
-                               Foreground="#C8A45D"
+                               Foreground="{StaticResource WarlockGoldBrush}"
                                FontSize="15"
                                FontWeight="Bold" />
                     <TextBlock Margin="0,8,0,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="统计基于当前全部行动任务，不受任务列表视图切换影响。"
                                TextWrapping="Wrap" />
                     <TextBlock Margin="0,4,0,0"
-                               Foreground="#8F7FA3"
+                               Foreground="{StaticResource WarlockTextMutedBrush}"
                                FontSize="11"
                                Text="逾期仅统计未完成且未取消任务；本周到期范围为今天起 7 天内；总任务经验包含全部状态，已完成经验仅统计已完成任务。"
                                TextWrapping="Wrap" />
                     <TextBlock x:Name="ActionTaskStatisticsEmptyTextBlock"
                                Margin="0,10,0,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="暂无行动任务统计数据"
                                TextWrapping="Wrap"
                                Visibility="Collapsed" />
 
                     <UniformGrid Margin="0,14,0,0" Columns="5">
-                        <Border Margin="0,0,10,10" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,10" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="总任务" />
-                                <TextBlock x:Name="TotalTasksTextBlock" Foreground="#7CFF6B" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="总任务" />
+                                <TextBlock x:Name="TotalTasksTextBlock" Foreground="{StaticResource WarlockSoulGreenBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,10" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,10" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="待开始" />
-                                <TextBlock x:Name="NotStartedTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="待开始" />
+                                <TextBlock x:Name="NotStartedTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,10" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,10" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="进行中" />
-                                <TextBlock x:Name="InProgressTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="进行中" />
+                                <TextBlock x:Name="InProgressTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,10" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,10" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="已完成" />
-                                <TextBlock x:Name="CompletedTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="已完成" />
+                                <TextBlock x:Name="CompletedTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,0,10" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,0,10" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="已取消" />
-                                <TextBlock x:Name="CancelledTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="已取消" />
+                                <TextBlock x:Name="CancelledTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,0" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,0" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="逾期任务" />
-                                <TextBlock x:Name="OverdueTasksTextBlock" Foreground="#E35D5D" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="逾期任务" />
+                                <TextBlock x:Name="OverdueTasksTextBlock" Foreground="{StaticResource WarlockDangerBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,0" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,0" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="今日到期" />
-                                <TextBlock x:Name="DueTodayTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="今日到期" />
+                                <TextBlock x:Name="DueTodayTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,0" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,0" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="本周到期" />
-                                <TextBlock x:Name="DueThisWeekTasksTextBlock" Foreground="#E8E1F2" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="本周到期" />
+                                <TextBlock x:Name="DueThisWeekTasksTextBlock" Foreground="{StaticResource WarlockTextPrimaryBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,10,0" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,10,0" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="总任务经验" />
-                                <TextBlock x:Name="TotalTaskExperienceTextBlock" Foreground="#7CFF6B" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="总任务经验" />
+                                <TextBlock x:Name="TotalTaskExperienceTextBlock" Foreground="{StaticResource WarlockSoulGreenBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
-                        <Border Margin="0,0,0,0" Background="#21162C" BorderBrush="#3A2A4A" BorderThickness="1" CornerRadius="8" Padding="10">
+                        <Border Margin="0,0,0,0" Background="{StaticResource WarlockCardBrush}" BorderBrush="{StaticResource WarlockBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10">
                             <StackPanel>
-                                <TextBlock Foreground="#B7A8C8" Text="已完成经验" />
-                                <TextBlock x:Name="CompletedTaskExperienceTextBlock" Foreground="#7CFF6B" FontSize="20" FontWeight="Bold" Text="0" />
+                                <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="已完成经验" />
+                                <TextBlock x:Name="CompletedTaskExperienceTextBlock" Foreground="{StaticResource WarlockSoulGreenBrush}" FontSize="20" FontWeight="Bold" Text="0" />
                             </StackPanel>
                         </Border>
                     </UniformGrid>
@@ -299,18 +299,18 @@
                         </Grid.ColumnDefinitions>
 
                         <Border Grid.Column="0"
-                                Background="#21162C"
-                                BorderBrush="#3A2A4A"
+                                Background="{StaticResource WarlockCardBrush}"
+                                BorderBrush="{StaticResource WarlockBorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="8"
                                 Padding="12">
                             <StackPanel>
-                                <TextBlock Foreground="#C8A45D" FontWeight="Bold" Text="四象限统计" />
+                                <TextBlock Foreground="{StaticResource WarlockGoldBrush}" FontWeight="Bold" Text="四象限统计" />
                                 <ItemsControl x:Name="QuadrantStatisticsItemsControl" Margin="0,10,0,0">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Margin="0,0,0,6"
-                                                       Foreground="#E8E1F2"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}"
                                                        Text="{Binding DisplayText}" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -319,18 +319,18 @@
                         </Border>
 
                         <Border Grid.Column="2"
-                                Background="#21162C"
-                                BorderBrush="#3A2A4A"
+                                Background="{StaticResource WarlockCardBrush}"
+                                BorderBrush="{StaticResource WarlockBorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="8"
                                 Padding="12">
                             <StackPanel>
-                                <TextBlock Foreground="#C8A45D" FontWeight="Bold" Text="成长属性统计" />
+                                <TextBlock Foreground="{StaticResource WarlockGoldBrush}" FontWeight="Bold" Text="成长属性统计" />
                                 <ItemsControl x:Name="AttributeStatisticsItemsControl" Margin="0,10,0,0">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Margin="0,0,0,6"
-                                                       Foreground="#E8E1F2"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}"
                                                        Text="{Binding DisplayText}" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -342,7 +342,7 @@
             </Border>
 
             <TextBlock Margin="0,18,0,0"
-                       Foreground="#C8A45D"
+                       Foreground="{StaticResource WarlockGoldBrush}"
                        FontSize="15"
                        FontWeight="Bold"
                        Text="新增行动任务" />
@@ -359,15 +359,15 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Foreground="#B7A8C8" Text="任务标题" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="任务标题" />
                     <TextBox x:Name="TaskTitleTextBox" Margin="0,6,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <TextBlock Foreground="#B7A8C8" Text="任务分类" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="任务分类" />
                     <TextBox x:Name="TaskCategoryTextBox" Margin="0,6,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="4">
-                    <TextBlock Foreground="#B7A8C8" Text="成长属性" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="成长属性" />
                     <ComboBox x:Name="TaskGrowthAttributeComboBox"
                               Style="{StaticResource ActionTaskComboBoxStyle}"
                               Margin="0,6,0,0"
@@ -382,7 +382,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Column="6">
-                    <TextBlock Foreground="#B7A8C8" Text="四象限" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="四象限" />
                     <ComboBox x:Name="TaskQuadrantComboBox"
                               Style="{StaticResource ActionTaskComboBoxStyle}"
                               Margin="0,6,0,0"
@@ -407,7 +407,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Foreground="#B7A8C8" Text="任务内容" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="任务内容" />
                     <TextBox x:Name="TaskContentTextBox"
                              Margin="0,6,0,0"
                              MinHeight="84"
@@ -416,7 +416,7 @@
                              VerticalScrollBarVisibility="Auto" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <TextBlock Foreground="#B7A8C8" Text="截止日期" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="截止日期" />
                     <DatePicker x:Name="TaskDueDatePicker"
                                 Margin="0,6,0,0"
                                 Style="{StaticResource ActionTaskDatePickerStyle}">
@@ -427,7 +427,7 @@
                     </DatePicker>
                 </StackPanel>
                 <StackPanel Grid.Column="4">
-                    <TextBlock Foreground="#B7A8C8" Text="截止时间 HH:mm" />
+                    <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="截止时间 HH:mm" />
                     <TextBox x:Name="TaskDueTimeTextBox" Margin="0,6,0,0" />
                 </StackPanel>
                 <Button x:Name="CreateTaskButton"
@@ -439,19 +439,19 @@
             </Grid>
 
             <Border Margin="0,18,0,0"
-                    Background="#171020"
-                    BorderBrush="#3A2A4A"
+                    Background="{StaticResource WarlockAbyssBrush}"
+                    BorderBrush="{StaticResource WarlockBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="10"
                     Padding="16">
                 <StackPanel>
                     <TextBlock Text="编辑当前任务"
-                               Foreground="#C8A45D"
+                               Foreground="{StaticResource WarlockGoldBrush}"
                                FontSize="15"
                                FontWeight="Bold" />
                     <TextBlock x:Name="EditTaskStatusTextBlock"
                                Margin="0,8,0,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="请选择一个任务进行编辑"
                                TextWrapping="Wrap" />
 
@@ -467,15 +467,15 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑标题" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑标题" />
                             <TextBox x:Name="EditTaskTitleTextBox" Margin="0,6,0,0" />
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑分类" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑分类" />
                             <TextBox x:Name="EditTaskCategoryTextBox" Margin="0,6,0,0" />
                         </StackPanel>
                         <StackPanel Grid.Column="4">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑成长属性" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑成长属性" />
                             <ComboBox x:Name="EditTaskGrowthAttributeComboBox"
                                       Style="{StaticResource ActionTaskComboBoxStyle}"
                                       Margin="0,6,0,0"
@@ -490,7 +490,7 @@
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Grid.Column="6">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑四象限" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑四象限" />
                             <ComboBox x:Name="EditTaskQuadrantComboBox"
                                       Style="{StaticResource ActionTaskComboBoxStyle}"
                                       Margin="0,6,0,0"
@@ -515,7 +515,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑内容" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑内容" />
                             <TextBox x:Name="EditTaskContentTextBox"
                                      Margin="0,6,0,0"
                                      MinHeight="84"
@@ -524,7 +524,7 @@
                                      VerticalScrollBarVisibility="Auto" />
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑截止日期" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑截止日期" />
                             <DatePicker x:Name="EditTaskDueDatePicker"
                                         Margin="0,6,0,0"
                                         Style="{StaticResource ActionTaskDatePickerStyle}">
@@ -535,7 +535,7 @@
                             </DatePicker>
                         </StackPanel>
                         <StackPanel Grid.Column="4">
-                            <TextBlock Foreground="#B7A8C8" Text="编辑截止时间 HH:mm" />
+                            <TextBlock Foreground="{StaticResource WarlockTextSecondaryBrush}" Text="编辑截止时间 HH:mm" />
                             <TextBox x:Name="EditTaskDueTimeTextBox" Margin="0,6,0,0" />
                         </StackPanel>
                         <WrapPanel Grid.Column="6" Margin="0,24,0,0">
@@ -552,18 +552,18 @@
                     </Grid>
 
                     <Border Margin="0,14,0,0"
-                            Background="#21162C"
-                            BorderBrush="#3A2A4A"
+                            Background="{StaticResource WarlockCardBrush}"
+                            BorderBrush="{StaticResource WarlockBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="12">
                         <StackPanel>
-                            <TextBlock Foreground="#C8A45D"
+                            <TextBlock Foreground="{StaticResource WarlockGoldBrush}"
                                        FontWeight="Bold"
                                        Text="行为记录关联" />
                             <TextBlock x:Name="LinkedLifeRecordStatusTextBlock"
                                        Margin="0,8,0,0"
-                                       Foreground="#B7A8C8"
+                                       Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                        Text="关联行为记录：未关联"
                                        TextWrapping="Wrap" />
                             <WrapPanel Margin="0,12,0,0">
@@ -597,23 +597,23 @@
             </Border>
 
             <Border Margin="0,18,0,0"
-                    Background="#171020"
-                    BorderBrush="#3A2A4A"
+                    Background="{StaticResource WarlockAbyssBrush}"
+                    BorderBrush="{StaticResource WarlockBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="10"
                     Padding="16">
                 <StackPanel>
                     <TextBlock Text="完成任务"
-                               Foreground="#C8A45D"
+                               Foreground="{StaticResource WarlockGoldBrush}"
                                FontSize="15"
                                FontWeight="Bold" />
                     <TextBlock x:Name="CompleteTaskStatusTextBlock"
                                Margin="0,8,0,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="请选择一个任务进行完成"
                                TextWrapping="Wrap" />
                     <TextBlock Margin="0,14,0,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="完成备注" />
                     <TextBox x:Name="CompletionNoteTextBox"
                              Margin="0,6,0,0"
@@ -623,18 +623,18 @@
                              VerticalScrollBarVisibility="Auto" />
 
                     <Border Margin="0,14,0,0"
-                            Background="#21162C"
-                            BorderBrush="#3A2A4A"
+                            Background="{StaticResource WarlockCardBrush}"
+                            BorderBrush="{StaticResource WarlockBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="12">
                         <StackPanel>
-                            <TextBlock Foreground="#C8A45D"
+                            <TextBlock Foreground="{StaticResource WarlockGoldBrush}"
                                        FontWeight="Bold"
                                        Text="待上传图片" />
                             <TextBlock x:Name="PendingTaskImagesCountTextBlock"
                                        Margin="0,8,0,0"
-                                       Foreground="#B7A8C8"
+                                       Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                        Text="待上传图片：0 张" />
                             <WrapPanel Margin="0,10,0,0">
                                 <Button Width="150"
@@ -650,27 +650,27 @@
                             <ListBox x:Name="PendingTaskImagesListBox"
                                      Margin="0,10,0,0"
                                      MinHeight="80"
-                                     Background="#140C1E"
-                                     BorderBrush="#3A2A4A"
-                                     Foreground="#E8E1F2" />
+                                     Background="{StaticResource WarlockAbyssBrush}"
+                                     BorderBrush="{StaticResource WarlockBorderBrush}"
+                                     Foreground="{StaticResource WarlockTextPrimaryBrush}" />
                         </StackPanel>
                     </Border>
 
                     <Border Margin="0,14,0,0"
-                            Background="#21162C"
-                            BorderBrush="#3A2A4A"
+                            Background="{StaticResource WarlockCardBrush}"
+                            BorderBrush="{StaticResource WarlockBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="12">
                         <StackPanel>
                             <DockPanel LastChildFill="False">
                                 <TextBlock DockPanel.Dock="Left"
-                                           Foreground="#C8A45D"
+                                           Foreground="{StaticResource WarlockGoldBrush}"
                                            FontWeight="Bold"
                                            Text="已关联图片证据" />
                                 <TextBlock x:Name="AssociatedTaskImagesCountTextBlock"
                                            DockPanel.Dock="Right"
-                                           Foreground="#B7A8C8"
+                                           Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                            Text="已关联图片：0 张" />
                             </DockPanel>
                             <DataGrid x:Name="TaskImageEvidenceDataGrid"
@@ -688,18 +688,18 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                             <Border Margin="0,14,0,0"
-                                    Background="#171020"
-                                    BorderBrush="#3A2A4A"
+                                    Background="{StaticResource WarlockAbyssBrush}"
+                                    BorderBrush="{StaticResource WarlockBorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="8"
                                     Padding="12">
                                 <StackPanel>
-                                    <TextBlock Foreground="#C8A45D"
+                                    <TextBlock Foreground="{StaticResource WarlockGoldBrush}"
                                                FontWeight="Bold"
                                                Text="图片预览" />
                                     <Border Margin="0,10,0,0"
-                                            Background="#140C1E"
-                                            BorderBrush="#3A2A4A"
+                                            Background="{StaticResource WarlockAbyssBrush}"
+                                            BorderBrush="{StaticResource WarlockBorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="6"
                                             Padding="10">
@@ -711,7 +711,7 @@
                                     </Border>
                                     <TextBlock x:Name="SelectedActionTaskImageNameText"
                                                Margin="0,10,0,0"
-                                               Foreground="#B7A8C8"
+                                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                                Text="未选择图片"
                                                TextWrapping="Wrap" />
                                     <WrapPanel Margin="0,10,0,0">
@@ -739,8 +739,8 @@
                                     Width="120"
                                     Height="38"
                                     HorizontalAlignment="Left"
-                                    Background="#4A1C28"
-                                    BorderBrush="#8A3348"
+                                    Background="{StaticResource WarlockDangerBrush}"
+                                    BorderBrush="{StaticResource WarlockDangerBrush}"
                                     Foreground="#F4D7DE"
                                     Click="DeleteSelectedTaskImageButton_Click"
                                     Content="删除选中图片" />
@@ -773,12 +773,12 @@
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <TextBlock x:Name="CurrentTaskViewTextBlock"
                                Margin="0,9,16,0"
-                               Foreground="#C8A45D"
+                               Foreground="{StaticResource WarlockGoldBrush}"
                                FontWeight="Bold"
                                Text="当前视图：全部任务" />
                     <TextBlock x:Name="TaskCountTextBlock"
                                Margin="0,9,16,0"
-                               Foreground="#B7A8C8"
+                               Foreground="{StaticResource WarlockTextSecondaryBrush}"
                                Text="当前显示 0 条任务" />
                     <Button Width="130"
                             Click="ExportActionTasksButton_Click"
@@ -813,7 +813,7 @@
                 <Button Margin="10,0,0,0" Width="120" Click="MarkCancelledButton_Click" Content="标记为已取消" />
                 <Button Margin="10,0,0,0"
                         Width="100"
-                        Background="#341317"
+                        Background="{StaticResource WarlockDangerBrush}"
                         BorderBrush="#E35D5D"
                         Click="DeleteTaskButton_Click"
                         Content="删除任务" />

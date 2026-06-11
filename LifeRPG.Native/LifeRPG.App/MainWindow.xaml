@@ -99,7 +99,7 @@
 
             <Border Grid.Column="0"
                     Style="{StaticResource CardBorderStyle}"
-                    Background="#120B19">
+                    Background="{StaticResource WarlockBlackBrush}">
                 <StackPanel>
                     <TextBlock Text="亡灵典籍导航"
                                FontSize="18"
@@ -117,7 +117,7 @@
 
                     <Border Margin="0,18,0,0"
                             Style="{StaticResource StatCardBorderStyle}"
-                            Background="#0F1314"
+                            Background="{StaticResource WarlockAbyssBrush}"
                             BorderBrush="{StaticResource WarlockSoulGreenBrush}">
                         <StackPanel>
                             <TextBlock Text="灵魂火焰提示"
@@ -219,7 +219,7 @@
 
                             <Border Margin="0,14,0,0"
                                     Style="{StaticResource StatCardBorderStyle}"
-                                    Background="#140F1E">
+                                    Background="{StaticResource WarlockCardAltBrush}">
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource LabelTextStyle}" Text="最新记录创建时间" />
                                     <TextBlock x:Name="LatestRecordCreatedAtTextBlock"
@@ -382,7 +382,7 @@
 
                             <Border Margin="0,16,0,0"
                                     Style="{StaticResource StatCardBorderStyle}"
-                                    Background="#11161C"
+                                    Background="{StaticResource WarlockCardAltBrush}"
                                     BorderBrush="{StaticResource WarlockGoldBrush}">
                                 <TextBlock x:Name="ResultCountTextBlock"
                                            Style="{StaticResource FieldValueTextStyle}"
@@ -417,7 +417,7 @@
                                                                Text="{Binding Title}" />
                                                     <Border DockPanel.Dock="Right"
                                                             Padding="8,3"
-                                                            Background="#101A12"
+                                                            Background="{StaticResource WarlockSelectionBrush}"
                                                             BorderBrush="{StaticResource WarlockSoulGreenBrush}"
                                                             BorderThickness="1"
                                                             CornerRadius="10">
@@ -520,7 +520,7 @@
 
                                 <Border Margin="0,18,0,0"
                                         Style="{StaticResource StatCardBorderStyle}"
-                                        Background="#140F1E">
+                                        Background="{StaticResource WarlockCardAltBrush}">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelTextStyle}" Text="来源行动任务" />
                                         <TextBlock x:Name="SourceActionTaskTextBlock"
@@ -556,7 +556,7 @@
                                                 <Border Margin="0,0,12,12"
                                                         Width="178"
                                                         Style="{StaticResource StatCardBorderStyle}"
-                                                        Background="#15101D">
+                                                        Background="{StaticResource WarlockCardAltBrush}">
                                                     <StackPanel>
                                                         <Border Width="152"
                                                                 Height="122"
