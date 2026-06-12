@@ -161,6 +161,27 @@ public partial class MainWindow : Window
     private void OpenDataDirButton_Click(object sender, RoutedEventArgs e) => OpenExplorer(AppStoragePaths.RootDirectory);
     private void OpenAssetsDirButton_Click(object sender, RoutedEventArgs e) => OpenExplorer(AppStoragePaths.AssetsDirectory);
 
+    private void ChangeDataDirButton_Click(object sender, RoutedEventArgs e)
+    {
+        using var dialog = new Forms.FolderBrowserDialog
+        {
+            Description = "选择新的数据存储目录",
+            SelectedPath = AppStoragePaths.RootDirectory,
+            UseDescriptionForTitle = true,
+            ShowNewFolderButton = true
+        };
+        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath)) return;
+
+        var newPath = dialog.SelectedPath;
+        if (string.Equals(newPath, AppStoragePaths.RootDirectory, StringComparison.OrdinalIgnoreCase)) return;
+
+        AppConfig.DataRootDirectory = newPath;
+        AppStoragePaths.EnsureCreated();
+        SettingsRootPathText.Text = newPath;
+        MessageBox.Show($"数据目录已修改为：{newPath}\n\n重启应用后生效。", "LifeRPG.Native",
+            MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
     private static void OpenExplorer(string path)
     {
         try

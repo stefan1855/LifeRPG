@@ -635,6 +635,9 @@
                                         <TextBlock x:Name="SettingsRootPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
                                         <WrapPanel Margin="0,8,0,0">
                                             <Button x:Name="OpenDataDirButton" Width="110" Click="OpenDataDirButton_Click" Content="打开目录" />
+                                            <Button x:Name="ChangeDataDirButton" Margin="10,0,0,0" Width="110"
+                                                    Style="{StaticResource SoulAccentButtonStyle}"
+                                                    Click="ChangeDataDirButton_Click" Content="修改目录" />
                                         </WrapPanel>
                                     </StackPanel>
                                 </Border>
