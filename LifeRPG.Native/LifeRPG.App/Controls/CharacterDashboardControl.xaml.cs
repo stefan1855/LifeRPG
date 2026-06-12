@@ -2,7 +2,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using LifeRPG.App.Infrastructure;
 using LifeRPG.Core.Models;
 using LifeRPG.Core.Rpg;
 using LifeRPG.Data.Repositories;
@@ -19,18 +18,21 @@ namespace LifeRPG.App.Controls;
 
 public partial class CharacterDashboardControl : WpfUserControl
 {
-    private readonly CharacterRepository _characterRepository;
-    private readonly RpgEngine _rpgEngine;
+    private CharacterRepository _characterRepository = null!;
+    private RpgEngine _rpgEngine = null!;
     private bool _loaded;
     private Character? _currentCharacter;
 
     public CharacterDashboardControl()
     {
-        _characterRepository = (CharacterRepository)AppServiceProvider.Services.GetService(typeof(CharacterRepository))!;
-        _rpgEngine = (RpgEngine)AppServiceProvider.Services.GetService(typeof(RpgEngine))!;
-
         InitializeComponent();
         Loaded += CharacterDashboardControl_Loaded;
+    }
+
+    public void Initialize(CharacterRepository characterRepository, RpgEngine rpgEngine)
+    {
+        _characterRepository = characterRepository;
+        _rpgEngine = rpgEngine;
     }
 
     public void RefreshDashboard(bool showErrorMessage = true)

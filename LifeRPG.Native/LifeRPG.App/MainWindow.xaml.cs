@@ -38,7 +38,11 @@ public partial class MainWindow : Window
         LifeRecordRepository lifeRecordRepository, LifeRecordImageRepository lifeRecordImageRepository,
         ActionTaskRepository actionTaskRepository, StatisticsRepository statisticsRepository,
         ImageStorageService imageStorageService, BackupService backupService,
-        MarkdownExportService markdownExportService)
+        MarkdownExportService markdownExportService,
+        CharacterRepository characterRepository, Core.Rpg.RpgEngine rpgEngine,
+        ActionTaskImageRepository actionTaskImageRepository,
+        ActionTaskImageStorageService actionTaskImageStorageService,
+        Data.Services.RpgProgressionService rpgProgressionService)
     {
         _lifeRecordRepository = lifeRecordRepository;
         _lifeRecordImageRepository = lifeRecordImageRepository;
@@ -48,6 +52,12 @@ public partial class MainWindow : Window
         _backupService = backupService;
         _markdownExportService = markdownExportService;
         InitializeComponent();
+
+        // Inject dependencies into controls
+        CharacterDashboardControl.Initialize(characterRepository, rpgEngine);
+        AttributesCharacterDashboard.Initialize(characterRepository, rpgEngine);
+        ActionTaskControl.Initialize(actionTaskRepository, actionTaskImageRepository,
+            lifeRecordRepository, actionTaskImageStorageService, rpgProgressionService, markdownExportService);
 
         _pages = new()
         {

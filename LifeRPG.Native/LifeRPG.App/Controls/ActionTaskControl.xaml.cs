@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Imaging;
-using LifeRPG.App.Infrastructure;
 using LifeRPG.App.ViewModels;
 using LifeRPG.Core.Models;
 using LifeRPG.Data.Repositories;
@@ -26,12 +25,12 @@ namespace LifeRPG.App.Controls;
 
 public partial class ActionTaskControl : System.Windows.Controls.UserControl
 {
-    private readonly ActionTaskRepository _actionTaskRepository;
-    private readonly ActionTaskImageRepository _actionTaskImageRepository;
-    private readonly LifeRecordRepository _lifeRecordRepository;
-    private readonly ActionTaskImageStorageService _actionTaskImageStorageService;
-    private readonly RpgProgressionService _rpgProgressionService;
-    private readonly MarkdownExportService _markdownExportService;
+    private ActionTaskRepository _actionTaskRepository = null!;
+    private ActionTaskImageRepository _actionTaskImageRepository = null!;
+    private LifeRecordRepository _lifeRecordRepository = null!;
+    private ActionTaskImageStorageService _actionTaskImageStorageService = null!;
+    private RpgProgressionService _rpgProgressionService = null!;
+    private MarkdownExportService _markdownExportService = null!;
     private readonly List<string> _pendingImagePaths = [];
     private ActionTaskView _currentView = ActionTaskView.All;
     private bool _hasLoaded;
@@ -45,14 +44,23 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
 
     public ActionTaskControl()
     {
-        _actionTaskRepository = (ActionTaskRepository)AppServiceProvider.Services.GetService(typeof(ActionTaskRepository))!;
-        _actionTaskImageRepository = (ActionTaskImageRepository)AppServiceProvider.Services.GetService(typeof(ActionTaskImageRepository))!;
-        _lifeRecordRepository = (LifeRecordRepository)AppServiceProvider.Services.GetService(typeof(LifeRecordRepository))!;
-        _actionTaskImageStorageService = (ActionTaskImageStorageService)AppServiceProvider.Services.GetService(typeof(ActionTaskImageStorageService))!;
-        _rpgProgressionService = (RpgProgressionService)AppServiceProvider.Services.GetService(typeof(RpgProgressionService))!;
-        _markdownExportService = (MarkdownExportService)AppServiceProvider.Services.GetService(typeof(MarkdownExportService))!;
-
         InitializeComponent();
+    }
+
+    public void Initialize(
+        ActionTaskRepository actionTaskRepository,
+        ActionTaskImageRepository actionTaskImageRepository,
+        LifeRecordRepository lifeRecordRepository,
+        ActionTaskImageStorageService actionTaskImageStorageService,
+        RpgProgressionService rpgProgressionService,
+        MarkdownExportService markdownExportService)
+    {
+        _actionTaskRepository = actionTaskRepository;
+        _actionTaskImageRepository = actionTaskImageRepository;
+        _lifeRecordRepository = lifeRecordRepository;
+        _actionTaskImageStorageService = actionTaskImageStorageService;
+        _rpgProgressionService = rpgProgressionService;
+        _markdownExportService = markdownExportService;
     }
 
     private void ActionTaskControl_Loaded(object sender, RoutedEventArgs e)
