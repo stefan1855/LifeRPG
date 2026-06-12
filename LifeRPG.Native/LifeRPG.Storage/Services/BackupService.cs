@@ -32,6 +32,40 @@ public sealed class BackupService
         return RestoreFromBackupInternal(backupZipPath, createSafetyBackup: true);
     }
 
+    public List<BackupInfo> ListBackups()
+    {
+        var results = new List<BackupInfo>();
+        var dir = AppStoragePaths.BackupsDirectory;
+        if (!Directory.Exists(dir)) return results;
+
+        foreach (var file in Directory.GetFiles(dir, "*.zip"))
+        {
+            var info = new FileInfo(file);
+            results.Add(new BackupInfo
+            {
+                FilePath = file,
+                FileName = Path.GetFileName(file),
+                SizeBytes = info.Length,
+                CreatedAt = info.CreationTime
+            });
+        }
+        return results.OrderByDescending(b => b.CreatedAt).ToList();
+    }
+
+    public sealed class BackupInfo
+    {
+        public string FilePath { get; set; } = "";
+        public string FileName { get; set; } = "";
+        public long SizeBytes { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string SizeDisplay => SizeBytes switch
+        {
+            >= 1_048_576 => $"{SizeBytes / 1_048_576.0:F1} MB",
+            >= 1024 => $"{SizeBytes / 1024.0:F0} KB",
+            _ => $"{SizeBytes} B"
+        };
+    }
+
     private string CreateBackupInternal(string targetDirectory, string fileNamePrefix)
     {
         AppStoragePaths.EnsureCreated();

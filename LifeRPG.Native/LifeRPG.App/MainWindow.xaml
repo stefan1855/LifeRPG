@@ -537,6 +537,24 @@
                                                    Text="尚未执行备份或恢复操作。" />
                                     </StackPanel>
                                 </Border>
+                                <TextBlock Margin="0,16,0,0" Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="备份历史" />
+                                <DataGrid x:Name="BackupHistoryDataGrid" Margin="0,8,0,0"
+                                          AutoGenerateColumns="False" IsReadOnly="True"
+                                          CanUserAddRows="False" MinHeight="140"
+                                          SelectionChanged="BackupHistoryDataGrid_SelectionChanged">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="文件名" Binding="{Binding FileName}" Width="3*" />
+                                        <DataGridTextColumn Header="大小" Binding="{Binding SizeDisplay}" Width="100" />
+                                        <DataGridTextColumn Header="创建时间" Binding="{Binding CreatedAt, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="180" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button x:Name="RestoreSelectedBackupButton" Width="120"
+                                            Style="{StaticResource DangerButtonStyle}"
+                                            Click="RestoreSelectedBackupButton_Click" Content="恢复选中备份" />
+                                    <Button x:Name="RefreshBackupListButton" Margin="10,0,0,0" Width="110"
+                                            Click="RefreshBackupListButton_Click" Content="刷新列表" />
+                                </WrapPanel>
                             </StackPanel>
                             <StackPanel Grid.Column="2">
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据导出" />

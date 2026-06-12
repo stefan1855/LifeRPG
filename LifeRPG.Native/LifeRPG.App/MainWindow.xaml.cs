@@ -96,6 +96,7 @@ public partial class MainWindow : Window
         if (key == "成长属性") LoadAttributesPage();
         if (key == "图片证据") LoadImagesPage();
         if (key == "设置") LoadSettingsPage();
+        if (key == "复盘归档") LoadArchivePage();
     }
 
     private void NavigateToLifeRecord(string lifeRecordId)
@@ -192,7 +193,39 @@ public partial class MainWindow : Window
         catch { }
     }
 
-    // ===== 业务逻辑（以下方法保持兼容现有调用） =====
+    // ===== 复盘归档 =====
+
+    private void LoadArchivePage() => RefreshBackupList();
+
+    private void RefreshBackupListButton_Click(object sender, RoutedEventArgs e) => RefreshBackupList();
+
+    private void RefreshBackupList() => BackupHistoryDataGrid.ItemsSource = _backupService.ListBackups();
+
+    private void BackupHistoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        RestoreSelectedBackupButton.IsEnabled = BackupHistoryDataGrid.SelectedItem is BackupService.BackupInfo;
+    }
+
+    private void RestoreSelectedBackupButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (BackupHistoryDataGrid.SelectedItem is not BackupService.BackupInfo info) return;
+        if (MessageBox.Show($"确定要恢复备份 \"{info.FileName}\"？当前数据将被覆盖。", "确认恢复",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+        try
+        {
+            ImagePreviewItemsControl.ItemsSource = null;
+            var result = _backupService.RestoreFromBackup(info.FilePath);
+            LoadCategories(); RefreshRecordsList(); LoadStatisticsDashboard();
+            ActionTaskControl.RefreshFromExternalChange();
+            CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false);
+            UpdateBackupStatus(info.FilePath, result);
+            RefreshBackupList();
+            MessageBox.Show(result, "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex) { BackupStatusTextBlock.Text = $"恢复失败：{ex.Message}"; }
+    }
+
+    // ===== 业务逻辑 =====
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)
     {
