@@ -63,10 +63,7 @@ public partial class MainWindow : Window
         ActionTaskControl.LifeRecordLinkChanged += () => { LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail(); };
         ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false); };
 
-        SystemStatusControl.SetStatus("v1.2", "本地 SQLite + 本地图片目录", "否", "否",
-            AppStoragePaths.RootDirectory, Data.Services.DatabaseInitializer.DatabasePath,
-            AppStoragePaths.AssetsDirectory, AppStoragePaths.BackupsDirectory, AppStoragePaths.ExportsDirectory);
-
+        LoadSettingsPage();
         UpdateSelectedImagesDisplay();
         ClearSelectedRecordDetail();
         LoadCategories();
@@ -98,6 +95,7 @@ public partial class MainWindow : Window
         // Load page-specific data
         if (key == "成长属性") LoadAttributesPage();
         if (key == "图片证据") LoadImagesPage();
+        if (key == "设置") LoadSettingsPage();
     }
 
     private void NavigateToLifeRecord(string lifeRecordId)
@@ -130,15 +128,47 @@ public partial class MainWindow : Window
                 BitmapImage? preview = null;
                 if (File.Exists(img.FilePath))
                     try { preview = LoadBitmapWithoutFileLock(img.FilePath); } catch { }
-                items.Add(new
-                {
-                    img.FileName, img.CreatedAt,
-                    RecordTitle = record.Title,
-                    PreviewImageSource = preview
-                });
+                items.Add(new { img.FileName, img.CreatedAt, RecordTitle = record.Title, PreviewImageSource = preview });
             }
         }
         ImagesGalleryItemsControl.ItemsSource = items;
+    }
+
+    // ===== 设置页 =====
+
+    private void LoadSettingsPage()
+    {
+        var dbPath = Data.Services.DatabaseInitializer.DatabasePath;
+        var dbSize = File.Exists(dbPath) ? new FileInfo(dbPath).Length : 0;
+        var summary = _statisticsRepository.GetSummary();
+
+        SettingsVersionText.Text = "v1.2";
+        SettingsRuntimeText.Text = $".NET {Environment.Version.Major}.{Environment.Version.Minor} WPF";
+        SettingsRecordCountText.Text = summary.TotalRecords.ToString();
+        SettingsImageCountText.Text = summary.TotalImages.ToString();
+        SettingsDbSizeText.Text = dbSize switch
+        {
+            >= 1_048_576 => $"{dbSize / 1_048_576.0:F1} MB",
+            >= 1024 => $"{dbSize / 1024.0:F0} KB",
+            _ => $"{dbSize} B"
+        };
+        SettingsRootPathText.Text = AppStoragePaths.RootDirectory;
+        SettingsDbPathText.Text = dbPath;
+        SettingsAssetsPathText.Text = AppStoragePaths.AssetsDirectory;
+        SettingsBackupsPathText.Text = AppStoragePaths.BackupsDirectory;
+    }
+
+    private void OpenDataDirButton_Click(object sender, RoutedEventArgs e) => OpenExplorer(AppStoragePaths.RootDirectory);
+    private void OpenAssetsDirButton_Click(object sender, RoutedEventArgs e) => OpenExplorer(AppStoragePaths.AssetsDirectory);
+
+    private static void OpenExplorer(string path)
+    {
+        try
+        {
+            Directory.CreateDirectory(path);
+            Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = path, UseShellExecute = true });
+        }
+        catch { }
     }
 
     // ===== 业务逻辑（以下方法保持兼容现有调用） =====

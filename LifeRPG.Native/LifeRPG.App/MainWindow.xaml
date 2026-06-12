@@ -571,11 +571,97 @@
                 <!-- 设置 -->
                 <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <Border Style="{StaticResource CardBorderStyle}">
-                        <StackPanel>
-                            <controls:SystemStatusControl x:Name="SystemStatusControl" />
-                        </StackPanel>
-                    </Border>
+                    <StackPanel>
+                        <Border Style="{StaticResource CardBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="应用信息" />
+                                <Grid Margin="0,12,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="应用版本" />
+                                            <TextBlock x:Name="SettingsVersionText" Style="{StaticResource FieldValueTextStyle}" Text="v1.2" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="运行环境" />
+                                            <TextBlock x:Name="SettingsRuntimeText" Style="{StaticResource FieldValueTextStyle}" Text=".NET 8 WPF" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="记录总数" />
+                                            <TextBlock x:Name="SettingsRecordCountText" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="图片总数" />
+                                            <TextBlock x:Name="SettingsImageCountText" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="4" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="数据库大小" />
+                                            <TextBlock x:Name="SettingsDbSizeText" Style="{StaticResource StatValueTextBlockStyle}" Text="-" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Margin="0,10,0,0" Style="{StaticResource CardBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据目录" />
+                                <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
+                                           Text="所有应用数据存储在本地，不依赖云端。" />
+                                <Border Margin="0,12,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="数据根目录" />
+                                        <TextBlock x:Name="SettingsRootPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
+                                        <WrapPanel Margin="0,8,0,0">
+                                            <Button x:Name="OpenDataDirButton" Width="110" Click="OpenDataDirButton_Click" Content="打开目录" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,8,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="数据库路径" />
+                                        <TextBlock x:Name="SettingsDbPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,8,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="图片资源目录" />
+                                        <TextBlock x:Name="SettingsAssetsPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
+                                        <WrapPanel Margin="0,8,0,0">
+                                            <Button x:Name="OpenAssetsDirButton" Width="110" Click="OpenAssetsDirButton_Click" Content="打开目录" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,8,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="备份目录" />
+                                        <TextBlock x:Name="SettingsBackupsPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </Grid>
         </Grid>
