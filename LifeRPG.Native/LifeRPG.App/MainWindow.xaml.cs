@@ -21,7 +21,6 @@ namespace LifeRPG.App;
 public partial class MainWindow : Window
 {
     private const string AllCategoriesOption = "全部分类";
-
     private readonly LifeRecordRepository _lifeRecordRepository;
     private readonly LifeRecordImageRepository _lifeRecordImageRepository;
     private readonly ActionTaskRepository _actionTaskRepository;
@@ -31,17 +30,14 @@ public partial class MainWindow : Window
     private readonly MarkdownExportService _markdownExportService;
     private readonly List<string> _selectedImagePaths = [];
     private List<LifeRecord> _currentDisplayedRecords = [];
-
     private string? _selectedRecordId;
     private LifeRecordDetailViewModel? _currentRecordDetail;
+    private readonly Dictionary<string, (Button Nav, ScrollViewer Page)> _pages;
 
     public MainWindow(
-        LifeRecordRepository lifeRecordRepository,
-        LifeRecordImageRepository lifeRecordImageRepository,
-        ActionTaskRepository actionTaskRepository,
-        StatisticsRepository statisticsRepository,
-        ImageStorageService imageStorageService,
-        BackupService backupService,
+        LifeRecordRepository lifeRecordRepository, LifeRecordImageRepository lifeRecordImageRepository,
+        ActionTaskRepository actionTaskRepository, StatisticsRepository statisticsRepository,
+        ImageStorageService imageStorageService, BackupService backupService,
         MarkdownExportService markdownExportService)
     {
         _lifeRecordRepository = lifeRecordRepository;
@@ -51,80 +47,135 @@ public partial class MainWindow : Window
         _imageStorageService = imageStorageService;
         _backupService = backupService;
         _markdownExportService = markdownExportService;
-
         InitializeComponent();
-        ActionTaskControl.LifeRecordSelectionRequested += ActionTaskControl_LifeRecordSelectionRequested;
-        ActionTaskControl.LifeRecordLinkChanged += ActionTaskControl_LifeRecordLinkChanged;
-        ActionTaskControl.RpgProgressUpdated += ActionTaskControl_RpgProgressUpdated;
-        SystemStatusControl.SetStatus(
-            version: "v1.1",
-            storageMode: "本地 SQLite + 本地图片目录",
-            obsidianDependency: "否",
-            browserEngine: "否",
-            rootDirectory: AppStoragePaths.RootDirectory,
-            databasePath: LifeRPG.Data.Services.DatabaseInitializer.DatabasePath,
-            assetsDirectory: AppStoragePaths.AssetsDirectory,
-            backupsDirectory: AppStoragePaths.BackupsDirectory,
-            exportsDirectory: AppStoragePaths.ExportsDirectory);
+
+        _pages = new()
+        {
+            ["首页"] = (NavDashboard, DashboardPage),
+            ["行为记录"] = (NavRecords, RecordsPage),
+            ["成长属性"] = (NavAttributes, AttributesPage),
+            ["图片证据"] = (NavImages, ImagesPage),
+            ["复盘归档"] = (NavArchive, ArchivePage),
+            ["设置"] = (NavSettings, SettingsPage),
+        };
+
+        ActionTaskControl.LifeRecordSelectionRequested += _ => NavigateToLifeRecord(_);
+        ActionTaskControl.LifeRecordLinkChanged += () => { LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail(); };
+        ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false); };
+
+        SystemStatusControl.SetStatus("v1.2", "本地 SQLite + 本地图片目录", "否", "否",
+            AppStoragePaths.RootDirectory, Data.Services.DatabaseInitializer.DatabasePath,
+            AppStoragePaths.AssetsDirectory, AppStoragePaths.BackupsDirectory, AppStoragePaths.ExportsDirectory);
+
         UpdateSelectedImagesDisplay();
         ClearSelectedRecordDetail();
         LoadCategories();
         RefreshRecordsList();
         LoadStatisticsDashboard();
-        CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
+        CharacterDashboardControl.RefreshDashboard(false);
+        AttributesCharacterDashboard.RefreshDashboard(false);
     }
+
+    // ===== 页面切换 =====
+
+    private void NavButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button) return;
+        var key = button.Content.ToString() ?? "";
+        if (!_pages.TryGetValue(key, out var entry)) return;
+
+        // Hide all pages
+        foreach (var (nav, page) in _pages.Values)
+        {
+            page.Visibility = Visibility.Collapsed;
+            nav.Style = (Style)FindResource("NavButtonStyle");
+        }
+
+        // Show target
+        entry.Page.Visibility = Visibility.Visible;
+        entry.Nav.Style = (Style)FindResource("NavButtonActiveStyle");
+
+        // Load page-specific data
+        if (key == "成长属性") LoadAttributesPage();
+        if (key == "图片证据") LoadImagesPage();
+    }
+
+    private void NavigateToLifeRecord(string lifeRecordId)
+    {
+        // Switch to records page and select the record
+        NavButton_Click(NavRecords, null!);
+        LoadCategories(GetSelectedCategoryFilter());
+        RefreshRecordsList(lifeRecordId);
+        LoadRecordDetail(lifeRecordId);
+    }
+
+    // ===== 成长属性页 =====
+
+    private void LoadAttributesPage()
+    {
+        AttributesCharacterDashboard.RefreshDashboard(false);
+    }
+
+    // ===== 图片证据页 =====
+
+    private void LoadImagesPage()
+    {
+        var allRecords = _lifeRecordRepository.GetAll();
+        var items = new List<object>();
+        foreach (var record in allRecords)
+        {
+            var images = _lifeRecordImageRepository.GetByLifeRecordId(record.Id);
+            foreach (var img in images)
+            {
+                BitmapImage? preview = null;
+                if (File.Exists(img.FilePath))
+                    try { preview = LoadBitmapWithoutFileLock(img.FilePath); } catch { }
+                items.Add(new
+                {
+                    img.FileName, img.CreatedAt,
+                    RecordTitle = record.Title,
+                    PreviewImageSource = preview
+                });
+            }
+        }
+        ImagesGalleryItemsControl.ItemsSource = items;
+    }
+
+    // ===== 业务逻辑（以下方法保持兼容现有调用） =====
 
     private void SaveRecordButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
             var title = TitleTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                MessageBox.Show("标题不能为空。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(title)) { MessageBox.Show("标题不能为空。"); return; }
             var record = new LifeRecord
             {
-                Id = Guid.NewGuid().ToString(),
-                Title = title,
+                Id = Guid.NewGuid().ToString(), Title = title,
                 Category = string.IsNullOrWhiteSpace(CategoryTextBox.Text) ? "未分类" : CategoryTextBox.Text.Trim(),
                 Content = ContentTextBox.Text ?? string.Empty,
-                Experience = int.TryParse(ExperienceTextBox.Text, out var experience) ? experience : 0,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Experience = int.TryParse(ExperienceTextBox.Text, out var exp) ? exp : 0,
+                CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now
             };
             _lifeRecordRepository.Create(record);
-            var copiedImages = _imageStorageService.CopyImagesForRecord(record.Id, record.Title, _selectedImagePaths);
-            foreach (var image in copiedImages)
-                _lifeRecordImageRepository.Create(image);
-            ClearForm();
-            LoadCategories(GetSelectedCategoryFilter());
-            RefreshRecordsList(record.Id);
-            LoadStatisticsDashboard();
+            foreach (var img in _imageStorageService.CopyImagesForRecord(record.Id, record.Title, _selectedImagePaths))
+                _lifeRecordImageRepository.Create(img);
+            ClearForm(); LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(record.Id); LoadStatisticsDashboard();
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"保存行为记录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        catch (Exception ex) { MessageBox.Show($"保存失败：{ex.Message}"); }
     }
 
     private void SelectImagesButton_Click(object sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFileDialog { Multiselect = true, Filter = "图片文件|*.jpg;*.jpeg;*.png;*.bmp;*.gif" };
-        if (dialog.ShowDialog() != true) return;
-        _selectedImagePaths.Clear();
-        _selectedImagePaths.AddRange(dialog.FileNames);
+        var dlg = new OpenFileDialog { Multiselect = true, Filter = "图片|*.jpg;*.jpeg;*.png;*.bmp;*.gif" };
+        if (dlg.ShowDialog() != true) return;
+        _selectedImagePaths.Clear(); _selectedImagePaths.AddRange(dlg.FileNames);
         UpdateSelectedImagesDisplay();
     }
 
     private void RecordsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (RecordsListBox.SelectedItem is LifeRecordListItem selectedItem)
-        {
-            LoadRecordDetail(selectedItem.Id);
-            return;
-        }
+        if (RecordsListBox.SelectedItem is LifeRecordListItem item) { LoadRecordDetail(item.Id); return; }
         ClearSelectedRecordDetail();
     }
 
@@ -132,88 +183,43 @@ public partial class MainWindow : Window
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(_selectedRecordId))
-            {
-                MessageBox.Show("请先选择一条记录。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            var existingRecord = _lifeRecordRepository.GetById(_selectedRecordId);
-            if (existingRecord is null)
-            {
-                MessageBox.Show("当前记录不存在，可能已被移除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-                ClearSelectedRecordDetail();
-                RefreshRecordsList();
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(_selectedRecordId)) { MessageBox.Show("请先选择一条记录。"); return; }
+            var rec = _lifeRecordRepository.GetById(_selectedRecordId);
+            if (rec is null) { ClearSelectedRecordDetail(); RefreshRecordsList(); return; }
             var title = DetailTitleTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                MessageBox.Show("标题不能为空。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            existingRecord.Title = title;
-            existingRecord.Category = string.IsNullOrWhiteSpace(DetailCategoryTextBox.Text) ? "未分类" : DetailCategoryTextBox.Text.Trim();
-            existingRecord.Content = DetailContentTextBox.Text ?? string.Empty;
-            existingRecord.Experience = int.TryParse(DetailExperienceTextBox.Text, out var experience) ? experience : 0;
-            existingRecord.UpdatedAt = DateTime.Now;
-            _lifeRecordRepository.Update(existingRecord);
-            LoadCategories(GetSelectedCategoryFilter());
-            RefreshRecordsList(existingRecord.Id);
-            LoadStatisticsDashboard();
+            if (string.IsNullOrWhiteSpace(title)) { MessageBox.Show("标题不能为空。"); return; }
+            rec.Title = title;
+            rec.Category = string.IsNullOrWhiteSpace(DetailCategoryTextBox.Text) ? "未分类" : DetailCategoryTextBox.Text.Trim();
+            rec.Content = DetailContentTextBox.Text ?? string.Empty;
+            rec.Experience = int.TryParse(DetailExperienceTextBox.Text, out var exp) ? exp : 0;
+            rec.UpdatedAt = DateTime.Now;
+            _lifeRecordRepository.Update(rec);
+            LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(rec.Id); LoadStatisticsDashboard();
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"保存记录修改失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        catch (Exception ex) { MessageBox.Show($"保存修改失败：{ex.Message}"); }
     }
 
     private void DeleteRecordButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(_selectedRecordId))
-            {
-                MessageBox.Show("请先选择一条记录。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            var recordId = _selectedRecordId;
-            var confirm = MessageBox.Show("删除后将同时删除该记录、该记录关联的图片数据库记录，以及本地图片文件。\n此操作不可撤销。", "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (confirm != MessageBoxResult.Yes) return;
-
-            var record = _lifeRecordRepository.GetById(recordId);
-            if (record is null)
-            {
-                MessageBox.Show("当前记录不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadCategories(GetSelectedCategoryFilter());
-                RefreshRecordsList();
-                ClearSelectedRecordDetail();
-                LoadStatisticsDashboard();
-                return;
-            }
-            var images = _lifeRecordImageRepository.GetByLifeRecordId(recordId);
-            var folderPaths = images.Select(image => Path.GetDirectoryName(image.FilePath)).Where(path => !string.IsNullOrWhiteSpace(path)).Cast<string>().Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            if (string.IsNullOrWhiteSpace(_selectedRecordId)) { MessageBox.Show("请先选择一条记录。"); return; }
+            if (MessageBox.Show("删除后将同时删除关联图片，不可撤销。", "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            var rid = _selectedRecordId;
+            var rec = _lifeRecordRepository.GetById(rid);
+            if (rec is null) { ClearSelectedRecordDetail(); RefreshRecordsList(); LoadStatisticsDashboard(); return; }
+            var images = _lifeRecordImageRepository.GetByLifeRecordId(rid);
+            var folders = images.Select(i => Path.GetDirectoryName(i.FilePath)).Where(p => !string.IsNullOrWhiteSpace(p)).Cast<string>().Distinct().ToList();
             ImagePreviewItemsControl.ItemsSource = null;
-            foreach (var image in images)
-            {
-                try { _imageStorageService.DeleteImageFile(image.FilePath); }
-                catch (Exception ex) { throw new InvalidOperationException($"删除记录关联图片失败：{image.FilePath}。{ex.Message}", ex); }
-            }
-            _lifeRecordImageRepository.DeleteByLifeRecordId(recordId);
-            _actionTaskRepository.UnlinkByLifeRecordId(recordId);
-            _lifeRecordRepository.Delete(recordId);
-            foreach (var folderPath in folderPaths)
-                _imageStorageService.TryDeleteEmptyRecordImageFolder(folderPath);
-            LoadCategories(GetSelectedCategoryFilter());
-            RefreshRecordsList();
-            ClearSelectedRecordDetail();
-            LoadStatisticsDashboard();
-            ActionTaskControl.RefreshFromExternalChange();
-            MessageBox.Show("记录已删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            foreach (var i in images) _imageStorageService.DeleteImageFile(i.FilePath);
+            _lifeRecordImageRepository.DeleteByLifeRecordId(rid);
+            _actionTaskRepository.UnlinkByLifeRecordId(rid);
+            _lifeRecordRepository.Delete(rid);
+            foreach (var f in folders) _imageStorageService.TryDeleteEmptyRecordImageFolder(f);
+            LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail();
+            LoadStatisticsDashboard(); ActionTaskControl.RefreshFromExternalChange();
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"删除记录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        catch (Exception ex) { MessageBox.Show($"删除失败：{ex.Message}"); }
     }
 
     private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
@@ -221,524 +227,190 @@ public partial class MainWindow : Window
         try
         {
             if (sender is not Button { Tag: string imageId } || string.IsNullOrWhiteSpace(imageId)) return;
-            var confirm = MessageBox.Show("确定删除这张图片证据吗？", "LifeRPG.Native", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (confirm != MessageBoxResult.Yes) return;
-            var image = _lifeRecordImageRepository.GetById(imageId);
-            if (image is null)
-            {
-                MessageBox.Show("图片记录不存在，可能已经被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-                if (!string.IsNullOrWhiteSpace(_selectedRecordId))
-                {
-                    RefreshRecordsList(_selectedRecordId);
-                    LoadRecordDetail(_selectedRecordId);
-                }
-                return;
-            }
-            var folderPath = Path.GetDirectoryName(image.FilePath);
+            if (MessageBox.Show("确定删除？", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            var img = _lifeRecordImageRepository.GetById(imageId);
+            if (img is null) return;
+            var folder = Path.GetDirectoryName(img.FilePath);
             ImagePreviewItemsControl.ItemsSource = null;
-            _imageStorageService.DeleteImageFile(image.FilePath);
-            _lifeRecordImageRepository.Delete(image.Id);
-            if (!string.IsNullOrWhiteSpace(folderPath))
-                _imageStorageService.TryDeleteEmptyRecordImageFolder(folderPath);
-            if (!string.IsNullOrWhiteSpace(image.LifeRecordId))
-            {
-                RefreshRecordsList(image.LifeRecordId);
-                LoadRecordDetail(image.LifeRecordId);
-            }
+            _imageStorageService.DeleteImageFile(img.FilePath);
+            _lifeRecordImageRepository.Delete(img.Id);
+            if (!string.IsNullOrWhiteSpace(folder)) _imageStorageService.TryDeleteEmptyRecordImageFolder(folder);
+            if (!string.IsNullOrWhiteSpace(img.LifeRecordId)) { RefreshRecordsList(img.LifeRecordId); LoadRecordDetail(img.LifeRecordId); }
             LoadStatisticsDashboard();
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"删除图片失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        catch (Exception ex) { MessageBox.Show($"删除图片失败：{ex.Message}"); }
     }
 
     private void CreateBackupButton_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var backupPath = _backupService.CreateBackup();
-            UpdateBackupStatus(backupPath, $"备份成功：{backupPath}");
-            MessageBox.Show($"备份成功：{backupPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            BackupStatusTextBlock.Text = $"备份失败：{ex.Message}";
-            MessageBox.Show($"创建备份失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        try { var p = _backupService.CreateBackup(); UpdateBackupStatus(p, $"成功：{p}"); MessageBox.Show($"备份成功：{p}"); }
+        catch (Exception ex) { BackupStatusTextBlock.Text = $"失败：{ex.Message}"; }
     }
-
     private void CreateBackupToDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
-        using var dialog = new Forms.FolderBrowserDialog { Description = "请选择备份输出目录", UseDescriptionForTitle = true, AutoUpgradeEnabled = true, ShowNewFolderButton = true };
-        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath)) return;
-        try
-        {
-            var backupPath = _backupService.CreateBackup(dialog.SelectedPath);
-            UpdateBackupStatus(backupPath, $"备份成功：{backupPath}");
-            MessageBox.Show($"备份成功：{backupPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            BackupStatusTextBlock.Text = $"备份失败：{ex.Message}";
-            MessageBox.Show($"选择目录备份失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        using var dlg = new Forms.FolderBrowserDialog { Description = "选择备份目录", UseDescriptionForTitle = true };
+        if (dlg.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dlg.SelectedPath)) return;
+        try { var p = _backupService.CreateBackup(dlg.SelectedPath); UpdateBackupStatus(p, $"成功：{p}"); }
+        catch (Exception ex) { BackupStatusTextBlock.Text = $"失败：{ex.Message}"; }
     }
-
     private void OpenBackupsDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            Directory.CreateDirectory(AppStoragePaths.BackupsDirectory);
-            Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = AppStoragePaths.BackupsDirectory, UseShellExecute = true });
-            BackupStatusTextBlock.Text = $"已打开备份目录：{AppStoragePaths.BackupsDirectory}";
-        }
-        catch (Exception ex)
-        {
-            BackupStatusTextBlock.Text = $"打开备份目录失败：{ex.Message}";
-            MessageBox.Show($"打开备份目录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        try { Directory.CreateDirectory(AppStoragePaths.BackupsDirectory); Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = AppStoragePaths.BackupsDirectory, UseShellExecute = true }); }
+        catch { }
     }
-
     private void RestoreBackupButton_Click(object sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFileDialog { Filter = "备份压缩包|*.zip", Multiselect = false };
-        if (dialog.ShowDialog() != true) return;
-        var confirm = MessageBox.Show("恢复备份会覆盖当前数据库和图片资源，此操作会先自动创建一份恢复前备份。\n是否继续？", "确认恢复", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-        if (confirm != MessageBoxResult.Yes) return;
+        var dlg = new OpenFileDialog { Filter = "备份|*.zip" };
+        if (dlg.ShowDialog() != true) return;
+        if (MessageBox.Show("恢复会覆盖当前数据，是否继续？", "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
         try
         {
-            PrepareForRestore();
-            var restoreResult = _backupService.RestoreFromBackup(dialog.FileName);
-            LoadCategories();
-            RefreshRecordsList();
-            LoadStatisticsDashboard();
+            ImagePreviewItemsControl.ItemsSource = null;
+            var r = _backupService.RestoreFromBackup(dlg.FileName);
+            LoadCategories(); RefreshRecordsList(); LoadStatisticsDashboard();
             ActionTaskControl.RefreshFromExternalChange();
-            CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
-            UpdateBackupStatus(dialog.FileName, restoreResult);
-            MessageBox.Show(restoreResult, "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
+            CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false);
+            UpdateBackupStatus(dlg.FileName, r);
         }
-        catch (Exception ex)
-        {
-            BackupStatusTextBlock.Text = $"恢复失败：{ex.Message}";
-            MessageBox.Show($"从备份恢复失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-            LoadCategories();
-            RefreshRecordsList();
-            LoadStatisticsDashboard();
-            CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
-        }
+        catch (Exception ex) { BackupStatusTextBlock.Text = $"失败：{ex.Message}"; RefreshRecordsList(); }
     }
 
-    private void RefreshStatisticsButton_Click(object sender, RoutedEventArgs e) => LoadStatisticsDashboard(showErrorMessage: true);
-
-    private void SearchRecordsButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (!TryGetSearchCriteria(out _, out _, out _, out _, showValidationMessage: true)) return;
-        ClearSelectedRecordDetail();
-        RefreshRecordsList();
-    }
-
-    private void ResetSearchButton_Click(object sender, RoutedEventArgs e)
-    {
-        SearchKeywordTextBox.Clear();
-        CategoryFilterComboBox.SelectedIndex = 0;
-        StartDatePicker.SelectedDate = null;
-        EndDatePicker.SelectedDate = null;
-        ClearSelectedRecordDetail();
-        RefreshRecordsList();
-    }
+    private void RefreshStatisticsButton_Click(object sender, RoutedEventArgs e) => LoadStatisticsDashboard(true);
+    private void SearchRecordsButton_Click(object sender, RoutedEventArgs e) { if (TryGetSearchCriteria(out _, out _, out _, out _, true)) { ClearSelectedRecordDetail(); RefreshRecordsList(); } }
+    private void ResetSearchButton_Click(object sender, RoutedEventArgs e) { SearchKeywordTextBox.Clear(); CategoryFilterComboBox.SelectedIndex = 0; StartDatePicker.SelectedDate = null; EndDatePicker.SelectedDate = null; ClearSelectedRecordDetail(); RefreshRecordsList(); }
 
     private void ExportMarkdownButton_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            var exportPath = _markdownExportService.ExportAllRecordsToMarkdown();
-            UpdateExportStatus(exportPath, $"导出成功：{exportPath}");
-            MessageBox.Show($"导出成功：{exportPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            ExportStatusTextBlock.Text = $"导出失败：{ex.Message}";
-            MessageBox.Show($"导出 Markdown 失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
-
+    { try { var p = _markdownExportService.ExportAllRecordsToMarkdown(); UpdateExportStatus(p, $"成功：{p}"); } catch { } }
     private void ExportMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
-        using var dialog = new Forms.FolderBrowserDialog { Description = "请选择导出目录", UseDescriptionForTitle = true, AutoUpgradeEnabled = true, ShowNewFolderButton = true };
-        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath)) return;
-        try
-        {
-            var exportPath = _markdownExportService.ExportAllRecordsToMarkdown(dialog.SelectedPath);
-            UpdateExportStatus(exportPath, $"导出成功：{exportPath}");
-            MessageBox.Show($"导出成功：{exportPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            ExportStatusTextBlock.Text = $"导出失败：{ex.Message}";
-            MessageBox.Show($"选择目录导出 Markdown 失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        using var dlg = new Forms.FolderBrowserDialog { Description = "选择导出目录" };
+        if (dlg.ShowDialog() != Forms.DialogResult.OK) return;
+        try { var p = _markdownExportService.ExportAllRecordsToMarkdown(dlg.SelectedPath); UpdateExportStatus(p, $"成功：{p}"); } catch { }
     }
-
     private void OpenExportsDirectoryButton_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            Directory.CreateDirectory(AppStoragePaths.ExportsDirectory);
-            Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = AppStoragePaths.ExportsDirectory, UseShellExecute = true });
-            ExportStatusTextBlock.Text = $"已打开导出目录：{AppStoragePaths.ExportsDirectory}";
-        }
-        catch (Exception ex)
-        {
-            ExportStatusTextBlock.Text = $"打开导出目录失败：{ex.Message}";
-            MessageBox.Show($"打开导出目录失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
-
+    { try { Directory.CreateDirectory(AppStoragePaths.ExportsDirectory); Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = AppStoragePaths.ExportsDirectory, UseShellExecute = true }); } catch { } }
     private void ExportFilteredMarkdownButton_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            var exportPath = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords);
-            UpdateExportStatus(exportPath, $"导出成功：{exportPath}");
-            MessageBox.Show($"导出成功：{exportPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            ExportStatusTextBlock.Text = $"导出失败：{ex.Message}";
-            MessageBox.Show($"导出筛选结果 Markdown 失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
-
+    { try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords); UpdateExportStatus(p, $"成功：{p}"); } catch { } }
     private void ExportFilteredMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
-        using var dialog = new Forms.FolderBrowserDialog { Description = "请选择导出目录", UseDescriptionForTitle = true, AutoUpgradeEnabled = true, ShowNewFolderButton = true };
-        if (dialog.ShowDialog() != Forms.DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedPath)) return;
-        try
-        {
-            var exportPath = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords, dialog.SelectedPath);
-            UpdateExportStatus(exportPath, $"导出成功：{exportPath}");
-            MessageBox.Show($"导出成功：{exportPath}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            ExportStatusTextBlock.Text = $"导出失败：{ex.Message}";
-            MessageBox.Show($"选择目录导出筛选结果失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        using var dlg = new Forms.FolderBrowserDialog { Description = "选择导出目录" };
+        if (dlg.ShowDialog() != Forms.DialogResult.OK) return;
+        try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords, dlg.SelectedPath); UpdateExportStatus(p, $"成功：{p}"); } catch { }
     }
 
     private void ViewSourceActionTaskButton_Click(object sender, RoutedEventArgs e)
     {
-        var taskId = ViewSourceActionTaskButton.Tag as string;
-        if (string.IsNullOrWhiteSpace(taskId)) return;
-        var task = _actionTaskRepository.GetById(taskId);
-        if (task is null)
-        {
-            MessageBox.Show("该行动任务不存在，可能已被删除。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
-            ViewSourceActionTaskButton.Tag = null;
-            ViewSourceActionTaskButton.IsEnabled = false;
-            return;
-        }
-        // Expand the action task panel and select the task
-        ActionTaskPanel.Visibility = Visibility.Visible;
-        UpdateToggleButtonText(ToggleActionTaskButton, true);
-        ActionTaskPanel.BringIntoView();
+        var tid = ViewSourceActionTaskButton.Tag as string;
+        if (string.IsNullOrWhiteSpace(tid)) return;
+        var task = _actionTaskRepository.GetById(tid);
+        if (task is null) { ViewSourceActionTaskButton.Tag = null; ViewSourceActionTaskButton.IsEnabled = false; return; }
+        // Navigate to dashboard and scroll to action task
+        NavButton_Click(NavDashboard, null!);
     }
 
-    // === Panel Toggle ===
+    // ===== 私有辅助 =====
 
-    private void TogglePanel_Click(object sender, RoutedEventArgs e)
+    private void ClearForm() { TitleTextBox.Clear(); CategoryTextBox.Clear(); ContentTextBox.Clear(); ExperienceTextBox.Clear(); _selectedImagePaths.Clear(); UpdateSelectedImagesDisplay(); }
+    private void UpdateSelectedImagesDisplay() { SelectedImagesListBox.ItemsSource = _selectedImagePaths.Select(Path.GetFileName).ToList(); SelectedImagesCountTextBlock.Text = $"已选择 {_selectedImagePaths.Count} 张图片"; }
+    private void UpdateBackupStatus(string p, string m) { LatestBackupPathTextBlock.Text = p; BackupStatusTextBlock.Text = m; }
+    private void UpdateExportStatus(string p, string m) { LatestExportPathTextBlock.Text = p; ExportStatusTextBlock.Text = m; }
+
+    private void LoadCategories(string? preserve = null)
     {
-        if (sender is not Button button) return;
-        UIElement? panel = button.Name switch
-        {
-            "ToggleDashboardButton" => DashboardPanel,
-            "ToggleActionTaskButton" => ActionTaskPanel,
-            "ToggleRecordsButton" => RecordsPanel,
-            "ToggleSystemButton" => SystemPanel,
-            _ => null
-        };
-        if (panel is null) return;
-        var isExpanded = panel.Visibility == Visibility.Visible;
-        panel.Visibility = isExpanded ? Visibility.Collapsed : Visibility.Visible;
-        UpdateToggleButtonText(button, !isExpanded);
+        var cur = preserve ?? GetSelectedCategoryFilter();
+        var cats = _lifeRecordRepository.GetAllCategories();
+        CategoryFilterComboBox.ItemsSource = new[] { AllCategoriesOption }.Concat(cats).ToList();
+        CategoryFilterComboBox.SelectedItem = cats.Contains(cur) ? cur : AllCategoriesOption;
     }
+    private string GetSelectedCategoryFilter() => CategoryFilterComboBox.SelectedItem as string ?? AllCategoriesOption;
 
-    private void NavButton_Click(object sender, RoutedEventArgs e)
+    private void RefreshRecordsList(string? selectId = null)
     {
-        if (sender is not Button button) return;
-        var targetPanel = button.Content.ToString() switch
-        {
-            "首页" => DashboardPanel,
-            "行为记录" => RecordsPanel,
-            "成长属性" => DashboardPanel,
-            "图片证据" => DashboardPanel,
-            "复盘归档" => RecordsPanel,
-            "设置" => SystemPanel,
-            _ => null
-        };
-        if (targetPanel is null) return;
-        targetPanel.Visibility = Visibility.Visible;
-        Button toggleButton = targetPanel == DashboardPanel ? ToggleDashboardButton
-            : targetPanel == ActionTaskPanel ? ToggleActionTaskButton
-            : targetPanel == RecordsPanel ? ToggleRecordsButton : ToggleSystemButton;
-        UpdateToggleButtonText(toggleButton, true);
-        targetPanel.BringIntoView();
-    }
-
-    private static void UpdateToggleButtonText(Button button, bool isExpanded)
-    {
-        var text = button.Content.ToString() ?? "";
-        var cleanText = text.TrimStart('▶', '▾', ' ');
-        button.Content = isExpanded ? $"▾ {cleanText}" : $"▶ {cleanText}";
-    }
-
-    // === Scroll handling for nested DataGrid/ListBox inside panel ScrollViewers ===
-
-    private void PanelScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-    {
-        if (IsInsideScrollableControl(e.OriginalSource as DependencyObject) && sender is ScrollViewer sv)
-        {
-            sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta);
-            e.Handled = true;
-        }
-    }
-
-    private static bool IsInsideScrollableControl(DependencyObject? element)
-    {
-        while (element is not null)
-        {
-            if (element is WpfDataGrid || element is WpfListBox) return true;
-            element = VisualTreeHelper.GetParent(element);
-        }
-        return false;
-    }
-
-    // === Private helpers below — unchanged from original ===
-
-    private void ClearForm()
-    {
-        TitleTextBox.Clear();
-        CategoryTextBox.Clear();
-        ContentTextBox.Clear();
-        ExperienceTextBox.Clear();
-        _selectedImagePaths.Clear();
-        UpdateSelectedImagesDisplay();
-    }
-
-    private void UpdateSelectedImagesDisplay()
-    {
-        SelectedImagesListBox.ItemsSource = _selectedImagePaths.Select(Path.GetFileName).ToList();
-        SelectedImagesCountTextBlock.Text = $"已选择 {_selectedImagePaths.Count} 张图片";
-    }
-
-    private void UpdateBackupStatus(string path, string message)
-    {
-        LatestBackupPathTextBlock.Text = path;
-        BackupStatusTextBlock.Text = message;
-    }
-
-    private void UpdateExportStatus(string path, string message)
-    {
-        LatestExportPathTextBlock.Text = path;
-        ExportStatusTextBlock.Text = message;
-    }
-
-    private void LoadCategories(string? preserveSelection = null)
-    {
-        var currentSelection = preserveSelection ?? GetSelectedCategoryFilter();
-        var categories = _lifeRecordRepository.GetAllCategories();
-        CategoryFilterComboBox.ItemsSource = new[] { AllCategoriesOption }.Concat(categories).ToList();
-        CategoryFilterComboBox.SelectedItem = categories.Contains(currentSelection) ? currentSelection : AllCategoriesOption;
-    }
-
-    private string GetSelectedCategoryFilter()
-    {
-        return CategoryFilterComboBox.SelectedItem as string ?? AllCategoriesOption;
-    }
-
-    private void RefreshRecordsList(string? selectRecordId = null)
-    {
-        TryGetSearchCriteria(out var keyword, out var category, out var startDate, out var endDate, showValidationMessage: false);
-        var records = _lifeRecordRepository.Search(keyword, category, startDate, endDate);
+        TryGetSearchCriteria(out var kw, out var cat, out var sd, out var ed, false);
+        var records = _lifeRecordRepository.Search(kw, cat, sd, ed);
         _currentDisplayedRecords = records;
-        var items = records.Select(record =>
+        var items = records.Select(r => new LifeRecordListItem
         {
-            var imageCount = _lifeRecordImageRepository.GetByLifeRecordId(record.Id).Count;
-            return new LifeRecordListItem
-            {
-                Id = record.Id,
-                Title = record.Title,
-                Category = record.Category,
-                Experience = record.Experience,
-                CreatedAt = record.CreatedAt,
-                ContentPreview = TruncateContent(record.Content),
-                ImageCount = imageCount
-            };
+            Id = r.Id, Title = r.Title, Category = r.Category, Experience = r.Experience,
+            CreatedAt = r.CreatedAt, ContentPreview = Truncate(r.Content),
+            ImageCount = _lifeRecordImageRepository.GetByLifeRecordId(r.Id).Count
         }).ToList();
         RecordsListBox.ItemsSource = items;
         ResultCountTextBlock.Text = $"当前显示 {items.Count} 条记录";
-        if (selectRecordId is not null)
-        {
-            var target = items.FirstOrDefault(i => i.Id == selectRecordId);
-            if (target is not null)
-            {
-                RecordsListBox.SelectedItem = target;
-                RecordsListBox.ScrollIntoView(target);
-            }
-        }
+        if (selectId is not null) { var t = items.FirstOrDefault(i => i.Id == selectId); if (t is not null) { RecordsListBox.SelectedItem = t; RecordsListBox.ScrollIntoView(t); } }
     }
+    private static string Truncate(string c) => string.IsNullOrWhiteSpace(c) ? "" : c.Length > 200 ? c[..200] + "…" : c;
 
-    private static string TruncateContent(string content)
+    private bool TryGetSearchCriteria(out string kw, out string cat, out DateTime? sd, out DateTime? ed, bool showMsg)
     {
-        if (string.IsNullOrWhiteSpace(content)) return string.Empty;
-        return content.Length > 200 ? content[..200] + "…" : content;
-    }
-
-    private bool TryGetSearchCriteria(out string keyword, out string category, out DateTime? startDate, out DateTime? endDate, bool showValidationMessage)
-    {
-        keyword = SearchKeywordTextBox.Text.Trim();
-        category = GetSelectedCategoryFilter();
-        if (string.Equals(category, AllCategoriesOption, StringComparison.Ordinal)) category = string.Empty;
-        startDate = StartDatePicker.SelectedDate;
-        endDate = EndDatePicker.SelectedDate;
-        if (startDate.HasValue && endDate.HasValue && startDate.Value > endDate.Value)
-        {
-            if (showValidationMessage) MessageBox.Show("开始日期不能晚于结束日期。", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
+        kw = SearchKeywordTextBox.Text.Trim(); cat = GetSelectedCategoryFilter();
+        if (cat == AllCategoriesOption) cat = ""; sd = StartDatePicker.SelectedDate; ed = EndDatePicker.SelectedDate;
+        if (sd.HasValue && ed.HasValue && sd > ed) { if (showMsg) MessageBox.Show("开始日期不能晚于结束日期。"); return false; }
         return true;
     }
 
     private void ClearSelectedRecordDetail()
     {
-        _selectedRecordId = null;
-        _currentRecordDetail = null;
-        DetailTitleTextBox.Clear();
-        DetailCategoryTextBox.Clear();
-        DetailContentTextBox.Clear();
-        DetailExperienceTextBox.Clear();
-        DetailCreatedAtTextBlock.Text = string.Empty;
-        DetailUpdatedAtTextBlock.Text = string.Empty;
-        DetailPlaceholderTextBlock.Visibility = Visibility.Visible;
+        _selectedRecordId = null; _currentRecordDetail = null;
+        DetailTitleTextBox.Clear(); DetailCategoryTextBox.Clear(); DetailContentTextBox.Clear(); DetailExperienceTextBox.Clear();
+        DetailCreatedAtTextBlock.Text = ""; DetailUpdatedAtTextBlock.Text = "";
         DetailPanel.Visibility = Visibility.Collapsed;
         ImagePreviewItemsControl.ItemsSource = null;
-        SourceActionTaskTextBlock.Text = "无";
-        ViewSourceActionTaskButton.Tag = null;
-        ViewSourceActionTaskButton.IsEnabled = false;
+        SourceActionTaskTextBlock.Text = "无"; ViewSourceActionTaskButton.Tag = null; ViewSourceActionTaskButton.IsEnabled = false;
     }
 
-    private void LoadRecordDetail(string recordId)
+    private void LoadRecordDetail(string rid)
     {
-        var record = _lifeRecordRepository.GetById(recordId);
-        if (record is null)
-        {
-            ClearSelectedRecordDetail();
-            return;
-        }
-        _selectedRecordId = recordId;
-        _currentRecordDetail = new LifeRecordDetailViewModel { Id = record.Id, Title = record.Title, Category = record.Category, Content = record.Content, Experience = record.Experience, CreatedAt = record.CreatedAt, UpdatedAt = record.UpdatedAt };
-        DetailTitleTextBox.Text = record.Title;
-        DetailCategoryTextBox.Text = record.Category;
-        DetailContentTextBox.Text = record.Content;
-        DetailExperienceTextBox.Text = record.Experience.ToString();
-        DetailCreatedAtTextBlock.Text = record.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
-        DetailUpdatedAtTextBlock.Text = record.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss");
-        DetailPlaceholderTextBlock.Visibility = Visibility.Collapsed;
+        var r = _lifeRecordRepository.GetById(rid);
+        if (r is null) { ClearSelectedRecordDetail(); return; }
+        _selectedRecordId = rid;
+        DetailTitleTextBox.Text = r.Title; DetailCategoryTextBox.Text = r.Category;
+        DetailContentTextBox.Text = r.Content; DetailExperienceTextBox.Text = r.Experience.ToString();
+        DetailCreatedAtTextBlock.Text = r.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+        DetailUpdatedAtTextBlock.Text = r.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss");
         DetailPanel.Visibility = Visibility.Visible;
-        var images = _lifeRecordImageRepository.GetByLifeRecordId(recordId);
-        ImagePreviewItemsControl.ItemsSource = images.Select(image =>
+        var images = _lifeRecordImageRepository.GetByLifeRecordId(rid);
+        ImagePreviewItemsControl.ItemsSource = images.Select(i =>
         {
-            BitmapImage? previewSource = null;
-            if (File.Exists(image.FilePath))
-            {
-                try { previewSource = LoadBitmapWithoutFileLock(image.FilePath); } catch { }
-            }
-            return new LifeRecordImageListItem { Id = image.Id, FileName = image.FileName, FilePath = image.FilePath, CreatedAt = image.CreatedAt, PreviewImageSource = previewSource };
+            BitmapImage? s = null;
+            if (File.Exists(i.FilePath)) try { s = LoadBitmapWithoutFileLock(i.FilePath); } catch { }
+            return new LifeRecordImageListItem { Id = i.Id, FileName = i.FileName, FilePath = i.FilePath, CreatedAt = i.CreatedAt, PreviewImageSource = s };
         }).ToList();
-        RefreshSourceActionTask(recordId);
+        var st = _actionTaskRepository.GetByLinkedLifeRecordId(rid);
+        if (st is not null) { SourceActionTaskTextBlock.Text = $"{st.Title}（{StatusName(st.Status)}）"; ViewSourceActionTaskButton.Tag = st.Id; ViewSourceActionTaskButton.IsEnabled = true; }
+        else { SourceActionTaskTextBlock.Text = "无"; ViewSourceActionTaskButton.Tag = null; ViewSourceActionTaskButton.IsEnabled = false; }
     }
 
-    private void LoadStatisticsDashboard(bool showErrorMessage = false)
+    private void LoadStatisticsDashboard(bool showErr = false)
     {
         try
         {
-            var summary = _statisticsRepository.GetSummary();
-            var categoryStatistics = _statisticsRepository.GetCategoryStatistics();
-            var dailyStatistics = _statisticsRepository.GetRecentDailyStatistics(7);
-            TotalRecordsTextBlock.Text = summary.TotalRecords.ToString();
-            TotalExperienceTextBlock.Text = summary.TotalExperience.ToString();
-            TotalImagesTextBlock.Text = summary.TotalImages.ToString();
-            RecordsWithImagesTextBlock.Text = summary.RecordsWithImages.ToString();
-            RecordsWithoutImagesTextBlock.Text = summary.RecordsWithoutImages.ToString();
-            CategoryCountTextBlock.Text = summary.CategoryCount.ToString();
-            LatestRecordCreatedAtTextBlock.Text = summary.LatestRecordCreatedAt.HasValue ? summary.LatestRecordCreatedAt.Value.ToString("yyyy-MM-dd HH:mm:ss") : "暂无记录";
-            CategoryStatisticsDataGrid.ItemsSource = categoryStatistics;
-            DailyStatisticsDataGrid.ItemsSource = dailyStatistics;
+            var s = _statisticsRepository.GetSummary();
+            var cats = _statisticsRepository.GetCategoryStatistics();
+            var daily = _statisticsRepository.GetRecentDailyStatistics(7);
+            TotalRecordsTextBlock.Text = s.TotalRecords.ToString();
+            TotalExperienceTextBlock.Text = s.TotalExperience.ToString();
+            TotalImagesTextBlock.Text = s.TotalImages.ToString();
+            RecordsWithImagesTextBlock.Text = s.RecordsWithImages.ToString();
+            RecordsWithoutImagesTextBlock.Text = s.RecordsWithoutImages.ToString();
+            CategoryCountTextBlock.Text = s.CategoryCount.ToString();
+            LatestRecordCreatedAtTextBlock.Text = s.LatestRecordCreatedAt?.ToString("yyyy-MM-dd HH:mm:ss") ?? "暂无记录";
+            CategoryStatisticsDataGrid.ItemsSource = cats;
+            DailyStatisticsDataGrid.ItemsSource = daily;
         }
-        catch (Exception ex)
-        {
-            if (showErrorMessage) MessageBox.Show($"加载统计看板失败：{ex.Message}", "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        catch (Exception ex) { if (showErr) MessageBox.Show($"加载统计失败：{ex.Message}"); }
     }
 
-    private void PrepareForRestore()
+    private static string StatusName(ActionTaskStatus s) => s switch
     {
-        ImagePreviewItemsControl.ItemsSource = null;
-    }
-
-    private void ActionTaskControl_LifeRecordSelectionRequested(string lifeRecordId)
-    {
-        LoadCategories(GetSelectedCategoryFilter());
-        RefreshRecordsList(lifeRecordId);
-        LoadRecordDetail(lifeRecordId);
-    }
-
-    private void ActionTaskControl_LifeRecordLinkChanged()
-    {
-        LoadCategories(GetSelectedCategoryFilter());
-        RefreshRecordsList();
-        ClearSelectedRecordDetail();
-    }
-
-    private void ActionTaskControl_RpgProgressUpdated()
-    {
-        CharacterDashboardControl.RefreshDashboard(showErrorMessage: false);
-    }
-
-    private void RefreshSourceActionTask(string lifeRecordId)
-    {
-        var sourceTask = _actionTaskRepository.GetByLinkedLifeRecordId(lifeRecordId);
-        if (sourceTask is null)
-        {
-            SourceActionTaskTextBlock.Text = "无";
-            ViewSourceActionTaskButton.Tag = null;
-            ViewSourceActionTaskButton.IsEnabled = false;
-            return;
-        }
-        SourceActionTaskTextBlock.Text = $"{sourceTask.Title}（{GetActionTaskStatusDisplayName(sourceTask.Status)}）";
-        ViewSourceActionTaskButton.Tag = sourceTask.Id;
-        ViewSourceActionTaskButton.IsEnabled = true;
-    }
-
-    private static string GetActionTaskStatusDisplayName(ActionTaskStatus status) => status switch
-    {
-        ActionTaskStatus.NotStarted => "未开始",
-        ActionTaskStatus.InProgress => "进行中",
-        ActionTaskStatus.Completed => "已完成",
-        ActionTaskStatus.Cancelled => "已取消",
-        _ => status.ToString()
+        ActionTaskStatus.NotStarted => "未开始", ActionTaskStatus.InProgress => "进行中",
+        ActionTaskStatus.Completed => "已完成", ActionTaskStatus.Cancelled => "已取消", _ => s.ToString()
     };
 
-    private static BitmapImage LoadBitmapWithoutFileLock(string filePath)
+    private static BitmapImage LoadBitmapWithoutFileLock(string path)
     {
-        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var bitmap = new BitmapImage();
-        bitmap.BeginInit();
-        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-        bitmap.StreamSource = stream;
-        bitmap.EndInit();
-        bitmap.Freeze();
-        return bitmap;
+        using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        var bmp = new BitmapImage(); bmp.BeginInit(); bmp.CacheOption = BitmapCacheOption.OnLoad;
+        bmp.StreamSource = fs; bmp.EndInit(); bmp.Freeze(); return bmp;
     }
 }
