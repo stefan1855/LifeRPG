@@ -12,12 +12,12 @@ public partial class ShortcutSettingsWindow : Window
     private readonly Dictionary<string, string> _shortcuts;
     private string? _editingName;
 
-    private static readonly Brush SlotBg = new SolidColorBrush(Color.FromRgb(0x1E, 0x1E, 0x2E));
-    private static readonly Brush SlotBorder = new SolidColorBrush(Color.FromRgb(0x45, 0x47, 0x5A));
-    private static readonly Brush SlotActiveBorder = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
-    private static readonly Brush SlotActiveBg = new SolidColorBrush(Color.FromRgb(0x2A, 0x2A, 0x3E));
-    private static readonly Brush TextFg = new SolidColorBrush(Color.FromRgb(0xCD, 0xD6, 0xF4));
-    private static readonly Brush ActiveFg = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
+    private static readonly System.Windows.Media.Brush SlotBg = new SolidColorBrush(Color.FromRgb(0x1E, 0x1E, 0x2E));
+    private static readonly System.Windows.Media.Brush SlotBorder = new SolidColorBrush(Color.FromRgb(0x45, 0x47, 0x5A));
+    private static readonly System.Windows.Media.Brush SlotActiveBorder = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
+    private static readonly System.Windows.Media.Brush SlotActiveBg = new SolidColorBrush(Color.FromRgb(0x2A, 0x2A, 0x3E));
+    private static readonly System.Windows.Media.Brush TextFg = new SolidColorBrush(Color.FromRgb(0xCD, 0xD6, 0xF4));
+    private static readonly System.Windows.Media.Brush ActiveFg = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
 
     public ShortcutSettingsWindow()
     {
