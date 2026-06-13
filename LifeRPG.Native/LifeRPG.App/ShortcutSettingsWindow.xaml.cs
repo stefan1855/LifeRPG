@@ -15,6 +15,7 @@ public partial class ShortcutSettingsWindow : Window
         InitializeComponent();
         _shortcuts = AppConfig.GetAllShortcuts().ToDictionary(kv => kv.Key, kv => kv.Value);
         RefreshList();
+        PreviewKeyDown += (_, e) => { if (e.Key == Key.Escape) Close(); };
     }
 
     private void RefreshList()
@@ -28,12 +29,13 @@ public partial class ShortcutSettingsWindow : Window
 
     private void KeyCaptureBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
+        e.Handled = true;
         if (sender is not TextBox box) return;
         if (box.DataContext is not ShortcutRow row) return;
 
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
-            or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+            or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin or Key.Tab)
             return;
 
         var mods = Keyboard.Modifiers;
@@ -42,7 +44,7 @@ public partial class ShortcutSettingsWindow : Window
         var display = KeyToString(key, mods);
         row.DisplayText = display;
         _shortcuts[row.Name] = display;
-        e.Handled = true;
+        box.Text = display; // force UI update since OneWay binding won't update
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
