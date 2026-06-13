@@ -794,6 +794,16 @@
                       MinHeight="220"
                       SelectionMode="Single"
                       SelectionChanged="TaskDataGrid_SelectionChanged">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                                <Setter Property="Foreground" Value="#FF4444" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="标题" Binding="{Binding Title}" Width="2*" />
                     <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="120" />

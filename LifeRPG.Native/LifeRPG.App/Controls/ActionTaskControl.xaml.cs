@@ -1465,7 +1465,10 @@ public partial class ActionTaskControl : System.Windows.Controls.UserControl
             QuadrantText = GetQuadrantText(task.Quadrant),
             Experience = task.Experience,
             DueAtText = task.DueAt?.ToString("yyyy-MM-dd HH:mm") ?? "无",
-            CreatedAtText = task.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+            CreatedAtText = task.CreatedAt.ToString("yyyy-MM-dd HH:mm"),
+            IsOverdue = task.DueAt.HasValue && task.DueAt.Value < DateTime.Now
+                && task.Status != ActionTaskStatus.Completed
+                && task.Status != ActionTaskStatus.Cancelled
         };
     }
 

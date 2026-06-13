@@ -19,4 +19,6 @@ public sealed class ActionTaskListItem
     public string DueAtText { get; set; } = string.Empty;
 
     public string CreatedAtText { get; set; } = string.Empty;
+
+    public bool IsOverdue { get; set; }
 }
