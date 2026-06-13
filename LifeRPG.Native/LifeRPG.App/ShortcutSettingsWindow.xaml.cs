@@ -12,13 +12,6 @@ public partial class ShortcutSettingsWindow : Window
     private readonly Dictionary<string, string> _shortcuts;
     private string? _editingName;
 
-    private static readonly System.Windows.Media.Brush SlotBg = new SolidColorBrush(Color.FromRgb(0x1E, 0x1E, 0x2E));
-    private static readonly System.Windows.Media.Brush SlotBorder = new SolidColorBrush(Color.FromRgb(0x45, 0x47, 0x5A));
-    private static readonly System.Windows.Media.Brush SlotActiveBorder = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
-    private static readonly System.Windows.Media.Brush SlotActiveBg = new SolidColorBrush(Color.FromRgb(0x2A, 0x2A, 0x3E));
-    private static readonly System.Windows.Media.Brush TextFg = new SolidColorBrush(Color.FromRgb(0xCD, 0xD6, 0xF4));
-    private static readonly System.Windows.Media.Brush ActiveFg = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1));
-
     public ShortcutSettingsWindow()
     {
         InitializeComponent();
@@ -42,7 +35,7 @@ public partial class ShortcutSettingsWindow : Window
             var label = new TextBlock
             {
                 Text = name,
-                Foreground = TextFg,
+                Foreground = new SolidColorBrush(Color.FromRgb(0xCD, 0xD6, 0xF4)),
                 FontSize = 14,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -52,7 +45,7 @@ public partial class ShortcutSettingsWindow : Window
             var valueLabel = new TextBlock
             {
                 Text = value,
-                Foreground = ActiveFg,
+                Foreground = new SolidColorBrush(Color.FromRgb(0xA6, 0xE3, 0xA1)),
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -62,8 +55,8 @@ public partial class ShortcutSettingsWindow : Window
             var border = new Border
             {
                 Width = 190, Height = 32,
-                Background = SlotBg,
-                BorderBrush = SlotBorder,
+                Background = new SolidColorBrush(Color.FromRgb(0x1E, 0x1E, 0x2E)),
+                BorderBrush = new SolidColorBrush(Color.FromRgb(0x45, 0x47, 0x5A)),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(4),
                 Cursor = Cursors.Hand,
@@ -72,11 +65,17 @@ public partial class ShortcutSettingsWindow : Window
             };
             border.MouseLeftButtonDown += (_, _) =>
             {
-                _editingName = name as string;
+                _editingName = name;
                 foreach (var (b, _) in _slots)
                 {
-                    b.BorderBrush = b.Tag as string == _editingName ? SlotActiveBorder : SlotBorder;
-                    b.Background = b.Tag as string == _editingName ? SlotActiveBg : SlotBg;
+                    b.BorderBrush = new SolidColorBrush(
+                        b.Tag as string == _editingName
+                            ? Color.FromRgb(0xA6, 0xE3, 0xA1)
+                            : Color.FromRgb(0x45, 0x47, 0x5A));
+                    b.Background = new SolidColorBrush(
+                        b.Tag as string == _editingName
+                            ? Color.FromRgb(0x2A, 0x2A, 0x3E)
+                            : Color.FromRgb(0x1E, 0x1E, 0x2E));
                 }
             };
 
