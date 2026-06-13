@@ -28,6 +28,8 @@ public partial class MainWindow : Window
     private readonly ImageStorageService _imageStorageService;
     private readonly BackupService _backupService;
     private readonly MarkdownExportService _markdownExportService;
+    private readonly CharacterRepository _charRepo;
+    private readonly Core.Rpg.RpgEngine _rpgEngine;
     private readonly List<string> _selectedImagePaths = [];
     private List<LifeRecord> _currentDisplayedRecords = [];
     private string? _selectedRecordId;
@@ -51,11 +53,12 @@ public partial class MainWindow : Window
         _imageStorageService = imageStorageService;
         _backupService = backupService;
         _markdownExportService = markdownExportService;
+        _charRepo = characterRepository;
+        _rpgEngine = rpgEngine;
         InitializeComponent();
 
         // Inject dependencies into controls
         CharacterDashboardControl.Initialize(characterRepository, rpgEngine);
-        AttributesCharacterDashboard.Initialize(characterRepository, rpgEngine);
         ActionTaskControl.Initialize(actionTaskRepository, actionTaskImageRepository,
             lifeRecordRepository, actionTaskImageStorageService, rpgProgressionService, markdownExportService);
 
@@ -72,7 +75,7 @@ public partial class MainWindow : Window
 
         ActionTaskControl.LifeRecordSelectionRequested += _ => NavigateToLifeRecord(_);
         ActionTaskControl.LifeRecordLinkChanged += () => { LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail(); };
-        ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false); };
+        ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); };
 
         LoadSettingsPage();
         UpdateSelectedImagesDisplay();
@@ -81,7 +84,6 @@ public partial class MainWindow : Window
         RefreshRecordsList();
         LoadStatisticsDashboard();
         CharacterDashboardControl.RefreshDashboard(false);
-        AttributesCharacterDashboard.RefreshDashboard(false);
     }
 
     // ===== 页面切换 =====
@@ -123,8 +125,44 @@ public partial class MainWindow : Window
 
     private void LoadAttributesPage()
     {
-        AttributesCharacterDashboard.RefreshDashboard(false);
+        var snapshot = _charRepo.GetDashboardSnapshot();
+        var attrs = snapshot.Attributes;
+
+        SetAttrCard("physique", attrs, AttrLevel_physique, AttrBar_physique, AttrExp_physique);
+        SetAttrCard("mind", attrs, AttrLevel_mind, AttrBar_mind, AttrExp_mind);
+        SetAttrCard("discipline", attrs, AttrLevel_discipline, AttrBar_discipline, AttrExp_discipline);
+        SetAttrCard("expression", attrs, AttrLevel_expression, AttrBar_expression, AttrExp_expression);
+        SetAttrCard("creativity", attrs, AttrLevel_creativity, AttrBar_creativity, AttrExp_creativity);
+        SetAttrCard("resources", attrs, AttrLevel_resources, AttrBar_resources, AttrExp_resources);
+
+        var logs = new List<AttributeLog>(snapshot.RecentAttributeLogs ?? []);
+        AttributesLogItemsControl.ItemsSource = logs.Take(20).Select(log => new
+        {
+            Title = $"{ResolveAttrName(log.AttributeKey)} {(log.ExperienceDelta >= 0 ? "+" : "")}{log.ExperienceDelta} EXP",
+            Detail = log.Reason,
+            CreatedAtText = log.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+        }).ToList();
     }
+
+    private void SetAttrCard(string key, IEnumerable<CharacterAttribute> attrs,
+        TextBlock levelText, System.Windows.Controls.ProgressBar bar, TextBlock expText)
+    {
+        var attr = attrs.FirstOrDefault(a => a.AttributeKey == key);
+        if (attr is null) return;
+        var result = _rpgEngine.CalculateLevel(attr.Experience);
+        levelText.Text = $"Lv.{result.Level}";
+        var span = result.ExperienceRequiredForNextLevel - result.ExperienceRequiredForCurrentLevel;
+        bar.Maximum = span > 0 ? span : 1;
+        bar.Value = Math.Min(result.ExperienceIntoCurrentLevel, span);
+        expText.Text = $"{result.ExperienceIntoCurrentLevel}/{span} EXP ({result.TotalExperience} 总经验)";
+    }
+
+    private static string ResolveAttrName(string key) => key switch
+    {
+        "physique" => "体魄", "mind" => "心智", "discipline" => "纪律",
+        "expression" => "表达", "creativity" => "创造", "resources" => "资源",
+        _ => key
+    };
 
     // ===== 图片证据页 =====
 
@@ -228,7 +266,7 @@ public partial class MainWindow : Window
             var result = _backupService.RestoreFromBackup(info.FilePath);
             LoadCategories(); RefreshRecordsList(); LoadStatisticsDashboard();
             ActionTaskControl.RefreshFromExternalChange();
-            CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false);
+            CharacterDashboardControl.RefreshDashboard(false);
             UpdateBackupStatus(info.FilePath, result);
             RefreshBackupList();
             MessageBox.Show(result, "LifeRPG.Native", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -364,7 +402,7 @@ public partial class MainWindow : Window
             var r = _backupService.RestoreFromBackup(dlg.FileName);
             LoadCategories(); RefreshRecordsList(); LoadStatisticsDashboard();
             ActionTaskControl.RefreshFromExternalChange();
-            CharacterDashboardControl.RefreshDashboard(false); AttributesCharacterDashboard.RefreshDashboard(false);
+            CharacterDashboardControl.RefreshDashboard(false);
             UpdateBackupStatus(dlg.FileName, r);
         }
         catch (Exception ex) { BackupStatusTextBlock.Text = $"失败：{ex.Message}"; RefreshRecordsList(); }
@@ -385,12 +423,25 @@ public partial class MainWindow : Window
     private void OpenExportsDirectoryButton_Click(object sender, RoutedEventArgs e)
     { try { Directory.CreateDirectory(AppStoragePaths.ExportsDirectory); Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = AppStoragePaths.ExportsDirectory, UseShellExecute = true }); } catch { } }
     private void ExportFilteredMarkdownButton_Click(object sender, RoutedEventArgs e)
-    { try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords); UpdateExportStatus(p, $"成功：{p}"); } catch { } }
+    { try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords); UpdateExportStatus(p, $"导出 {_currentDisplayedRecords.Count} 条{ExportContext()} → {p}"); } catch { } }
     private void ExportFilteredMarkdownToDirectoryButton_Click(object sender, RoutedEventArgs e)
     {
         using var dlg = new Forms.FolderBrowserDialog { Description = "选择导出目录" };
         if (dlg.ShowDialog() != Forms.DialogResult.OK) return;
-        try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords, dlg.SelectedPath); UpdateExportStatus(p, $"成功：{p}"); } catch { }
+        try { var p = _markdownExportService.ExportRecordsToMarkdown(_currentDisplayedRecords, dlg.SelectedPath); UpdateExportStatus(p, $"导出 {_currentDisplayedRecords.Count} 条{ExportContext()} → {p}"); } catch { }
+    }
+
+    private string ExportContext()
+    {
+        var kw = SearchKeywordTextBox.Text.Trim();
+        var cat = GetSelectedCategoryFilter();
+        var sd = StartDatePicker.SelectedDate;
+        var ed = EndDatePicker.SelectedDate;
+        var parts = new List<string>();
+        if (!string.IsNullOrWhiteSpace(kw)) parts.Add($"关键词「{kw}」");
+        if (!string.IsNullOrWhiteSpace(cat) && cat != AllCategoriesOption) parts.Add($"分类「{cat}」");
+        if (sd.HasValue || ed.HasValue) parts.Add($"日期 {sd:yyyy-MM-dd}~{ed:yyyy-MM-dd}");
+        return parts.Count > 0 ? $"（{string.Join("，", parts)}）" : "";
     }
 
     private void ViewSourceActionTaskButton_Click(object sender, RoutedEventArgs e)

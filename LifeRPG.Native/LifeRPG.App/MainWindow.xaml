@@ -433,46 +433,101 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <!-- 成长属性 -->
+                                <!-- 成长属性 -->
                 <ScrollViewer x:Name="AttributesPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <Border Style="{StaticResource CardBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="成长属性" />
-                            <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                                       Text="六项核心属性的等级与经验详情，以及最近的属性成长记录。" />
-                            <controls:CharacterDashboardControl x:Name="AttributesCharacterDashboard" Margin="0,12,0,0" />
-                            <Border Margin="0,16,0,0" Style="{StaticResource StatCardBorderStyle}">
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="成长日志" />
-                                    <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                                               Text="以下展示最近 20 条属性变化记录。" />
-                                    <ItemsControl x:Name="AttributesLogItemsControl" Margin="0,10,0,0">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}"
-                                                        Background="{StaticResource WarlockCardAltBrush}">
-                                                    <StackPanel>
-                                                        <DockPanel LastChildFill="False">
-                                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}"
-                                                                       Text="{Binding Title}" />
-                                                            <TextBlock DockPanel.Dock="Right" Style="{StaticResource MutedTextBlockStyle}"
-                                                                       Text="{Binding CreatedAtText}" />
-                                                        </DockPanel>
-                                                        <TextBlock Margin="0,4,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                                                                   Text="{Binding Detail}" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </ScrollViewer>
-
-                <!-- 图片证据 -->
+                    <StackPanel>
+                        <Border Style="{StaticResource CardBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="成长属性总览" />
+                                <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
+                                           Text="六项核心属性，展示当前等级与经验进度。" />
+                                <UniformGrid Margin="0,14,0,0" Columns="3">
+                                    <Border x:Name="AttrCard_physique" Margin="0,0,14,14" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="体魄" />
+                                            <TextBlock x:Name="AttrLevel_physique" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_physique" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_physique" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AttrCard_mind" Margin="0,0,14,14" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="心智" />
+                                            <TextBlock x:Name="AttrLevel_mind" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_mind" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_mind" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AttrCard_discipline" Margin="0,0,0,14" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="纪律" />
+                                            <TextBlock x:Name="AttrLevel_discipline" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_discipline" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_discipline" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AttrCard_expression" Margin="0,0,14,0" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="表达" />
+                                            <TextBlock x:Name="AttrLevel_expression" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_expression" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_expression" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AttrCard_creativity" Margin="0,0,14,0" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="创造" />
+                                            <TextBlock x:Name="AttrLevel_creativity" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_creativity" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_creativity" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AttrCard_resources" Margin="0,0,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}" Text="资源" />
+                                            <TextBlock x:Name="AttrLevel_resources" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{StaticResource WarlockTextPrimaryBrush}" Margin="0,6,0,0" Text="Lv.1" />
+                                            <ProgressBar x:Name="AttrBar_resources" Height="8" Margin="0,10,0,0" Minimum="0" Maximum="100" Value="50" />
+                                            <TextBlock x:Name="AttrExp_resources" Margin="0,6,0,0" Style="{StaticResource MutedTextBlockStyle}" Text="0/100 EXP" />
+                                        </StackPanel>
+                                    </Border>
+                                </UniformGrid>
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,10,0,0" Style="{StaticResource CardBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="最近属性变化" />
+                                <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
+                                           Text="最近 20 条属性变化记录。" />
+                                <ItemsControl x:Name="AttributesLogItemsControl" Margin="0,10,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}"
+                                                    Background="{StaticResource WarlockCardAltBrush}">
+                                                <StackPanel>
+                                                    <DockPanel LastChildFill="False">
+                                                        <TextBlock FontWeight="Bold" Foreground="{StaticResource WarlockSoulGreenBrush}"
+                                                                   Text="{Binding Title}" />
+                                                        <TextBlock DockPanel.Dock="Right" Style="{StaticResource MutedTextBlockStyle}"
+                                                                   Text="{Binding CreatedAtText}" />
+                                                    </DockPanel>
+                                                    <TextBlock Margin="0,4,0,0" Style="{StaticResource MutedTextBlockStyle}"
+                                                               Text="{Binding Detail}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer><!-- 图片证据 -->
                 <ScrollViewer x:Name="ImagesPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <Border Style="{StaticResource CardBorderStyle}">
