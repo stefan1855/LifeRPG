@@ -15,6 +15,21 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="Bold" />
         </Style>
+        <Style TargetType="Button" x:Key="DialogButton">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Background" Value="#313244" />
+            <Setter Property="Foreground" Value="#CDD6F4" />
+            <Setter Property="BorderBrush" Value="#45475A" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style TargetType="Button" x:Key="DialogButtonSave" BasedOn="{StaticResource DialogButton}">
+            <Setter Property="Background" Value="#3A2552" />
+            <Setter Property="BorderBrush" Value="#A6E3A1" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
     </Window.Resources>
     <Grid Background="#181825" Margin="20">
         <Grid.RowDefinitions>
@@ -23,7 +38,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="点击右侧输入框，按下你想设置的组合键" FontSize="14"
+        <TextBlock Text="点击右侧输入框，按下组合键即可修改" FontSize="14"
                    Foreground="#A6ADC8" Margin="0,0,0,16" />
 
         <ItemsControl Grid.Row="1" x:Name="ShortcutsList">
@@ -37,7 +52,7 @@
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center"
                                    Foreground="#CDD6F4" FontSize="14" />
                         <TextBox Grid.Column="1" Style="{StaticResource KeyCaptureBox}"
-                                 Text="{Binding DisplayText}"
+                                 Text="{Binding DisplayText, Mode=OneWay}"
                                  PreviewKeyDown="KeyCaptureBox_PreviewKeyDown" />
                     </Grid>
                 </DataTemplate>
@@ -45,10 +60,8 @@
         </ItemsControl>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-            <Button Width="80" Content="默认" Click="ResetDefaultsButton_Click"
-                    Style="{StaticResource NavButtonStyle}" />
-            <Button Width="80" Margin="10,0,0,0" Content="保存" Click="SaveButton_Click"
-                    Style="{StaticResource NavButtonActiveStyle}" />
+            <Button Style="{StaticResource DialogButton}" Content="默认" Click="ResetDefaultsButton_Click" />
+            <Button Margin="10,0,0,0" Style="{StaticResource DialogButtonSave}" Content="保存" Click="SaveButton_Click" />
         </StackPanel>
     </Grid>
 </Window>
