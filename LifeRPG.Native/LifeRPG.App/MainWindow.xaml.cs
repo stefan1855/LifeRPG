@@ -62,6 +62,7 @@ public partial class MainWindow : Window
         _pages = new()
         {
             ["首页"] = (NavDashboard, DashboardPage),
+            ["行动任务"] = (NavTasks, TasksPage),
             ["行为记录"] = (NavRecords, RecordsPage),
             ["成长属性"] = (NavAttributes, AttributesPage),
             ["图片证据"] = (NavImages, ImagesPage),

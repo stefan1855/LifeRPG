@@ -74,6 +74,7 @@
                     <TextBlock Margin="0,6,0,18" Style="{StaticResource MutedTextBlockStyle}"
                                Text="点击切换页面" />
                     <Button x:Name="NavDashboard" Style="{StaticResource NavButtonActiveStyle}" Content="首页" Click="NavButton_Click" />
+                    <Button x:Name="NavTasks" Style="{StaticResource NavButtonStyle}" Content="行动任务" Click="NavButton_Click" />
                     <Button x:Name="NavRecords" Style="{StaticResource NavButtonStyle}" Content="行为记录" Click="NavButton_Click" />
                     <Button x:Name="NavAttributes" Style="{StaticResource NavButtonStyle}" Content="成长属性" Click="NavButton_Click" />
                     <Button x:Name="NavImages" Style="{StaticResource NavButtonStyle}" Content="图片证据" Click="NavButton_Click" />
@@ -196,12 +197,13 @@
                                 </StackPanel>
                             </Border>
                         </Grid>
-                        <Border Style="{StaticResource CardBorderStyle}" Padding="14">
-                            <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
-                                <controls:ActionTaskControl x:Name="ActionTaskControl" />
-                            </ScrollViewer>
-                        </Border>
                     </StackPanel>
+                </ScrollViewer>
+
+                <!-- 行动任务 -->
+                <ScrollViewer x:Name="TasksPage" Visibility="Collapsed"
+                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <controls:ActionTaskControl x:Name="ActionTaskControl" />
                 </ScrollViewer>
 
                 <!-- 行为记录 -->
