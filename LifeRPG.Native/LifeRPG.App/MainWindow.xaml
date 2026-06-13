@@ -737,6 +737,16 @@
                                         <TextBlock x:Name="SettingsBackupsPathText" Style="{StaticResource FieldValueTextStyle}" TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Border>
+                                <Border Margin="0,8,0,0" Style="{StaticResource StatCardBorderStyle}">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource LabelTextStyle}" Text="键盘快捷键" />
+                                        <TextBlock x:Name="SettingsKeyboardShortcutText" Style="{StaticResource FieldValueTextStyle}"
+                                                   Text="修改按钮快捷键" />
+                                        <WrapPanel Margin="0,8,0,0">
+                                            <Button Width="120" Click="OpenShortcutSettings_Click" Content="设置快捷键" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </Border>
                     </StackPanel>

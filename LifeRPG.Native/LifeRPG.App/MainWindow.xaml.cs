@@ -77,6 +77,8 @@ public partial class MainWindow : Window
         ActionTaskControl.LifeRecordLinkChanged += () => { LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail(); };
         ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); };
 
+        KeyDown += Window_KeyDown;
+
         LoadSettingsPage();
         UpdateSelectedImagesDisplay();
         ClearSelectedRecordDetail();
@@ -206,6 +208,7 @@ public partial class MainWindow : Window
         SettingsDbPathText.Text = dbPath;
         SettingsAssetsPathText.Text = AppStoragePaths.AssetsDirectory;
         SettingsBackupsPathText.Text = AppStoragePaths.BackupsDirectory;
+        RefreshShortcutDisplay();
     }
 
     private void OpenDataDirButton_Click(object sender, RoutedEventArgs e) => OpenExplorer(AppStoragePaths.RootDirectory);
@@ -558,5 +561,49 @@ public partial class MainWindow : Window
         using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         var bmp = new BitmapImage(); bmp.BeginInit(); bmp.CacheOption = BitmapCacheOption.OnLoad;
         bmp.StreamSource = fs; bmp.EndInit(); bmp.Freeze(); return bmp;
+    }
+
+    private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        var shortcuts = AppConfig.GetAllShortcuts();
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+            or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+            return;
+        var pressed = Keyboard.Modifiers;
+        var pressedStr = KeyToString(key, pressed);
+
+        foreach (var (name, shortcut) in shortcuts)
+        {
+            if (!string.Equals(shortcut, pressedStr, StringComparison.OrdinalIgnoreCase)) continue;
+            if (name == "新建记录") { NavButton_Click(NavRecords, null!); ClearForm(); TitleTextBox.Focus(); }
+            else if (name == "保存") SaveRecordButton_Click(null!, null!);
+            else if (name == "搜索") { }
+            e.Handled = true;
+            return;
+        }
+    }
+
+    private void OpenShortcutSettings_Click(object sender, RoutedEventArgs e)
+    {
+        var win = new ShortcutSettingsWindow { Owner = this };
+        win.ShowDialog();
+        RefreshShortcutDisplay();
+    }
+
+    private void RefreshShortcutDisplay()
+    {
+        var sc = AppConfig.GetAllShortcuts();
+        var parts = sc.Select(kv => $"{kv.Key}: {kv.Value}").ToList();
+        SettingsKeyboardShortcutText.Text = string.Join("  |  ", parts);
+    }
+
+    private static string KeyToString(Key key, ModifierKeys mods)
+    {
+        var p = new List<string>();
+        if ((mods & ModifierKeys.Control) != 0) p.Add("Ctrl");
+        if ((mods & ModifierKeys.Alt) != 0) p.Add("Alt");
+        p.Add(key.ToString());
+        return string.Join("+", p);
     }
 }

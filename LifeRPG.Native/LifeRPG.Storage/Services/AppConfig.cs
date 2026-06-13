@@ -49,5 +49,29 @@ public static class AppConfig
     private sealed class AppConfigData
     {
         public string? DataRootDirectory { get; set; }
+        public Dictionary<string, string>? Shortcuts { get; set; }
     }
+
+    public static IReadOnlyDictionary<string, string> GetAllShortcuts()
+    {
+        LoadIfNeeded();
+        _cached ??= new AppConfigData();
+        _cached.Shortcuts ??= DefaultShortcuts();
+        return _cached.Shortcuts;
+    }
+
+    public static void SaveShortcuts(Dictionary<string, string> shortcuts)
+    {
+        LoadIfNeeded();
+        _cached ??= new AppConfigData();
+        _cached.Shortcuts = shortcuts;
+        Save();
+    }
+
+    private static Dictionary<string, string> DefaultShortcuts() => new()
+    {
+        ["新建记录"] = "Ctrl+N",
+        ["保存"] = "Ctrl+S",
+        ["搜索"] = "Ctrl+F",
+    };
 }
