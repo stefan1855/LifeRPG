@@ -15,8 +15,8 @@
       {
         "title": "LifeRPG - 角色仪表盘",
         "label": "main",
-        "width": 1460,
-        "height": 920,
+        "width": 1672,
+        "height": 941,
         "minWidth": 260,
         "minHeight": 44,
         "resizable": true,

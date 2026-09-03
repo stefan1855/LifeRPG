@@ -277,26 +277,28 @@ onMounted(async () => {
     :style="{ '--win-opacity': winOpacity }"
   >
     <!-- ══════════════════════════════════════════════════════════
-         形态 1：大屏指挥中心 (1460x920)
+         形态 1：大屏指挥中心 (纯净模块化架构)
          ══════════════════════════════════════════════════════════ -->
     <template v-if="viewMode === 'main'">
       <div class="main-dashboard-window">
         <!-- 顶部主标题栏 -->
         <div class="main-topbar" data-tauri-drag-region>
           <div class="topbar-left" data-tauri-drag-region>
-            <span class="occult-skull">※</span>
-            <span class="topbar-title">角色仪表盘</span>
-            <span class="occult-skull">※</span>
+            <div class="title-ornament-center">
+              <span class="occult-skull">※</span>
+              <span class="topbar-title">角色仪表盘</span>
+              <span class="occult-skull">※</span>
+            </div>
           </div>
 
           <div class="topbar-actions">
             <!-- 刷新数据 -->
-            <button class="warlock-btn" @click="fetchSnapshot" title="萃取最新灵魂数据">
+            <button class="warlock-btn gothic-refresh-btn" @click="fetchSnapshot" title="萃取最新灵魂数据">
               <RefreshCw :size="13" />
               <span>刷新数据</span>
             </button>
 
-            <!-- 需求 1：大屏形态下的自选下拉窗口 -->
+            <!-- 大屏形态下的自选下拉窗口 -->
             <div class="view-mode-dropdown-wrapper">
               <button
                 class="warlock-dropdown-trigger"
@@ -305,7 +307,7 @@ onMounted(async () => {
                 title="选择窗口展现形态"
               >
                 <Monitor :size="13" style="color: var(--warlock-gold);" />
-                <span class="current-mode-label">形态: 大屏指挥中心</span>
+                <span class="current-mode-label">形态: 大屏</span>
                 <ChevronDown :size="12" class="arrow-icon" :class="{ open: isViewModeMenuOpen }" />
               </button>
 
@@ -320,8 +322,8 @@ onMounted(async () => {
                     <Monitor :size="16" />
                   </div>
                   <div class="option-text">
-                    <div class="option-title">大屏指挥中心 (1460×920)</div>
-                    <div class="option-desc">全景展开 7 大导航系统与高精三栏仪表盘</div>
+                    <div class="option-title">大屏指挥中心</div>
+                    <div class="option-desc">全景展开暗黑角色仪表盘</div>
                   </div>
                   <span v-if="viewMode === 'main'" class="option-check">✓</span>
                 </div>
@@ -375,7 +377,7 @@ onMounted(async () => {
           </div>
         </div>
 
-        <!-- 主体结构：100% 聚焦于 1:1 游戏角色大面板 (后续可根据需要在特定区域扩展导航) -->
+        <!-- 主体结构：纯净模块化三大面板 -->
         <div class="main-body-container">
           <DashboardView
             :character="character"
@@ -515,25 +517,24 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   background-color: #08040d;
-  background-image: url('./assets/theme/global_background.png');
+  background-image: url('./assets/theme/bg_dark_fantasy_iron_mist_16x9.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  border: 1.5px solid var(--warlock-border-gold);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
-  box-shadow: var(--gothic-shadow);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95);
 }
 
 .main-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 14px;
-  background: linear-gradient(180deg, rgba(28, 16, 40, 0.95) 0%, rgba(12, 6, 18, 0.98) 100%);
-  border-bottom: 1px solid rgba(200, 164, 93, 0.45);
+  padding: 8px 16px;
+  background: linear-gradient(180deg, rgba(26, 14, 38, 0.96) 0%, rgba(10, 5, 16, 0.99) 100%);
+  border-bottom: 1.5px solid rgba(200, 164, 93, 0.55);
   flex-shrink: 0;
   z-index: 50;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.9);
 }
 
 .topbar-left {
@@ -542,18 +543,42 @@ onMounted(async () => {
   gap: 8px;
 }
 
+.title-ornament-center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .topbar-title {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 3px;
+  font-family: var(--font-gothic-title);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 4px;
   color: var(--warlock-gold);
-  text-shadow: 0 0 10px var(--warlock-gold-glow), 0 1px 2px #000;
+  text-shadow: 0 0 12px var(--warlock-gold-glow), 0 2px 4px #000;
+}
+
+.occult-skull {
+  color: var(--warlock-gold);
+  text-shadow: 0 0 10px var(--warlock-gold-glow);
+  font-size: 16px;
 }
 
 .topbar-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.gothic-refresh-btn {
+  font-family: var(--font-gothic-sub);
+  letter-spacing: 1px;
+}
+
+.main-body-container {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* ═══ 下拉窗口选择器 ═══ */

@@ -3,10 +3,11 @@
    ========================================================================== */
 
 :root {
-  /* 高清抗锯齿无衬线 + 哥特数字字体栈，杜绝 Windows 宋体发虚与毛边 */
+  /* 高清抗锯齿无衬线 + 哥特中世纪魔幻字体栈 */
   --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", sans-serif;
-  --font-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "微软雅黑", serif;
-  --font-mono: "JetBrains Mono", "Cascadia Code", "Consolas", "Fira Code", monospace;
+  --font-gothic-title: "Cinzel Decorative", "MedievalSharp", "Cinzel", "Microsoft YaHei", serif;
+  --font-gothic-sub: "Cinzel", "MedievalSharp", "Microsoft YaHei", serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
 
   /* 核心底色：深渊黑曜岩与暗夜玄石 */
   --warlock-black: #08040d;

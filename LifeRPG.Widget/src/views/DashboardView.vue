@@ -11,6 +11,8 @@ import {
   Skull,
   Crown,
 } from 'lucide-vue-next';
+
+// 高清美术切片贴图
 import facelessPortrait from '../assets/theme/faceless_portrait.png';
 import magicCircleEmblem from '../assets/theme/magic_circle_emblem.png';
 import magicCircleOuterGlow from '../assets/theme/magic_circle_outer_glow.png';
@@ -18,6 +20,32 @@ import bannerDarkIron from '../assets/theme/banner_dark_iron.png';
 import cornerSkull from '../assets/theme/corner_skull.png';
 import equipSlotsWatermark from '../assets/theme/equip_slots.png';
 import panelInnerTexture from '../assets/theme/panel_inner_texture.png';
+
+// 12 个暗金装备槽专属矢量切图
+import slotHead from '../assets/icons/slot_head.svg';
+import slotShoulder from '../assets/icons/slot_shoulder.svg';
+import slotChest from '../assets/icons/slot_chest.svg';
+import slotWrist from '../assets/icons/slot_wrist.svg';
+import slotHands from '../assets/icons/slot_hands.svg';
+import slotWaist from '../assets/icons/slot_waist.svg';
+import slotLegs from '../assets/icons/slot_legs.svg';
+import slotFeet from '../assets/icons/slot_feet.svg';
+import slotTrinket1 from '../assets/icons/slot_trinket1.svg';
+import slotTrinket2 from '../assets/icons/slot_trinket2.svg';
+import slotMainhand from '../assets/icons/slot_mainhand.svg';
+import slotOffhand from '../assets/icons/slot_offhand.svg';
+
+// 6 个六维暗影晶石发光符文
+import runeBody from '../assets/icons/rune_body.svg';
+import runeMind from '../assets/icons/rune_mind.svg';
+import runeDiscipline from '../assets/icons/rune_discipline.svg';
+import runeSocial from '../assets/icons/rune_social.svg';
+import runeCraft from '../assets/icons/rune_craft.svg';
+import runeWealth from '../assets/icons/rune_wealth.svg';
+
+// 龙爪包角贴图
+import expClawLeft from '../assets/icons/exp_claw_left.svg';
+import expClawRight from '../assets/icons/exp_claw_right.svg';
 
 const props = defineProps({
   character: {
@@ -34,7 +62,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['toggle-task', 'open-add-task', 'open-edit-task', 'delete-task', 'quick-create', 'switch-tab']);
+const emit = defineEmits([
+  'toggle-task',
+  'open-add-task',
+  'open-edit-task',
+  'delete-task',
+  'quick-create',
+  'switch-tab',
+]);
 
 const isDrawerOpen = ref(true);
 const recentLogs = ref([]);
@@ -42,36 +77,43 @@ const isRefreshing = ref(false);
 
 // 6 维暗影契约属性定义
 const defaultAttributesMap = {
-  body: { key: 'body', name: '暗影血肉', orig: '体魄', icon: '💀', defaultLvl: 19, defaultExp: 12480, maxExp: 20000 },
-  mind: { key: 'mind', name: '虚空意志', orig: '心智', icon: '👁', defaultLvl: 23, defaultExp: 18760, maxExp: 28000 },
-  discipline: { key: 'discipline', name: '诅咒束缚', orig: '自律', icon: '⛓', defaultLvl: 16, defaultExp: 8240, maxExp: 18000 },
-  social: { key: 'social', name: '低语之舌', orig: '表达', icon: '✦', defaultLvl: 15, defaultExp: 6840, maxExp: 16000 },
-  craft: { key: 'craft', name: '邪能造物', orig: '创造', icon: '🧪', defaultLvl: 21, defaultExp: 15300, maxExp: 24000 },
-  wealth: { key: 'wealth', name: '灵魂碎片', orig: '财富', icon: '💎', defaultLvl: 17, defaultExp: 9620, maxExp: 19000 },
+  body: { key: 'body', name: '暗影血肉', orig: '体魄', iconImg: runeBody, defaultLvl: 19, defaultExp: 12480, maxExp: 20000 },
+  mind: { key: 'mind', name: '虚空意志', orig: '心智', iconImg: runeMind, defaultLvl: 23, defaultExp: 18760, maxExp: 28000 },
+  discipline: { key: 'discipline', name: '诅咒束缚', orig: '自律', iconImg: runeDiscipline, defaultLvl: 16, defaultExp: 8240, maxExp: 18000 },
+  social: { key: 'social', name: '低语之舌', orig: '表达', iconImg: runeSocial, defaultLvl: 15, defaultExp: 6840, maxExp: 16000 },
+  craft: { key: 'craft', name: '邪能造物', orig: '创造', iconImg: runeCraft, defaultLvl: 21, defaultExp: 15300, maxExp: 24000 },
+  wealth: { key: 'wealth', name: '灵魂碎片', orig: '财富', iconImg: runeWealth, defaultLvl: 17, defaultExp: 9620, maxExp: 19000 },
 };
 
 // 12 个装备槽位
 const equipSlotsLeft = [
-  { id: 'head', name: '头部', icon: '🪖' },
-  { id: 'shoulder', name: '肩部', icon: '🛡' },
-  { id: 'chest', name: '胸部', icon: '🥋' },
-  { id: 'wrist', name: '护腕', icon: '🦾' },
-  { id: 'hands', name: '手套', icon: '🧤' },
-  { id: 'waist', name: '腰带', icon: '🎗' },
+  { id: 'head', name: '头部', icon: slotHead },
+  { id: 'shoulder', name: '肩部', icon: slotShoulder },
+  { id: 'chest', name: '胸部', icon: slotChest },
+  { id: 'wrist', name: '护腕', icon: slotWrist },
+  { id: 'hands', name: '手套', icon: slotHands },
+  { id: 'waist', name: '腰带', icon: slotWaist },
 ];
 
 const equipSlotsRight = [
-  { id: 'legs', name: '腿部', icon: '👖' },
-  { id: 'feet', name: '靴子', icon: '👢' },
-  { id: 'trinket1', name: '饰品1', icon: '💍' },
-  { id: 'trinket2', name: '饰品2', icon: '🧿' },
-  { id: 'mainhand', name: '主手', icon: '🗡' },
-  { id: 'offhand', name: '副手', icon: '🛡' },
+  { id: 'legs', name: '腿部', icon: slotLegs },
+  { id: 'feet', name: '靴子', icon: slotFeet },
+  { id: 'trinket1', name: '饰品1', icon: slotTrinket1 },
+  { id: 'trinket2', name: '饰品2', icon: slotTrinket2 },
+  { id: 'mainhand', name: '主手', icon: slotMainhand },
+  { id: 'offhand', name: '副手', icon: slotOffhand },
 ];
 
 function getAttrData(key) {
   const found = (props.attributes || []).find((a) => a.attribute_key === key);
-  const def = defaultAttributesMap[key];
+  const def = defaultAttributesMap[key] || {
+    name: key,
+    defaultLvl: 1,
+    defaultExp: 0,
+    maxExp: 1000,
+    iconImg: runeBody,
+  };
+
   if (found) {
     const max = found.experience_to_next || (found.level * 1000) || def.maxExp;
     const cur = found.experience || def.defaultExp;
@@ -82,7 +124,7 @@ function getAttrData(key) {
       currentExp: cur,
       maxExp: max,
       percent: pct,
-      icon: def.icon,
+      iconImg: def.iconImg,
     };
   }
   return {
@@ -91,7 +133,7 @@ function getAttrData(key) {
     currentExp: def.defaultExp,
     maxExp: def.maxExp,
     percent: Math.round((def.defaultExp / def.maxExp) * 100),
-    icon: def.icon,
+    iconImg: def.iconImg,
   };
 }
 
@@ -154,7 +196,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wow-dashboard-container">
+  <div class="clean-modular-dashboard">
     <!-- ══════════════════════════════════════════════════════════
          左栏：角色卡片与无面者肖像 (Character Portrait Panel)
          ══════════════════════════════════════════════════════════ -->
@@ -183,13 +225,16 @@ onMounted(() => {
         <h1 class="char-name-gold">{{ character.name || '无面者' }}</h1>
         <div class="char-title-fel">
           <span class="skull-sym">☠</span>
-          <span>暗 影 学 徒</span>
+          <span class="title-text">暗 影 学 徒</span>
           <span class="skull-sym">☠</span>
         </div>
-        <p class="char-flavor-quote">
-          “在阴影中行走，聆听灵魂的低语。<br />
-          追寻知识，探索未知的深渊，直至成为暗影本身。”
-        </p>
+        <div class="quote-box">
+          <p class="char-flavor-quote">
+            “在阴影中行走，聆听灵魂的低语。<br />
+            追寻知识，探索未知的深渊，<br />
+            直至成为暗影本身。”
+          </p>
+        </div>
       </div>
 
       <!-- 操作按钮群 -->
@@ -219,7 +264,7 @@ onMounted(() => {
         <div class="gothic-banner-header" :style="{ backgroundImage: `url(${bannerDarkIron})` }">
           <div class="header-title-text">
             <span class="skull-sym">☠</span>
-            <span>经 验 区 域</span>
+            <span class="banner-label">经 验 区 域</span>
             <span class="skull-sym">☠</span>
           </div>
         </div>
@@ -244,9 +289,9 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- 经典暗黑双翼宝石经验进度槽 -->
+        <!-- 经典暗黑双翼龙爪宝石经验进度槽 -->
         <div class="exp-progress-wrapper">
-          <div class="exp-wing-claw left-claw"></div>
+          <img :src="expClawLeft" class="exp-claw-icon left-claw" alt="" />
           <div class="exp-track-gold-frame">
             <div
               class="exp-fill-green"
@@ -256,7 +301,7 @@ onMounted(() => {
               <span class="pct-text">{{ expPercent }}%</span>
             </div>
           </div>
-          <div class="exp-wing-claw right-claw"></div>
+          <img :src="expClawRight" class="exp-claw-icon right-claw" alt="" />
         </div>
 
         <div class="exp-bottom-numbers">
@@ -274,7 +319,7 @@ onMounted(() => {
         <div class="gothic-banner-header" :style="{ backgroundImage: `url(${bannerDarkIron})` }">
           <div class="header-title-text">
             <span class="star-sym">※</span>
-            <span>暗 影 契 约</span>
+            <span class="banner-label">暗 影 契 约</span>
             <span class="star-sym">※</span>
           </div>
         </div>
@@ -286,15 +331,15 @@ onMounted(() => {
             <img :src="magicCircleOuterGlow" alt="" class="outer-glow-bg" />
             <img :src="magicCircleEmblem" alt="法阵" class="rotating-magic-ring" />
             <div class="center-fel-flame">
-              <Flame :size="42" class="flame-svg" />
+              <Flame :size="48" class="flame-svg" />
             </div>
           </div>
 
-          <!-- 六维属性节点布局 (环形绝对定位) -->
+          <!-- 六维属性节点布局 (环形绝对定位，纯正暗金符文贴图) -->
           <!-- 1. 暗影血肉 (左上) -->
           <div class="attr-node-box node-top-left" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">💀</span>
+              <img :src="getAttrData('body').iconImg" class="rune-svg-icon" alt="暗影血肉" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -313,7 +358,7 @@ onMounted(() => {
           <!-- 2. 虚空意志 (右上) -->
           <div class="attr-node-box node-top-right" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">👁</span>
+              <img :src="getAttrData('mind').iconImg" class="rune-svg-icon" alt="虚空意志" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -332,7 +377,7 @@ onMounted(() => {
           <!-- 3. 诅咒束缚 (左中) -->
           <div class="attr-node-box node-mid-left" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">⛓</span>
+              <img :src="getAttrData('discipline').iconImg" class="rune-svg-icon" alt="诅咒束缚" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -351,7 +396,7 @@ onMounted(() => {
           <!-- 4. 低语之舌 (右中) -->
           <div class="attr-node-box node-mid-right" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">✦</span>
+              <img :src="getAttrData('social').iconImg" class="rune-svg-icon" alt="低语之舌" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -370,7 +415,7 @@ onMounted(() => {
           <!-- 5. 邪能造物 (左下) -->
           <div class="attr-node-box node-bottom-left" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">🧪</span>
+              <img :src="getAttrData('craft').iconImg" class="rune-svg-icon" alt="邪能造物" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -389,7 +434,7 @@ onMounted(() => {
           <!-- 6. 灵魂碎片 (右下) -->
           <div class="attr-node-box node-bottom-right" @click="$emit('switch-tab', 'attributes')">
             <div class="attr-rune-diamond">
-              <span class="diamond-icon">💎</span>
+              <img :src="getAttrData('wealth').iconImg" class="rune-svg-icon" alt="灵魂碎片" />
             </div>
             <div class="attr-node-content">
               <div class="node-title-row">
@@ -424,7 +469,7 @@ onMounted(() => {
           <div class="gothic-banner-header" :style="{ backgroundImage: `url(${bannerDarkIron})` }">
             <div class="header-title-text">
               <span class="star-sym">※</span>
-              <span>当 前 装 备</span>
+              <span class="banner-label">当 前 装 备</span>
               <span class="star-sym">※</span>
             </div>
           </div>
@@ -433,7 +478,9 @@ onMounted(() => {
             <!-- 左侧 6 槽位 -->
             <div class="slots-col">
               <div v-for="slot in equipSlotsLeft" :key="slot.id" class="equip-slot-item" :title="slot.name">
-                <div class="slot-icon-box">{{ slot.icon }}</div>
+                <div class="slot-icon-box">
+                  <img :src="slot.icon" class="slot-svg-icon" :alt="slot.name" />
+                </div>
                 <span class="slot-label">{{ slot.name }}</span>
               </div>
             </div>
@@ -448,7 +495,9 @@ onMounted(() => {
             <!-- 右侧 6 槽位 -->
             <div class="slots-col">
               <div v-for="slot in equipSlotsRight" :key="slot.id" class="equip-slot-item" :title="slot.name">
-                <div class="slot-icon-box">{{ slot.icon }}</div>
+                <div class="slot-icon-box">
+                  <img :src="slot.icon" class="slot-svg-icon" :alt="slot.name" />
+                </div>
                 <span class="slot-label">{{ slot.name }}</span>
               </div>
             </div>
@@ -465,7 +514,7 @@ onMounted(() => {
           <div class="gothic-banner-header logs-title-banner" :style="{ backgroundImage: `url(${bannerDarkIron})` }">
             <div class="header-title-text">
               <span class="skull-sym">☠</span>
-              <span>最 近 变 化</span>
+              <span class="banner-label">最 近 变 化</span>
             </div>
             <button class="refresh-tiny-btn" :class="{ spinning: isRefreshing }" @click="handleRefresh" title="刷新变化日志">
               <RefreshCw :size="12" />
@@ -513,7 +562,7 @@ onMounted(() => {
           <div class="drawer-row-item" @click="$emit('switch-tab', 'tasks')">
             <div class="drawer-row-left">
               <Zap :size="14" style="color: var(--warlock-gold);" />
-              <span class="drawer-row-name">技能</span>
+              <span class="drawer-row-name">技能系统</span>
             </div>
             <div class="drawer-row-right">
               <span class="drawer-status-tag">0/0 已解锁</span>
@@ -550,13 +599,13 @@ onMounted(() => {
 
 <style scoped>
 /* ═══ 全景主容器 ═══ */
-.wow-dashboard-container {
+.clean-modular-dashboard {
   display: grid;
-  grid-template-columns: 320px 1fr 500px;
+  grid-template-columns: 310px 1fr 480px;
   gap: 14px;
   width: 100%;
   height: 100%;
-  padding: 14px;
+  padding: 10px 14px 14px;
   box-sizing: border-box;
   overflow: hidden;
   background: transparent;
@@ -565,24 +614,27 @@ onMounted(() => {
 
 /* 哥特金石边框底板 */
 .gothic-frame-box {
-  background: linear-gradient(180deg, rgba(22, 12, 32, 0.94) 0%, rgba(10, 5, 15, 0.98) 100%);
-  border: 1.5px solid var(--warlock-border-gold);
+  background-color: #0d0615;
+  background-image: url('../assets/theme/panel_inner_texture.png'), linear-gradient(180deg, rgba(22, 12, 32, 0.95) 0%, rgba(8, 4, 13, 0.98) 100%);
+  background-size: cover, auto;
+  background-blend-mode: overlay;
+  border: 1.8px solid #c89632;
   border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(200, 164, 93, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.45);
   position: relative;
   overflow: hidden;
 }
 
-/* 装饰角标 */
+/* 装饰角标骷髅 */
 .corner-skull-ornament {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
   pointer-events: none;
   z-index: 8;
-  opacity: 0.9;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+  opacity: 0.95;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.9));
 }
 
 .corner-skull-ornament.top-left {
@@ -610,16 +662,16 @@ onMounted(() => {
 
 /* 纹理条幅标题栏 */
 .gothic-banner-header {
-  height: 42px;
+  height: 40px;
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(200, 164, 93, 0.55);
+  border-bottom: 1.5px solid rgba(200, 164, 93, 0.65);
   position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.95);
 }
 
 .logs-title-banner {
@@ -630,23 +682,28 @@ onMounted(() => {
 .header-title-text {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: 8px;
+  font-size: 14px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: var(--warlock-gold);
-  letter-spacing: 2px;
-  text-shadow: 0 1px 2px #000, 0 0 1px #000;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 4px #000, 0 0 10px var(--warlock-gold-glow);
+}
+
+.banner-label {
+  font-family: var(--font-gothic-sub);
 }
 
 .skull-sym {
   color: var(--warlock-soul-green);
-  text-shadow: 0 0 8px var(--warlock-soul-green-glow);
+  text-shadow: 0 0 10px var(--warlock-soul-green-glow);
   font-size: 13px;
 }
 
 .star-sym {
   color: var(--warlock-gold);
-  text-shadow: 0 0 8px var(--warlock-gold-glow);
+  text-shadow: 0 0 10px var(--warlock-gold-glow);
   font-size: 13px;
 }
 
@@ -655,19 +712,19 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 14px;
+  padding: 14px 12px;
   position: relative;
 }
 
 .lvl-badge-shield {
   position: absolute;
-  top: 10px;
-  left: 12px;
-  background: linear-gradient(180deg, #2a1b38 0%, #12091c 100%);
+  top: 8px;
+  left: 10px;
+  background: linear-gradient(180deg, #2a1b38 0%, #100618 100%);
   border: 1.5px solid var(--warlock-border-gold);
   border-radius: 4px;
-  padding: 2px 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 215, 0, 0.4);
+  padding: 3px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.4);
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -676,32 +733,36 @@ onMounted(() => {
 
 .lvl-txt-label {
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: var(--warlock-gold);
+  letter-spacing: 1px;
 }
 
 .lvl-txt-num {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
+  font-family: var(--font-mono);
   color: var(--warlock-soul-green-bright);
-  text-shadow: 0 0 8px var(--warlock-soul-green-glow);
+  text-shadow: 0 0 10px var(--warlock-soul-green-glow);
+  line-height: 1.1;
 }
 
 .portrait-display-area {
-  width: 240px;
-  height: 310px;
+  width: 250px;
+  height: 320px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .portrait-glow-halo {
   position: absolute;
-  width: 200px;
-  height: 250px;
-  background: radial-gradient(circle at 50% 40%, rgba(72, 255, 72, 0.3) 0%, transparent 70%);
+  width: 220px;
+  height: 270px;
+  background: radial-gradient(circle at 50% 40%, rgba(72, 255, 72, 0.35) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -709,33 +770,34 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 16px rgba(72, 255, 72, 0.45));
+  filter: drop-shadow(0 0 18px rgba(72, 255, 72, 0.5));
   position: relative;
   z-index: 2;
 }
 
 .fel-ground-rune {
   position: absolute;
-  bottom: 0;
-  width: 200px;
-  height: 28px;
-  background: radial-gradient(ellipse at center, rgba(72, 255, 72, 0.6) 0%, transparent 70%);
+  bottom: 6px;
+  width: 210px;
+  height: 30px;
+  background: radial-gradient(ellipse at center, rgba(72, 255, 72, 0.7) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
 
 .char-identity-block {
   text-align: center;
-  margin-top: 6px;
+  margin-top: 4px;
   width: 100%;
 }
 
 .char-name-gold {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 900;
+  font-family: var(--font-gothic-title);
   color: var(--warlock-gold);
-  letter-spacing: 3px;
-  text-shadow: 0 1px 2px #000, 0 0 1px #000;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 4px #000, 0 0 12px var(--warlock-gold-glow);
   margin-bottom: 2px;
 }
 
@@ -743,23 +805,31 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 13px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: var(--warlock-soul-green-bright);
-  letter-spacing: 2px;
-  text-shadow: 0 1px 2px #000, 0 0 6px var(--warlock-soul-green-glow);
+  letter-spacing: 3px;
+  text-shadow: 0 1px 2px #000, 0 0 8px var(--warlock-soul-green-glow);
   margin-bottom: 8px;
+}
+
+.quote-box {
+  background: rgba(14, 8, 20, 0.6);
+  border: 1px solid rgba(120, 90, 150, 0.25);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 0 4px 10px;
 }
 
 .char-flavor-quote {
   font-size: 11px;
   color: #cbd5e1;
   font-style: italic;
-  line-height: 1.5;
-  padding: 0 4px;
-  opacity: 0.92;
+  line-height: 1.55;
   text-shadow: 0 1px 2px #000;
+  opacity: 0.95;
 }
 
 .char-actions-grid {
@@ -777,12 +847,14 @@ onMounted(() => {
 }
 
 .gothic-btn {
-  background: linear-gradient(180deg, #2c1c3c 0%, #150c1e 100%);
+  background: linear-gradient(180deg, #2a193a 0%, #140b1e 100%);
   border: 1px solid var(--warlock-border-gold);
   border-radius: 4px;
   color: #f1f5f9;
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-gothic-sub);
+  letter-spacing: 1px;
   padding: 7px 10px;
   cursor: pointer;
   box-shadow: var(--gold-emboss);
@@ -791,10 +863,10 @@ onMounted(() => {
 }
 
 .gothic-btn:hover {
-  background: linear-gradient(180deg, #402856 0%, #201230 100%);
+  background: linear-gradient(180deg, #3d2454 0%, #1e102d 100%);
   border-color: var(--warlock-gold);
   color: var(--warlock-gold-bright);
-  box-shadow: 0 0 10px var(--warlock-gold-glow);
+  box-shadow: 0 0 12px var(--warlock-gold-glow);
 }
 
 .btn-full {
@@ -810,25 +882,26 @@ onMounted(() => {
 }
 
 .exp-subpanel {
-  padding-bottom: 12px;
+  padding-bottom: 10px;
   flex-shrink: 0;
 }
 
 .exp-stats-four-cols {
   display: grid;
-  grid-template-columns: 1.4fr 1.2fr 1fr 1.2fr;
+  grid-template-columns: 1.4fr 1.2fr 1fr 1.3fr;
   padding: 10px 14px 6px;
   gap: 8px;
 }
 
 .stat-col {
-  background: rgba(14, 8, 20, 0.75);
-  border: 1px solid rgba(120, 90, 150, 0.4);
+  background: rgba(12, 6, 18, 0.9);
+  border: 1.2px solid rgba(200, 150, 60, 0.45);
   border-radius: 4px;
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.95), 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .stat-label {
@@ -839,15 +912,15 @@ onMounted(() => {
 }
 
 .stat-val-huge {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
   font-family: var(--font-mono);
   color: var(--warlock-soul-green-bright);
-  text-shadow: 0 1px 2px #000;
+  text-shadow: 0 0 8px var(--warlock-soul-green-glow);
 }
 
 .stat-val-mid {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   font-family: var(--font-mono);
   color: #ffffff;
@@ -861,41 +934,39 @@ onMounted(() => {
   text-shadow: 0 1px 2px #000;
 }
 
-/* 双翼龙爪进度槽 */
+/* 双翼龙爪宝石进度槽 */
 .exp-progress-wrapper {
   display: flex;
   align-items: center;
-  padding: 6px 16px 2px;
-  gap: 4px;
+  padding: 6px 14px 2px;
+  gap: 0px;
 }
 
-.exp-wing-claw {
-  width: 14px;
-  height: 18px;
-  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-  clip-path: polygon(0 50%, 100% 0, 100% 100%);
-  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
-}
-
-.exp-wing-claw.right-claw {
-  transform: scaleX(-1);
+.exp-claw-icon {
+  width: 18px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  z-index: 2;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
 }
 
 .exp-track-gold-frame {
   flex: 1;
-  height: 18px;
-  background: rgba(10, 5, 16, 0.95);
+  height: 20px;
+  background: rgba(8, 4, 14, 0.96);
   border: 1.5px solid var(--warlock-border-gold);
-  border-radius: 4px;
+  border-radius: 3px;
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.95);
+  margin: 0 -2px;
 }
 
 .exp-fill-green {
   height: 100%;
-  background: linear-gradient(90deg, #166534 0%, #22c55e 50%, #48ff48 100%);
-  box-shadow: 0 0 12px var(--warlock-soul-green);
+  background: linear-gradient(90deg, #14532d 0%, #22c55e 50%, #48ff48 100%);
+  box-shadow: 0 0 14px var(--warlock-soul-green);
   transition: width 0.4s ease;
 }
 
@@ -904,11 +975,11 @@ onMounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(10, 5, 16, 0.92);
+  background: rgba(10, 5, 16, 0.95);
   border: 1px solid var(--warlock-border-gold);
   border-radius: 4px;
-  padding: 0 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  padding: 0 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 
 .pct-text {
@@ -960,17 +1031,17 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0.5;
+  opacity: 0.55;
   filter: blur(4px);
 }
 
 .rotating-magic-ring {
-  width: 85%;
-  height: 85%;
+  width: 86%;
+  height: 86%;
   object-fit: contain;
-  opacity: 0.75;
-  filter: drop-shadow(0 0 16px rgba(72, 255, 72, 0.55));
-  animation: magic-rotate 40s linear infinite;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 18px rgba(72, 255, 72, 0.6));
+  animation: magic-rotate 45s linear infinite;
   position: relative;
   z-index: 2;
 }
@@ -983,62 +1054,64 @@ onMounted(() => {
 .center-fel-flame {
   position: absolute;
   color: var(--warlock-soul-green);
-  filter: drop-shadow(0 0 18px var(--warlock-soul-green));
+  filter: drop-shadow(0 0 20px var(--warlock-soul-green));
   animation: flame-flicker 2.5s infinite ease-in-out;
   z-index: 3;
 }
 
 @keyframes flame-flicker {
-  0%, 100% { transform: scale(0.95); opacity: 0.85; }
-  50% { transform: scale(1.1); opacity: 1; }
+  0%, 100% { transform: scale(0.92); opacity: 0.85; }
+  50% { transform: scale(1.12); opacity: 1; }
 }
 
 /* 六维环形属性卡片 */
 .attr-node-box {
   position: absolute;
-  width: 185px;
-  background: rgba(18, 11, 26, 0.94);
-  border: 1px solid var(--warlock-border-gold);
+  width: 190px;
+  background-color: #12091c;
+  background-image: url('../assets/theme/panel_inner_texture.png'), linear-gradient(180deg, rgba(28, 16, 40, 0.96) 0%, rgba(10, 5, 16, 0.98) 100%);
+  background-size: cover, auto;
+  background-blend-mode: overlay;
+  border: 1.5px solid #c89632;
   border-radius: 6px;
-  padding: 6px 8px;
+  padding: 6px 9px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(200, 164, 93, 0.3);
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.35);
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 5;
 }
 
 .attr-node-box:hover {
-  background: rgba(30, 18, 44, 0.98);
+  background-color: #201032;
   border-color: var(--warlock-gold);
-  box-shadow: 0 0 14px var(--warlock-gold-glow);
-  transform: scale(1.03);
+  box-shadow: 0 0 18px var(--warlock-gold-glow);
+  transform: scale(1.04);
 }
 
-.node-top-left { top: 22px; left: 16px; }
-.node-top-right { top: 22px; right: 16px; }
-.node-mid-left { top: 48%; left: 8px; transform: translateY(-50%); }
-.node-mid-right { top: 48%; right: 8px; transform: translateY(-50%); }
-.node-bottom-left { bottom: 22px; left: 16px; }
-.node-bottom-right { bottom: 22px; right: 16px; }
+.node-top-left { top: 20px; left: 14px; }
+.node-top-right { top: 20px; right: 14px; }
+.node-mid-left { top: 48%; left: 6px; transform: translateY(-50%); }
+.node-mid-right { top: 48%; right: 6px; transform: translateY(-50%); }
+.node-bottom-left { bottom: 20px; left: 14px; }
+.node-bottom-right { bottom: 20px; right: 14px; }
 
 .attr-rune-diamond {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #2a1b38 0%, #100818 100%);
-  border: 1px solid var(--warlock-border-gold);
-  border-radius: 4px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
 }
 
-.diamond-icon {
-  font-size: 14px;
+.rune-svg-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .attr-node-content {
@@ -1055,6 +1128,7 @@ onMounted(() => {
 .node-name {
   font-size: 12px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: var(--warlock-gold);
   text-shadow: 0 1px 2px #000;
 }
@@ -1079,7 +1153,7 @@ onMounted(() => {
 .node-mini-bar-track {
   width: 100%;
   height: 4px;
-  background: rgba(10, 5, 16, 0.9);
+  background: rgba(8, 4, 14, 0.95);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -1087,6 +1161,7 @@ onMounted(() => {
 .node-mini-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #15803d 0%, #48ff48 100%);
+  box-shadow: 0 0 6px var(--warlock-soul-green);
 }
 
 /* ═══ 3. 右栏：装备与日志 ═══ */
@@ -1115,7 +1190,7 @@ onMounted(() => {
   flex: 1;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 8px 10px;
   position: relative;
 }
 
@@ -1133,29 +1208,37 @@ onMounted(() => {
 }
 
 .slot-icon-box {
-  width: 34px;
-  height: 34px;
-  background: rgba(16, 9, 24, 0.95);
-  border: 1px solid var(--warlock-border-gold);
+  width: 36px;
+  height: 36px;
+  background: radial-gradient(circle at center, #1e0f2d 0%, #0c0514 100%);
+  border: 1.5px solid #c89632;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.7);
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 3px;
 }
 
 .slot-icon-box:hover {
   border-color: var(--warlock-gold);
-  box-shadow: 0 0 10px var(--warlock-gold-glow);
+  box-shadow: 0 0 14px var(--warlock-gold-glow);
+  transform: scale(1.05);
+}
+
+.slot-svg-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .slot-label {
   font-size: 10px;
   color: #94a3b8;
   font-weight: 700;
+  font-family: var(--font-gothic-sub);
 }
 
 .equip-center-watermark {
@@ -1170,16 +1253,17 @@ onMounted(() => {
 }
 
 .demon-silhouette-img {
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   object-fit: contain;
-  opacity: 0.25;
+  opacity: 0.28;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
 }
 
 .watermark-title {
   font-size: 13px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: #64748b;
   letter-spacing: 2px;
   margin-top: 4px;
@@ -1191,6 +1275,7 @@ onMounted(() => {
   margin-top: 2px;
   text-align: center;
   max-width: 140px;
+  line-height: 1.4;
 }
 
 /* 最近变化日志 */
@@ -1232,8 +1317,8 @@ onMounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 6px 8px;
-  background: rgba(14, 8, 20, 0.7);
+  padding: 5px 8px;
+  background: rgba(14, 8, 20, 0.75);
   border: 1px solid rgba(120, 90, 150, 0.35);
   border-radius: 4px;
 }
@@ -1258,6 +1343,7 @@ onMounted(() => {
 .log-attr-name {
   font-size: 12px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: #ffffff;
 }
 
@@ -1278,12 +1364,14 @@ onMounted(() => {
 }
 
 .view-all-logs-btn {
-  background: linear-gradient(180deg, #251635 0%, #12091c 100%);
+  background: linear-gradient(180deg, #241534 0%, #11081b 100%);
   border: none;
   border-top: 1px solid rgba(200, 164, 93, 0.35);
   color: var(--warlock-gold);
   font-size: 11px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
+  letter-spacing: 1px;
   padding: 8px;
   cursor: pointer;
   text-align: center;
@@ -1291,7 +1379,7 @@ onMounted(() => {
 
 .view-all-logs-btn:hover {
   color: #ffffff;
-  background: linear-gradient(180deg, #361f4c 0%, #1c0e2c 100%);
+  background: linear-gradient(180deg, #38204e 0%, #1d0e2e 100%);
 }
 
 /* 下半区折叠抽屉 */
@@ -1303,7 +1391,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
+  padding: 9px 14px;
   background: linear-gradient(180deg, #2a183d 0%, #160c22 100%);
   border-bottom: 1px solid rgba(200, 164, 93, 0.4);
   cursor: pointer;
@@ -1318,8 +1406,9 @@ onMounted(() => {
 .drawer-header-text {
   font-size: 12px;
   font-weight: 800;
+  font-family: var(--font-gothic-sub);
   color: var(--warlock-gold);
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-shadow: 0 1px 2px #000;
 }
 
@@ -1361,6 +1450,7 @@ onMounted(() => {
 .drawer-row-name {
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-gothic-sub);
   color: #ffffff;
 }
 
