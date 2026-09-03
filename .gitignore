@@ -1,0 +1,39 @@
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env.local
+
+# Rust / Cargo / Tauri
+target/
+**/src-tauri/target/
+**/*.pdb
+**/*.dll.exp
+**/*.dll.lib
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+
+# Unity
+**/Library/
+**/Temp/
+**/Obj/
+**/Build/
+**/Builds/
+**/Logs/
+**/UserSettings/
+**/MemoryCaptures/
+
+# OS & Temp
+.tmp/
+.temp/
+Thumbs.db
+[Ee]xpress/
+*.opendb
+*.tlog

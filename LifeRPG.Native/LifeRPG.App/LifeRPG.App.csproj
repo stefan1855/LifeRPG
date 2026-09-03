@@ -22,4 +22,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\Themes\UndeadWarlock\*.png" />
+  </ItemGroup>
+
 </Project>

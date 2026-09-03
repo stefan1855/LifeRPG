@@ -75,7 +75,7 @@ public partial class MainWindow : Window
 
         ActionTaskControl.LifeRecordSelectionRequested += _ => NavigateToLifeRecord(_);
         ActionTaskControl.LifeRecordLinkChanged += () => { LoadCategories(GetSelectedCategoryFilter()); RefreshRecordsList(); ClearSelectedRecordDetail(); };
-        ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); };
+        ActionTaskControl.RpgProgressUpdated += () => { CharacterDashboardControl.RefreshDashboard(false); RefreshSkeletonDashboard(); };
 
         KeyDown += Window_KeyDown;
 
@@ -86,6 +86,105 @@ public partial class MainWindow : Window
         RefreshRecordsList();
         LoadStatisticsDashboard();
         CharacterDashboardControl.RefreshDashboard(false);
+        RefreshSkeletonDashboard();
+    }
+
+    // ===== 骨架仪表盘数据刷新 =====
+
+    private void RefreshSkeletonDashboard()
+    {
+        try
+        {
+            var s = _charRepo.GetDashboardSnapshot();
+            var c = s.Character;
+
+            // 左栏 — 角色信息
+            DashboardLevelText.Text = c.Level.ToString();
+            DashboardNameText.Text = c.Name;
+            DashboardClassText.Text = GetClassName(c.Level);
+            DashboardQuoteText.Text = string.IsNullOrWhiteSpace(c.Description)
+                ? "“在阴影中行走，聆听灵魂的低语...”"
+                : $"“{c.Description}”";
+
+            // 中栏 — 经验区
+            DashboardTotalExpText.Text = c.TotalExperience.ToString("N0");
+            DashboardNextLevelExpText.Text = $"{s.ExperienceToNextLevel:N0} EXP";
+            DashboardCreatedAtText.Text = c.CreatedAt.ToString("yyyy-MM-dd");
+            DashboardExpProgressBar.Maximum = Math.Max(1, s.CurrentLevelExperienceSpan);
+            DashboardExpProgressBar.Value = Math.Min(s.CurrentLevelExperienceSpan, s.ExperienceIntoCurrentLevel);
+            DashboardExpProgressText.Text = $"{c.TotalExperience:N0} / {c.TotalExperience + s.ExperienceToNextLevel:N0} EXP";
+
+            // 中栏 — 暗影契约（6 项核心属性）
+            var attrMap = GetContractAttributeMap(s.Attributes);
+            for (int i = 0; i < 6 && i < attrMap.Count; i++)
+            {
+                var field = GetType().GetField($"ContractText_{i}",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+                if (field?.GetValue(this) is System.Windows.Controls.TextBlock tb)
+                    tb.Text = $"{attrMap[i].Name}\nLv.{attrMap[i].Level}";
+            }
+
+            // 右栏 — 装备
+            if (s.EquippedItems.Count > 0)
+            {
+                var names = s.EquippedItems.Take(3).Select(e => e.GameItemName).ToList();
+                DashboardEquipText.Text = string.Join("\n", names);
+            }
+            else
+            {
+                DashboardEquipText.Text = "暂 无 装 备\n去寻找强大的装备吧";
+            }
+
+            // 右栏 — 最近变化日志
+            var logs = s.RecentAttributeLogs.Take(5).Select(log => new
+            {
+                Title = $"{ResolveAttrName(log.AttributeKey)} {(log.ExperienceDelta >= 0 ? "+" : "")}{log.ExperienceDelta} EXP",
+                Detail = log.Reason,
+                TimeAgo = GetTimeAgo(log.CreatedAt)
+            }).ToList();
+            DashboardLogItemsControl.ItemsSource = logs;
+        }
+        catch { /* 数据库未初始化时静默失败 */ }
+    }
+
+    private static string GetClassName(int level) => level switch
+    {
+        < 5 => "☠ 暗 影 学 徒 ☠",
+        < 15 => "☠ 虚 空 行 者 ☠",
+        < 30 => "☠ 邪 能 术 士 ☠",
+        < 50 => "☠ 灵 魂 主 宰 ☠",
+        < 80 => "☠ 暗 影 大 君 ☠",
+        _ => "☠ 虚 空 之 神 ☠"
+    };
+
+    private static List<(string Name, int Level)> GetContractAttributeMap(
+        System.Collections.Generic.IReadOnlyList<LifeRPG.Core.Models.CharacterAttribute> attrs)
+    {
+        var map = new System.Collections.Generic.Dictionary<string, (string Name, int Level)>
+        {
+            ["physique"] = ("暗影血肉", 1),
+            ["mind"] = ("虚空意志", 1),
+            ["discipline"] = ("诅咒束缚", 1),
+            ["expression"] = ("低语之舌", 1),
+            ["creativity"] = ("邪能造物", 1),
+            ["resources"] = ("灵魂碎片", 1)
+        };
+        foreach (var attr in attrs)
+        {
+            if (map.ContainsKey(attr.AttributeKey))
+                map[attr.AttributeKey] = (map[attr.AttributeKey].Name, attr.Level);
+        }
+        return map.Values.ToList();
+    }
+
+    private static string GetTimeAgo(DateTime dt)
+    {
+        var span = DateTime.Now - dt;
+        if (span.TotalMinutes < 1) return "刚刚";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}分钟前";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours}小时前";
+        if (span.TotalDays < 7) return $"{(int)span.TotalDays}天前";
+        return dt.ToString("MM-dd");
     }
 
     // ===== 页面切换 =====
@@ -411,7 +510,7 @@ public partial class MainWindow : Window
         catch (Exception ex) { BackupStatusTextBlock.Text = $"失败：{ex.Message}"; RefreshRecordsList(); }
     }
 
-    private void RefreshStatisticsButton_Click(object sender, RoutedEventArgs e) => LoadStatisticsDashboard(true);
+    private void RefreshStatisticsButton_Click(object sender, RoutedEventArgs e) { LoadStatisticsDashboard(true); RefreshSkeletonDashboard(); }
     private void SearchRecordsButton_Click(object sender, RoutedEventArgs e) { if (TryGetSearchCriteria(out _, out _, out _, out _, true)) { ClearSelectedRecordDetail(); RefreshRecordsList(); } }
     private void ResetSearchButton_Click(object sender, RoutedEventArgs e) { SearchKeywordTextBox.Clear(); CategoryFilterComboBox.SelectedIndex = 0; StartDatePicker.SelectedDate = null; EndDatePicker.SelectedDate = null; ClearSelectedRecordDetail(); RefreshRecordsList(); }
 

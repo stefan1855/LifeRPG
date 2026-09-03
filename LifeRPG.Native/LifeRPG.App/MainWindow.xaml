@@ -6,7 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Life RPG Native" Height="920" Width="1460"
-        MinHeight="780" MinWidth="1260" WindowStartupLocation="CenterScreen">
+        MinHeight="780" MinWidth="1260"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0F0D">
 
     <Window.Resources>
         <Style x:Key="LabelTextStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -22,195 +24,466 @@
             <Setter Property="Background" Value="#3A2552" />
             <Setter Property="BorderBrush" Value="{StaticResource WarlockSoulGreenBrush}" />
         </Style>
+
+        <!-- ===== v6 贴图素材资源 ===== -->
+        <!-- 面板边框九宫格画笔 -->
+        <ImageBrush x:Key="PanelBorderBrush"
+                    ImageSource="/Assets/Themes/UndeadWarlock/panel_border.png"
+                    Stretch="Fill"
+                    RenderOptions.BitmapScalingMode="Fant"/>
+
+        <!-- 契约节点边框画笔 -->
+        <ImageBrush x:Key="NodeBorderBrush"
+                    ImageSource="/Assets/Themes/UndeadWarlock/node_border.png"
+                    Stretch="UniformToFill"
+                    RenderOptions.BitmapScalingMode="Fant"/>
+
+        <!-- 邪能外发光效果 -->
+        <DropShadowEffect x:Key="FelOuterGlow" BlurRadius="22" ShadowDepth="0" Color="#7CFC00" Opacity="0.55"/>
+
+        <!-- 面板内部纹理画笔（可平铺） -->
+        <ImageBrush x:Key="PanelInnerTexture"
+                    ImageSource="/Assets/Themes/UndeadWarlock/panel_inner_texture.png"
+                    TileMode="Tile" Viewport="0,0,256,256" ViewportUnits="Absolute"
+                    Stretch="None"
+                    RenderOptions.BitmapScalingMode="Fant"/>
+
+        <!-- 邪能绿色文字样式（自带外发光） -->
+        <Style x:Key="FelGreenGlowTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#7CFC00"/>
+            <Setter Property="Effect" Value="{StaticResource FelOuterGlow}"/>
+        </Style>
     </Window.Resources>
 
-    <Grid Margin="22">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/global_background.png"
+                        Stretch="UniformToFill" Opacity="0.3"
+                        RenderOptions.BitmapScalingMode="Fant"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="12" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- ===== 顶部横幅 ===== -->
-        <Border Grid.Row="0" Style="{StaticResource CardBorderStyle}" Padding="26">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Text="Life RPG Native" FontSize="32" FontWeight="Bold"
-                               Foreground="{StaticResource WarlockSoulGreenBrush}" />
-                    <TextBlock Margin="0,8,0,0" Style="{StaticResource SectionSubtitleTextBlockStyle}"
-                               Text="独立 Windows 原生版人生规划软件" />
-                    <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                               Text="当前主题：亡灵术士原生雏形" />
-                </StackPanel>
-                <Border Grid.Column="1" Padding="16,10" Background="{StaticResource WarlockCardAltBrush}"
-                        BorderBrush="{StaticResource WarlockGoldBrush}" BorderThickness="1.5"
-                        CornerRadius="12" VerticalAlignment="Center">
-                    <StackPanel>
-                        <TextBlock Text="Soulforge Status" Foreground="{StaticResource WarlockGoldBrush}" FontWeight="Bold" />
-                        <TextBlock Margin="0,4,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                                   Text="原生 WPF · SQLite · Local Assets" />
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Border>
+        <!-- 四角恶魔头骨 -->
+        <Image Source="/Assets/Themes/UndeadWarlock/corner_skull.png"
+               Width="64" Height="64" Stretch="Uniform"
+               HorizontalAlignment="Left" VerticalAlignment="Top"
+               Margin="8,8,0,0" Opacity="0.5" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <Image Source="/Assets/Themes/UndeadWarlock/corner_skull.png"
+               Width="64" Height="64" Stretch="Uniform"
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0,8,8,0" Opacity="0.5" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <Image Source="/Assets/Themes/UndeadWarlock/corner_skull.png"
+               Width="64" Height="64" Stretch="Uniform"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Margin="8,0,0,8" Opacity="0.5" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <Image Source="/Assets/Themes/UndeadWarlock/corner_skull.png"
+               Width="64" Height="64" Stretch="Uniform"
+               HorizontalAlignment="Right" VerticalAlignment="Bottom"
+               Margin="0,0,8,8" Opacity="0.5" RenderOptions.BitmapScalingMode="HighQuality"/>
 
-        <!-- ===== 主体 ===== -->
-        <Grid Grid.Row="2">
+        <!-- ===== 顶部标题栏 ===== -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/banner_dark_iron.png"
+                            Stretch="UniformToFill" Opacity="0.75"
+                            RenderOptions.BitmapScalingMode="Fant"/>
+            </Grid.Background>
+            <TextBlock Text="✠ 角 色 仪 表 盘 ✠"
+                       Foreground="#7CFC00" FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+            <Button x:Name="RefreshStatisticsButton"
+                    Content="↻ 刷新数据"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Margin="0,0,20,0" Padding="10,5"
+                    Background="#1A2420" Foreground="#A0A0A0"
+                    Click="RefreshStatisticsButton_Click"/>
+        </Grid>
+
+        <!-- ===== 主体：侧边栏 + 骨架布局 ===== -->
+        <Grid Grid.Row="1" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="12" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- 侧边栏 -->
-            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Background="{StaticResource WarlockBlackBrush}">
-                <StackPanel>
-                    <TextBlock Text="亡灵典籍导航" FontSize="18" FontWeight="Bold"
-                               Foreground="{StaticResource WarlockGoldBrush}" />
-                    <TextBlock Margin="0,6,0,18" Style="{StaticResource MutedTextBlockStyle}"
-                               Text="点击切换页面" />
-                    <Button x:Name="NavDashboard" Style="{StaticResource NavButtonActiveStyle}" Content="首页" Click="NavButton_Click" />
-                    <Button x:Name="NavTasks" Style="{StaticResource NavButtonStyle}" Content="行动任务" Click="NavButton_Click" />
-                    <Button x:Name="NavRecords" Style="{StaticResource NavButtonStyle}" Content="行为记录" Click="NavButton_Click" />
-                    <Button x:Name="NavAttributes" Style="{StaticResource NavButtonStyle}" Content="成长属性" Click="NavButton_Click" />
-                    <Button x:Name="NavImages" Style="{StaticResource NavButtonStyle}" Content="图片证据" Click="NavButton_Click" />
-                    <Button x:Name="NavArchive" Style="{StaticResource NavButtonStyle}" Content="复盘归档" Click="NavButton_Click" />
-                    <Button x:Name="NavSettings" Style="{StaticResource NavButtonStyle}" Content="设置" Click="NavButton_Click" />
-                    <Border Margin="0,18,0,0" Style="{StaticResource StatCardBorderStyle}"
-                            Background="{StaticResource WarlockAbyssBrush}"
-                            BorderBrush="{StaticResource WarlockSoulGreenBrush}">
-                        <StackPanel>
-                            <TextBlock Text="灵魂火焰提示" FontWeight="Bold"
-                                       Foreground="{StaticResource WarlockSoulGreenBrush}" />
-                            <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedTextBlockStyle}"
-                                       Text="所有记录、图片、备份与导出均以本机原生方式运行，不依赖浏览器外壳。" />
-                        </StackPanel>
-                    </Border>
+            <!-- 侧边导航栏（精简） -->
+            <Border Grid.Column="0" CornerRadius="4"
+                    BorderBrush="#2A3A32" BorderThickness="1"
+                    Background="#0D1612" Width="46">
+                <StackPanel Margin="4">
+                    <Button x:Name="NavDashboard" Style="{StaticResource NavButtonActiveStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="⌂" ToolTip="首页"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavTasks" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="⚔" ToolTip="行动任务"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavRecords" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="📋" ToolTip="行为记录"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavAttributes" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="📊" ToolTip="成长属性"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavImages" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="🖼" ToolTip="图片证据"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavArchive" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="📦" ToolTip="复盘归档"
+                            Click="NavButton_Click" />
+                    <Button x:Name="NavSettings" Style="{StaticResource NavButtonStyle}"
+                            Width="34" Height="34" Margin="0,4" Padding="0"
+                            FontSize="14" Content="⚙" ToolTip="设置"
+                            Click="NavButton_Click" />
                 </StackPanel>
             </Border>
 
             <!-- ===== 页面容器 ===== -->
             <Grid Grid.Column="2">
-                <!-- 首页：角色仪表盘 + 基础统计 + 行动任务 -->
+
+                <!-- ═══════════════ 首页：仪表盘 ═══════════════ -->
                 <ScrollViewer x:Name="DashboardPage" Visibility="Visible"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel>
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5*" />
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="4*" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="14">
-                                <controls:CharacterDashboardControl x:Name="CharacterDashboardControl" />
+                    <Grid x:Name="BodyLayout" Margin="0,2,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="276"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="640"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="448"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- ═══ 左栏：角色面板 ═══ -->
+                        <Grid Grid.Column="0">
+                            <!-- 阴影层 -->
+                            <Border CornerRadius="6" Background="#0B1812" BorderBrush="#6B7A2A" BorderThickness="2"
+                                    Effect="{StaticResource FelOuterGlow}">
+                                <Border CornerRadius="5" BorderBrush="#1D2410" BorderThickness="1"/>
                             </Border>
-                            <Border Grid.Column="2" Style="{StaticResource CardBorderStyle}">
-                                <StackPanel>
-                                    <DockPanel LastChildFill="False">
-                                        <TextBlock DockPanel.Dock="Left" Style="{StaticResource SectionTitleTextBlockStyle}" Text="基础统计" />
-                                        <Button x:Name="RefreshStatisticsButton" DockPanel.Dock="Right" Width="100"
-                                                Click="RefreshStatisticsButton_Click" Content="刷新" />
-                                    </DockPanel>
-                                    <UniformGrid Margin="0,10,0,0" Columns="2">
-                                        <Border Margin="0,0,6,8" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="记录总数" />
-                                                <TextBlock x:Name="TotalRecordsTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="总经验值" />
-                                                <TextBlock x:Name="TotalExperienceTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Margin="0,0,6,8" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="图片证据数" />
-                                                <TextBlock x:Name="TotalImagesTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Margin="0,0,0,8" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="有图记录" />
-                                                <TextBlock x:Name="RecordsWithImagesTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Margin="0,0,6,0" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="无图记录" />
-                                                <TextBlock x:Name="RecordsWithoutImagesTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Margin="0,0,0,0" Style="{StaticResource StatCardBorderStyle}">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource LabelTextStyle}" Text="分类数量" />
-                                                <TextBlock x:Name="CategoryCountTextBlock" Style="{StaticResource StatValueTextBlockStyle}" Text="0" />
-                                            </StackPanel>
-                                        </Border>
-                                    </UniformGrid>
-                                    <Border Margin="0,8,0,0" Style="{StaticResource StatCardBorderStyle}"
-                                            Background="{StaticResource WarlockCardAltBrush}">
+                            <!-- 内容层 -->
+                            <Border CornerRadius="5" Margin="2" Background="Transparent">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Rectangle Fill="{StaticResource PanelInnerTexture}" Opacity="1.0" Grid.RowSpan="3"/>
+
+                                    <!-- 等级徽章 -->
+                                    <Border Grid.Row="0" Background="#0D1A14" CornerRadius="4"
+                                            HorizontalAlignment="Left" Margin="14,12,0,0" Padding="10,6"
+                                            BorderBrush="#6B7A2A" BorderThickness="1">
                                         <StackPanel>
-                                            <TextBlock Style="{StaticResource LabelTextStyle}" Text="最新记录" />
-                                            <TextBlock x:Name="LatestRecordCreatedAtTextBlock"
-                                                       Style="{StaticResource FieldValueTextStyle}" Text="暂无记录" />
+                                            <TextBlock Text="Lv." FontSize="10" Foreground="#7CFC00" HorizontalAlignment="Center"/>
+                                            <TextBlock x:Name="DashboardLevelText" Text="27" FontSize="22" FontWeight="Bold"
+                                                       Foreground="#7CFC00" HorizontalAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
-                                    <Grid Margin="0,8,0,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="6" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <StackPanel Grid.Row="0">
-                                            <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="分类统计" />
-                                            <DataGrid x:Name="CategoryStatisticsDataGrid" Margin="0,4,0,0"
-                                                      AutoGenerateColumns="False" IsReadOnly="True"
-                                                      CanUserAddRows="False" MinHeight="80">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="*" />
-                                                    <DataGridTextColumn Header="记录" Binding="{Binding RecordCount}" Width="55" />
-                                                    <DataGridTextColumn Header="经验" Binding="{Binding TotalExperience}" Width="55" />
-                                                    <DataGridTextColumn Header="图片" Binding="{Binding ImageCount}" Width="50" />
-                                                </DataGrid.Columns>
-                                            </DataGrid>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="2">
-                                            <TextBlock Style="{StaticResource SectionSubtitleTextBlockStyle}" Text="最近 7 天" />
-                                            <DataGrid x:Name="DailyStatisticsDataGrid" Margin="0,4,0,0"
-                                                      AutoGenerateColumns="False" IsReadOnly="True"
-                                                      CanUserAddRows="False" MinHeight="80">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="日期" Binding="{Binding Date, StringFormat=yyyy-MM-dd}" Width="*" />
-                                                    <DataGridTextColumn Header="记录" Binding="{Binding RecordCount}" Width="55" />
-                                                    <DataGridTextColumn Header="经验" Binding="{Binding TotalExperience}" Width="55" />
-                                                    <DataGridTextColumn Header="图片" Binding="{Binding ImageCount}" Width="50" />
-                                                </DataGrid.Columns>
-                                            </DataGrid>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
+
+                                    <!-- 人物立绘 -->
+                                    <Image Grid.Row="1" Source="/Assets/Themes/UndeadWarlock/faceless_portrait.png"
+                                           Stretch="UniformToFill" VerticalAlignment="Stretch"
+                                           Margin="8,6,8,4" Opacity="0.92"
+                                           RenderOptions.BitmapScalingMode="Fant"/>
+
+                                    <!-- 底部信息 -->
+                                    <StackPanel Grid.Row="2" Margin="14,0,14,12">
+                                        <TextBlock x:Name="DashboardNameText" Text="无 面 者" FontSize="28" FontWeight="Bold"
+                                                   Foreground="#D7EFC2" HorizontalAlignment="Center" Margin="0,2"/>
+                                        <TextBlock x:Name="DashboardClassText" Text="☠ 暗 影 学 徒 ☠" FontSize="15"
+                                                   Foreground="#7CFC00" HorizontalAlignment="Center" Margin="0,4"
+                                                   Effect="{StaticResource FelOuterGlow}"/>
+                                        <TextBlock x:Name="DashboardQuoteText"
+                                                   Text="&#x201c;在阴影中行走，聆听灵魂的低语...&#x201d;"
+                                                   FontSize="11" Foreground="#7F8B75" TextWrapping="Wrap"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" Margin="0,8"/>
+                                        <UniformGrid Columns="2" Margin="0,6">
+                                            <Button Content="选择头像" Margin="2" Padding="6,4"
+                                                    Background="#0D1A14" Foreground="#B7C7A8"
+                                                    BorderBrush="#6B7A2A" BorderThickness="1" FontSize="11"/>
+                                            <Button Content="清除头像" Margin="2" Padding="6,4"
+                                                    Background="#0D1A14" Foreground="#B7C7A8"
+                                                    BorderBrush="#6B7A2A" BorderThickness="1" FontSize="11"/>
+                                        </UniformGrid>
+                                        <Button Content="编辑角色资料" Margin="2,4,2,2" Padding="8,5"
+                                                Background="#0D1A14" Foreground="#B7C7A8"
+                                                BorderBrush="#6B7A2A" BorderThickness="1" FontSize="11"/>
+                                    </StackPanel>
+                                </Grid>
                             </Border>
                         </Grid>
-                    </StackPanel>
+
+                        <!-- ═══ 中栏 ═══ -->
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="256"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- ── 经验区域 ── -->
+                            <Grid Grid.Row="0">
+                                <Border CornerRadius="6" Background="#0B1812" BorderBrush="#6B7A2A" BorderThickness="2"
+                                        Effect="{StaticResource FelOuterGlow}">
+                                    <Border CornerRadius="5" BorderBrush="#1D2410" BorderThickness="1"/>
+                                </Border>
+                                <Border CornerRadius="5" Margin="2" Background="Transparent">
+                                    <Grid>
+                                        <Rectangle Fill="{StaticResource PanelInnerTexture}" Opacity="1.0"/>
+                                        <StackPanel Margin="16,10">
+                                            <TextBlock Text="✦ 经验区域 ✦" Foreground="#7CFC00" FontSize="17" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" Margin="0,0,0,12"
+                                                       Effect="{StaticResource FelOuterGlow}"/>
+                                            <UniformGrid Columns="3" Margin="0,4">
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <TextBlock Text="灵魂能量" Foreground="#7F8B75" FontSize="11"/>
+                                                    <TextBlock x:Name="DashboardTotalExpText" Text="125,760" Foreground="#7CFC00"
+                                                               FontSize="22" FontWeight="Bold"
+                                                               Effect="{StaticResource FelOuterGlow}"/>
+                                                </StackPanel>
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <TextBlock Text="距离下一级" Foreground="#7F8B75" FontSize="11"/>
+                                                    <TextBlock x:Name="DashboardNextLevelExpText" Text="24,240 EXP"
+                                                               Foreground="#D7EFC2" FontSize="15" Margin="0,4,0,0"/>
+                                                </StackPanel>
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <TextBlock Text="契约之日" Foreground="#7F8B75" FontSize="11"/>
+                                                    <TextBlock x:Name="DashboardCreatedAtText" Text="2024-01-15"
+                                                               Foreground="#7F8B75" FontSize="13" Margin="0,4,0,0"/>
+                                                </StackPanel>
+                                            </UniformGrid>
+                                            <ProgressBar x:Name="DashboardExpProgressBar" Value="83.7" Height="16"
+                                                         Background="#1D2410" Foreground="#7CFC00" Margin="0,14"
+                                                         Effect="{StaticResource FelOuterGlow}"/>
+                                            <TextBlock x:Name="DashboardExpProgressText"
+                                                       Text="125,760 / 150,000 EXP" Foreground="#7F8B75"
+                                                       FontSize="11" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- ── 暗影契约区 ── -->
+                            <Grid Grid.Row="2">
+                                <Border CornerRadius="6" Background="#0B1812" BorderBrush="#6B7A2A" BorderThickness="2"
+                                        Effect="{StaticResource FelOuterGlow}">
+                                    <Border CornerRadius="5" BorderBrush="#1D2410" BorderThickness="1"/>
+                                </Border>
+                                <Border CornerRadius="5" Margin="2" Background="Transparent">
+                                    <Grid>
+                                        <Rectangle Fill="{StaticResource PanelInnerTexture}" Opacity="1.0"/>
+                                        <TextBlock Text="❖ 暗影契约 ❖" Foreground="#7CFC00" FontSize="17" FontWeight="Bold"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                   Effect="{StaticResource FelOuterGlow}"/>
+                                        <!-- 魔法阵中心区域 - 暗色底衬消隐黑边 -->
+                                        <Border Width="340" Height="340" Background="#050A08"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                CornerRadius="170" Opacity="0.55"/>
+                                        <Canvas HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Width="400" Height="400" Margin="0,15,0,0">
+                                            <!-- 外层粒子光环 -->
+                                            <Border Width="280" Height="280" Canvas.Left="60" Canvas.Top="60" Opacity="0.3">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/magic_circle_outer_glow.png"
+                                                                Stretch="Uniform" RenderOptions.BitmapScalingMode="Fant"/>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- 外环符文 -->
+                                            <Border Width="230" Height="230" Canvas.Left="85" Canvas.Top="85" Opacity="0.7">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/magic_circle_ring.png"
+                                                                Stretch="Uniform" RenderOptions.BitmapScalingMode="Fant"/>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- 中心徽章 -->
+                                            <Border Width="110" Height="110" Canvas.Left="145" Canvas.Top="145">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/magic_circle_emblem.png"
+                                                                Stretch="Uniform" RenderOptions.BitmapScalingMode="Fant"/>
+                                                </Border.Background>
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="14" ShadowDepth="0" Color="#7CFC00" Opacity="0.85"/>
+                                                </Border.Effect>
+                                            </Border>
+
+                                            <!-- 6个契约节点，用 Canvas 绝对定位 -->
+                                            <!-- 节点0：顶部 -->
+                                            <Border Width="84" Height="46" Canvas.Left="158" Canvas.Top="8"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_0" Text="暗影血肉&#x0a;Lv.19"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                            <!-- 节点1：右上 -->
+                                            <Border Width="84" Height="46" Canvas.Left="290" Canvas.Top="90"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_1" Text="虚空意志&#x0a;Lv.23"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                            <!-- 节点2：右下 -->
+                                            <Border Width="84" Height="46" Canvas.Left="290" Canvas.Top="255"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_2" Text="低语之舌&#x0a;Lv.15"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                            <!-- 节点3：底部 -->
+                                            <Border Width="84" Height="46" Canvas.Left="158" Canvas.Top="346"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_3" Text="灵魂碎片&#x0a;Lv.17"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                            <!-- 节点4：左下 -->
+                                            <Border Width="84" Height="46" Canvas.Left="26" Canvas.Top="255"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_4" Text="邪能造物&#x0a;Lv.21"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                            <!-- 节点5：左上 -->
+                                            <Border Width="84" Height="46" Canvas.Left="26" Canvas.Top="90"
+                                                    Background="{StaticResource NodeBorderBrush}" BorderThickness="0">
+                                                <TextBlock x:Name="ContractText_5" Text="诅咒束缚&#x0a;Lv.16"
+                                                           Foreground="#7CFC00" FontSize="9" TextAlignment="Center"
+                                                           VerticalAlignment="Center" Effect="{StaticResource FelOuterGlow}"/>
+                                            </Border>
+                                        </Canvas>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <!-- ═══ 右栏 ═══ -->
+                        <Grid Grid.Column="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="340"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- ── 装备区 ── -->
+                            <Grid Grid.Row="0">
+                                <Border CornerRadius="6" Background="#0B1812" BorderBrush="#6B7A2A" BorderThickness="2"
+                                        Effect="{StaticResource FelOuterGlow}">
+                                    <Border CornerRadius="5" BorderBrush="#1D2410" BorderThickness="1"/>
+                                </Border>
+                                <Border CornerRadius="5" Margin="2" Background="Transparent">
+                                    <Grid>
+                                        <Rectangle Fill="{StaticResource PanelInnerTexture}" Opacity="1.0"/>
+                                        <Grid Margin="12,8">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="⚔ 当前装备" Foreground="#7CFC00" FontSize="16" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" Margin="0,0,0,8"
+                                                       Effect="{StaticResource FelOuterGlow}"/>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0"
+                                                       Source="/Assets/Themes/UndeadWarlock/equip_slots.png"
+                                                       Stretch="Uniform" Width="100"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                       Opacity="0.85" RenderOptions.BitmapScalingMode="Fant"/>
+                                                <TextBlock x:Name="DashboardEquipText" Grid.Column="1"
+                                                           Text="暂 无 装 备&#x0a;去寻找强大的装备吧"
+                                                           Foreground="#7F8B75" FontSize="13"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                           TextAlignment="Center"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- ── 活动日志 ── -->
+                            <Grid Grid.Row="2">
+                                <Border CornerRadius="6" Background="#0B1812" BorderBrush="#6B7A2A" BorderThickness="2"
+                                        Effect="{StaticResource FelOuterGlow}">
+                                    <Border CornerRadius="5" BorderBrush="#1D2410" BorderThickness="1"/>
+                                </Border>
+                                <Border CornerRadius="5" Margin="2" Background="Transparent">
+                                    <Grid>
+                                        <Rectangle Fill="{StaticResource PanelInnerTexture}" Opacity="1.0"/>
+                                        <Grid Margin="12,8">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="📋 最近变化" Foreground="#7F8B75" FontSize="13"
+                                                       FontWeight="Bold" Margin="0,0,0,8"/>
+                                            <ItemsControl x:Name="DashboardLogItemsControl" Grid.Row="1"
+                                                          Margin="0,0,0,6">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Margin="0,3">
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                                <Image Source="/Assets/Themes/UndeadWarlock/star_icon_green.png"
+                                                                       Width="14" Height="14" Stretch="Uniform"
+                                                                       Margin="0,1,5,0" RenderOptions.BitmapScalingMode="Fant"/>
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{Binding Title}" Foreground="#7CFC00"
+                                                                               FontSize="12" Effect="{StaticResource FelOuterGlow}"/>
+                                                                    <TextBlock Text="{Binding Detail}" Foreground="#7F8B75"
+                                                                               FontSize="10"/>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                            <TextBlock Text="{Binding TimeAgo}" Foreground="#608070"
+                                                                       FontSize="10" HorizontalAlignment="Right"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <Button x:Name="DashboardViewAllLogsButton" Grid.Row="2"
+                                                    Content="查看全部日志" Height="26"
+                                                    Background="#0D1A14" Foreground="#7F8B75"
+                                                    BorderBrush="#6B7A2A" BorderThickness="1" FontSize="11"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </ScrollViewer>
 
-                <!-- 行动任务 -->
-                <ScrollViewer x:Name="TasksPage" Visibility="Collapsed"
-                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <controls:ActionTaskControl x:Name="ActionTaskControl" />
-                </ScrollViewer>
+                <!-- ═══════════════ 其他页面（保留原内容供代码后置使用） ═══════════════ -->
+                <!-- 隐藏控件：CharacterDashboardControl（代码后置需要） -->
+                <controls:CharacterDashboardControl x:Name="CharacterDashboardControl"
+                    Visibility="Collapsed" />
 
-                <!-- 行为记录 -->
+                <!-- 隐藏控件：统计相关命名元素 -->
+                <StackPanel Visibility="Collapsed">
+                    <TextBlock x:Name="TotalRecordsTextBlock" Text="0" />
+                    <TextBlock x:Name="TotalExperienceTextBlock" Text="0" />
+                    <TextBlock x:Name="TotalImagesTextBlock" Text="0" />
+                    <TextBlock x:Name="RecordsWithImagesTextBlock" Text="0" />
+                    <TextBlock x:Name="RecordsWithoutImagesTextBlock" Text="0" />
+                    <TextBlock x:Name="CategoryCountTextBlock" Text="0" />
+                    <TextBlock x:Name="LatestRecordCreatedAtTextBlock" Text="暂无记录" />
+                    <DataGrid x:Name="CategoryStatisticsDataGrid" />
+                    <DataGrid x:Name="DailyStatisticsDataGrid" />
+                </StackPanel>
+
+                <!-- 行为记录页 -->
                 <ScrollViewer x:Name="RecordsPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <StackPanel>
-                        <!-- 新增行为记录 -->
                         <Border Style="{StaticResource CardBorderStyle}">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="新增行为记录" />
@@ -250,8 +523,6 @@
                                         HorizontalAlignment="Left" Click="SaveRecordButton_Click" Content="保存记录" />
                             </StackPanel>
                         </Border>
-
-                        <!-- 筛选 -->
                         <Border Margin="0,10,0,0" Style="{StaticResource CardBorderStyle}">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="筛选与搜索" />
@@ -299,8 +570,6 @@
                                 </Border>
                             </StackPanel>
                         </Border>
-
-                        <!-- 记录列表 + 详情 -->
                         <Border Margin="0,10,0,0" Style="{StaticResource CardBorderStyle}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -433,7 +702,13 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                                <!-- 成长属性 -->
+                <!-- 行动任务 -->
+                <ScrollViewer x:Name="TasksPage" Visibility="Collapsed"
+                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <controls:ActionTaskControl x:Name="ActionTaskControl" />
+                </ScrollViewer>
+
+                <!-- 成长属性 -->
                 <ScrollViewer x:Name="AttributesPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <StackPanel>
@@ -527,7 +802,9 @@
                             </StackPanel>
                         </Border>
                     </StackPanel>
-                </ScrollViewer><!-- 图片证据 -->
+                </ScrollViewer>
+
+                <!-- 图片证据 -->
                 <ScrollViewer x:Name="ImagesPage" Visibility="Collapsed"
                               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <Border Style="{StaticResource CardBorderStyle}">
@@ -698,7 +975,6 @@
                                 </Grid>
                             </StackPanel>
                         </Border>
-
                         <Border Margin="0,10,0,0" Style="{StaticResource CardBorderStyle}">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource SectionTitleTextBlockStyle}" Text="数据目录" />

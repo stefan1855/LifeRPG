@@ -5,6 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
     <Border Style="{StaticResource CardBorderStyle}">
+        <Border.Background>
+            <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/bg_void.png"
+                        Stretch="UniformToFill" Opacity="0.15"
+                        RenderOptions.BitmapScalingMode="HighQuality"/>
+        </Border.Background>
         <StackPanel>
             <DockPanel LastChildFill="False">
                 <TextBlock DockPanel.Dock="Left"
@@ -29,8 +34,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="0"
-                        Style="{StaticResource StatCardBorderStyle}"
-                        Background="{StaticResource WarlockCardAltBrush}">
+                        Style="{StaticResource StatCardBorderStyle}">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/panel_portrait.png"
+                                    Stretch="UniformToFill" Opacity="0.6"
+                                    RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Border.Background>
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -118,8 +127,12 @@
                 </Border>
 
                 <Border Grid.Column="2"
-                        Style="{StaticResource StatCardBorderStyle}"
-                        Background="{StaticResource WarlockCardAltBrush}">
+                        Style="{StaticResource StatCardBorderStyle}">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Assets/Themes/UndeadWarlock/panel_xp.png"
+                                    Stretch="UniformToFill" Opacity="0.6"
+                                    RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Border.Background>
                     <StackPanel>
                         <TextBlock Text="当前装备"
                                    FontWeight="Bold"
