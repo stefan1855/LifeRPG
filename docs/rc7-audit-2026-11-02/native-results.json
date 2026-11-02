@@ -1,0 +1,112 @@
+{
+  "version": "2.3.0-rc.7",
+  "sourceCommit": "1815dae004a012b4523e32d0e1c7bbaefa95f31a",
+  "authorization": "User explicitly allowed Win32/ctypes only for the isolated D:/LifeRPG-QA-20261102-RC7 instance.",
+  "method": "Bound EXE path checked before every Win32 operation; screenshots use PrintWindow; database readback uses SQLite read-only mode.",
+  "exeSha256": "7a3d2c2da8fe221779250e2724217fcc9b7be62ebda6b93378c8338d5c425521",
+  "checks": {
+    "quickTaskDefaults": {
+      "quadrant": "Q2",
+      "growthAttribute": "mind",
+      "experience": 25
+    },
+    "completion": {
+      "characterExperience": 25,
+      "mindExperience": 25,
+      "ledgerEntries": 1,
+      "attributeLogEntries": 1
+    },
+    "rollback": {
+      "characterExperience": 0,
+      "mindExperience": 0,
+      "ledgerEntries": 0,
+      "attributeLogEntries": 0,
+      "taskStatus": "Pending"
+    },
+    "detailedDefaultsMatchQuick": true,
+    "unsavedDraftPromptObserved": true,
+    "unchangedEditorEscapeCloses": true,
+    "soundCollapseAndExistingAI_MCPSettingsVisible": true,
+    "narrowSidebarScrollsToSettings": true,
+    "restartPreservesTwoTasksAndExperience": true
+  },
+  "nativeDpi": 96,
+  "mainWindowClientSizes": [
+    [
+      1460,
+      920
+    ],
+    [
+      1068,
+      700
+    ],
+    [
+      760,
+      560
+    ]
+  ],
+  "layoutPagesCheckedAtEachSize": [
+    "dashboard",
+    "tasks",
+    "settings"
+  ],
+  "navigation": [
+    {
+      "page": "dashboard",
+      "contentPixelDelta": 20.618,
+      "screenshot": "native-nav-dashboard.png"
+    },
+    {
+      "page": "tasks",
+      "contentPixelDelta": 20.617,
+      "screenshot": "native-nav-tasks.png"
+    },
+    {
+      "page": "records",
+      "contentPixelDelta": 12.871,
+      "screenshot": "native-nav-records.png"
+    },
+    {
+      "page": "attributes",
+      "contentPixelDelta": 5.41,
+      "screenshot": "native-nav-attributes.png"
+    },
+    {
+      "page": "equipment",
+      "contentPixelDelta": 14.072,
+      "screenshot": "native-nav-equipment.png"
+    },
+    {
+      "page": "skills",
+      "contentPixelDelta": 16.398,
+      "screenshot": "native-nav-skills.png"
+    },
+    {
+      "page": "world",
+      "contentPixelDelta": 10.542,
+      "screenshot": "native-nav-world.png"
+    },
+    {
+      "page": "images",
+      "contentPixelDelta": 5.152,
+      "screenshot": "native-nav-images.png"
+    },
+    {
+      "page": "archive",
+      "contentPixelDelta": 6.612,
+      "screenshot": "native-nav-archive.png"
+    },
+    {
+      "page": "settings",
+      "contentPixelDelta": 19.056,
+      "screenshot": "native-nav-settings.png"
+    }
+  ],
+  "scope": "Synthetic tasks only; no production data, external AI/MCP calls, OS scaling changes or other app operations.",
+  "unvalidated": [
+    "native 200% DPI",
+    "cross-monitor",
+    "independent OS font scaling",
+    "fresh external AI/MCP integration"
+  ]
+}
