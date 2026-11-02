@@ -1,0 +1,65 @@
+{
+  "files": {
+    "chinese": "NotoSerifSC[wght].ttf",
+    "latin": "Cinzel[wght].ttf",
+    "compactNumbers": "RobotoCondensed[wght].ttf"
+  },
+  "roles": {
+    "mainTitle": {
+      "family": "Noto Serif SC",
+      "weight": 700,
+      "referencePx": 44,
+      "color": "#D6EE85"
+    },
+    "characterName": {
+      "family": "Noto Serif SC",
+      "weight": 600,
+      "referencePx": 42,
+      "color": "#B1E95B"
+    },
+    "panelTitle": {
+      "family": "Noto Serif SC",
+      "weight": 600,
+      "referencePx": 23,
+      "color": "#E4CA75"
+    },
+    "body": {
+      "family": "Noto Serif SC",
+      "weight": 400,
+      "referencePx": 16,
+      "color": "#C9C6AB"
+    },
+    "smallLabel": {
+      "family": "Noto Serif SC",
+      "weight": 500,
+      "referencePx": 15,
+      "color": "#C7B482"
+    },
+    "experienceTotal": {
+      "family": "Noto Serif SC",
+      "weight": 700,
+      "referencePx": 37,
+      "color": "#CEF16C"
+    },
+    "levelAndPercent": {
+      "family": "Roboto Condensed",
+      "weight": 700,
+      "referencePx": 23,
+      "color": "#C7F36A"
+    },
+    "latinOrnament": {
+      "family": "Cinzel",
+      "weight": 600,
+      "referencePx": 22,
+      "color": "#D6C080"
+    }
+  },
+  "license": "SIL Open Font License 1.1; accompanying per-family OFL files",
+  "decision": "Chinese titles/body follow the engraved Song-style serif reference; condensed sans only for compact level/percentage labels. Latin ceremonial text uses Cinzel.",
+  "exactSourceFontIdentified": false,
+  "sources": {
+    "chinese": "https://github.com/google/fonts/tree/main/ofl/notoserifsc",
+    "latin": "https://github.com/google/fonts/tree/main/ofl/cinzel",
+    "compactNumbers": "https://github.com/google/fonts/tree/main/ofl/robotocondensed"
+  }
+}

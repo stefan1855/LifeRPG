@@ -1,0 +1,24 @@
+{
+  "originalComponentCount": 122,
+  "sourceCoverageTiles": 56,
+  "originalPixelReconstructionIdentical": true,
+  "allRawCropsMatchOriginal": true,
+  "readyTextureCount": 110,
+  "selectedGeneratedMasterCount": 24,
+  "imageDecodePassed": true,
+  "allReadyCropsMatchRecordedSourcePixels": true,
+  "requiredTransparencyPassed": true,
+  "fontSampleMissingGlyphs": [],
+  "framesHaveTransparentCenter": {
+    "outer-chrome-frame": true,
+    "panel-frame-clean": true,
+    "character-card-frame": true
+  },
+  "limitations": [
+    "AI-restored and outpainted regions are authored interpretations, not original hidden pixels.",
+    "Exact source typeface cannot be identified conclusively from a raster; font choices are visual matches.",
+    "This kit covers the supplied dashboard reference; it does not invent unrelated application pages.",
+    "Composition demo is a static art-layer QA image, not a running application screenshot.",
+    "Requested generation sizes are not guaranteed; manifests record actual PNG dimensions."
+  ]
+}

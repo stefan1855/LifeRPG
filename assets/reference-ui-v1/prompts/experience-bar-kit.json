@@ -1,0 +1,9 @@
+{
+  "id": "experience-bar-kit",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Clean game progress-bar texture kit from THIS exact bar. 1536x1024 transparent sheet split into 4 equal horizontal 256px-high rows. Row1 full EMPTY trough with ornate bronze diamond green-gem endcaps, black stone inset, no fill. Row2 the same bar FULL of lime-green cracked soul energy, no text. Row3 ONLY full-length lime cracked energy fill strip, rectangular 1280px wide x100px high, no frame/endcaps; texture extends to either side for cropping. Row4 a SMALLER simpler bronze thin empty stat-bar trough without endcaps, 1280px wide x60px high. Center all four at x=768, y=128/384/640/896, full bars <=1400px wide, maximum height160px, no overlap. Remove 83.7%, every number or label. Match original olive-bronze material and irregular lime energy pattern, no neon blue.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/bar-experience-complete.png"
+  ],
+  "transparent_background": true
+}

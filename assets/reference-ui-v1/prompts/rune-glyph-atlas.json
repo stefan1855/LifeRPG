@@ -1,0 +1,9 @@
+{
+  "id": "rune-glyph-atlas",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / game texture atlas. A clean 3 columns by 2 rows transparent glyph sprite sheet, six equally-sized square cells in 1536x1024, no gridlines. Extract/reconstruct the six exact distinct ivory/green glyphs INSIDE the six source nodes, WITHOUT node frames. Row1: angular hooked flesh sigil at top-left source, hollow diamond will sigil at top-right source, linked chain curse sigil at middle-left source. Row2: four-point whisper star at middle-right source, lime green inverted question/rune sigil at bottom-left source, sharp four-point soul star at bottom-right source. Center one glyph in each cell with 30% empty transparent padding; glyphs occupy <=45% cell width. Follow the original six shapes, do NOT replace them all with diamonds, no decorative new letters, no labels, no numbers, no rings, no background. Ivory chalk/etched rune strokes and very restrained original green rim light. Actual alpha transparency.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-contract-wheel.png"
+  ],
+  "transparent_background": true
+}

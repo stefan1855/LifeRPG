@@ -1,0 +1,9 @@
+{
+  "id": "character-cutout",
+  "mode": "built-in-imagegen",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/app/src/assets/theme/master_dashboard.png"
+  ],
+  "transparent_background": true,
+  "prompt": "Use case: background-extraction / identity-preserve. Image 1 is the EDIT TARGET, the original LifeRPG dashboard. Deliver ONE production-ready transparent PNG asset: extract only the SAME hooded faceless warlock from the LEFT character card, complete head-to-feet silhouette, original black/olive robes, aged dark bronze thorn armor and original pose. The raised flaming hand is on the VIEWER'S RIGHT; preserve it and its green witch-fire exactly. Preserve the other arm and original staff silhouette on viewer-left. Do not replace him with the purple-robed, broad-shouldered, staff-on-right variant. Keep this character's proportions, costume, hood, dark faceless void, asymmetrical armor and painterly texture faithful to the supplied pixels. Remove ALL frame, scenery, ground, level badge, letters, name, numbers and buttons. Reconstruct only tiny places occluded by the source nameplate as needed to complete the robe hem. No new props. Actual clean alpha transparency including fine flame edges, no checkerboard painted into pixels, no opaque rectangle or floor. Centered tall full-body cutout, high detail, 1024x1536 portrait composition, comfortable transparent margins."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "panel-frame-master",
+  "mode": "built-in-imagegen",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/app/src/assets/theme/master_dashboard.png"
+  ],
+  "transparent_background": true,
+  "prompt": "Use case: background-extraction / precise-object-edit. Image 1 is the exact material reference. Produce ONE reusable EMPTY LANDSCAPE PANEL FRAME based on the reference experience and contract panels. Rectangular 3:2 composition, high-resolution 1536x1024. Keep the source's THIN layered corroded dark-bronze and black-iron edge, restrained golden bevels, tiny thorn / horn details at the four corners, and worn hand-painted uneven highlights. The frame should look like the original panel borders, not a thick glossy picture frame. Straight edge middle sections remain relatively simple for later nine-slice stretching; corner ornaments stay inside generous outer margins and are not cut off. Center is truly transparent. Include a subtle empty header separator near the top, but NO words, glyph labels, icons, character, emblem, backdrop, checkers or numbers. No silver, no orange gold, no generic skull pasted at center. Actual transparent PNG, preserve original dark green reflected light."
+}

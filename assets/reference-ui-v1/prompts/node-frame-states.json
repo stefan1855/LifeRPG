@@ -1,0 +1,9 @@
+{
+  "id": "node-frame-states",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / game texture atlas. One 2 columns by 2 rows transparent sprite atlas of this SAME thorned diamond rune-node frame in four interaction states. Top-left normal, top-right hover subtle green edge glow, bottom-left active stronger green flame, bottom-right dormant dull bronze. 1024x1024 total, equally-sized 512x512 cells. Each centered frame <=360x360 with ample transparent gaps. Preserve source asymmetric organic black iron / olive-bronze thorns and square tilted diamond, green witch-fire licking around corners. Remove every central glyph and word/number/bar, keep a nearly-black solid diamond insert and alpha outside frame. All four shapes and scale identical, only illumination differs. No labels or grids.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/node-flesh-frame.png"
+  ],
+  "transparent_background": true
+}

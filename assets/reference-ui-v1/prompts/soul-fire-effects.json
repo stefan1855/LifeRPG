@@ -1,0 +1,9 @@
+{
+  "id": "soul-fire-effects",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production texture. A restrained green WITCH-FIRE FX atlas matching only the original edge effects in this reference. Transparent PNG 1536x1024, 3 columns by 2 rows, six equal square cells, each isolated fully inside its cell with generous 15% alpha margins. Row1 slender upward lime fire wisp bending left, slender upward wisp bending right, low ground flame strip. Row2 very faint olive fog puff, sparse cluster of 12 tiny green embers, small green diamond glint with thin sharp rays. No skulls, characters, UI frames, symbols or text. Hand-painted layered translucent wisps with bright tiny green cores, primarily dark olive low-opacity edges, not solid yellow blobs. Real soft alpha, no painted checkerboard, no black opaque backing.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/source/reference.png"
+  ],
+  "transparent_background": true
+}

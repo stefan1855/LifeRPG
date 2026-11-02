@@ -1,0 +1,9 @@
+{
+  "id": "equipment-empty-scene",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Clean and extend this exact equipment EMPTY-STATE portrait background. Preserve the dark faceless horned armor silhouette, faint green mist behind it, murky bronze ground reflection and narrow thin bronze inset border. Remove ALL Chinese text in the center and reconstruct the armor/mist under the text seamlessly. Extend upward/downward naturally to a full 1024x1536 portrait. Keep the silhouette nearly-black and sinister, low contrast; the eyes tiny dark olive, not glowing yellow. No new character features, no new words, numbers, interface badges or icon slots. This is an intentionally low-contrast background insert, not a brightly lit character portrait.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-equipment-silhouette.png"
+  ],
+  "transparent_background": false
+}

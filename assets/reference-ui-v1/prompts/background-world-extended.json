@@ -1,0 +1,9 @@
+{
+  "id": "background-world-extended",
+  "mode": "built-in-imagegen",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/app/src/assets/theme/master_dashboard.png"
+  ],
+  "transparent_background": false,
+  "prompt": "Use case: precise-object-edit / stylized-concept. Image 1 is the visual reference for a LifeRPG background layer. Produce ONE clean outpainted landscape BACKGROUND texture at 3840x2160 if available, matching the exact black, olive, worn-bronze and lime soul-fire atmosphere of the reference. Extend the world scenery implied behind the LEFT character: distant narrow gothic ruined spires, black stone, faint sickly green fog, very dark low-contrast empty central space suitable for readable UI, sparse embers and restrained green fire near the far edges. Remove EVERY UI panel, border, skull corner, title, word, number, glyph label and character. No warlock, figures, faces or center skull. No large repeated logos or circular emblems. Low noise where content would sit. Faithful painterly dark fantasy art, richly textured at edges, near-black center, no bright green wash, no purple. Continuous finished widescreen scene, no collage, no captions, no asset labels."
+}

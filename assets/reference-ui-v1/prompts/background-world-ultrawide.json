@@ -1,0 +1,9 @@
+{
+  "id": "background-world-ultrawide",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / texture extension. OUTPAINT this approved empty gothic world background horizontally into an ULTRAWIDE 3:1 scene (3072x1024 composition). Preserve the supplied entire scene around the middle, extend the ruined gothic spires, narrow stone bridges and dark olive mist naturally at far left and right. World only, zero UI, zero frames, zero characters, zero words or numbers. Center 60% almost black with subdued distant silhouettes suitable behind UI. Thin lime soul-fire concentrated near far bottom edges. Keep source dark painterly palette, do not invent huge bright portal, creatures, skulls or focal icon. It is a continuous wider landscape, not stretching or cropping existing scene.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/generated/background-world-extended.png"
+  ],
+  "transparent_background": false
+}

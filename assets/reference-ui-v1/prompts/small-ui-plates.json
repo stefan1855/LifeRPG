@@ -1,0 +1,11 @@
+{
+  "id": "small-ui-plates",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production texture. Create a 2 columns by 2 rows atlas of FOUR CLEAN EMPTY UI plates extracted from the provided sources. 1024x1024 transparent PNG. Top-left a vertical LEVEL PENNANT same source bronze thorn outline and dark olive leather, no Lv or digits; top-right a SQUARE equipment SLOT frame, same subtle black-bronze straight border and tiny angled corners, completely empty interior; bottom-left a wide foldout/portal ROW plate like source, black inset fine bronze outline, no icon, arrow, words or counters; bottom-right a thin HEADER DIVIDER horizontal line with little centered bronze diamond, no words. One fully visible isolated item per 512x512 cell with ample 60px margins. Match original fine ornament and restrained highlights. No large skulls, new decorations or labels. Slot dark inset opaque; transparent outside all items. Row and divider occupy <=400x100. No UI text at all.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/badge-level-pennant.png",
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/equipment-slot-bracers.png",
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-portals-panel.png"
+  ],
+  "transparent_background": true
+}

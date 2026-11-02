@@ -1,0 +1,9 @@
+{
+  "id": "fire-wisp-left-contained",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / isolated FX production. ONE slender olive/lime green witch-fire wisp matching the LEFT flame in this source, bending left in its upper half. 1024x1024 transparent PNG. A SINGLE detached floating flame, NOT an atlas. Crucially keep ALL bright flame from x300..700 and y200..740; its lower root tapers to a soft point ending at y740, with a full 200px EMPTY TRANSPARENT SPACE below it and 200px above. No ground line. No flame may touch any image edge. Sparse fine green sparks close to flame, low-opacity olive haze only near wisp. All outer 180px of canvas fully alpha zero. No background, grid, panel or symbols.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/generated/soul-fire-effects-clean.png"
+  ],
+  "transparent_background": true
+}

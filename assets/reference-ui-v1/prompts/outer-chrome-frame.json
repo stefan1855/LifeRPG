@@ -1,0 +1,9 @@
+{
+  "id": "outer-chrome-frame",
+  "mode": "built-in-imagegen",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/app/src/assets/theme/master_dashboard.png"
+  ],
+  "transparent_background": true,
+  "prompt": "Use case: background-extraction / precise-object-edit. Image 1 is the EDIT TARGET. Extract and reconstruct ONE full widescreen outer ornamental WINDOW FRAME from this exact dashboard, with an actually transparent center and transparent negative space. Preserve the top left and top right horned skull / bat-wing corner sculptures, thin interconnected blackened iron thornwork, worn bronze highlights, original small soul-green gems, bottom thorn rail and side green witch-fire details. Keep the original hand-painted material and irregular sharp silhouette; do NOT substitute a generic rectangular gold line, ornate brown Victorian frame, silver chrome, smooth neon or purple armor. The large central title crown stays as an EMPTY metal plaque with its flanking decorations, but remove every letter and number. Remove all interior panels, all character art, every icon, bar and UI content. Deliver only the outer chrome and title plaque, entire frame uncropped, 16:9 master around 2048x1152, real PNG alpha in the entire interior. A clean scalable game-interface asset, not a completed screen."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "button-states",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Restore this exact rectangular dark fantasy BUTTON with no text. Deliver 1024x1024 transparent atlas, FOUR horizontal buttons stacked in four equal 256px-high rows. Order: normal dull bronze, hover subtle green border light, pressed darker inset with green inner rim, disabled desaturated charcoal bronze. Each button at x64..960, y(row*256+64)..(row*256+192), identical silhouette/scale; 128px between rows. Preserve thin black iron with aged bronze angular/thorn corners, dark textured opaque inner plate, tiny green tips. Blank center in all buttons, NO characters, numbers, icons or labels, no outer frame. Real alpha outside button. Keep ornament small enough for readable labels later.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/button-character-edit.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,9 @@
+{
+  "id": "panel-frame-clean",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Extract and clean ONLY the thin rectangular INTERIOR PANEL BORDER in this source. Preserve its very thin blackened bronze rails, tiny angular thorn corner fittings, small dull gold highlights and narrow divider. Remove every Chinese word, number, icon, progress bar and all background. Interior fully transparent. No skulls, no big horns, no title crown, no added ornaments. This is a subtle thin UI panel, NOT the ornate outer window. Landscape 1536x1024 transparent PNG, border around x=32..1504 y=32..992, 32px clear margin. Keep edges straight and repeatable, 16px rail thickness, corners <=64px. Exact painterly material and restrained green glint.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-experience-panel.png"
+  ],
+  "transparent_background": true
+}

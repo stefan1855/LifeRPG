@@ -1,0 +1,9 @@
+{
+  "id": "character-card-frame",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Extract ONLY the tall rectangular frame around the supplied exact character card. Preserve its black iron, thin dark bronze thorns, muted purple-black joints and little green gems. Remove warlock, all scenery, nameplate, level flag, all buttons, ALL words and numbers. Entire inside must have real alpha transparency. Restore occluded little bits of frame; do not invent large skulls. 1024x1536 portrait PNG, narrow rails and pointed angular fittings, full frame uncropped with comfortable transparent margin. Keep original fantasy painterly style, subdued bronze, not shiny gold.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-character-card.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,9 @@
+{
+  "id": "contract-core-emblem",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Extract this SAME central contract emblem as ONE transparent PNG game sprite. Preserve exactly the black iron concentric spiked ring with thorn/horn structure, pale acid green burning trident/soul-flame in its center and faint green sparks around the ring. Remove neighboring nodes and lines, all backdrop, text and numbers. Reconstruct hidden edges to complete an isolated centered round medallion. Source-faithful dark olive and corroded bronze materials, NOT a skull, NOT a different logo, not Celtic. 1024x1024 square, 10% transparent margin and fine soft alpha on sparse flame wisps.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/contract-center-emblem.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,9 @@
+{
+  "id": "soul-fire-effects-clean",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / texture extension. Clean this SAME six-effect sheet into a production alpha atlas. Preserve exact six effects in the same 3x2 order. REMOVE ALL straight cell grid lines and any solid/murky rectangular background wash. Each effect must be centered within its cell and fully fade to alpha0 before reaching a 48px transparent gutter on ALL four sides of EACH cell, including the ground-fire lower edge and upper flame tips. Smaller scale to fit, no clipped glows. Actual soft transparency. Row1 left curved wisp, right curved wisp, short ground fire. Row2 diffuse low-density fog, sparse embers, sharp small diamond glint. No text, no frames, no labels. Preserve thin olive and lime-green painterly wisps; the empty gaps between all sprites and around atlas perimeter are perfectly transparent. 1536x1024.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/generated/soul-fire-effects.png"
+  ],
+  "transparent_background": true
+}

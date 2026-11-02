@@ -1,0 +1,9 @@
+{
+  "id": "history-icon-atlas",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production game texture. Restore these SIX small source history badges into 3 columns by 2 rows equally-sized square-cell transparent sprite atlas, 1536x1024. Preserve each exact distinct etched yellow-green glyph and black bronze rounded angular seal. Same order as supplied: top row cross grid, four-point star, hooked vertical soul symbol; bottom row seated/stacked knot symbol, curved arrow symbol, angular triangular diamond glyph. Keep them restrained, painterly, aged bronze plate rather than glossy. Center one per cell <=65% cell width, leave transparent gaps. No words/numbers, no square sheet frames. Actual alpha outside badges.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/source/history-icons-reference.png"
+  ],
+  "transparent_background": true
+}

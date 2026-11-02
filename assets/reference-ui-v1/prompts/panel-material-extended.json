@@ -1,0 +1,9 @@
+{
+  "id": "panel-material-extended",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / texture extension. Extend the supplied tiny original clean dark panel material into one 1024x1024 square texture. Preserve exact nearly-black olive green-black palette and extremely low contrast cloudy/mottled painted material. Remove yellow spark. Seamless tileable edges all four sides, uniform visual density, no directional lighting, no central vignette, no borders, no symbols, words, scratches that look like letters, bright clouds, flames or emblems. This sits behind tiny Chinese text: the entire texture must stay near black, dark green undertone, subtle old stone/grain only. Do not brighten it just to show texture.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/material-empty-panel-clean.png"
+  ],
+  "transparent_background": false
+}

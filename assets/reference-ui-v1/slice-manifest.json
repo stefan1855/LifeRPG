@@ -1,0 +1,2599 @@
+{
+  "source": "source/reference.png",
+  "sourceSize": [
+    1672,
+    941
+  ],
+  "sourceSha256": "ee3c817e9190a970dfe96a93268165b36ed4d61d83c5c1fd609ff21358cc8535",
+  "pixelDataSha256": "53f5eb9bc983ca88a412c8d0eaa08d7cd83557cfd58e8587928f78b6701ecef2",
+  "coordinateConvention": "integer pixels; origin top-left; rectangles use [x,y,width,height]; crops are not rescaled",
+  "rawComponents": [
+    {
+      "id": "region-character-card",
+      "path": "raw-components/region-character-card.png",
+      "sourceRectXYWH": [
+        44,
+        131,
+        422,
+        788
+      ],
+      "size": [
+        422,
+        788
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-experience-panel",
+      "path": "raw-components/region-experience-panel.png",
+      "sourceRectXYWH": [
+        475,
+        109,
+        568,
+        238
+      ],
+      "size": [
+        568,
+        238
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-contract-panel",
+      "path": "raw-components/region-contract-panel.png",
+      "sourceRectXYWH": [
+        475,
+        355,
+        569,
+        564
+      ],
+      "size": [
+        569,
+        564
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-equipment-panel",
+      "path": "raw-components/region-equipment-panel.png",
+      "sourceRectXYWH": [
+        1045,
+        109,
+        305,
+        600
+      ],
+      "size": [
+        305,
+        600
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-history-panel",
+      "path": "raw-components/region-history-panel.png",
+      "sourceRectXYWH": [
+        1347,
+        113,
+        268,
+        596
+      ],
+      "size": [
+        268,
+        596
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-portals-panel",
+      "path": "raw-components/region-portals-panel.png",
+      "sourceRectXYWH": [
+        1045,
+        715,
+        572,
+        204
+      ],
+      "size": [
+        572,
+        204
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-header-crown",
+      "path": "raw-components/region-header-crown.png",
+      "sourceRectXYWH": [
+        465,
+        0,
+        600,
+        112
+      ],
+      "size": [
+        600,
+        112
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-character-art",
+      "path": "raw-components/region-character-art.png",
+      "sourceRectXYWH": [
+        63,
+        150,
+        383,
+        469
+      ],
+      "size": [
+        383,
+        469
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-character-floor-nameplate",
+      "path": "raw-components/region-character-floor-nameplate.png",
+      "sourceRectXYWH": [
+        60,
+        575,
+        390,
+        129
+      ],
+      "size": [
+        390,
+        129
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-contract-wheel",
+      "path": "raw-components/region-contract-wheel.png",
+      "sourceRectXYWH": [
+        496,
+        405,
+        525,
+        435
+      ],
+      "size": [
+        525,
+        435
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-contract-pedestal",
+      "path": "raw-components/region-contract-pedestal.png",
+      "sourceRectXYWH": [
+        494,
+        823,
+        538,
+        91
+      ],
+      "size": [
+        538,
+        91
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "region-equipment-silhouette",
+      "path": "raw-components/region-equipment-silhouette.png",
+      "sourceRectXYWH": [
+        1158,
+        155,
+        185,
+        543
+      ],
+      "size": [
+        185,
+        543
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-corner-tl",
+      "path": "raw-components/outer-corner-tl.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        215,
+        155
+      ],
+      "size": [
+        215,
+        155
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-corner-tr",
+      "path": "raw-components/outer-corner-tr.png",
+      "sourceRectXYWH": [
+        1457,
+        0,
+        215,
+        155
+      ],
+      "size": [
+        215,
+        155
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-corner-bl",
+      "path": "raw-components/outer-corner-bl.png",
+      "sourceRectXYWH": [
+        0,
+        761,
+        180,
+        180
+      ],
+      "size": [
+        180,
+        180
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-corner-br",
+      "path": "raw-components/outer-corner-br.png",
+      "sourceRectXYWH": [
+        1492,
+        761,
+        180,
+        180
+      ],
+      "size": [
+        180,
+        180
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-edge-top-left",
+      "path": "raw-components/outer-edge-top-left.png",
+      "sourceRectXYWH": [
+        210,
+        0,
+        260,
+        36
+      ],
+      "size": [
+        260,
+        36
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-edge-top-right",
+      "path": "raw-components/outer-edge-top-right.png",
+      "sourceRectXYWH": [
+        1060,
+        0,
+        402,
+        34
+      ],
+      "size": [
+        402,
+        34
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-edge-left",
+      "path": "raw-components/outer-edge-left.png",
+      "sourceRectXYWH": [
+        0,
+        150,
+        45,
+        615
+      ],
+      "size": [
+        45,
+        615
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-edge-right",
+      "path": "raw-components/outer-edge-right.png",
+      "sourceRectXYWH": [
+        1615,
+        150,
+        57,
+        615
+      ],
+      "size": [
+        57,
+        615
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "outer-edge-bottom",
+      "path": "raw-components/outer-edge-bottom.png",
+      "sourceRectXYWH": [
+        172,
+        907,
+        1327,
+        34
+      ],
+      "size": [
+        1327,
+        34
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-main",
+      "path": "raw-components/title-reference-main.png",
+      "sourceRectXYWH": [
+        682,
+        20,
+        270,
+        58
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-experience",
+      "path": "raw-components/title-reference-experience.png",
+      "sourceRectXYWH": [
+        720,
+        121,
+        99,
+        30
+      ],
+      "size": [
+        99,
+        30
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-contract",
+      "path": "raw-components/title-reference-contract.png",
+      "sourceRectXYWH": [
+        699,
+        376,
+        112,
+        28
+      ],
+      "size": [
+        112,
+        28
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-character-name",
+      "path": "raw-components/title-reference-character-name.png",
+      "sourceRectXYWH": [
+        190,
+        602,
+        174,
+        57
+      ],
+      "size": [
+        174,
+        57
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-character-role",
+      "path": "raw-components/title-reference-character-role.png",
+      "sourceRectXYWH": [
+        192,
+        665,
+        175,
+        35
+      ],
+      "size": [
+        175,
+        35
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "title-reference-description",
+      "path": "raw-components/title-reference-description.png",
+      "sourceRectXYWH": [
+        118,
+        706,
+        278,
+        78
+      ],
+      "size": [
+        278,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "number-reference-level",
+      "path": "raw-components/number-reference-level.png",
+      "sourceRectXYWH": [
+        85,
+        174,
+        41,
+        67
+      ],
+      "size": [
+        41,
+        67
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "number-reference-total-xp",
+      "path": "raw-components/number-reference-total-xp.png",
+      "sourceRectXYWH": [
+        540,
+        188,
+        141,
+        39
+      ],
+      "size": [
+        141,
+        39
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "number-reference-next-xp",
+      "path": "raw-components/number-reference-next-xp.png",
+      "sourceRectXYWH": [
+        712,
+        193,
+        122,
+        33
+      ],
+      "size": [
+        122,
+        33
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "number-reference-node-level",
+      "path": "raw-components/number-reference-node-level.png",
+      "sourceRectXYWH": [
+        548,
+        459,
+        57,
+        22
+      ],
+      "size": [
+        57,
+        22
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "typography-reference",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "button-avatar-select",
+      "path": "raw-components/button-avatar-select.png",
+      "sourceRectXYWH": [
+        91,
+        795,
+        163,
+        42
+      ],
+      "size": [
+        163,
+        42
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "button-avatar-clear",
+      "path": "raw-components/button-avatar-clear.png",
+      "sourceRectXYWH": [
+        262,
+        795,
+        165,
+        42
+      ],
+      "size": [
+        165,
+        42
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "button-character-edit",
+      "path": "raw-components/button-character-edit.png",
+      "sourceRectXYWH": [
+        94,
+        843,
+        335,
+        52
+      ],
+      "size": [
+        335,
+        52
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "button-refresh",
+      "path": "raw-components/button-refresh.png",
+      "sourceRectXYWH": [
+        1435,
+        32,
+        142,
+        50
+      ],
+      "size": [
+        142,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "button-history-all",
+      "path": "raw-components/button-history-all.png",
+      "sourceRectXYWH": [
+        1371,
+        656,
+        201,
+        41
+      ],
+      "size": [
+        201,
+        41
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "badge-level-pennant",
+      "path": "raw-components/badge-level-pennant.png",
+      "sourceRectXYWH": [
+        76,
+        153,
+        63,
+        107
+      ],
+      "size": [
+        63,
+        107
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "bar-experience-complete",
+      "path": "raw-components/bar-experience-complete.png",
+      "sourceRectXYWH": [
+        494,
+        252,
+        531,
+        57
+      ],
+      "size": [
+        531,
+        57
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "bar-experience-left-cap",
+      "path": "raw-components/bar-experience-left-cap.png",
+      "sourceRectXYWH": [
+        491,
+        251,
+        59,
+        58
+      ],
+      "size": [
+        59,
+        58
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "bar-experience-right-cap",
+      "path": "raw-components/bar-experience-right-cap.png",
+      "sourceRectXYWH": [
+        970,
+        251,
+        59,
+        58
+      ],
+      "size": [
+        59,
+        58
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "bar-experience-fill-clean",
+      "path": "raw-components/bar-experience-fill-clean.png",
+      "sourceRectXYWH": [
+        552,
+        272,
+        175,
+        20
+      ],
+      "size": [
+        175,
+        20
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "bar-experience-unfilled-clean",
+      "path": "raw-components/bar-experience-unfilled-clean.png",
+      "sourceRectXYWH": [
+        880,
+        273,
+        104,
+        18
+      ],
+      "size": [
+        104,
+        18
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-character-header-edge",
+      "path": "raw-components/panel-character-header-edge.png",
+      "sourceRectXYWH": [
+        50,
+        130,
+        414,
+        26
+      ],
+      "size": [
+        414,
+        26
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-character-left-edge",
+      "path": "raw-components/panel-character-left-edge.png",
+      "sourceRectXYWH": [
+        44,
+        155,
+        23,
+        740
+      ],
+      "size": [
+        23,
+        740
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-character-right-edge",
+      "path": "raw-components/panel-character-right-edge.png",
+      "sourceRectXYWH": [
+        438,
+        155,
+        28,
+        740
+      ],
+      "size": [
+        28,
+        740
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-character-bottom-edge",
+      "path": "raw-components/panel-character-bottom-edge.png",
+      "sourceRectXYWH": [
+        61,
+        895,
+        389,
+        25
+      ],
+      "size": [
+        389,
+        25
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-experience-header",
+      "path": "raw-components/panel-experience-header.png",
+      "sourceRectXYWH": [
+        477,
+        108,
+        565,
+        51
+      ],
+      "size": [
+        565,
+        51
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-experience-bottom-edge",
+      "path": "raw-components/panel-experience-bottom-edge.png",
+      "sourceRectXYWH": [
+        487,
+        335,
+        546,
+        14
+      ],
+      "size": [
+        546,
+        14
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-contract-header",
+      "path": "raw-components/panel-contract-header.png",
+      "sourceRectXYWH": [
+        477,
+        355,
+        565,
+        60
+      ],
+      "size": [
+        565,
+        60
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-equipment-header",
+      "path": "raw-components/panel-equipment-header.png",
+      "sourceRectXYWH": [
+        1048,
+        111,
+        300,
+        44
+      ],
+      "size": [
+        300,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-history-header",
+      "path": "raw-components/panel-history-header.png",
+      "sourceRectXYWH": [
+        1347,
+        119,
+        266,
+        50
+      ],
+      "size": [
+        266,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "panel-portals-header",
+      "path": "raw-components/panel-portals-header.png",
+      "sourceRectXYWH": [
+        1047,
+        716,
+        567,
+        53
+      ],
+      "size": [
+        567,
+        53
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-row-skill",
+      "path": "raw-components/portal-row-skill.png",
+      "sourceRectXYWH": [
+        1063,
+        769,
+        538,
+        41
+      ],
+      "size": [
+        538,
+        41
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-row-contract",
+      "path": "raw-components/portal-row-contract.png",
+      "sourceRectXYWH": [
+        1063,
+        813,
+        538,
+        41
+      ],
+      "size": [
+        538,
+        41
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-row-reputation",
+      "path": "raw-components/portal-row-reputation.png",
+      "sourceRectXYWH": [
+        1063,
+        858,
+        538,
+        43
+      ],
+      "size": [
+        538,
+        43
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-icon-skill",
+      "path": "raw-components/portal-icon-skill.png",
+      "sourceRectXYWH": [
+        1072,
+        773,
+        42,
+        34
+      ],
+      "size": [
+        42,
+        34
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-icon-contract",
+      "path": "raw-components/portal-icon-contract.png",
+      "sourceRectXYWH": [
+        1072,
+        814,
+        42,
+        37
+      ],
+      "size": [
+        42,
+        37
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-icon-reputation",
+      "path": "raw-components/portal-icon-reputation.png",
+      "sourceRectXYWH": [
+        1072,
+        858,
+        42,
+        37
+      ],
+      "size": [
+        42,
+        37
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-chevron-right",
+      "path": "raw-components/portal-chevron-right.png",
+      "sourceRectXYWH": [
+        1553,
+        779,
+        20,
+        22
+      ],
+      "size": [
+        20,
+        22
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "portal-chevron-up",
+      "path": "raw-components/portal-chevron-up.png",
+      "sourceRectXYWH": [
+        1319,
+        733,
+        25,
+        24
+      ],
+      "size": [
+        25,
+        24
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "icon-refresh",
+      "path": "raw-components/icon-refresh.png",
+      "sourceRectXYWH": [
+        1452,
+        45,
+        26,
+        27
+      ],
+      "size": [
+        26,
+        27
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "crest-title-left",
+      "path": "raw-components/crest-title-left.png",
+      "sourceRectXYWH": [
+        635,
+        25,
+        42,
+        46
+      ],
+      "size": [
+        42,
+        46
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "crest-title-right",
+      "path": "raw-components/crest-title-right.png",
+      "sourceRectXYWH": [
+        965,
+        28,
+        43,
+        42
+      ],
+      "size": [
+        43,
+        42
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "material-empty-panel-clean",
+      "path": "raw-components/material-empty-panel-clean.png",
+      "sourceRectXYWH": [
+        495,
+        160,
+        31,
+        80
+      ],
+      "size": [
+        31,
+        80
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "material-dark-equipment-clean",
+      "path": "raw-components/material-dark-equipment-clean.png",
+      "sourceRectXYWH": [
+        1170,
+        175,
+        35,
+        87
+      ],
+      "size": [
+        35,
+        87
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "material-iron-clean",
+      "path": "raw-components/material-iron-clean.png",
+      "sourceRectXYWH": [
+        15,
+        309,
+        18,
+        135
+      ],
+      "size": [
+        18,
+        135
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "separator-history-clean",
+      "path": "raw-components/separator-history-clean.png",
+      "sourceRectXYWH": [
+        1360,
+        246,
+        226,
+        10
+      ],
+      "size": [
+        226,
+        10
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "component",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-flesh-frame",
+      "path": "raw-components/node-flesh-frame.png",
+      "sourceRectXYWH": [
+        609,
+        411,
+        101,
+        107
+      ],
+      "size": [
+        101,
+        107
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-flesh-glyph",
+      "path": "raw-components/node-flesh-glyph.png",
+      "sourceRectXYWH": [
+        637,
+        443,
+        41,
+        40
+      ],
+      "size": [
+        41,
+        40
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-flesh-bar",
+      "path": "raw-components/node-flesh-bar.png",
+      "sourceRectXYWH": [
+        511,
+        505,
+        102,
+        24
+      ],
+      "size": [
+        102,
+        24
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-will-frame",
+      "path": "raw-components/node-will-frame.png",
+      "sourceRectXYWH": [
+        785,
+        411,
+        101,
+        107
+      ],
+      "size": [
+        101,
+        107
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-will-glyph",
+      "path": "raw-components/node-will-glyph.png",
+      "sourceRectXYWH": [
+        812,
+        444,
+        40,
+        39
+      ],
+      "size": [
+        40,
+        39
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-will-bar",
+      "path": "raw-components/node-will-bar.png",
+      "sourceRectXYWH": [
+        902,
+        506,
+        103,
+        24
+      ],
+      "size": [
+        103,
+        24
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-curse-frame",
+      "path": "raw-components/node-curse-frame.png",
+      "sourceRectXYWH": [
+        532,
+        565,
+        103,
+        109
+      ],
+      "size": [
+        103,
+        109
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-curse-glyph",
+      "path": "raw-components/node-curse-glyph.png",
+      "sourceRectXYWH": [
+        564,
+        603,
+        42,
+        40
+      ],
+      "size": [
+        42,
+        40
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-curse-bar",
+      "path": "raw-components/node-curse-bar.png",
+      "sourceRectXYWH": [
+        497,
+        663,
+        108,
+        25
+      ],
+      "size": [
+        108,
+        25
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-whisper-frame",
+      "path": "raw-components/node-whisper-frame.png",
+      "sourceRectXYWH": [
+        848,
+        562,
+        101,
+        110
+      ],
+      "size": [
+        101,
+        110
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-whisper-glyph",
+      "path": "raw-components/node-whisper-glyph.png",
+      "sourceRectXYWH": [
+        876,
+        597,
+        42,
+        44
+      ],
+      "size": [
+        42,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-whisper-bar",
+      "path": "raw-components/node-whisper-bar.png",
+      "sourceRectXYWH": [
+        901,
+        667,
+        107,
+        24
+      ],
+      "size": [
+        107,
+        24
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-fel-frame",
+      "path": "raw-components/node-fel-frame.png",
+      "sourceRectXYWH": [
+        605,
+        704,
+        104,
+        108
+      ],
+      "size": [
+        104,
+        108
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-fel-glyph",
+      "path": "raw-components/node-fel-glyph.png",
+      "sourceRectXYWH": [
+        634,
+        739,
+        43,
+        44
+      ],
+      "size": [
+        43,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-fel-bar",
+      "path": "raw-components/node-fel-bar.png",
+      "sourceRectXYWH": [
+        521,
+        805,
+        105,
+        26
+      ],
+      "size": [
+        105,
+        26
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-soul-frame",
+      "path": "raw-components/node-soul-frame.png",
+      "sourceRectXYWH": [
+        783,
+        704,
+        104,
+        109
+      ],
+      "size": [
+        104,
+        109
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-frame",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-soul-glyph",
+      "path": "raw-components/node-soul-glyph.png",
+      "sourceRectXYWH": [
+        812,
+        738,
+        41,
+        45
+      ],
+      "size": [
+        41,
+        45
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "rune-glyph",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "node-soul-bar",
+      "path": "raw-components/node-soul-bar.png",
+      "sourceRectXYWH": [
+        895,
+        808,
+        108,
+        25
+      ],
+      "size": [
+        108,
+        25
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "mini-progress",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "contract-center-emblem",
+      "path": "raw-components/contract-center-emblem.png",
+      "sourceRectXYWH": [
+        642,
+        520,
+        208,
+        211
+      ],
+      "size": [
+        208,
+        211
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "core-emblem",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-head",
+      "path": "raw-components/equipment-slot-head.png",
+      "sourceRectXYWH": [
+        1066,
+        160,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-head",
+      "path": "raw-components/equipment-icon-head.png",
+      "sourceRectXYWH": [
+        1073,
+        166,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-shoulders",
+      "path": "raw-components/equipment-slot-shoulders.png",
+      "sourceRectXYWH": [
+        1066,
+        204,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-shoulders",
+      "path": "raw-components/equipment-icon-shoulders.png",
+      "sourceRectXYWH": [
+        1073,
+        210,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-chest",
+      "path": "raw-components/equipment-slot-chest.png",
+      "sourceRectXYWH": [
+        1066,
+        248,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-chest",
+      "path": "raw-components/equipment-icon-chest.png",
+      "sourceRectXYWH": [
+        1073,
+        254,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-bracers",
+      "path": "raw-components/equipment-slot-bracers.png",
+      "sourceRectXYWH": [
+        1066,
+        292,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-bracers",
+      "path": "raw-components/equipment-icon-bracers.png",
+      "sourceRectXYWH": [
+        1073,
+        298,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-hands",
+      "path": "raw-components/equipment-slot-hands.png",
+      "sourceRectXYWH": [
+        1066,
+        336,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-hands",
+      "path": "raw-components/equipment-icon-hands.png",
+      "sourceRectXYWH": [
+        1073,
+        342,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-waist",
+      "path": "raw-components/equipment-slot-waist.png",
+      "sourceRectXYWH": [
+        1066,
+        380,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-waist",
+      "path": "raw-components/equipment-icon-waist.png",
+      "sourceRectXYWH": [
+        1073,
+        386,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-legs",
+      "path": "raw-components/equipment-slot-legs.png",
+      "sourceRectXYWH": [
+        1066,
+        424,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-legs",
+      "path": "raw-components/equipment-icon-legs.png",
+      "sourceRectXYWH": [
+        1073,
+        430,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-feet",
+      "path": "raw-components/equipment-slot-feet.png",
+      "sourceRectXYWH": [
+        1066,
+        468,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-feet",
+      "path": "raw-components/equipment-icon-feet.png",
+      "sourceRectXYWH": [
+        1073,
+        474,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-accessory-1",
+      "path": "raw-components/equipment-slot-accessory-1.png",
+      "sourceRectXYWH": [
+        1066,
+        512,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-accessory-1",
+      "path": "raw-components/equipment-icon-accessory-1.png",
+      "sourceRectXYWH": [
+        1073,
+        518,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-accessory-2",
+      "path": "raw-components/equipment-slot-accessory-2.png",
+      "sourceRectXYWH": [
+        1066,
+        556,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-accessory-2",
+      "path": "raw-components/equipment-icon-accessory-2.png",
+      "sourceRectXYWH": [
+        1073,
+        562,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-mainhand",
+      "path": "raw-components/equipment-slot-mainhand.png",
+      "sourceRectXYWH": [
+        1066,
+        600,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-mainhand",
+      "path": "raw-components/equipment-icon-mainhand.png",
+      "sourceRectXYWH": [
+        1073,
+        606,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-slot-offhand",
+      "path": "raw-components/equipment-slot-offhand.png",
+      "sourceRectXYWH": [
+        1066,
+        644,
+        50,
+        44
+      ],
+      "size": [
+        50,
+        44
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-slot",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "equipment-icon-offhand",
+      "path": "raw-components/equipment-icon-offhand.png",
+      "sourceRectXYWH": [
+        1073,
+        650,
+        35,
+        32
+      ],
+      "size": [
+        35,
+        32
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "equipment-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-fel-surge",
+      "path": "raw-components/history-row-fel-surge.png",
+      "sourceRectXYWH": [
+        1357,
+        183,
+        244,
+        78
+      ],
+      "size": [
+        244,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-fel-surge",
+      "path": "raw-components/history-icon-fel-surge.png",
+      "sourceRectXYWH": [
+        1362,
+        185,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-void-will",
+      "path": "raw-components/history-row-void-will.png",
+      "sourceRectXYWH": [
+        1357,
+        263,
+        244,
+        78
+      ],
+      "size": [
+        244,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-void-will",
+      "path": "raw-components/history-icon-void-will.png",
+      "sourceRectXYWH": [
+        1362,
+        265,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-blood-flesh",
+      "path": "raw-components/history-row-blood-flesh.png",
+      "sourceRectXYWH": [
+        1357,
+        343,
+        244,
+        78
+      ],
+      "size": [
+        244,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-blood-flesh",
+      "path": "raw-components/history-icon-blood-flesh.png",
+      "sourceRectXYWH": [
+        1362,
+        345,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-curse-bind",
+      "path": "raw-components/history-row-curse-bind.png",
+      "sourceRectXYWH": [
+        1357,
+        423,
+        244,
+        78
+      ],
+      "size": [
+        244,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-curse-bind",
+      "path": "raw-components/history-icon-curse-bind.png",
+      "sourceRectXYWH": [
+        1362,
+        425,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-whisper-tongue",
+      "path": "raw-components/history-row-whisper-tongue.png",
+      "sourceRectXYWH": [
+        1357,
+        503,
+        244,
+        78
+      ],
+      "size": [
+        244,
+        78
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-whisper-tongue",
+      "path": "raw-components/history-icon-whisper-tongue.png",
+      "sourceRectXYWH": [
+        1362,
+        505,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-row-soul-fragment",
+      "path": "raw-components/history-row-soul-fragment.png",
+      "sourceRectXYWH": [
+        1357,
+        583,
+        244,
+        75
+      ],
+      "size": [
+        244,
+        75
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-row",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    },
+    {
+      "id": "history-icon-soul-fragment",
+      "path": "raw-components/history-icon-soul-fragment.png",
+      "sourceRectXYWH": [
+        1362,
+        585,
+        47,
+        50
+      ],
+      "size": [
+        47,
+        50
+      ],
+      "provenance": "exact-source-crop",
+      "kind": "history-icon",
+      "note": "Reference pixels; may contain baked text or neighboring artwork."
+    }
+  ],
+  "sourceGrid": [
+    {
+      "path": "source-grid/r00-c00.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        44,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c01.png",
+      "sourceRectXYWH": [
+        44,
+        0,
+        422,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c02.png",
+      "sourceRectXYWH": [
+        466,
+        0,
+        9,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c03.png",
+      "sourceRectXYWH": [
+        475,
+        0,
+        569,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        0,
+        303,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        0,
+        268,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r00-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        0,
+        57,
+        110
+      ]
+    },
+    {
+      "path": "source-grid/r01-c00.png",
+      "sourceRectXYWH": [
+        0,
+        110,
+        44,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c01.png",
+      "sourceRectXYWH": [
+        44,
+        110,
+        422,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c02.png",
+      "sourceRectXYWH": [
+        466,
+        110,
+        9,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c03.png",
+      "sourceRectXYWH": [
+        475,
+        110,
+        569,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        110,
+        303,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        110,
+        268,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r01-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        110,
+        57,
+        21
+      ]
+    },
+    {
+      "path": "source-grid/r02-c00.png",
+      "sourceRectXYWH": [
+        0,
+        131,
+        44,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c01.png",
+      "sourceRectXYWH": [
+        44,
+        131,
+        422,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c02.png",
+      "sourceRectXYWH": [
+        466,
+        131,
+        9,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c03.png",
+      "sourceRectXYWH": [
+        475,
+        131,
+        569,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        131,
+        303,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        131,
+        268,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r02-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        131,
+        57,
+        216
+      ]
+    },
+    {
+      "path": "source-grid/r03-c00.png",
+      "sourceRectXYWH": [
+        0,
+        347,
+        44,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c01.png",
+      "sourceRectXYWH": [
+        44,
+        347,
+        422,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c02.png",
+      "sourceRectXYWH": [
+        466,
+        347,
+        9,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c03.png",
+      "sourceRectXYWH": [
+        475,
+        347,
+        569,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        347,
+        303,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        347,
+        268,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r03-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        347,
+        57,
+        8
+      ]
+    },
+    {
+      "path": "source-grid/r04-c00.png",
+      "sourceRectXYWH": [
+        0,
+        355,
+        44,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c01.png",
+      "sourceRectXYWH": [
+        44,
+        355,
+        422,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c02.png",
+      "sourceRectXYWH": [
+        466,
+        355,
+        9,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c03.png",
+      "sourceRectXYWH": [
+        475,
+        355,
+        569,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        355,
+        303,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        355,
+        268,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r04-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        355,
+        57,
+        354
+      ]
+    },
+    {
+      "path": "source-grid/r05-c00.png",
+      "sourceRectXYWH": [
+        0,
+        709,
+        44,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c01.png",
+      "sourceRectXYWH": [
+        44,
+        709,
+        422,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c02.png",
+      "sourceRectXYWH": [
+        466,
+        709,
+        9,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c03.png",
+      "sourceRectXYWH": [
+        475,
+        709,
+        569,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        709,
+        303,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        709,
+        268,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r05-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        709,
+        57,
+        6
+      ]
+    },
+    {
+      "path": "source-grid/r06-c00.png",
+      "sourceRectXYWH": [
+        0,
+        715,
+        44,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c01.png",
+      "sourceRectXYWH": [
+        44,
+        715,
+        422,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c02.png",
+      "sourceRectXYWH": [
+        466,
+        715,
+        9,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c03.png",
+      "sourceRectXYWH": [
+        475,
+        715,
+        569,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        715,
+        303,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        715,
+        268,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r06-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        715,
+        57,
+        204
+      ]
+    },
+    {
+      "path": "source-grid/r07-c00.png",
+      "sourceRectXYWH": [
+        0,
+        919,
+        44,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c01.png",
+      "sourceRectXYWH": [
+        44,
+        919,
+        422,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c02.png",
+      "sourceRectXYWH": [
+        466,
+        919,
+        9,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c03.png",
+      "sourceRectXYWH": [
+        475,
+        919,
+        569,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c04.png",
+      "sourceRectXYWH": [
+        1044,
+        919,
+        303,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c05.png",
+      "sourceRectXYWH": [
+        1347,
+        919,
+        268,
+        22
+      ]
+    },
+    {
+      "path": "source-grid/r07-c06.png",
+      "sourceRectXYWH": [
+        1615,
+        919,
+        57,
+        22
+      ]
+    }
+  ],
+  "validation": {
+    "everyPixelCovered": true,
+    "reconstructionPixelIdentical": true,
+    "rawComponentCount": 122,
+    "sourceTileCount": 56
+  },
+  "warning": "Raw crops deliberately preserve baked source text and occlusions. They are provenance/reference assets; clean reusable layers are listed separately in ready-manifest.json."
+}

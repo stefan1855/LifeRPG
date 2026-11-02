@@ -1,0 +1,9 @@
+{
+  "id": "ritual-pedestal",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production texture. Restore and extend this SAME low elliptical ritual FLOOR pedestal as ONE transparent game art sprite at 1536x1024. Preserve its dark stone rings, very thin etched bronze radial markings, narrow soul-green rim light, tiny center ritual glyph and original perspective low ellipse. Remove all UI frame, words, node diamonds and central upright emblem; floor only. Complete ellipse naturally left/right and downward, keep ground thickness shallow, occupies x100..1436 y300..780 with ample alpha above. No new columns, no mountains, no characters, no tall flame, no text. Exact murky black olive and bronze reference palette, actual transparency outside floor and subtle mist.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-contract-pedestal.png"
+  ],
+  "transparent_background": true
+}

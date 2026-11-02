@@ -1,0 +1,9 @@
+{
+  "id": "equipment-icon-atlas",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / game texture atlas. Restore these twelve original small aged-bronze fantasy equipment item sprites as a 4 columns by 3 rows transparent atlas, equal square cells, centered each object, at 1536x1152. Same row order as reference: row1 hooded helmet, single layered shoulder pauldron, breastplate, bracer; row2 armored glove, belt buckle, leggings, pair of boots; row3 skull pendant, hand gesture/ornamental charm, short sword pointing down-right, long pale sword pointing up-right. Preserve original silhouettes, muted olive dark bronze with gold highlights, painterly worn metal not glossy mobile-game loot, no gems added. Remove square slot frames and all dark rectangular backgrounds; actual alpha around each object. One item or pair per cell, 20% transparent margin and no overlap. No words, numbers, labels or sheet borders.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/source/equipment-icons-reference.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,10 @@
+{
+  "id": "portal-control-icons",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / production texture. A 3 columns by 2 rows transparent sprite atlas of SIX tiny UI symbols matched to these original game UI pixels. 1536x1024, equal square cells. Row1 lightning bolt for skill, horned skull for contract, horned winged skull for reputation. Row2 thin right-pointing angular chevron, thin UP chevron, refresh twin curved arrows. Each glyph centered and <=45% cell width, generous alpha gaps. Preserve source pale aged-bronze strokes, small green glints, rough painterly texture. No square borders, no round badge, no words or digits, no additional rune symbols. Actual alpha, all icons separate and fully visible.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-portals-panel.png",
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/button-refresh.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,9 @@
+{
+  "id": "contract-orbit",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / game texture atlas. Extract/reconstruct ONLY the circular connecting rune ORBIT behind the six nodes. Transparent PNG 1024x1024 square. Complete thin concentric bronze/olive-green ritual rings with tiny arcane decorative marks and the original sparse green energy joining the six evenly spaced stations. Remove ALL six diamond node bodies, their white glyphs, central spiked core emblem, progress bars, letters, Chinese words and numbers. Leave empty transparent center and empty gaps where nodes overlay. Preserve original narrow ring, no new dense mandala, no giant pentagram, no skulls or new language. Minimal faint green particles, full circle visible with 10% clear transparent margins.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/raw-components/region-contract-wheel.png"
+  ],
+  "transparent_background": true
+}

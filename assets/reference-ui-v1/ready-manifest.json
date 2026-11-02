@@ -1,0 +1,3148 @@
+{
+  "version": "1.0",
+  "scope": "Raster assets only; app not integrated",
+  "coordinateConvention": "top-left integer pixels; rectangles [x,y,width,height]; no resampling of source crops",
+  "sourceSha256": "ee3c817e9190a970dfe96a93268165b36ed4d61d83c5c1fd609ff21358cc8535",
+  "masters": [
+    {
+      "id": "background-world-extended",
+      "path": "generated/background-world-extended.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "dbd3a134f01c939d964355c4c384610255f4daaa2287b5b0630f6de21942c853",
+      "prompt": "prompts/background-world-extended.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "background-world-ultrawide",
+      "path": "generated/background-world-ultrawide.png",
+      "size": [
+        2172,
+        724
+      ],
+      "sha256": "5dc2d9b6dd4e27f8db50e4c2b099ff56985633458eddf2a48ee7dc04421bba7f",
+      "prompt": "prompts/background-world-ultrawide.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "button-states",
+      "path": "generated/button-states.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "b6a96464e05a1d17a29eae7da5779a2db4b2355eb05d80815f8cab69ef17b200",
+      "prompt": "prompts/button-states.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "character-card-frame",
+      "path": "generated/character-card-frame.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "ab863e4d6afbbf1a100fba3afa6a16ec9b61cb901c8a2fef326f882a1b9c4904",
+      "prompt": "prompts/character-card-frame.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "character-cutout",
+      "path": "generated/character-cutout.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "2cd25749cec8e42c8eb06eb0a6c3ec03a85e87929fba98b1423161ef3f08cc7e",
+      "prompt": "prompts/character-cutout.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "character-scene-extended",
+      "path": "generated/character-scene-extended.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "c5efb14473154f9deb3bf54ac238eaed2a3820c94a304874bb6a212d63988f73",
+      "prompt": "prompts/character-scene-extended.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "contract-core-emblem",
+      "path": "generated/contract-core-emblem.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "87e36299ec1d6edf46190f4352f9ac0334f6a348dbe556ee5b1d8a664bd4b4d0",
+      "prompt": "prompts/contract-core-emblem.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "contract-orbit",
+      "path": "generated/contract-orbit.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "1127f9fcda1cb4dabe0a96e9d5a09b7f84baee1084686a34d10f4f45dfedbbcf",
+      "prompt": "prompts/contract-orbit.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "equipment-empty-scene",
+      "path": "generated/equipment-empty-scene.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "9dbcd08390848751d5171c12ddcbb0dbbf686118c71836fc73a65efce14dffb2",
+      "prompt": "prompts/equipment-empty-scene.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "equipment-icon-atlas",
+      "path": "generated/equipment-icon-atlas.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "f00d13d37ec7941a3231360afde49baa9ba35e2e37eda423132bc0438bd8af48",
+      "prompt": "prompts/equipment-icon-atlas.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "experience-bar-kit",
+      "path": "generated/experience-bar-kit.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "78c6f5720c50baecebc90335b132f05e3220a83272f97e8a1189929195e8dffe",
+      "prompt": "prompts/experience-bar-kit.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "fire-ground-contained",
+      "path": "generated/fire-ground-contained.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "49ecbde5396e5060733c102424f035b6fa6c7075925255365a7778adb57766f3",
+      "prompt": "prompts/fire-ground-contained.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "fire-wisp-left-contained",
+      "path": "generated/fire-wisp-left-contained.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "b488d1496ee397275953f50ce630055ca86ecc3bc5153c3f5fc189ba812d56bb",
+      "prompt": "prompts/fire-wisp-left-contained.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "fire-wisp-right-contained",
+      "path": "generated/fire-wisp-right-contained.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "8c77afc4f77bc067a9424f654d7ed2e030fd40f2d57d193f62481918349cb99d",
+      "prompt": "prompts/fire-wisp-right-contained.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "history-icon-atlas",
+      "path": "generated/history-icon-atlas.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "3415c6336587ce7f9714dbb183e944eded4e4207e86a43a289c4b375889edf0f",
+      "prompt": "prompts/history-icon-atlas.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "node-frame-states",
+      "path": "generated/node-frame-states.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "a15703b6e5e6dd3fe55cb36c9be307379cce1f77b48c038c931e6e9744633aa8",
+      "prompt": "prompts/node-frame-states.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "outer-chrome-frame",
+      "path": "generated/outer-chrome-frame.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "408293bb9a3a3c2d18a591d2b23ca124f84d7e3def63f9ca599cbf8af06f9f90",
+      "prompt": "prompts/outer-chrome-frame.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "panel-frame-clean",
+      "path": "generated/panel-frame-clean.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "273580be0b8da1f8315756db1b45f17250d5362f1f23337b6a2b7ba2d4f583e6",
+      "prompt": "prompts/panel-frame-clean.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "panel-material-extended",
+      "path": "generated/panel-material-extended.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "4faae441731fc63095bdf7c3602d435db84f79c6ef8b3ba3f06fd847ef96c3e9",
+      "prompt": "prompts/panel-material-extended.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "portal-control-icons",
+      "path": "generated/portal-control-icons.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "d4ee1217bcd0b4a6ad7ffcdf907b4b84b6e2966ba993185cf6a2f39d5d8e6e6d",
+      "prompt": "prompts/portal-control-icons.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "ritual-pedestal",
+      "path": "generated/ritual-pedestal.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "7fe0641d8019036fbac79b77da9f73b159331392a4645357ccb1e2f9633e5e58",
+      "prompt": "prompts/ritual-pedestal.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "rune-glyph-atlas",
+      "path": "generated/rune-glyph-atlas.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "6f1497df2afcb73603732d5c6e024ceea610fb2ae74e47e5122d43565fb1d126",
+      "prompt": "prompts/rune-glyph-atlas.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "small-ui-plates",
+      "path": "generated/small-ui-plates.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "0f842214f4cc11d07d51d6e61c8ffacfd6e065e5e905a3219e59a55f2c4123b3",
+      "prompt": "prompts/small-ui-plates.json",
+      "status": "selected",
+      "selectionNote": ""
+    },
+    {
+      "id": "soul-fire-effects-clean",
+      "path": "generated/soul-fire-effects-clean.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "6aa89e5feede0b392424bcf8665619f2fa5b37a653e17c9573c9361c35b61f34",
+      "prompt": "prompts/soul-fire-effects-clean.json",
+      "status": "selected",
+      "selectionNote": "Only bottom-row mist/embers/glint selected; first-row flames replaced by contained individual sprites."
+    },
+    {
+      "id": "soul-fire-effects",
+      "path": "generated/soul-fire-effects.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "457c539fe236757a2e568e641f3cc9a0359153e364f53987aa19f70874273004",
+      "prompt": "prompts/soul-fire-effects.json",
+      "status": "superseded",
+      "selectionNote": ""
+    }
+  ],
+  "assets": [
+    {
+      "id": "background-world-extended",
+      "path": "ready/backgrounds/background-world-extended.png",
+      "group": "backgrounds",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "e1af4a63befdbddf06b5e6bba6c17853cf66f083b9f4c85cd2e250a31c031add",
+      "source": "generated/background-world-extended.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": null
+    },
+    {
+      "id": "background-world-ultrawide",
+      "path": "ready/backgrounds/background-world-ultrawide.png",
+      "group": "backgrounds",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGB",
+      "sha256": "669cc3c798cbf33ec5e753bfb0a7c6f20359ea89a7114f06de22b147c66ea352",
+      "source": "generated/background-world-ultrawide.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": null
+    },
+    {
+      "id": "character-scene-extended",
+      "path": "ready/backgrounds/character-scene-extended.png",
+      "group": "backgrounds",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "f4a418764c6fafde2188e4940766f0d913e2a9ded4a4c7a78a4c76efc4f0433d",
+      "source": "generated/character-scene-extended.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": null
+    },
+    {
+      "id": "equipment-empty-scene",
+      "path": "ready/backgrounds/equipment-empty-scene.png",
+      "group": "backgrounds",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "1a4e1528102caebbb0402a511a1bd45468ef920a28a504382ce03a0043184623",
+      "source": "generated/equipment-empty-scene.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": null
+    },
+    {
+      "id": "panel-material-extended",
+      "path": "ready/materials/panel-material-extended.png",
+      "group": "materials",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "sha256": "d6ce72234117cd109b4d5fd57fdeaa20e6097d937dd12af0844ec85e7df87b52",
+      "source": "generated/panel-material-extended.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": null
+    },
+    {
+      "id": "character-cutout",
+      "path": "ready/character/character-cutout.png",
+      "group": "character",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "5cc287f2072690e029d15ecc5534efe454ab13f4615c0c7b3fa4c79ebdb4395f",
+      "source": "generated/character-cutout.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "outer-chrome-frame",
+      "path": "ready/frames/outer-chrome-frame.png",
+      "group": "frames",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA",
+      "sha256": "6c11db4e1a80e0a140331f3abf13da9cf05b99c53bbc0c41ae26529cc6b84285",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "panel-frame-clean",
+      "path": "ready/frames/panel-frame-clean.png",
+      "group": "frames",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "8bb70c7b9def4cc3515d1f975f646295465755a6e6204b3ae33854f93fa9bee7",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "character-card-frame",
+      "path": "ready/frames/character-card-frame.png",
+      "group": "frames",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "22e9705ef141e0719a3da9efa061a32a2a4dacdcfe047cc24e8acbdb139e9137",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "contract-core-emblem",
+      "path": "ready/contract/contract-core-emblem.png",
+      "group": "contract",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "5ddc1022d7953077609fd9b23d7b8f5ca6442a3a5bc983d420e3c28e6be00ae4",
+      "source": "generated/contract-core-emblem.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "contract-orbit",
+      "path": "ready/contract/contract-orbit.png",
+      "group": "contract",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "30735bb27f55df290b098d64109338117bfe8420f8a757ad2d54d75aa2abe9fb",
+      "source": "generated/contract-orbit.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "ritual-pedestal",
+      "path": "ready/contract/ritual-pedestal.png",
+      "group": "contract",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "1da106ef4748cde67148d5707d7e569bb53b3a8562ab1685194e0ff526e9d302",
+      "source": "generated/ritual-pedestal.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "provenance": "ai-restored-or-extended-master",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "panel-frame-00",
+      "path": "ready/frame-parts/panel-frame-00.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "8a2f840224a9adfdc33a9bd060d08a5f1ad1f496234b8dea670bc65ab27ee191",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        180,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        0,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-01",
+      "path": "ready/frame-parts/panel-frame-01.png",
+      "group": "frame-parts",
+      "size": [
+        1176,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "6209d50db6e650d9aab0f8e48090f2966bff7880bed47f0894eb79d898be9213",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        180,
+        0,
+        1176,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        0,
+        1
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-02",
+      "path": "ready/frame-parts/panel-frame-02.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "2a7677ed586390e8f6fe928462804db2286305e8c05d7616c04c7dd3d62d4c4c",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        1356,
+        0,
+        180,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        0,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-10",
+      "path": "ready/frame-parts/panel-frame-10.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        664
+      ],
+      "mode": "RGBA",
+      "sha256": "19ad5005ae19a86a021800a7c77d23ba3ab514402713eb19722b5d287754a0d2",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        0,
+        180,
+        180,
+        664
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        252
+      ],
+      "nineSliceCell": [
+        1,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-12",
+      "path": "ready/frame-parts/panel-frame-12.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        664
+      ],
+      "mode": "RGBA",
+      "sha256": "c4593b38742ff4d15009bb3ce2ed309e89c4616df404ce5f4a81d3e1960d0080",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        1356,
+        180,
+        180,
+        664
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        252
+      ],
+      "nineSliceCell": [
+        1,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-20",
+      "path": "ready/frame-parts/panel-frame-20.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "2711cb0be49a5795b42216c78380d6330f02b02eae2456a3b78ad0b9ed1dd594",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        0,
+        844,
+        180,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        2,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-21",
+      "path": "ready/frame-parts/panel-frame-21.png",
+      "group": "frame-parts",
+      "size": [
+        1176,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "806c6034990d36f5f6cc35f073c16491f23f2675c6c0636906972a3f7c8b472d",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        180,
+        844,
+        1176,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        252
+      ],
+      "nineSliceCell": [
+        2,
+        1
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "panel-frame-22",
+      "path": "ready/frame-parts/panel-frame-22.png",
+      "group": "frame-parts",
+      "size": [
+        180,
+        180
+      ],
+      "mode": "RGBA",
+      "sha256": "9fb9979eace13fc5599f06b234cccac5c313fe1b6371dfe4bfd5d4d364829539",
+      "source": "generated/panel-frame-clean.png",
+      "sourceRectXYWH": [
+        1356,
+        844,
+        180,
+        180
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        2,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        180,
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "id": "character-frame-00",
+      "path": "ready/frame-parts/character-frame-00.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "6991bcbd65bc95152175cb86471d4c3a0c3c5e9a22625972b7722ac45f76d2b6",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        210,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        0,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-01",
+      "path": "ready/frame-parts/character-frame-01.png",
+      "group": "frame-parts",
+      "size": [
+        604,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "924b2879f4c1ee875540bf330c121a231f7e34dda072e9bce9dc8e05587db7b9",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        210,
+        0,
+        604,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        0,
+        1
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-02",
+      "path": "ready/frame-parts/character-frame-02.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "2bb157789528f626edf8e5ef6a75641aa978b7e83df11fac9e42d4160a1a2306",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        814,
+        0,
+        210,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        0,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-10",
+      "path": "ready/frame-parts/character-frame-10.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        1136
+      ],
+      "mode": "RGBA",
+      "sha256": "e9327da8ac62a09b4ae10295ffa01890860b925f393520cb2a3ac2f862050eb0",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        0,
+        200,
+        210,
+        1136
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "nineSliceCell": [
+        1,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-12",
+      "path": "ready/frame-parts/character-frame-12.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        1136
+      ],
+      "mode": "RGBA",
+      "sha256": "e196b6689ccc1e046049d9cc5f9adbbdf57768943b57ea1c2d7fc15aed05ff90",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        814,
+        200,
+        210,
+        1136
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        1,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-20",
+      "path": "ready/frame-parts/character-frame-20.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "3165dd7906fe3d716aca4aea20f4992606a122a736b23f863e9748898cb312bf",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        0,
+        1336,
+        210,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        2,
+        0
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-21",
+      "path": "ready/frame-parts/character-frame-21.png",
+      "group": "frame-parts",
+      "size": [
+        604,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "8f563528260fd23fbafe358d563df987428bb7cd32afd4eaedf87d12883a1aa0",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        210,
+        1336,
+        604,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        2,
+        1
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "character-frame-22",
+      "path": "ready/frame-parts/character-frame-22.png",
+      "group": "frame-parts",
+      "size": [
+        210,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "d419d36e2765b121650311e25d01d24c49b3ba3965b15ecc13136c386e1023cd",
+      "source": "generated/character-card-frame.png",
+      "sourceRectXYWH": [
+        814,
+        1336,
+        210,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "nineSliceCell": [
+        2,
+        2
+      ],
+      "nineSliceInsetsLTRB": [
+        210,
+        200,
+        210,
+        200
+      ]
+    },
+    {
+      "id": "outer-corner-tl",
+      "path": "ready/frame-parts/outer-corner-tl.png",
+      "group": "frame-parts",
+      "size": [
+        300,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "8e655e75b4e4441e5507780c4eaefcccb3fdc45e002c64d5ab1eda72bcf8fae8",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        300,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-corner-tr",
+      "path": "ready/frame-parts/outer-corner-tr.png",
+      "group": "frame-parts",
+      "size": [
+        300,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "3d4ba3bbb0d33fb0844634340d8488392babfcc8d96ad483a7671427f2230ed2",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        1372,
+        0,
+        300,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-corner-bl",
+      "path": "ready/frame-parts/outer-corner-bl.png",
+      "group": "frame-parts",
+      "size": [
+        220,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "865f0c7593171c819e3c7fdd10436a91867298929e9017bad80385b66c454dfa",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        0,
+        741,
+        220,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-corner-br",
+      "path": "ready/frame-parts/outer-corner-br.png",
+      "group": "frame-parts",
+      "size": [
+        220,
+        200
+      ],
+      "mode": "RGBA",
+      "sha256": "316d1945d5d707beaa576befa32e1155abbbedb1f28eee98d9f6da9bb692d5d1",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        1452,
+        741,
+        220,
+        200
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-title-crown",
+      "path": "ready/frame-parts/outer-title-crown.png",
+      "group": "frame-parts",
+      "size": [
+        675,
+        130
+      ],
+      "mode": "RGBA",
+      "sha256": "c7b62ec99bf64f78ba6f0d677cf49c28f5c4212490a10fa25c35010db5908bbc",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        450,
+        0,
+        675,
+        130
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-top-left-rail",
+      "path": "ready/frame-parts/outer-top-left-rail.png",
+      "group": "frame-parts",
+      "size": [
+        150,
+        115
+      ],
+      "mode": "RGBA",
+      "sha256": "238ac289d69f5cb1601a6b43e2f05f1a9517a0f9744ebbbb3ec42de94f18ed49",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        300,
+        0,
+        150,
+        115
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-top-right-rail",
+      "path": "ready/frame-parts/outer-top-right-rail.png",
+      "group": "frame-parts",
+      "size": [
+        247,
+        115
+      ],
+      "mode": "RGBA",
+      "sha256": "71b56289dbf84decf6bb1fe149e3420d812f71b10ecae6ccabe4def3a3a5a1d9",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        1125,
+        0,
+        247,
+        115
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-left-rail",
+      "path": "ready/frame-parts/outer-left-rail.png",
+      "group": "frame-parts",
+      "size": [
+        85,
+        541
+      ],
+      "mode": "RGBA",
+      "sha256": "319b5f173225c99cd9bb478dfccfbcf3b10ed06d3795f773da24e2b1162568d6",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        0,
+        200,
+        85,
+        541
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-right-rail",
+      "path": "ready/frame-parts/outer-right-rail.png",
+      "group": "frame-parts",
+      "size": [
+        85,
+        541
+      ],
+      "mode": "RGBA",
+      "sha256": "7630be9228d73effd99e8fcad57d160c06df129a62726dc51cdbd581d12ce448",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        1587,
+        200,
+        85,
+        541
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "outer-bottom-rail",
+      "path": "ready/frame-parts/outer-bottom-rail.png",
+      "group": "frame-parts",
+      "size": [
+        1232,
+        106
+      ],
+      "mode": "RGBA",
+      "sha256": "794136bafa99eda0e7991998e0e5cd72e2916eac818087574196ecea96b3dc98",
+      "source": "generated/outer-chrome-frame.png",
+      "sourceRectXYWH": [
+        220,
+        835,
+        1232,
+        106
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "layout": "anchored original master coordinates"
+    },
+    {
+      "id": "rune-flesh",
+      "path": "ready/runes/rune-flesh.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "cc9784e8f3e391c5bbcb78afa09ab98f607c08af9f0f16bbe06aaac3ce996aa4",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "rune-will",
+      "path": "ready/runes/rune-will.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "69bf811fa04975fe9f559d1254d305a031c5a0cd9c82492ebc204600eac0b9e4",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "rune-curse",
+      "path": "ready/runes/rune-curse.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "63091003c4e25bfcca1f29f2f31af68476dd313f768870563d0b1f035b2eef76",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "rune-whisper",
+      "path": "ready/runes/rune-whisper.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "ea95f6a562a26cdb4044d28f14a0bcdd8e24cc8264476f91e4d45c5d284ca1c5",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "rune-fel",
+      "path": "ready/runes/rune-fel.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "0877198dac772f90790339fc811317a7aac5e12078817ac50ed0393fcfedde15",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "rune-soul",
+      "path": "ready/runes/rune-soul.png",
+      "group": "runes",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "c3ba9d95fb443cf5d6a62bac6f4163bfdeb331302e4cb82d5186bd818e4973a8",
+      "source": "generated/rune-glyph-atlas.png",
+      "sourceRectXYWH": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "equipment-head",
+      "path": "ready/equipment/equipment-head.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "207b6210f88d217469c5ec3c39a25980247c0260c4ae09a1afda8fa30d79b27e",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-shoulders",
+      "path": "ready/equipment/equipment-shoulders.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "c11ef14071fb30e446f7a101b2c1699dec9a8d9c2404051927b8d05715ee0232",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        362,
+        0,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-chest",
+      "path": "ready/equipment/equipment-chest.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "2374ea9e36b08e98731278e2b81469502b4aa914d2ab91205490abeb93525dcd",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        724,
+        0,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-bracers",
+      "path": "ready/equipment/equipment-bracers.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "f18a0d2db44b4ccaf09aaf97c682adbe89d5e6192ae125bd39183ff082048275",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        1086,
+        0,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-hands",
+      "path": "ready/equipment/equipment-hands.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "30029edf52d806893344130246e019d1a13340c948bb90715646a82901f53987",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        362,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-waist",
+      "path": "ready/equipment/equipment-waist.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "1a8c58f26ec2c3b50f3699bb07b7566daf1a0cf99fbbddeaf6eaf8c6cbdef2fe",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        362,
+        362,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-legs",
+      "path": "ready/equipment/equipment-legs.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "62fc31132876e3996573944fda53a740361380223bd880a39cae49d278975a17",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        724,
+        362,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-feet",
+      "path": "ready/equipment/equipment-feet.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "6e7ef4fe28077feb2fd409ff44a348ed92521046f5c89350ea08799143667e79",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        1086,
+        362,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-accessory-1",
+      "path": "ready/equipment/equipment-accessory-1.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "05d14a5d0b90926ecabee257acf1b8cfe400d8677561b7fb2cd23ccbbd578bb8",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        724,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-accessory-2",
+      "path": "ready/equipment/equipment-accessory-2.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "2bff1a78430c704cbfdf956c76fcd9be894cfd13a89d2f5402fcb650b55b2e6b",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        362,
+        724,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-mainhand",
+      "path": "ready/equipment/equipment-mainhand.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "6e1752112dffc1733f4047ec046d9d804dfa6021b3f5efba8628e6b23728361b",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        724,
+        724,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-offhand",
+      "path": "ready/equipment/equipment-offhand.png",
+      "group": "equipment",
+      "size": [
+        362,
+        362
+      ],
+      "mode": "RGBA",
+      "sha256": "0d993725dcfa1bb0fcc5c88b685e6631529e255b9f87f628aa22fcecc4a256b2",
+      "source": "generated/equipment-icon-atlas.png",
+      "sourceRectXYWH": [
+        1086,
+        724,
+        362,
+        362
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "history-fel-surge",
+      "path": "ready/history/history-fel-surge.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "76d3d02a839ddb3f12b1d1cdc6e28a721ee4639cd2bc0dccefee5f00c0b5d0fb",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "history-void-will",
+      "path": "ready/history/history-void-will.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "00354d2366c361f1b5f10d3116305a0c05b2c19cf68003dbb248ea3abc209e57",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "history-blood-flesh",
+      "path": "ready/history/history-blood-flesh.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "5e4d98461517bbc01970b3de0b107194443a497b99af332a660e4bfbc19545e6",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "history-curse-bind",
+      "path": "ready/history/history-curse-bind.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "88a67f85219d39944f4dbae8233caff5382c0c7b8c7f7e56f69661bdd28e4704",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "history-whisper-tongue",
+      "path": "ready/history/history-whisper-tongue.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "5181407d70f12a01b6dee39bec842c328b879b77d46c172ef0deb52361b56c36",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "history-soul-fragment",
+      "path": "ready/history/history-soul-fragment.png",
+      "group": "history",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "24976ce8cad2d81f51baefe6594e57cc27440d3853d27f73f07939592c4a203a",
+      "source": "generated/history-icon-atlas.png",
+      "sourceRectXYWH": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "node-normal",
+      "path": "ready/nodes/node-normal.png",
+      "group": "nodes",
+      "size": [
+        627,
+        627
+      ],
+      "mode": "RGBA",
+      "sha256": "63dae3eda2414c43aef756f458c99190e2ea0ad695135f21547e1ad9e1a05f63",
+      "source": "generated/node-frame-states.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "node-hover",
+      "path": "ready/nodes/node-hover.png",
+      "group": "nodes",
+      "size": [
+        627,
+        627
+      ],
+      "mode": "RGBA",
+      "sha256": "29855ff154ad1e2b2a2ecc59885ff88eaa7c9395c32589a6d93ee567b9206e99",
+      "source": "generated/node-frame-states.png",
+      "sourceRectXYWH": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "node-active",
+      "path": "ready/nodes/node-active.png",
+      "group": "nodes",
+      "size": [
+        627,
+        627
+      ],
+      "mode": "RGBA",
+      "sha256": "8e3c31b71d74f5cfe062dc5d3ddff5a03fa1dbcc3d927fb2559a47b57868043d",
+      "source": "generated/node-frame-states.png",
+      "sourceRectXYWH": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "node-dormant",
+      "path": "ready/nodes/node-dormant.png",
+      "group": "nodes",
+      "size": [
+        627,
+        627
+      ],
+      "mode": "RGBA",
+      "sha256": "4447f87d1fda49478824b8e5aae0bee935de59ca2f8e6e8e95cfdc4cac2d3edd",
+      "source": "generated/node-frame-states.png",
+      "sourceRectXYWH": [
+        627,
+        627,
+        627,
+        627
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "icon-skill",
+      "path": "ready/controls/icon-skill.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "8dae9eaef621d5abc7288227998d30e66fd70431f7aa9ca14a1f3ca282b7358b",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "icon-contract",
+      "path": "ready/controls/icon-contract.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "5f4d59205bcbe4d4e6c946b9cd6015fcb5d33f1a299d53ef380c7a85bde9a7bf",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "icon-reputation",
+      "path": "ready/controls/icon-reputation.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "e90a3b8cdfecca01b47e50c14ba01999fc6c0547ac19feb00c171c8a35b281d3",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "chevron-right",
+      "path": "ready/controls/chevron-right.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "820426547da14bdb5d5501668eecccd994550eef39033ca352b2c164f69c7f15",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "chevron-up",
+      "path": "ready/controls/chevron-up.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "49912db597a2e2a28631fbf5239085a2fe0aa1bd13634f4e3c634a8e20a6561a",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "icon-refresh",
+      "path": "ready/controls/icon-refresh.png",
+      "group": "controls",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "e31853293e0f8db4d766056014077bcdd337094415ae42af4f746529790ad917",
+      "source": "generated/portal-control-icons.png",
+      "sourceRectXYWH": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "fx-mist",
+      "path": "ready/effects/fx-mist.png",
+      "group": "effects",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "7a5e691aeef4ee7ce2fd48d979888d2627a746629a559c0e2370eca9f83e96c1",
+      "source": "generated/soul-fire-effects-clean.png",
+      "sourceRectXYWH": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        252
+      ]
+    },
+    {
+      "id": "fx-embers",
+      "path": "ready/effects/fx-embers.png",
+      "group": "effects",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "a4467c81107751ebd35c6e2482c9fc3415db6dc64a811b34709bf1c9251658d1",
+      "source": "generated/soul-fire-effects-clean.png",
+      "sourceRectXYWH": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        252
+      ]
+    },
+    {
+      "id": "fx-glint",
+      "path": "ready/effects/fx-glint.png",
+      "group": "effects",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "44bfb9e3422b7eac9b965b591e8c990fe33316a5e71f8c11367b8c4b9eab521d",
+      "source": "generated/soul-fire-effects-clean.png",
+      "sourceRectXYWH": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        253
+      ]
+    },
+    {
+      "id": "fx-fire-left",
+      "path": "ready/effects/fx-fire-left.png",
+      "group": "effects",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "b557b50e104d91bcd37aeda082aa005c07b147a79f2a8f2b66a63a16da456690",
+      "source": "generated/fire-wisp-left-contained.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "provenance": "ai-restored-contained-fx",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "fx-fire-right",
+      "path": "ready/effects/fx-fire-right.png",
+      "group": "effects",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "001404e4f1d5d10a935f8f7719e1754aefeaea6c52379dc78c7ce8d129dbc748",
+      "source": "generated/fire-wisp-right-contained.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "provenance": "ai-restored-contained-fx",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "fx-fire-ground",
+      "path": "ready/effects/fx-fire-ground.png",
+      "group": "effects",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "581b9d3ef61b49e92eff90c191bd2aad6930700e76c89a0aacc9f7cc15d33448",
+      "source": "generated/fire-ground-contained.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "provenance": "ai-restored-contained-fx",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "level-pennant",
+      "path": "ready/plates/level-pennant.png",
+      "group": "plates",
+      "size": [
+        390,
+        600
+      ],
+      "mode": "RGBA",
+      "sha256": "51af14b690d6c984c431dc82c2a7fa5a1885a9e1c1a9217d21fe875467c26d44",
+      "source": "generated/small-ui-plates.png",
+      "sourceRectXYWH": [
+        120,
+        100,
+        390,
+        600
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "equipment-empty-slot",
+      "path": "ready/plates/equipment-empty-slot.png",
+      "group": "plates",
+      "size": [
+        390,
+        380
+      ],
+      "mode": "RGBA",
+      "sha256": "b94841996c7ae1313a35ede06d9ce43b9a82440e62c20f15cd07ad3a96f3369e",
+      "source": "generated/small-ui-plates.png",
+      "sourceRectXYWH": [
+        740,
+        280,
+        390,
+        380
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "portal-row-empty",
+      "path": "ready/plates/portal-row-empty.png",
+      "group": "plates",
+      "size": [
+        660,
+        175
+      ],
+      "mode": "RGBA",
+      "sha256": "653365c6044ec38412a74880f07102552b4edb8c4f313065e54920f5aa556a7e",
+      "source": "generated/small-ui-plates.png",
+      "sourceRectXYWH": [
+        10,
+        880,
+        660,
+        175
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "header-divider",
+      "path": "ready/plates/header-divider.png",
+      "group": "plates",
+      "size": [
+        530,
+        100
+      ],
+      "mode": "RGBA",
+      "sha256": "4ce02b3123958047df76bb16f5c2b27d6fb002ad480a3d52e5833404988c7fd8",
+      "source": "generated/small-ui-plates.png",
+      "sourceRectXYWH": [
+        690,
+        930,
+        530,
+        100
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-normal",
+      "path": "ready/buttons/button-normal.png",
+      "group": "buttons",
+      "size": [
+        1174,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "d68f1ab3b8f073c53dc22a36abf799023a43720e798e04b36bd14c26bc6789b9",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        120,
+        1174,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "contentInsetsLTRB": [
+        120,
+        50,
+        120,
+        50
+      ],
+      "horizontalSliceInsetsLR": [
+        120,
+        120
+      ]
+    },
+    {
+      "id": "button-normal-left",
+      "path": "ready/button-parts/button-normal-left.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "bcdb3fcd88a43b6e58a6df54fdbb97c696d579d407b8a5e6a27be91b68ed801b",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        120,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-normal-middle",
+      "path": "ready/button-parts/button-normal-middle.png",
+      "group": "button-parts",
+      "size": [
+        934,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "26b039db44f8b0a1dc49a40ea25119e6fae186ad7066ce696cd7fbb9a5fef991",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        160,
+        120,
+        934,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-normal-right",
+      "path": "ready/button-parts/button-normal-right.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "01d9863af53150245b11d814e129cfe5efe0af4af6de13967d196104e5e2e40e",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        1094,
+        120,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-hover",
+      "path": "ready/buttons/button-hover.png",
+      "group": "buttons",
+      "size": [
+        1174,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "8189e4e21ea69c8a9942fa602c00d0082e74e279374eb6df534a5aca675ddcf1",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        395,
+        1174,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "contentInsetsLTRB": [
+        120,
+        50,
+        120,
+        50
+      ],
+      "horizontalSliceInsetsLR": [
+        120,
+        120
+      ]
+    },
+    {
+      "id": "button-hover-left",
+      "path": "ready/button-parts/button-hover-left.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "de27bb14f4e6017c2ed23f8e7cc39905c4577d4e55f304015bab5336255d5859",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        395,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-hover-middle",
+      "path": "ready/button-parts/button-hover-middle.png",
+      "group": "button-parts",
+      "size": [
+        934,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "d17128af70e664b2ffeb1da1eaf0010b92bb469030431e9afbf27eeae0aff484",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        160,
+        395,
+        934,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "button-hover-right",
+      "path": "ready/button-parts/button-hover-right.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "293beedf531459abb4a658adc04ccb51494a28465d244ccfb2b32cc9b9c26a17",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        1094,
+        395,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-pressed",
+      "path": "ready/buttons/button-pressed.png",
+      "group": "buttons",
+      "size": [
+        1174,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "167bc72545b63369fed3c35bbdf21d29a29fa52b96f4975585d03fcbd9c1c0ae",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        669,
+        1174,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "contentInsetsLTRB": [
+        120,
+        50,
+        120,
+        50
+      ],
+      "horizontalSliceInsetsLR": [
+        120,
+        120
+      ]
+    },
+    {
+      "id": "button-pressed-left",
+      "path": "ready/button-parts/button-pressed-left.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "4b14711671d08ccbd5690278add25afdbfb80cce7f12d594b782c14cf7cfcfec",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        669,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-pressed-middle",
+      "path": "ready/button-parts/button-pressed-middle.png",
+      "group": "button-parts",
+      "size": [
+        934,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "acac83a452449c57ac7ac4d4177533b85fb50686ea8a5136759447eb4d02e04d",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        160,
+        669,
+        934,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-pressed-right",
+      "path": "ready/button-parts/button-pressed-right.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "3b01676c841089a78cf8f9f9016090cd7f5b7f4bbf212116d83e0194837a70ef",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        1094,
+        669,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-disabled",
+      "path": "ready/buttons/button-disabled.png",
+      "group": "buttons",
+      "size": [
+        1174,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "ddebb4ab354e0de28c58039df4f8121d209e1c7cc9b48e02745930ad692d19ac",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        942,
+        1174,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "contentInsetsLTRB": [
+        120,
+        50,
+        120,
+        50
+      ],
+      "horizontalSliceInsetsLR": [
+        120,
+        120
+      ]
+    },
+    {
+      "id": "button-disabled-left",
+      "path": "ready/button-parts/button-disabled-left.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "1fcb8f2a383fc503b8157232aa7948515f783477a88acb1f0768f5fd942e4d52",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        40,
+        942,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-disabled-middle",
+      "path": "ready/button-parts/button-disabled-middle.png",
+      "group": "button-parts",
+      "size": [
+        934,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "d0dee3324bddb2d236fe6339ed8b46615babaa1f687d5eb3f3c6edc669bb623d",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        160,
+        942,
+        934,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "button-disabled-right",
+      "path": "ready/button-parts/button-disabled-right.png",
+      "group": "button-parts",
+      "size": [
+        120,
+        220
+      ],
+      "mode": "RGBA",
+      "sha256": "1143cd6d39512d4ba1ea84e43238e7aec6cd33dfad533588ca546df559a4dd33",
+      "source": "generated/button-states.png",
+      "sourceRectXYWH": [
+        1094,
+        942,
+        120,
+        220
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "experience-empty",
+      "path": "ready/bars/experience-empty.png",
+      "group": "bars",
+      "size": [
+        1536,
+        224
+      ],
+      "mode": "RGBA",
+      "sha256": "032f5ed3d5022889a270c441bf0f37630031eae2be60e1f77fa0915960b21bac",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        0,
+        120,
+        1536,
+        224
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "horizontalSliceInsetsLR": [
+        200,
+        200
+      ]
+    },
+    {
+      "id": "experience-full",
+      "path": "ready/bars/experience-full.png",
+      "group": "bars",
+      "size": [
+        1536,
+        224
+      ],
+      "mode": "RGBA",
+      "sha256": "16fbe7bb611139f2ddc9f84fb38ff90d07712a18a1873fb7af1399c8effd8ba6",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        0,
+        335,
+        1536,
+        224
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "horizontalSliceInsetsLR": [
+        200,
+        200
+      ]
+    },
+    {
+      "id": "experience-fill",
+      "path": "ready/bars/experience-fill.png",
+      "group": "bars",
+      "size": [
+        1358,
+        94
+      ],
+      "mode": "RGBA",
+      "sha256": "148f6c2d5f567a972d4cc79b56bccba78c7bcf5f05ddeaed3e4c56bcf6447514",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        90,
+        622,
+        1358,
+        94
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        115,
+        254
+      ],
+      "usage": "clip horizontally; do not stretch end ornaments"
+    },
+    {
+      "id": "stat-trough",
+      "path": "ready/bars/stat-trough.png",
+      "group": "bars",
+      "size": [
+        1425,
+        115
+      ],
+      "mode": "RGBA",
+      "sha256": "1eaf3604343da3c868ebce02434dae518c8c8a7a5274775dcfc38bd5d768908b",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        55,
+        780,
+        1425,
+        115
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "horizontalSliceInsetsLR": [
+        45,
+        45
+      ]
+    },
+    {
+      "id": "experience-left-cap",
+      "path": "ready/bars/experience-left-cap.png",
+      "group": "bars",
+      "size": [
+        200,
+        224
+      ],
+      "mode": "RGBA",
+      "sha256": "6b4d939b4173bef5baf40c333ad21e18ab44c689cff421ffa15237cfd29265ee",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        0,
+        120,
+        200,
+        224
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "experience-right-cap",
+      "path": "ready/bars/experience-right-cap.png",
+      "group": "bars",
+      "size": [
+        200,
+        224
+      ],
+      "mode": "RGBA",
+      "sha256": "d564eb3fa03dbac77b2329d131404b667ea33b3f53e6e97efa625d4ab3143a08",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        1336,
+        120,
+        200,
+        224
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "experience-middle-trough",
+      "path": "ready/bars/experience-middle-trough.png",
+      "group": "bars",
+      "size": [
+        1136,
+        224
+      ],
+      "mode": "RGBA",
+      "sha256": "1f5d82a39de6eb5678e82f313a847abba041456eddfa334266eed087b8546cf6",
+      "source": "generated/experience-bar-kit.png",
+      "sourceRectXYWH": [
+        200,
+        120,
+        1136,
+        224
+      ],
+      "provenance": "ai-restored-atlas-crop",
+      "bakedUiText": false,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "original-material-empty-panel-clean",
+      "path": "ready/original-clean/original-material-empty-panel-clean.png",
+      "group": "original-clean",
+      "size": [
+        31,
+        80
+      ],
+      "mode": "RGB",
+      "sha256": "a791a43861b94bb8be6d38ebf50f029cd1831aa300237f3f0e48caabae429083",
+      "source": "raw-components/material-empty-panel-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        31,
+        80
+      ],
+      "provenance": "exact-source-crop",
+      "bakedUiText": false,
+      "alphaRange": null,
+      "usage": "small original material sample; native-resolution only"
+    },
+    {
+      "id": "original-material-dark-equipment-clean",
+      "path": "ready/original-clean/original-material-dark-equipment-clean.png",
+      "group": "original-clean",
+      "size": [
+        35,
+        87
+      ],
+      "mode": "RGB",
+      "sha256": "368d96e6b55fb054a46817f2973efc82733a6b8fe3fe92dbe2dd54a613c6098d",
+      "source": "raw-components/material-dark-equipment-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        35,
+        87
+      ],
+      "provenance": "exact-source-crop",
+      "bakedUiText": false,
+      "alphaRange": null,
+      "usage": "small original material sample; native-resolution only"
+    },
+    {
+      "id": "original-material-iron-clean",
+      "path": "ready/original-clean/original-material-iron-clean.png",
+      "group": "original-clean",
+      "size": [
+        18,
+        135
+      ],
+      "mode": "RGB",
+      "sha256": "a44c5db84ad0d6ebc3feae11b2e99ac796c179358c98b52d6c35d90a47dfc6b3",
+      "source": "raw-components/material-iron-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        18,
+        135
+      ],
+      "provenance": "exact-source-crop",
+      "bakedUiText": false,
+      "alphaRange": null,
+      "usage": "small original material sample; native-resolution only"
+    },
+    {
+      "id": "original-bar-experience-fill-clean",
+      "path": "ready/original-clean/original-bar-experience-fill-clean.png",
+      "group": "original-clean",
+      "size": [
+        175,
+        20
+      ],
+      "mode": "RGB",
+      "sha256": "907e90a1aefaf9f28a1ff126f116ba27212a55b7ee94987489aa4896d663e6c5",
+      "source": "raw-components/bar-experience-fill-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        175,
+        20
+      ],
+      "provenance": "exact-source-crop",
+      "bakedUiText": false,
+      "alphaRange": null,
+      "usage": "small original material sample; native-resolution only"
+    },
+    {
+      "id": "original-bar-experience-unfilled-clean",
+      "path": "ready/original-clean/original-bar-experience-unfilled-clean.png",
+      "group": "original-clean",
+      "size": [
+        104,
+        18
+      ],
+      "mode": "RGB",
+      "sha256": "17169e57bb1d83f61bf79326e1ee8a3e9de8ffdf35c10c8967526abbd76f91bf",
+      "source": "raw-components/bar-experience-unfilled-clean.png",
+      "sourceRectXYWH": [
+        0,
+        0,
+        104,
+        18
+      ],
+      "provenance": "exact-source-crop",
+      "bakedUiText": false,
+      "alphaRange": null,
+      "usage": "small original material sample; native-resolution only"
+    }
+  ]
+}

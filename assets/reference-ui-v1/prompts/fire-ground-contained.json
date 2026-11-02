@@ -1,0 +1,9 @@
+{
+  "id": "fire-ground-contained",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: precise-object-edit / isolated FX production. ONE short horizontal green soul-fire ground wisp matching the low fire strip in source. SINGLE isolated sprite, not atlas. Transparent 1536x1024. Flame width<=1000px within x268..1268 and height<=350px within y350..700. Low irregular base with soft fading smoke below, NOT a ruler-straight cut edge. Every glow fades fully into alpha0 before x180,x1356,y180,y844. At least180px empty clear margin on all four sides. Lime/olive thin flame tongues, fine wisps, small scattered embers. No ground stone, no black rectangle, no frames, grid or symbols.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/generated/soul-fire-effects-clean.png"
+  ],
+  "transparent_background": true
+}

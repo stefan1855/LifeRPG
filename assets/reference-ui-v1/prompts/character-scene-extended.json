@@ -1,0 +1,9 @@
+{
+  "id": "character-scene-extended",
+  "mode": "built-in-imagegen",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/app/src/assets/theme/master_dashboard.png"
+  ],
+  "transparent_background": false,
+  "prompt": "Use case: precise-object-edit / outpainting. Image 1 is the source style and scenery reference. Deliver ONE portrait 1024x1536 clean background plate for the original LEFT character card. Remove the character, every UI border, button, badge, word and number. Preserve the reference's jagged gothic distant skyline, olive-black sky, sickly green mist, and elaborate etched bronze ritual-circle FLOOR under the original character. Reconstruct the scenery hidden behind the warlock and extend the ground downward and sky upward naturally. The center 65% stays dark enough for a black-cloaked character overlay. The ritual dais lies in the bottom quarter, elliptical in perspective, with restrained green rim light, small original-style sparks at the edges. No standing figures, skull faces, center logo or text. Match the original black/olive/corroded bronze painterly palette, no purple shift, no cyan, no new architecture genre, no bright green center glow."
+}
