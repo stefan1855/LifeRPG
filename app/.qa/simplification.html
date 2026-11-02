@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>LifeRPG · 简化交互验证</title></head>
+<body><div id="app"></div><script type="module">
+import { createApp, h, ref } from 'vue';
+import TasksView from '/src/views/TasksView.vue';
+import SettingsView from '/src/views/SettingsView.vue';
+import ToastHost from '/src/components/ToastHost.vue';
+import '/src/styles/tokens.css';
+import '/src/styles/base.css';
+const tasks = [];
+window.__TAURI_INTERNALS__ = { invoke: async (cmd, args) => {
+  if(cmd === 'task_list') return [...tasks];
+  if(cmd === 'task_create') { const task = {content:'',category:'默认',quadrant:'Q2',growthAttribute:'mind',experience:25,status:'Pending',id:String(tasks.length+1),...args.input}; tasks.push(task); return task; }
+  if(cmd === 'config_get') return {hotkey:'CommandOrControl+Shift+L',opacity:97};
+  if(cmd === 'app_state') return {dataDir:'D:\\LifeRPG-Test',exeDir:'D:\\LifeRPG-Test',runtimeDir:'D:\\LifeRPG-Test\\.runtime'};
+  if(cmd === 'ai_config_get') return {enabled:false};
+  if(cmd === 'get_autostart') return false;
+  if(cmd === 'notification_status') return {available:true,enabled:true};
+  if(['backup_list','mcp_get_servers','image_cleanup_batches'].includes(cmd)) return [];
+  throw new Error('QA 未启用命令：'+cmd);
+}};
+createApp({setup(){const page=ref('tasks');return ()=>h('div',{style:'height:100vh;display:flex;flex-direction:column;padding:18px;gap:12px;'},[
+  h('div',{style:'display:flex;gap:12px;'},[h('button',{class:'btn',onClick:()=>page.value='tasks'},'任务页'),h('button',{class:'btn',onClick:()=>page.value='settings'},'设置页'),h('span','隔离预览 · 合成数据')]),
+  h(page.value==='tasks'?TasksView:SettingsView),h(ToastHost)
+]);}}).mount('#app');
+</script></body></html>

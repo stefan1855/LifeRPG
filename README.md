@@ -1,5 +1,7 @@
 # ☠ LifeRPG · 绿火毁灭术 (v2.2)
 
+> 源码回退点：`v2.3.0-rc.5-source` 为简化前 RC5 基线；`v2.3.0-rc.6-review` 为有已知问题的待审快照。当前状态与回退方法见 [版本回退](docs/版本回退.md) 和 [交接文档](HANDOVER.md)。下文 v2.2 介绍保留为历史功能说明。
+
 > **把现实人生锻造成一场暗黑哥特风的硬核 RPG。**  
 > 基于 **Tauri v2 + Rust + Vue 3 + SQLite** 构建的纯本地、零 C 盘侵入、支持 **AI 军师** 与 **MCP (Model Context Protocol) 外接神域** 的 Windows 桌面生产力系统。
 

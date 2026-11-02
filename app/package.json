@@ -1,7 +1,7 @@
 {
   "name": "liferpg",
   "private": true,
-  "version": "2.3.0-rc.5",
+  "version": "2.3.0-rc.6",
   "type": "module",
   "scripts": {
     "dev": "vite",

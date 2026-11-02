@@ -458,12 +458,12 @@ onMounted(load);
           <button class="btn btn-primary btn-sm" @click="saveSettings"><Save :size="12" /> 保存设置</button>
         </GothicPanel>
 
-        <GothicPanel title="哥特声学" subtitle="ACOUSTICS">
+        <GothicPanel title="音效" :subtitle="sfxEnabled ? '已开启' : '已关闭'" collapsible>
           <label class="check-row">
             <input :checked="sfxEnabled" type="checkbox" @change="toggleSfx" />
             <span>
               <component :is="sfxEnabled ? Volume2 : VolumeX" :size="12" />
-              启用物理声学反馈（纯代码合成，无网络依赖）
+              启用音效
             </span>
           </label>
           <div class="sfx-preview-grid">
@@ -480,7 +480,6 @@ onMounted(load);
               <Play :size="10" /> 钟鸣大和弦（升级声）
             </button>
           </div>
-          <p class="note">基于 Web Audio 实时声学振荡器合成，零外部音频文件，零网络流量。</p>
         </GothicPanel>
 
         <GothicPanel title="数据位置" subtitle="STORAGE">
@@ -501,12 +500,9 @@ onMounted(load);
             <button class="btn btn-ghost btn-sm" @click="pickMigrate"><HardDrive :size="12" /> 迁移数据目录</button>
             <button class="btn btn-ghost btn-sm" @click="exportMd"><Download :size="12" /> 导出 Markdown</button>
           </div>
-          <p class="note">
-            数据库为 SQLite，图片存放于 images 目录，备份为 zip 包。
-          </p>
         </GothicPanel>
 
-        <GothicPanel title="AI 军师" subtitle="ADVISOR">
+        <GothicPanel title="AI 军师" :subtitle="ai.enabled ? '已启用' : '未启用'" collapsible>
           <label class="check-row">
             <input v-model="ai.enabled" type="checkbox" />
             <span><Sparkles :size="11" /> 启用 AI 军师（复盘 / 建任务 / 装备命名 / 教练）</span>
@@ -542,7 +538,7 @@ onMounted(load);
       </div>
 
       <div class="col">
-        <GothicPanel title="外接神域 · MCP 契约" subtitle="MODEL CONTEXT PROTOCOL" class="mcp-panel">
+        <GothicPanel title="外接工具 · MCP" :subtitle="`${mcpServers.length} 个服务`" class="mcp-panel" collapsible>
           <template #actions>
             <button class="btn btn-primary btn-sm" @click="openCreateMcp"><Plus :size="12" /> 新增 MCP 契约</button>
           </template>
@@ -623,7 +619,7 @@ onMounted(load);
         <GothicPanel title="关于" subtitle="ABOUT">
           <div class="about">
             <div class="about-row"><Info :size="12" /><span>LifeRPG · 绿火毁灭术</span></div>
-            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.5</span></div>
+            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.6</span></div>
             <div class="about-row"><span class="k">架构</span><span class="v">Tauri v2 · Vue 3 · Rust · SQLite</span></div>
             <div class="about-row"><span class="k">数据</span><span class="v">本地优先，零联网</span></div>
           </div>

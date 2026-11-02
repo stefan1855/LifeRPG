@@ -1,10 +1,15 @@
 <script setup>
+import { ref, useId } from 'vue';
+
 defineProps({
   title: { type: String, default: '' },
   subtitle: { type: String, default: '' },
   dense: { type: Boolean, default: false },
   glow: { type: Boolean, default: false },
+  collapsible: { type: Boolean, default: false },
 });
+const expanded = ref(false);
+const bodyId = useId();
 </script>
 
 <template>
@@ -15,13 +20,18 @@ defineProps({
     <span class="orn orn-br"></span>
 
     <header v-if="title" class="panel-head">
-      <h2 class="panel-title">{{ title }}</h2>
+      <h2 class="panel-title">
+        <button v-if="collapsible" class="panel-toggle" :aria-expanded="expanded" :aria-controls="bodyId" @click="expanded = !expanded">
+          <span aria-hidden="true">{{ expanded ? '▾' : '▸' }}</span> {{ title }}
+        </button>
+        <template v-else>{{ title }}</template>
+      </h2>
       <span v-if="subtitle" class="panel-sub">{{ subtitle }}</span>
       <div class="panel-head-line"></div>
-      <slot name="actions" />
+      <slot v-if="!collapsible || expanded" name="actions" />
     </header>
 
-    <div class="panel-body">
+    <div v-show="!collapsible || expanded" :id="bodyId" class="panel-body">
       <slot />
     </div>
   </section>
@@ -98,6 +108,17 @@ defineProps({
   text-shadow: 0 0 12px rgba(124, 255, 31, 0.25);
   white-space: nowrap;
 }
+.panel-toggle {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.panel-toggle:focus-visible { outline: 1px solid var(--c-soul); outline-offset: 4px; }
 .panel-sub {
   font-size: 12px;
   color: var(--t-time);

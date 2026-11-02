@@ -2,7 +2,6 @@
 const saving = ref(false);
 import { computed, onMounted, onUnmounted, watch, reactive, ref } from 'vue';
 import { Plus, Check, Undo2, Trash2, Pencil, Filter, CalendarDays, Sparkles } from 'lucide-vue-next';
-import GothicPanel from '../components/GothicPanel.vue';
 import ModalShell from '../components/ModalShell.vue';
 import { api, ATTRIBUTE_META, QUADRANTS, attrMeta, fmtDate, quadrantMeta } from '../api';
 import { notify, showLevelUp } from '../stores/toast';
@@ -15,6 +14,7 @@ const quadrantFilter = ref('');
 
 const showEditor = ref(false);
 const draftGenerated=ref(false);
+const showTaskOptions = ref(false);
 let editorRevision=0;
 watch(showEditor,(open)=>{if(!open)editorRevision++;},{flush:"sync"});
 onUnmounted(()=>editorRevision++);
@@ -64,12 +64,13 @@ const grouped = computed(() =>
   }))
 );
 
-function openCreate(quadrant) {
+function openCreate(quadrant, title = '') {
   draftGenerated.value=false;
+  showTaskOptions.value = false;
   editorRevision++;
   editingId.value = null;
   Object.assign(form, {
-    title: '',
+    title: title.trim(),
     content: '',
     category: '默认',
     quadrant: quadrant || 'Q2',
@@ -86,6 +87,7 @@ function localDateTime(value) {
 }
 function openEdit(task) {
   draftGenerated.value=false;
+  showTaskOptions.value = true;
   editorRevision++;
   editingId.value = task.id;
   Object.assign(form, {
@@ -108,8 +110,34 @@ const settlementLocked = computed(()=>editingId.value && tasks.value.some(t=>t.i
 /** AI 军师：一句话 → 结构化任务，填入编辑弹窗供确认 */
 const quickText = ref('');
 const aiParsing = ref(false);
+const quickAdding = ref(false);
+
+function onQuickEnter(event) {
+  if (event.isComposing || event.keyCode === 229) return;
+  event.preventDefault();
+  quickCreate();
+}
+
+async function quickCreate() {
+  const title = quickText.value.trim();
+  if (!title || quickAdding.value || aiParsing.value) return;
+  quickAdding.value = true;
+  try {
+    await api.createTask({ title });
+    if (quickText.value.trim() === title) quickText.value = '';
+    filter.value = 'pending';
+    quadrantFilter.value = '';
+    notify.success('任务已添加');
+    await load();
+  } catch (e) {
+    notify.error('添加失败：' + e.message);
+  } finally {
+    quickAdding.value = false;
+  }
+}
 
 async function aiCreate() {
+  if (aiParsing.value || quickAdding.value) return;
   const text = quickText.value.trim();
   if (!text) {
     notify.warn('先输入一句话，例如「明天下午健身一小时」');
@@ -127,6 +155,7 @@ async function aiCreate() {
     form.dueDate = parsed.dueAt ? localDateTime(parsed.dueAt) : (parsed.dueDate ? parsed.dueDate + 'T23:59' : '');
     form.content = `（AI 解析自：「${text}」）`;
     draftGenerated.value=true;
+    showTaskOptions.value = true;
     quickText.value = '';
     notify.success('AI 已解析，确认后铭刻');
   } catch (e) {
@@ -158,7 +187,10 @@ async function submit() {
       notify.success('任务已更新');
     } else {
       await api.createTask(payload);
-      notify.success('任务已刻入契约');
+      if (quickText.value.trim() === payload.title) quickText.value = '';
+      filter.value = 'pending';
+      quadrantFilter.value = '';
+      notify.success('任务已添加');
     }
     showEditor.value = false;
     await load();
@@ -247,21 +279,23 @@ onMounted(load);
       </div>
     </div>
 
-    <!-- AI 一句话建任务 -->
+    <!-- 默认直接添加，AI 解析由用户主动选择 -->
     <div class="ai-quick">
-      <Sparkles :size="13" class="ai-ico" />
       <input
         v-model="quickText"
         class="ai-input"
-        placeholder="一句话描述要做的事，例如「明天下午三点健身一小时」…"
-        @keyup.enter="aiCreate"
+        aria-label="新任务标题"
+        placeholder="要做什么？输入后按回车添加"
+        @keydown.enter="onQuickEnter"
       />
-      <button class="btn btn-ghost btn-sm" :disabled="aiParsing" @click="aiCreate">
-        {{ aiParsing ? '解析中…' : 'AI 建任务' }}
+      <button class="btn btn-primary btn-sm" :disabled="quickAdding || aiParsing || !quickText.trim()" @click="quickCreate">
+        <Plus :size="14" /> {{ quickAdding ? '添加中…' : '添加任务' }}
       </button>
-      <div class="spacer"></div>
-      <button class="btn btn-primary btn-sm" @click="openCreate()">
-        <Plus :size="14" /> 手动新建
+      <button class="btn btn-ghost btn-sm" :disabled="aiParsing || quickAdding || !quickText.trim()" @click="aiCreate">
+        <Sparkles :size="13" /> {{ aiParsing ? '解析中…' : 'AI 解析' }}
+      </button>
+      <button class="btn btn-ghost btn-sm" @click="openCreate(undefined, quickText)">
+        更多设置
       </button>
     </div>
 
@@ -319,8 +353,7 @@ onMounted(load);
     <!-- 编辑弹窗 -->
     <ModalShell
       v-if="showEditor" :state="form" :busy="saving" :initial-dirty="draftGenerated"
-      :title="editingId ? '编辑行动契约' : '铭刻新的行动契约'"
-      subtitle="TASK CONTRACT"
+      :title="editingId ? '编辑任务' : '新建任务'"
       :width="560"
       @close="showEditor = false"
     >
@@ -329,42 +362,45 @@ onMounted(load);
         <input v-model="form.title" class="input" placeholder="例如：完成 Rust 所有权章节精读" />
       </label>
       <label class="field">
-        <span>任务详情</span>
-        <textarea v-model="form.content" class="textarea" placeholder="补充说明（可选）"></textarea>
+        <span>截止时间（可选）</span>
+        <input v-model="form.dueDate" type="datetime-local" class="input" />
       </label>
-      <div class="field-row">
-        <label class="field">
-          <span>四象限</span>
-          <select v-model="form.quadrant" class="select" @change="onQuadrantChange">
-            <option v-for="q in QUADRANTS" :key="q.key" :value="q.key">{{ q.label }}（+{{ q.exp }}）</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>成长属性</span>
-          <select v-model="form.growthAttribute" class="select" :disabled="settlementLocked">
-            <option v-for="(m, k) in ATTRIBUTE_META" :key="k" :value="k">{{ m.label }}</option>
-          </select>
-        </label>
-      </div>
-      <div class="field-row">
-        <label class="field">
-          <span>经验值</span>
-          <input v-model.number="form.experience" type="number" class="input" min="0" step="5" :disabled="settlementLocked" />
-          <small v-if="settlementLocked">已结算。先撤销完成后可调整经验和属性。</small>
-        </label>
-        <label class="field">
-          <span>截止时间（本地时间）</span>
-          <input v-model="form.dueDate" type="datetime-local" class="input" />
-        </label>
-      </div>
-      <label class="field">
-        <span>分类</span>
-        <input v-model="form.category" class="input" placeholder="默认" />
-      </label>
+      <details class="task-options" :open="showTaskOptions">
+        <summary>更多设置 · 详情、四象限、经验与属性</summary>
+        <div class="task-options-body">
+          <label class="field">
+            <span>任务详情</span>
+            <textarea v-model="form.content" class="textarea" placeholder="补充说明（可选）"></textarea>
+          </label>
+          <div class="field-row">
+            <label class="field">
+              <span>四象限</span>
+              <select v-model="form.quadrant" class="select" @change="onQuadrantChange">
+                <option v-for="q in QUADRANTS" :key="q.key" :value="q.key">{{ q.label }}（+{{ q.exp }}）</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>成长属性</span>
+              <select v-model="form.growthAttribute" class="select" :disabled="settlementLocked">
+                <option v-for="(m, k) in ATTRIBUTE_META" :key="k" :value="k">{{ m.label }}</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">
+            <span>经验值</span>
+            <input v-model.number="form.experience" type="number" class="input" min="0" step="5" :disabled="settlementLocked" />
+            <small v-if="settlementLocked">已结算。先撤销完成后可调整经验和属性。</small>
+          </label>
+          <label class="field">
+            <span>分类</span>
+            <input v-model="form.category" class="input" placeholder="默认" />
+          </label>
+        </div>
+      </details>
 
       <template #footer="{ close }">
         <button class="btn btn-ghost" @click="close">取消</button>
-        <button class="btn btn-primary" @click="submit">{{ editingId ? '保存' : '铭刻' }}</button>
+        <button class="btn btn-primary" :disabled="saving" @click="submit">{{ saving ? '保存中…' : (editingId ? '保存' : '添加任务') }}</button>
       </template>
     </ModalShell>
 
@@ -452,6 +488,7 @@ onMounted(load);
 /* AI 一句话建任务 */
 .ai-quick {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 9px;
   flex: 0 0 auto;
@@ -470,6 +507,7 @@ onMounted(load);
 }
 .ai-input {
   flex: 1;
+  min-width: 180px;
   padding: 6px 10px;
   font-family: var(--f-body);
   font-size: 12.5px;
@@ -485,6 +523,8 @@ onMounted(load);
   box-shadow: 0 0 0 1px rgba(192, 166, 76, 0.25);
 }
 .ai-input::placeholder { color: var(--t-disabled); }
+.task-options summary { cursor: pointer; color: var(--t-sub); font-size: 13px; padding: 8px 0; }
+.task-options-body { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
 
 .matrix {
   flex: 1;
