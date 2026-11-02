@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd875" />
+      <stop offset="50%" stop-color="#c89632" />
+      <stop offset="100%" stop-color="#5a3d14" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="6" fill="#0d0614" />
+  <!-- Chestplate / Cuirass -->
+  <g fill="#180e22" stroke="url(#goldMetal)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Main Breastplate Outline -->
+    <path d="M22 14 L14 24 L16 46 L32 54 L48 46 L50 24 L42 14 Q32 18 22 14 Z" />
+    <!-- Collar & Pectoral Ridges -->
+    <path d="M22 14 Q32 20 42 14" />
+    <path d="M18 26 C24 34 28 34 32 30 C36 34 40 34 46 26" />
+    <!-- Abdominal Plates -->
+    <line x1="32" y1="30" x2="32" y2="52" />
+    <path d="M24 38 L32 42 L40 38" />
+    <path d="M22 46 L32 50 L42 46" />
+    <!-- Center Fel Core Rune -->
+    <circle cx="32" cy="24" r="3" fill="#48ff48" stroke="#48ff48" stroke-width="1" />
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="runeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe28a" />
+      <stop offset="60%" stop-color="#d4a234" />
+      <stop offset="100%" stop-color="#6e4610" />
+    </linearGradient>
+    <filter id="felGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Diamond Base Frame -->
+  <polygon points="32,4 58,32 32,60 6,32" fill="#14091e" stroke="url(#runeGold)" stroke-width="2.5" />
+  <polygon points="32,10 52,32 32,54 12,32" fill="#1e102d" stroke="rgba(200, 164, 93, 0.4)" stroke-width="1" />
+  <!-- Void Wisdom / All-Seeing Eye Rune -->
+  <g fill="none" stroke="#48ff48" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#felGlow)">
+    <!-- Eye Contour -->
+    <path d="M18 32 C24 20 40 20 46 32 C40 44 24 44 18 32 Z" fill="#14091e" />
+    <!-- Glowing Iris & Pupil -->
+    <circle cx="32" cy="32" r="6" fill="#29ff29" stroke="#39ff14" stroke-width="1.2" />
+    <circle cx="32" cy="32" r="2.5" fill="#0d0514" stroke="none" />
+    <!-- Radiating Arcane Rays -->
+    <line x1="32" y1="16" x2="32" y2="20" stroke-width="2" />
+    <line x1="32" y1="44" x2="32" y2="48" stroke-width="2" />
+    <line x1="20" y1="23" x2="23" y2="25" stroke-width="1.8" />
+    <line x1="44" y1="23" x2="41" y2="25" stroke-width="1.8" />
+  </g>
+</svg>

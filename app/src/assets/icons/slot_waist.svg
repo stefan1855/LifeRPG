@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd875" />
+      <stop offset="50%" stop-color="#c89632" />
+      <stop offset="100%" stop-color="#5a3d14" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="6" fill="#0d0614" />
+  <!-- Belt / Waist -->
+  <g fill="#180e22" stroke="url(#goldMetal)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Belt Strap -->
+    <path d="M12 28 L52 28 L50 38 L14 38 Z" />
+    <!-- Hanging Tassets / Straps -->
+    <path d="M22 38 L24 50 L28 48 L26 38" />
+    <path d="M42 38 L40 50 L36 48 L38 38" />
+    <!-- Center Demon Skull Buckle -->
+    <path d="M26 24 C26 18 38 18 38 24 L38 38 C38 42 34 46 32 46 C30 46 26 42 26 38 Z" fill="#261436" />
+    <!-- Buckle Eyes -->
+    <circle cx="29" cy="28" r="1.5" fill="#48ff48" stroke="#48ff48" />
+    <circle cx="35" cy="28" r="1.5" fill="#48ff48" stroke="#48ff48" />
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+/* ==========================================================================
+   LifeRPG 设计令牌 · 严格对齐《绿火毁灭术 设计系统规格书 v1.0》
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('../assets/fonts/cinzel-latin.woff2') format('woff2');
+  font-weight: 400 900;
+  font-display: block;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../assets/fonts/jetbrainsmono-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: block;
+}
+/* 中文衬线：霞鹜文楷 Lite，按界面实际用字做子集（约 154 KB），离线可用 */
+@font-face {
+  font-family: 'LifeSerif';
+  src: url('../assets/fonts/wenkai-subset.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  /* ---- 背景层 ---- */
+  --c-void: #050805;
+  --c-panel: #0b120b;
+  --c-crack: #020202;
+  --c-mist: rgba(93, 255, 30, 0.07);
+
+  /* ---- 金属边框 ---- */
+  --c-bronze: #4a3c1b;
+  --c-rust: #6d5b2a;
+  --c-gold: #8b7430;
+  --c-gold-bright: #c0a64c;
+  --c-iron: #121212;
+  --c-purple: #221727;
+
+  /* ---- 发光系统 ---- */
+  --c-soul: #7cff1f;
+  --c-toxic: #66f000;
+  --c-acid: #a8ff4a;
+  --c-glow: #d4ff6b;
+  --c-halo: #d9ff93;
+
+  /* ---- 文字 ---- */
+  --t-title: #cfea78;
+  --t-panel: #d0e46a;
+  --t-num: #cfea7b;
+  --t-sub: #b5a880;
+  --t-bar: #ddfb8b;
+  --t-body: #cdc49c;
+  --t-time: #b39c72;
+  --t-disabled: #8a8064;
+  --t-danger: #e8705c;
+  --t-warn: #e8b45c;
+
+  /* ---- 字体栈 ---- */
+  --f-title: 'Cinzel', 'LifeSerif', 'Times New Roman', serif;
+  --f-body: 'Microsoft YaHei', 'LifeSerif', '微软雅黑', 'PingFang SC', sans-serif;
+  --f-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+
+  /* ---- 阴影与光效 ---- */
+  --sh-panel: 0 18px 44px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(192, 166, 76, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.9);
+  --sh-inset: inset 0 0 26px rgba(0, 0, 0, 0.9), inset 0 0 2px rgba(124, 255, 31, 0.14);
+  --glow-soul: 0 0 6px rgba(124, 255, 31, 0.65), 0 0 18px rgba(124, 255, 31, 0.28);
+  --glow-soul-strong: 0 0 10px rgba(124, 255, 31, 0.85), 0 0 34px rgba(124, 255, 31, 0.42);
+  --glow-gold: 0 0 8px rgba(192, 166, 76, 0.45);
+
+  /* ---- 尺寸 ---- */
+  --nav-w: 212px;
+  --topbar-h: 56px;
+  --radius: 2px;
+}

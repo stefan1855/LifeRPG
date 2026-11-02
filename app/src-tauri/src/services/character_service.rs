@@ -1,0 +1,482 @@
+use crate::models::{
+    AttributeLog, Character, CharacterAttribute, DashboardSnapshot, RpgExperienceResult,
+};
+use crate::rpg_engine::RpgEngine;
+use rusqlite::{params, Connection, Result};
+
+pub struct CharacterService;
+
+impl CharacterService {
+    /// 获取当前主角角色
+    pub fn get_default_character(conn: &Connection) -> Result<Character> {
+        conn.query_row(
+            "SELECT Id, Name, Description, AvatarImagePath, Level, TotalExperience, CreatedAt, LastGrowthAt, UpdatedAt, AvatarFit
+             FROM Characters
+             ORDER BY CreatedAt ASC
+             LIMIT 1;",
+            [],
+            |row| {
+                Ok(Character {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    description: row.get(2)?,
+                    avatar_image_path: row.get(3)?,
+                    avatar_fit: row.get(9)?,
+                    level: row.get(4)?,
+                    total_experience: row.get(5)?,
+                    created_at: row.get(6)?,
+                    last_growth_at: row.get(7)?,
+                    updated_at: row.get(8)?,
+                })
+            },
+        )
+    }
+
+    /// 更新主角名称与个人判词
+    pub fn update_character(conn: &Connection, name: &str, description: &str) -> Result<Character> {
+        let character = Self::get_default_character(conn)?;
+        let now = chrono::Local::now().to_rfc3339();
+        let trimmed_name = name.trim();
+        let final_name = if trimmed_name.is_empty() { &character.name } else { trimmed_name };
+        conn.execute(
+            "UPDATE Characters SET Name = ?1, Description = ?2, UpdatedAt = ?3 WHERE Id = ?4;",
+            params![final_name, description.trim(), &now, &character.id],
+        )?;
+        Self::get_default_character(conn)
+    }
+
+    /// 获取角色的所有属性详情（包含等级进度计算与已穿戴装备加成）
+    pub fn get_attributes(conn: &Connection, character_id: &str) -> Result<Vec<CharacterAttribute>> {
+        // 先汇总已穿戴装备在各属性上的加成总和
+        let mut bonus_map = std::collections::HashMap::<String, i32>::new();
+        if let Ok(mut b_stmt) = conn.prepare(
+            "SELECT eab.AttributeKey, COALESCE(SUM(eab.BonusValue), 0)
+             FROM EffectiveCharacterEquipment ce
+             JOIN EquipmentAttributeBonuses eab ON eab.EquipmentDefinitionId = ce.EquipmentDefinitionId
+             WHERE ce.CharacterId = ?1 AND ce.Status = 'Equipped'
+             GROUP BY eab.AttributeKey;",
+        ) {
+            if let Ok(b_rows) = b_stmt.query_map([character_id], |r| {
+                Ok((r.get::<_, String>(0)?, r.get::<_, i32>(1)?))
+            }) {
+                for b in b_rows.flatten() {
+                    bonus_map.insert(b.0, b.1);
+                }
+            }
+        }
+
+        let mut stmt = conn.prepare(
+            "SELECT Id, CharacterId, AttributeKey, DisplayName, Level, Experience, BaseValue, CreatedAt, UpdatedAt
+             FROM CharacterAttributes
+             WHERE CharacterId = ?1
+             ORDER BY CASE AttributeKey
+                WHEN 'physique' THEN 0
+                WHEN 'mind' THEN 1
+                WHEN 'discipline' THEN 2
+                WHEN 'expression' THEN 3
+                WHEN 'creativity' THEN 4
+                WHEN 'resources' THEN 5
+                WHEN 'general' THEN 6
+                ELSE 7
+             END, DisplayName COLLATE NOCASE ASC;",
+        )?;
+
+        let rows = stmt.query_map([character_id], |row| {
+            let exp: i32 = row.get(5)?;
+            let attr_key: String = row.get(2)?;
+            let db_base: i32 = row.get(6)?;
+            let equip_bonus = bonus_map.get(&attr_key).copied().unwrap_or(0);
+            let level_res = RpgEngine::calculate_level(exp);
+
+            Ok(CharacterAttribute {
+                id: row.get(0)?,
+                character_id: row.get(1)?,
+                attribute_key: attr_key,
+                display_name: row.get(3)?,
+                level: level_res.level,
+                experience: exp,
+                base_value: db_base + equip_bonus,
+                created_at: row.get(7)?,
+                updated_at: row.get(8)?,
+                exp_into_current_level: Some(level_res.experience_into_current_level),
+                exp_to_next_level: Some(level_res.experience_to_next_level),
+                exp_span: Some((level_res.experience_required_for_next_level - level_res.experience_required_for_current_level).max(1)),
+                progress_percent: Some(level_res.progress_percent),
+            })
+        })?;
+
+        let mut list = Vec::new();
+        for r in rows {
+            list.push(r?);
+        }
+        Ok(list)
+    }
+
+    /// 获取最近的属性经验流水日志
+    pub fn get_recent_logs(conn: &Connection, limit: usize) -> Result<Vec<AttributeLog>> {
+        let mut stmt = conn.prepare(
+            "SELECT Id, CharacterId, AttributeKey, ExperienceDelta, SourceType, SourceId, Reason, CreatedAt
+             FROM AttributeLogs
+             ORDER BY CreatedAt DESC
+             LIMIT ?1;",
+        )?;
+
+        let rows = stmt.query_map([limit], |row| {
+            Ok(AttributeLog {
+                id: row.get(0)?,
+                character_id: row.get(1)?,
+                attribute_key: row.get(2)?,
+                experience_delta: row.get(3)?,
+                source_type: row.get(4)?,
+                source_id: row.get(5)?,
+                reason: row.get(6)?,
+                created_at: row.get(7)?,
+            })
+        })?;
+
+        let mut list = Vec::new();
+        for r in rows {
+            list.push(r?);
+        }
+        Ok(list)
+    }
+
+    /// 获取仪表盘综合状态快照
+    pub fn get_dashboard_snapshot(conn: &Connection) -> Result<DashboardSnapshot> {
+        let character = Self::get_default_character(conn)?;
+        let level_info = RpgEngine::calculate_level(character.total_experience);
+        let attributes = Self::get_attributes(conn, &character.id)?;
+
+        let today = chrono::Local::now().format("%Y-%m-%d").to_string();
+
+        let today_completed_count: i32 = conn.query_row(
+            "SELECT COUNT(*) FROM ActionTasks WHERE Status = 'Completed' AND date(CompletedAt, 'localtime') = substr(?1,1,10);",
+            [format!("{}%", today)],
+            |row| row.get(0),
+        ).unwrap_or(0);
+
+        let today_total_count: i32 = conn.query_row(
+            "SELECT COUNT(*) FROM ActionTasks WHERE (date(DueAt, 'localtime') = substr(?1,1,10) OR date(CreatedAt, 'localtime') = substr(?1,1,10) OR (Status = 'Completed' AND date(CompletedAt, 'localtime') = substr(?1,1,10)));",
+            [format!("{}%", today)],
+            |row| row.get(0),
+        ).unwrap_or(0);
+
+        Ok(DashboardSnapshot {
+            character,
+            level_info,
+            attributes,
+            today_completed_count,
+            today_total_count,
+        })
+    }
+
+    /// 完成任务并发放 RPG 经验（事务 + 防重复幂等）
+    pub fn apply_task_completion(conn: &mut Connection, task_id: &str) -> Result<RpgExperienceResult> {
+        let tx = conn.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
+        let conn = &tx;
+        let character = Self::get_default_character(conn)?;
+
+        // 1. 读取任务信息
+        let (title, exp, growth_attr): (String, i32, String) = conn.query_row(
+            "SELECT Title, Experience, GrowthAttribute FROM ActionTasks WHERE Id = ?1;",
+            [task_id],
+            |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+        )?;
+
+        // 2. 检查幂等性：是否已经发过经验
+        let event_exists: i64 = conn.query_row(
+            "SELECT COUNT(*) FROM RpgExperienceEvents WHERE SourceType = 'ActionTask' AND SourceId = ?1;",
+            [task_id],
+            |row| row.get(0),
+        )?;
+
+        let gains = RpgEngine::allocate_task_experience(exp, Some(&growth_attr));
+        let now = chrono::Local::now().to_rfc3339();
+
+        if event_exists > 0 {
+            return Ok(RpgExperienceResult {
+                applied: false,
+                is_duplicate: true,
+                total_experience_granted: 0,
+                gains,
+                new_level: character.level,
+                leveled_up: false,
+            });
+        }
+
+        // 3. 开启事务写入经验与日志
+
+        // 更新角色总经验与等级
+        let new_total_exp = character.total_experience + exp.max(0);
+        let new_level_info = RpgEngine::calculate_level(new_total_exp);
+        let leveled_up = new_level_info.level > character.level;
+
+        tx.execute(
+            "UPDATE Characters SET Level = ?1, TotalExperience = ?2, LastGrowthAt = ?3, UpdatedAt = ?3 WHERE Id = ?4;",
+            params![new_level_info.level, new_total_exp, &now, &character.id],
+        )?;
+
+        // 发放属性经验与写入属性日志
+        for gain in &gains {
+            if gain.experience_delta <= 0 {
+                continue;
+            }
+
+            let attr_exists: i64 = tx.query_row(
+                "SELECT COUNT(*) FROM CharacterAttributes WHERE CharacterId = ?1 AND AttributeKey = ?2;",
+                params![&character.id, &gain.attribute_key],
+                |row| row.get(0),
+            )?;
+
+            if attr_exists == 0 {
+                let attr_id = uuid::Uuid::new_v4().to_string();
+                let attr_level_info = RpgEngine::calculate_level(gain.experience_delta);
+                tx.execute(
+                    "INSERT INTO CharacterAttributes (Id, CharacterId, AttributeKey, DisplayName, Level, Experience, BaseValue, CreatedAt, UpdatedAt)
+                     VALUES (?1, ?2, ?3, ?4, ?5, ?6, 0, ?7, ?7);",
+                    params![&attr_id, &character.id, &gain.attribute_key, &gain.display_name, attr_level_info.level, gain.experience_delta, &now],
+                )?;
+            } else {
+                let current_attr_exp: i32 = tx.query_row(
+                    "SELECT Experience FROM CharacterAttributes WHERE CharacterId = ?1 AND AttributeKey = ?2;",
+                    params![&character.id, &gain.attribute_key],
+                    |row| row.get(0),
+                )?;
+                let updated_attr_exp = current_attr_exp + gain.experience_delta;
+                let attr_level_info = RpgEngine::calculate_level(updated_attr_exp);
+
+                tx.execute(
+                    "UPDATE CharacterAttributes SET Level = ?1, Experience = ?2, UpdatedAt = ?3 WHERE CharacterId = ?4 AND AttributeKey = ?5;",
+                    params![attr_level_info.level, updated_attr_exp, &now, &character.id, &gain.attribute_key],
+                )?;
+            }
+
+            // 写入属性日志
+            let log_id = uuid::Uuid::new_v4().to_string();
+            let reason = format!("完成行动任务：{}", title);
+            tx.execute(
+                "INSERT INTO AttributeLogs (Id, CharacterId, AttributeKey, ExperienceDelta, SourceType, SourceId, Reason, CreatedAt)
+                 VALUES (?1, ?2, ?3, ?4, 'ActionTask', ?5, ?6, ?7);",
+                params![&log_id, &character.id, &gain.attribute_key, gain.experience_delta, task_id, &reason, &now],
+            )?;
+        }
+
+        // 写入经验事件（防重幂等）
+        let event_id = uuid::Uuid::new_v4().to_string();
+        let event_note = format!("完成行动任务：{}", title);
+        tx.execute(
+            "INSERT INTO RpgExperienceEvents (Id, SourceType, SourceId, CharacterId, TotalExperience, Note, CreatedAt)
+             VALUES (?1, 'ActionTask', ?2, ?3, ?4, ?5, ?6);",
+            params![&event_id, task_id, &character.id, exp, &event_note, &now],
+        )?;
+
+        // 更新任务自身状态为 Completed
+        tx.execute(
+            "UPDATE ActionTasks SET Status = 'Completed', CompletedAt = ?1, UpdatedAt = ?1 WHERE Id = ?2;",
+            params![&now, task_id],
+        )?;
+
+        tx.commit()?;
+
+        Ok(RpgExperienceResult {
+            applied: true,
+            is_duplicate: false,
+            total_experience_granted: exp.max(0),
+            gains,
+            new_level: new_level_info.level,
+            leveled_up,
+        })
+    }
+
+    /// 回滚/取消完成任务
+    pub fn rollback_task_completion(conn: &Connection, task_id: &str) -> Result<bool> {
+        let tx = rusqlite::Transaction::new_unchecked(conn, rusqlite::TransactionBehavior::Immediate)?;
+        let result = Self::rollback_task_completion_in_transaction(&tx,task_id)?;
+        tx.commit()?;
+        Ok(result)
+    }
+
+    pub(crate) fn rollback_task_completion_in_transaction(conn: &Connection, task_id: &str) -> Result<bool> {
+        let character = Self::get_default_character(conn)?;
+        let now = chrono::Local::now().to_rfc3339();
+
+        let event_opt: Option<(i32, String)> = conn.query_row(
+            "SELECT TotalExperience, Note FROM RpgExperienceEvents WHERE SourceType = 'ActionTask' AND SourceId = ?1;",
+            [task_id],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        ).ok();
+
+        let tx = conn;
+
+        if let Some((granted_exp, _)) = event_opt {
+            // 扣除角色总经验并重算等级
+            let new_total_exp = (character.total_experience - granted_exp).max(0);
+            let new_level_info = RpgEngine::calculate_level(new_total_exp);
+
+            tx.execute(
+                "UPDATE Characters SET Level = ?1, TotalExperience = ?2, UpdatedAt = ?3 WHERE Id = ?4;",
+                params![new_level_info.level, new_total_exp, &now, &character.id],
+            )?;
+
+            // 查找对应的属性日志并扣减属性经验
+            let attr_logs: Vec<(String, i32)> = {
+                let mut stmt = tx.prepare(
+                    "SELECT AttributeKey, ExperienceDelta FROM AttributeLogs WHERE SourceType = 'ActionTask' AND SourceId = ?1;",
+                )?;
+                let rows = stmt.query_map([task_id], |row| Ok((row.get(0)?, row.get(1)?)))?;
+                let mut list = Vec::new();
+                for r in rows {
+                    list.push(r?);
+                }
+                list
+            };
+
+            for (attr_key, delta) in attr_logs {
+                let cur_exp: i32 = tx.query_row(
+                    "SELECT Experience FROM CharacterAttributes WHERE CharacterId = ?1 AND AttributeKey = ?2;",
+                    params![&character.id, &attr_key],
+                    |row| row.get(0),
+                ).unwrap_or(0);
+
+                let updated_exp = (cur_exp - delta).max(0);
+                let attr_lv = RpgEngine::calculate_level(updated_exp).level;
+
+                tx.execute(
+                    "UPDATE CharacterAttributes SET Level = ?1, Experience = ?2, UpdatedAt = ?3 WHERE CharacterId = ?4 AND AttributeKey = ?5;",
+                    params![attr_lv, updated_exp, &now, &character.id, &attr_key],
+                )?;
+            }
+
+            // 删除事件与日志
+            tx.execute(
+                "DELETE FROM AttributeLogs WHERE SourceType = 'ActionTask' AND SourceId = ?1;",
+                [task_id],
+            )?;
+            tx.execute(
+                "DELETE FROM RpgExperienceEvents WHERE SourceType = 'ActionTask' AND SourceId = ?1;",
+                [task_id],
+            )?;
+        }
+
+        // 将任务状态重置为 Pending
+        tx.execute(
+            "UPDATE ActionTasks SET Status = 'Pending', CompletedAt = NULL, UpdatedAt = ?1 WHERE Id = ?2;",
+            params![&now, task_id],
+        )?;
+
+        Ok(true)
+    }
+
+    /// 同步行为记录（LifeRecord）的经验到主角总经验与事件流水中（支持新增、修改、删除时幂等计算差值）
+    pub fn sync_record_experience(
+        conn: &Connection,
+        record_id: &str,
+        title: &str,
+        new_exp: i32,
+    ) -> Result<()> {
+        let character = Self::get_default_character(conn)?;
+        let now = chrono::Local::now().to_rfc3339();
+        let target_exp = new_exp.max(0);
+
+        let old_exp: i32 = conn
+            .query_row(
+                "SELECT COALESCE(SUM(TotalExperience), 0) FROM RpgExperienceEvents WHERE SourceType = 'LifeRecord' AND SourceId = ?1;",
+                [record_id],
+                |r| r.get(0),
+            )
+            .unwrap_or(0);
+
+        let delta = target_exp - old_exp;
+        let event_date: String = conn.query_row("SELECT CreatedAt FROM LifeRecords WHERE Id=?1", [record_id], |r| r.get(0)).unwrap_or_else(|_| now.clone());
+        if delta != 0 {
+            let current: i32 = conn.query_row("SELECT Experience FROM CharacterAttributes WHERE CharacterId=?1 AND AttributeKey='mind'", [&character.id], |r| r.get(0))?;
+            let updated = (current + delta).max(0);
+            conn.execute("UPDATE CharacterAttributes SET Experience=?1, Level=?2, UpdatedAt=?3 WHERE CharacterId=?4 AND AttributeKey='mind'", params![updated, RpgEngine::calculate_level(updated).level, &now, &character.id])?;
+        }
+
+        // 清理旧事件与旧属性流水
+        conn.execute(
+            "DELETE FROM RpgExperienceEvents WHERE SourceType = 'LifeRecord' AND SourceId = ?1;",
+            [record_id],
+        )?;
+        conn.execute(
+            "DELETE FROM AttributeLogs WHERE SourceType = 'LifeRecord' AND SourceId = ?1;",
+            [record_id],
+        )?;
+
+        if delta != 0 {
+            let new_total = (character.total_experience + delta).max(0);
+            let new_lv = RpgEngine::calculate_level(new_total).level;
+            conn.execute(
+                "UPDATE Characters SET Level = ?1, TotalExperience = ?2, LastGrowthAt = ?3, UpdatedAt = ?3 WHERE Id = ?4;",
+                params![new_lv, new_total, &now, &character.id],
+            )?;
+        }
+
+        if target_exp > 0 {
+            let note = format!("铭刻行为记录：{}", title);
+            conn.execute(
+                "INSERT INTO RpgExperienceEvents (Id, SourceType, SourceId, CharacterId, TotalExperience, Note, CreatedAt)
+                 VALUES (?1, 'LifeRecord', ?2, ?3, ?4, ?5, ?6);",
+                params![
+                    uuid::Uuid::new_v4().to_string(),
+                    record_id,
+                    &character.id,
+                    target_exp,
+                    &note,
+                    &event_date
+                ],
+            )?;
+            conn.execute(
+                "INSERT INTO AttributeLogs (Id, CharacterId, AttributeKey, ExperienceDelta, SourceType, SourceId, Reason, CreatedAt)
+                 VALUES (?1, ?2, 'mind', ?3, 'LifeRecord', ?4, ?5, ?6);",
+                params![
+                    uuid::Uuid::new_v4().to_string(),
+                    &character.id,
+                    target_exp,
+                    record_id,
+                    &note,
+                    &event_date
+                ],
+            )?;
+        }
+
+        Ok(())
+    }
+}
+#[cfg(test)]
+mod settlement_regression {
+    use super::*;
+    #[test]
+    fn duplicate_completion_preserves_date_and_completed_edits_are_locked() {
+        let mut conn=Connection::open_in_memory().unwrap();crate::db::Db::ensure_schema(&conn).unwrap();
+        let task=crate::services::action_task_service::ActionTaskService::create_task(&conn,crate::models::CreateTaskInput{title:"settle".into(),content:None,category:None,quadrant:Some("Q2".into()),growth_attribute:Some("mind".into()),experience:Some(25),due_at:None}).unwrap();
+        CharacterService::apply_task_completion(&mut conn,&task.id).unwrap();
+        let date:String=conn.query_row("SELECT CompletedAt FROM ActionTasks WHERE Id=?1",[&task.id],|r|r.get(0)).unwrap();
+        assert!(CharacterService::apply_task_completion(&mut conn,&task.id).unwrap().is_duplicate);
+        assert_eq!(conn.query_row("SELECT CompletedAt FROM ActionTasks WHERE Id=?1",[&task.id],|r|r.get::<_,String>(0)).unwrap(),date);
+        let input=crate::models::UpdateTaskInput{id:task.id.clone(),title:"edited".into(),content:None,category:None,quadrant:Some("Q2".into()),growth_attribute:Some("physique".into()),experience:Some(50),due_at:None};
+        assert!(crate::services::action_task_service::ActionTaskService::update_task(&conn,input).is_err());
+        assert_eq!(CharacterService::get_default_character(&conn).unwrap().total_experience,25);
+    }
+}
+#[cfg(test)]
+mod rc5_concurrency_tests{
+ use super::*;
+ #[test]
+ fn concurrent_record_and_task_transactions_preserve_ledger(){
+  use crate::{db::Db,models::{CreateTaskInput,CreateRecordInput},services::{action_task_service::ActionTaskService,record_service::RecordService}};
+  let root=std::env::temp_dir().join(format!("liferpg-concurrency-{}",uuid::Uuid::new_v4()));
+  let conn=Db::open_at(&root).unwrap();
+  let ids=(0..10).map(|i|ActionTaskService::create_task(&conn,CreateTaskInput{title:format!("task{}",i),content:None,category:None,quadrant:Some("Q2".into()),growth_attribute:Some("mind".into()),experience:Some(25),due_at:None}).unwrap().id).collect::<Vec<_>>();
+  let mut first=rusqlite::Connection::open(root.join("data/liferpg.db")).unwrap();let second=rusqlite::Connection::open(root.join("data/liferpg.db")).unwrap();
+  first.busy_timeout(std::time::Duration::from_secs(5)).unwrap();second.busy_timeout(std::time::Duration::from_secs(5)).unwrap();
+  let barrier=std::sync::Arc::new(std::sync::Barrier::new(2));let b=barrier.clone();
+  let task=std::thread::spawn(move||{b.wait();for id in ids{CharacterService::apply_task_completion(&mut first,&id).unwrap();}});
+  let record=std::thread::spawn(move||{barrier.wait();for i in 0..10{RecordService::create(&second,CreateRecordInput{title:format!("record{}",i),content:None,category:None,experience:Some(20),image_paths:None}).unwrap();}});
+  task.join().unwrap();record.join().unwrap();
+  assert_eq!(CharacterService::get_default_character(&conn).unwrap().total_experience,450);
+  let ledger:i32=conn.query_row("SELECT SUM(TotalExperience) FROM RpgExperienceEvents",[],|r|r.get(0)).unwrap();assert_eq!(ledger,450);
+  drop(conn);assert_eq!(root.parent(),Some(std::env::temp_dir().as_path()));std::fs::remove_dir_all(root).unwrap();
+ }
+}

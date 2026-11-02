@@ -1,0 +1,295 @@
+/* ==========================================================================
+   基础层：窗口、背景、滚动条、通用原子类
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--c-void);
+  color: var(--t-body);
+  font-family: var(--f-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ---- 全局背景：深渊石底 + 绿雾 + 暗角 ---- */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--c-void);
+  background-image: url('../assets/textures/mat_stone.webp');
+  background-size: 512px;
+  background-blend-mode: luminosity;
+  opacity: 0.12;
+}
+.app-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(124, 255, 31, 0.06), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(93, 255, 30, 0.05), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.85) 100%);
+}
+.app-mist {
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background: url('../assets/textures/fx_fog.webp') center/cover no-repeat;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+  animation: mistDrift 46s ease-in-out infinite alternate;
+}
+@keyframes mistDrift {
+  from { transform: translate3d(-1.5%, 0, 0) scale(1.02); }
+  to   { transform: translate3d(1.5%, -1%, 0) scale(1.06); }
+}
+
+/* ---- 滚动条 ---- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.45);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--c-bronze), var(--c-gold));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--c-gold), var(--c-gold-bright));
+}
+
+/* ---- 通用文字 ---- */
+.title-gothic {
+  font-family: var(--f-title);
+  letter-spacing: 0.08em;
+  color: var(--t-title);
+}
+.num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.dim {
+  color: var(--t-sub);
+}
+.muted {
+  color: var(--t-time);
+}
+
+/* ---- 通用按钮 ---- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 18px;
+  font-family: var(--f-body);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: var(--t-panel);
+  background: url('../assets/textures/btn_plate.webp') center / 100% 100%,
+    linear-gradient(180deg, #1a1508 0%, #0d0b05 100%);
+  border: 1px solid var(--c-bronze);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: inset 0 1px 0 rgba(192, 166, 76, 0.22), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.btn:hover {
+  color: var(--c-glow);
+  border-color: var(--c-gold);
+  box-shadow: inset 0 1px 0 rgba(192, 166, 76, 0.4), 0 0 12px rgba(192, 166, 76, 0.25);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  color: var(--t-disabled);
+  border-color: #2a2a1a;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.btn-primary {
+  color: #d9ffa8;
+  font-weight: 700;
+  background:
+    url('../assets/textures/btn_plate.webp') center / 100% 100%,
+    linear-gradient(180deg, #1d2c10 0%, #0a1206 100%);
+  border-color: var(--c-acid);
+  box-shadow:
+    0 0 12px rgba(124, 255, 31, 0.28),
+    inset 0 0 18px rgba(124, 255, 31, 0.16),
+    inset 0 1px 0 rgba(212, 255, 107, 0.5);
+  text-shadow: 0 0 8px rgba(124, 255, 31, 0.6);
+}
+.btn-primary:hover {
+  color: #eaffc0;
+  border-color: #d4ff6b;
+  box-shadow:
+    0 0 20px rgba(124, 255, 31, 0.5),
+    inset 0 0 22px rgba(124, 255, 31, 0.28),
+    inset 0 1px 0 rgba(212, 255, 107, 0.7);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: #2c2614;
+  color: var(--t-sub);
+}
+.btn-danger {
+  color: #ffd9d3;
+  border-color: #5a2018;
+  background: linear-gradient(180deg, #2a0f0b 0%, #150705 100%);
+}
+.btn-danger:hover {
+  color: #fff;
+  border-color: var(--t-danger);
+  box-shadow: 0 0 12px rgba(224, 90, 74, 0.35);
+}
+.btn-sm {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+/* ---- 表单控件 ---- */
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 7px 10px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  color: var(--t-title);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid #2b2412;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  user-select: text;
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 1px rgba(192, 166, 76, 0.25), inset 0 0 12px rgba(124, 255, 31, 0.06);
+}
+.textarea {
+  resize: vertical;
+  min-height: 84px;
+  line-height: 1.7;
+}
+.select option {
+  background: #0b120b;
+  color: var(--t-title);
+}
+
+/* ---- 滚动容器 ---- */
+.scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ---- 动画 ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fadeUp 0.28s ease both;
+}
+@keyframes soulPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* ---- 空状态：符文阵水印，避免大片死黑 ---- */
+.empty-state {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 28px 12px;
+  color: var(--t-title);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-shadow: 0 0 14px rgba(124, 255, 31, 0.25);
+  overflow: hidden;
+}
+.empty-state::before {
+  content: '';
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  background: url('../assets/textures/rune_watermark.webp') center / contain no-repeat;
+  opacity: 0.9;
+  pointer-events: none;
+  animation: slowSpin 90s linear infinite;
+  /* 双重保险：素材已羽化，再叠一层径向遮罩，杜绝矩形硬边 */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 76%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 76%);
+}
+.empty-state > * {
+  position: relative;
+  z-index: 1;
+}
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---- 菱形哥特窗口按钮 ---- */
+.gothic-wbtn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t-sub);
+  background: linear-gradient(135deg, #1b1608, #0a0904);
+  border: 1px solid rgba(109, 91, 42, 0.6);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.gothic-wbtn > * {
+  transform: rotate(-45deg);
+}
+.gothic-wbtn:hover {
+  color: var(--c-glow);
+  border-color: var(--c-soul);
+  box-shadow: 0 0 10px rgba(124, 255, 31, 0.35);
+}
+
+/* Reading and keyboard navigation take priority inside decorated surfaces. */
+:focus-visible { outline: 2px solid var(--c-acid); outline-offset: 3px; }
+button,input,select,textarea { font: inherit; }
+.btn { font-family: 'Microsoft YaHei', sans-serif; }
+button { touch-action: manipulation; }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation: none !important; transition: none !important; }
+}
+
+.btn{white-space:nowrap;flex-shrink:0}.head-actions{flex-wrap:wrap;min-width:0}

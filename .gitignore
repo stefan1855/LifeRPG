@@ -37,3 +37,38 @@ Thumbs.db
 [Ee]xpress/
 *.opendb
 *.tlog
+
+# 归档的旧架构（四套半成品，仅本地参考，不进版本库）
+_archive/
+
+# 资产流水线的原始大图（生成中间产物，可重跑脚本还原）
+assets/raw/
+assets/gen.log
+
+# Local credentials and portable runtime data
+.env
+.env.*
+!.env.example
+!.env.template
+liferpg.config*.json
+**/.runtime/
+**/LifeRPG-Data/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+
+# Raw acceptance evidence stays local; manifests and selected synthetic screenshots are versioned.
+docs/acceptance-2026-10-31/
+docs/native-dpi-2026-10-31/
+docs/integrations-2026-10-31/
+docs/dashboard-2026-10-31/
+docs/rc5-2026-11-02/*
+!docs/rc5-2026-11-02/source-manifest.json
+!docs/rc5-2026-11-02/artifact-hashes.json
+docs/simplification-2026-11-02/*
+!docs/simplification-2026-11-02/artifact-hashes.json
+!docs/simplification-2026-11-02/task-editor.jpg
+!docs/simplification-2026-11-02/settings.jpg
+

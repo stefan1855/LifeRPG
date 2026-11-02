@@ -1,0 +1,20 @@
+[
+  {
+    "name": "orn_corner",
+    "file": "orn_corner.webp",
+    "mode": "ornament",
+    "size": 5338
+  },
+  {
+    "name": "tex_soulfluid",
+    "file": "tex_soulfluid.webp",
+    "mode": "material",
+    "size": 63606
+  },
+  {
+    "name": "plate_skill",
+    "file": "plate_skill.webp",
+    "mode": "ornament",
+    "size": 22094
+  }
+]

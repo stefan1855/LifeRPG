@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="runeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe28a" />
+      <stop offset="60%" stop-color="#d4a234" />
+      <stop offset="100%" stop-color="#6e4610" />
+    </linearGradient>
+    <filter id="felGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Diamond Base Frame -->
+  <polygon points="32,4 58,32 32,60 6,32" fill="#14091e" stroke="url(#runeGold)" stroke-width="2.5" />
+  <polygon points="32,10 52,32 32,54 12,32" fill="#1e102d" stroke="rgba(200, 164, 93, 0.4)" stroke-width="1" />
+  <!-- Curse Binding / Interlocking Chains Rune -->
+  <g fill="none" stroke="#48ff48" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#felGlow)">
+    <!-- Diagonal Chain Link 1 -->
+    <rect x="18" y="24" width="18" height="9" rx="4.5" transform="rotate(-45 27 28.5)" stroke-width="2.8" />
+    <!-- Diagonal Chain Link 2 -->
+    <rect x="28" y="34" width="18" height="9" rx="4.5" transform="rotate(-45 37 38.5)" stroke-width="2.8" />
+    <!-- Center Link Fragment -->
+    <circle cx="32" cy="32" r="2" fill="#39ff14" stroke="none" />
+  </g>
+</svg>

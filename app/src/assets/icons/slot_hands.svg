@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd875" />
+      <stop offset="50%" stop-color="#c89632" />
+      <stop offset="100%" stop-color="#5a3d14" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="6" fill="#0d0614" />
+  <!-- Gauntlets / Hands -->
+  <g fill="#180e22" stroke="url(#goldMetal)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Palm / Gauntlet Body -->
+    <path d="M20 48 L20 34 L16 28 L18 20 L24 24 L24 16 L28 16 L28 24 L32 14 L36 14 L36 24 L40 16 L44 16 L44 26 L48 30 L48 48 Z" />
+    <!-- Finger Segment Lines -->
+    <line x1="20" y1="36" x2="48" y2="36" />
+    <line x1="22" y1="42" x2="46" y2="42" />
+    <!-- Knuckle Claws & Gem -->
+    <polygon points="34,30 38,34 34,38 30,34" fill="#48ff48" stroke="#48ff48" stroke-width="1" />
+  </g>
+</svg>

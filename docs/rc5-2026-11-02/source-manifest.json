@@ -1,0 +1,596 @@
+{
+  "version": "2.3.0-rc.5",
+  "date": "2026-11-02",
+  "gitCommit": null,
+  "note": "源码及项目素材哈希；未提交既有Git删除项；不含实际配置、凭据、数据库及隔离测试数据。",
+  "files": [
+    {
+      "path": "app/package-lock.json",
+      "sha256": "01a70c6d98e7ceadf5de87978da6594003563d38037533d65c8e06ab4aaa5947"
+    },
+    {
+      "path": "app/package.json",
+      "sha256": "57b76b27c3d2a315c036aab8a36c7780f618cc8b35c797abd702ab3b98a4908c"
+    },
+    {
+      "path": "app/src/api.js",
+      "sha256": "40ed37bf066e888c6c291108ea30af514a3c10c685d9f57297791a5a425a360a"
+    },
+    {
+      "path": "app/src/App.vue",
+      "sha256": "e1a613d070aadf6b5fed87997096458f75a746ccdf0ec967cceca6f229fc371b"
+    },
+    {
+      "path": "app/src/assets/dashboard/art-manifest.json",
+      "sha256": "67c452058ff6c92327a4a64cbf393b5805143b26f918af58466d4007c5cffb88"
+    },
+    {
+      "path": "app/src/assets/dashboard/citadel-scene-v1.png",
+      "sha256": "d4027fc7d0203bedcc84dd92958b87568cd046527219101288b281e8fa5178a8"
+    },
+    {
+      "path": "app/src/assets/dashboard/faceless-cutout-v1.png",
+      "sha256": "66b255a114927a51e18e337d55ed0c12da8465edea5542d19bcfbc4b473df72b"
+    },
+    {
+      "path": "app/src/assets/fonts/cinzel-latin.woff2",
+      "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370"
+    },
+    {
+      "path": "app/src/assets/fonts/jetbrainsmono-latin.woff2",
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+    },
+    {
+      "path": "app/src/assets/fonts/wenkai-subset.woff2",
+      "sha256": "efeb3202cac387d2321707f2b6920be4ce5b924d741a3c3085dee7bce5fa4487"
+    },
+    {
+      "path": "app/src/assets/icons/exp_claw_left.svg",
+      "sha256": "23167c6c531201feaf2452140ec476a1fb8f2846afb966d85ecee09c90fde5e8"
+    },
+    {
+      "path": "app/src/assets/icons/exp_claw_right.svg",
+      "sha256": "9755ee9a45fd7b9a4d6ebb109f492ea1368dc39f2378ee19f3e9fc4bd6a76f90"
+    },
+    {
+      "path": "app/src/assets/icons/gothic_divider.svg",
+      "sha256": "479b647a3160ae7e1728159cf0fc63b580a9d3b2c17d7161a44079518c4a223e"
+    },
+    {
+      "path": "app/src/assets/icons/rune_body.svg",
+      "sha256": "417e9c21e3eba9dfa0c2adf52f9764211ca839a034cdc44eb2fc871be202e27c"
+    },
+    {
+      "path": "app/src/assets/icons/rune_craft.svg",
+      "sha256": "c4af875d97166d150489ad2336dae9afdafc76818c5e21a605a064c33bc867cf"
+    },
+    {
+      "path": "app/src/assets/icons/rune_discipline.svg",
+      "sha256": "027517add07bf19bd680e562c4e8813103c2ed683927bf6824fb4e286e2c3bfd"
+    },
+    {
+      "path": "app/src/assets/icons/rune_mind.svg",
+      "sha256": "29d984e47003587e3f9e8f17d4c4dd49ffe956144da37df11c819bb5e9d6bebd"
+    },
+    {
+      "path": "app/src/assets/icons/rune_social.svg",
+      "sha256": "4da8c0ff20368e4a6f390f225948d8de7fd91f13f4ce4afb0c20df94cd866e2d"
+    },
+    {
+      "path": "app/src/assets/icons/rune_wealth.svg",
+      "sha256": "4130d29e56cf2b954d1a2b633d670527e0a1f771f7a4ce303da6ae2948f43e18"
+    },
+    {
+      "path": "app/src/assets/icons/slot_chest.svg",
+      "sha256": "b505b70004b9de0bac931c5fcdbae5a2ce31285dcbb4ad0dce6428f7e83aa26c"
+    },
+    {
+      "path": "app/src/assets/icons/slot_feet.svg",
+      "sha256": "71c109b62164c5a9b2597d55560abd06631563b2069a8b20684b1fd0de3ef5e7"
+    },
+    {
+      "path": "app/src/assets/icons/slot_hands.svg",
+      "sha256": "d93e0d97fe7bdadfb13e0b8b3c17b8641a1dd5f49041a5583ad1966975c5c67c"
+    },
+    {
+      "path": "app/src/assets/icons/slot_head.svg",
+      "sha256": "e9b4d887bd01afad7fcb74fa07b9381ceed1a1892cc39593d0eded5b774f7483"
+    },
+    {
+      "path": "app/src/assets/icons/slot_legs.svg",
+      "sha256": "c4f6e50a1be297d2789f9225592df471c75e802b168547cd75e21f8c4845ef72"
+    },
+    {
+      "path": "app/src/assets/icons/slot_mainhand.svg",
+      "sha256": "f16038920895a71cebf00e1f93951b8262e8612c1d6eeb8bcbc461aa93e87a13"
+    },
+    {
+      "path": "app/src/assets/icons/slot_offhand.svg",
+      "sha256": "610ba060b5ce1aa0e72e3fa0a34c9806c73957674453514b7cc11266d2ebd2e8"
+    },
+    {
+      "path": "app/src/assets/icons/slot_shoulder.svg",
+      "sha256": "db14775dd486f7211f95acd183f491bc58bf3f1bebb5967fc97a366c5c87f04e"
+    },
+    {
+      "path": "app/src/assets/icons/slot_trinket1.svg",
+      "sha256": "cf7636898dfc93e2a52ff609aee134234a1f6aa814cef4b74d4bd927386b385e"
+    },
+    {
+      "path": "app/src/assets/icons/slot_trinket2.svg",
+      "sha256": "97c4af06630ad9f0c2693f5e36429695077dfb476e82cd8a9085eaa51942b4b7"
+    },
+    {
+      "path": "app/src/assets/icons/slot_waist.svg",
+      "sha256": "aceef90788481ac23c630781c53427fa754eadba086ed04edc2b27dbb2550d26"
+    },
+    {
+      "path": "app/src/assets/icons/slot_wrist.svg",
+      "sha256": "81861f427dcd7c7a240a335207f0f03790ae3502008a9411452f22389769ce0f"
+    },
+    {
+      "path": "app/src/assets/textures/bar_fill.webp",
+      "sha256": "3d5aa96457f8ae8b825f849d40a9d234680f28e07e5ec6c2dc37b64253f431b8"
+    },
+    {
+      "path": "app/src/assets/textures/bar_trough.webp",
+      "sha256": "b7e4646e7e595cce18f39b0726b99c8f34e43b5b7ae7c7e1ed222e93f91a1013"
+    },
+    {
+      "path": "app/src/assets/textures/btn_plate.webp",
+      "sha256": "a066bd94bdb65dff56cf014eaa463776e52cbe873b8b598e1ec96fe4534d9edf"
+    },
+    {
+      "path": "app/src/assets/textures/faceless_portrait.webp",
+      "sha256": "ba64ab3b574f84065ae091eb9bf112b5c6253876532c62d4fd28bd10ec24def1"
+    },
+    {
+      "path": "app/src/assets/textures/frame_panel.webp",
+      "sha256": "293a32e01d6253d951edf5d265ae552cd3529e3c97dd63fb25f01c9ef64d77c1"
+    },
+    {
+      "path": "app/src/assets/textures/frame_panel_iron.webp",
+      "sha256": "00d69bc4b1ce84cdb7a5b68c7d6c3dad20e722d906ab463a594aaf7773c459f1"
+    },
+    {
+      "path": "app/src/assets/textures/frame_panel_sm.webp",
+      "sha256": "e60258cdfa4a37abafacd254274929d09e260e97cd595437f6eba8f49e3d711a"
+    },
+    {
+      "path": "app/src/assets/textures/fx_embers.webp",
+      "sha256": "db097a9ecf899f124fdff7c0fe0cfda4936e560550b1687b17c8bae069e545f8"
+    },
+    {
+      "path": "app/src/assets/textures/fx_fog.webp",
+      "sha256": "7c5271f0c5cddb4a2354b18c36509b8756c335085308e64548e914e9022d7abc"
+    },
+    {
+      "path": "app/src/assets/textures/fx_vignette.webp",
+      "sha256": "48664da57d5b9027d3d361adaa05cf6ca2d33e3d2673a75e14fd8aee79971b3d"
+    },
+    {
+      "path": "app/src/assets/textures/manifest.json",
+      "sha256": "0f62da2c1f67166b93b4fadbb6a52d4c09dfa97f291d99fcd9efe172382ff5af"
+    },
+    {
+      "path": "app/src/assets/textures/mat_bone.webp",
+      "sha256": "96d5620a2559ad7f5954e2629433e3182160c6d5de30d1f4263e9b9f46d075e1"
+    },
+    {
+      "path": "app/src/assets/textures/mat_metal_bronze.webp",
+      "sha256": "43b1958a4cb4e96e0c0887eaba037a300f0d826e6396e4624e42ff491b31cbd8"
+    },
+    {
+      "path": "app/src/assets/textures/mat_metal_iron.webp",
+      "sha256": "36b7ea4c7d9cb9ffaa862e8259859f81b02786f297f238900f1e1cc89b9bd05e"
+    },
+    {
+      "path": "app/src/assets/textures/mat_parchment.webp",
+      "sha256": "f401c8ee9f16a1e3ef35f218adb0635906c32b83b9400dfb37dac39831fb18ba"
+    },
+    {
+      "path": "app/src/assets/textures/mat_stone.webp",
+      "sha256": "60cb0bfd0cffb6d39e55b2890ab7c99ffade48726ff2aaa6dac0e81723e1ec0e"
+    },
+    {
+      "path": "app/src/assets/textures/mat_stone_cracked.webp",
+      "sha256": "6f54ac9c1a6f774c7c8867f22fb7ffb3c69f06c4040a34b0ac02cf6e780b7404"
+    },
+    {
+      "path": "app/src/assets/textures/orn_corner.webp",
+      "sha256": "034969e67fb0b9f20cc337b1b47b92dcc8bb644da302b9fe6aed8e16d0a3d470"
+    },
+    {
+      "path": "app/src/assets/textures/orn_divider.webp",
+      "sha256": "238b6536d4f54f70f9d0adb2a167f9c6f1c19c7d8fe3f769af7f9ddbd89641b0"
+    },
+    {
+      "path": "app/src/assets/textures/orn_emblem.webp",
+      "sha256": "7f99c09a62ba1d3c7226a486836fb20844b2dd9f93a6e61100160fc5b7e0683c"
+    },
+    {
+      "path": "app/src/assets/textures/orn_magic_circle.webp",
+      "sha256": "60bee8f4a97ec1fccb9e8d400d1c044f2443683044bdb1f3def5a929113be564"
+    },
+    {
+      "path": "app/src/assets/textures/orn_orb.webp",
+      "sha256": "b3ab6c86a48ecfd13d63fb41559f1c8adfb04948ee4a2070208dc702f2409e89"
+    },
+    {
+      "path": "app/src/assets/textures/orn_rune_ring.webp",
+      "sha256": "c9033a49aad1a94af4d7ba6f481d92a4b0c660303db1563585c401a75274cbb0"
+    },
+    {
+      "path": "app/src/assets/textures/orn_skull.webp",
+      "sha256": "83d407ca8548ecc59c9f1db12f97654731778040674ede9c5c6f8e5538161760"
+    },
+    {
+      "path": "app/src/assets/textures/plate_skill.webp",
+      "sha256": "1c92bc19c4ecbfcea15248795b0ad0971f8270ae8e3ae4d45f702d40fb1adec2"
+    },
+    {
+      "path": "app/src/assets/textures/rune_watermark.webp",
+      "sha256": "0c72a5fe92918c69d272c3e665f08b0f58a4a2333084b6abda9dd5e5b3f12ffe"
+    },
+    {
+      "path": "app/src/assets/textures/tex_soulfluid.webp",
+      "sha256": "a6db291a7a59c236a31d5f76a27e23c02b40dfe4c14384aa4fc51d1e5edc9d9a"
+    },
+    {
+      "path": "app/src/assets/theme/banner_dark_iron.png",
+      "sha256": "9abdaabba96ec452bee22f367b4bd58a3044462adc70b3d9fdd29f7c2f4f3528"
+    },
+    {
+      "path": "app/src/assets/theme/banner_top.png",
+      "sha256": "9e1f0ce42ae6deea79709865031255ef980d76dc43cc20bc7eed5ecccdcf2acb"
+    },
+    {
+      "path": "app/src/assets/theme/bg_dark_fantasy_iron_mist_16x9.png",
+      "sha256": "1543e69df27437406c84a0ad08493c84ec91fa9fbf9f7d5094ff4c7a0c421b16"
+    },
+    {
+      "path": "app/src/assets/theme/bg_void.png",
+      "sha256": "bb83a0d1515588f57285b6f7516f689ca0cd97476cb93eaf37124dc2ab979fdd"
+    },
+    {
+      "path": "app/src/assets/theme/char_faceless_sorcerer_green_flame_5x8.png",
+      "sha256": "4efd3f4e9ef087ed3eec79cd3e32ca7c6c88f5f24e3a77da582964c91814b9a4"
+    },
+    {
+      "path": "app/src/assets/theme/corner_skull.png",
+      "sha256": "a2d18e7e8e47b78efe6de2c46f319ca3113f861f150c022ea60ef8bfeef5d8ce"
+    },
+    {
+      "path": "app/src/assets/theme/equip_slots.png",
+      "sha256": "d5638096f1d978dfedb974f62ab1b12aa709b24b9b6bcdb06d8883e4db01c779"
+    },
+    {
+      "path": "app/src/assets/theme/faceless_portrait.png",
+      "sha256": "4efd3f4e9ef087ed3eec79cd3e32ca7c6c88f5f24e3a77da582964c91814b9a4"
+    },
+    {
+      "path": "app/src/assets/theme/global_background.png",
+      "sha256": "1543e69df27437406c84a0ad08493c84ec91fa9fbf9f7d5094ff4c7a0c421b16"
+    },
+    {
+      "path": "app/src/assets/theme/magic_circle_emblem.png",
+      "sha256": "d9d7d68f5df1982828ba5e75e1186431275366d47d1c84fd7939d70ac5ee7947"
+    },
+    {
+      "path": "app/src/assets/theme/magic_circle_outer_glow.png",
+      "sha256": "febf97f68b248a10928af0b42c10774004d3950990a6a5787f7afc641fc5b95e"
+    },
+    {
+      "path": "app/src/assets/theme/magic_circle_ring.png",
+      "sha256": "b3718f15c4683a7659bc36b36281f491a16c90cd3706e778d4225aabc88ebea6"
+    },
+    {
+      "path": "app/src/assets/theme/master_dashboard.png",
+      "sha256": "ee3c817e9190a970dfe96a93268165b36ed4d61d83c5c1fd609ff21358cc8535"
+    },
+    {
+      "path": "app/src/assets/theme/node_border.png",
+      "sha256": "75b87d74839bb27cf4efb4d42c4ad079c326b14b4b171a4d4a16e8ed87c71a04"
+    },
+    {
+      "path": "app/src/assets/theme/panel_border.png",
+      "sha256": "a60d066d360da095bfb4ed19ec67a73ac9204a9fd82c374310a10f086df20c4d"
+    },
+    {
+      "path": "app/src/assets/theme/panel_contract.png",
+      "sha256": "c757e56dfa9bd0d22b0438277fcf88bbfce3fe6ba74d5b972ec53f5625797332"
+    },
+    {
+      "path": "app/src/assets/theme/panel_equip.png",
+      "sha256": "0a9312cba5dc9a2cf26859ee6dedec75fd7525003d051c30c385ea46a269e088"
+    },
+    {
+      "path": "app/src/assets/theme/panel_inner_texture.png",
+      "sha256": "a2f6486592a5139eeee6f48950d2b131ec9df8099228a0d700f9c22b60ac7e5c"
+    },
+    {
+      "path": "app/src/assets/theme/panel_portrait.png",
+      "sha256": "c84d1fecc9a54a1a80418b895005c2aaac867f72008eed3a93f434de0433b86c"
+    },
+    {
+      "path": "app/src/assets/theme/panel_xp.png",
+      "sha256": "d67bb0a72826b6adfa765f4cff0ed16706256ff9a870a137103c47507a17253a"
+    },
+    {
+      "path": "app/src/assets/theme/star_icon_green.png",
+      "sha256": "433cd1cd055f16554b8854956f70001c00600a389977fb7f7ee05a7a3b172637"
+    },
+    {
+      "path": "app/src/assets/theme/ui_banner_dark_iron_horizontal.png",
+      "sha256": "9abdaabba96ec452bee22f367b4bd58a3044462adc70b3d9fdd29f7c2f4f3528"
+    },
+    {
+      "path": "app/src/assets/theme/ui_equip_slots_6icons_silhouette_grid.png",
+      "sha256": "d5638096f1d978dfedb974f62ab1b12aa709b24b9b6bcdb06d8883e4db01c779"
+    },
+    {
+      "path": "app/src/assets/theme/ui_frame_demon_bone_square_9slice.png",
+      "sha256": "a60d066d360da095bfb4ed19ec67a73ac9204a9fd82c374310a10f086df20c4d"
+    },
+    {
+      "path": "app/src/assets/theme/ui_frame_gothic_iron_bone_rect_9slice.png",
+      "sha256": "9a3eba68f5fdec36e7bf0515d63d527323f3e5ac94539feb9446d9500f0e5059"
+    },
+    {
+      "path": "app/src/assets/theme/ui_hex_skill_slot_neon_green_empty.png",
+      "sha256": "75b87d74839bb27cf4efb4d42c4ad079c326b14b4b171a4d4a16e8ed87c71a04"
+    },
+    {
+      "path": "app/src/assets/theme/ui_magic_circle_rune_green_emblem.png",
+      "sha256": "d9d7d68f5df1982828ba5e75e1186431275366d47d1c84fd7939d70ac5ee7947"
+    },
+    {
+      "path": "app/src/components/DashboardEquipment.vue",
+      "sha256": "30e2d573a82b66fb94c705ce22ad83f182d8d637f8ac8cad68fff6a64f6f5726"
+    },
+    {
+      "path": "app/src/components/ExpBar.vue",
+      "sha256": "3e19901511353e40cf206804ccdbbdfcfc3231210ff0075eaf9b7c00b453119f"
+    },
+    {
+      "path": "app/src/components/GothicPanel.vue",
+      "sha256": "2c7f7ae27c0d40115d3db6309402cdfbf1ffe7845859a8d2cd12a92b7c39b8fd"
+    },
+    {
+      "path": "app/src/components/ImageMaintenance.vue",
+      "sha256": "6cb9461b68f309a0bbb5f5e44827477c9c5f8b809f913bdb97faec1f17d94ca2"
+    },
+    {
+      "path": "app/src/components/ModalShell.vue",
+      "sha256": "515859eb74499cb6c9a1e82b9acb1b131d7900fee533e88b9d63d4768a5c4835"
+    },
+    {
+      "path": "app/src/components/NotificationSettings.vue",
+      "sha256": "ca03f998fd210fc7a0a57e7c45cd4f35a8fe50939a7243c31c398a76e3259146"
+    },
+    {
+      "path": "app/src/components/RelicPanel.vue",
+      "sha256": "d46fa404c50464f7cc74e901ea3ffea392c7cb315e5799f092c3dc10fd0893d5"
+    },
+    {
+      "path": "app/src/components/StatRing.vue",
+      "sha256": "843cdb3beb610b013f6b1e524f460b1b7365f57e1da2e808403ba7401709246c"
+    },
+    {
+      "path": "app/src/components/ToastHost.vue",
+      "sha256": "e1a76761de995853a982c52e644f2ec4a794ba66abbb6332e07d14ae87139fb0"
+    },
+    {
+      "path": "app/src/main.js",
+      "sha256": "fe11bde79e440ee02d7e664de7beba2059b7f100629ab270eea92f285da3c3fc"
+    },
+    {
+      "path": "app/src/stores/toast.js",
+      "sha256": "0a0cf71cc8b07e7448ba524ee028fa2d6b21c61c4bf7dbf2048cdcec6112ddd8"
+    },
+    {
+      "path": "app/src/styles/base.css",
+      "sha256": "b4b5032e06630a10ed76ce5614331eb534d38e30a9abfaf9fdee921fde2e9a03"
+    },
+    {
+      "path": "app/src/styles/tokens.css",
+      "sha256": "ee5cc77529915979a24b272c806f08ebe75b8a8636a7ac18502d13350fc9eff8"
+    },
+    {
+      "path": "app/src/utils/audio.js",
+      "sha256": "5718a282d153f787f0ebffb8b1292bc77a5c6fc2684da37aed57b40a60cb4cde"
+    },
+    {
+      "path": "app/src/utils/clipboard.js",
+      "sha256": "8e313dc8ff6faa04f884c51155673c84063b67b092df857366f19b5b7e403116"
+    },
+    {
+      "path": "app/src/utils/timeParser.js",
+      "sha256": "1175cf4550a7fced914c6e03472088b7dc9910ce5e41f5c369b546443df78239"
+    },
+    {
+      "path": "app/src/views/ArchiveView.vue",
+      "sha256": "48b439f70a0e6366982d40b8a224fece949580bbd144305ec8539716415e203d"
+    },
+    {
+      "path": "app/src/views/AttributesView.vue",
+      "sha256": "c0af1e55b0745e5c957dc5d80ea54ed15b9d96821ee18ffadad9df1bac534fc1"
+    },
+    {
+      "path": "app/src/views/DashboardView.vue",
+      "sha256": "6138859c7ca6f8d752a4e981ec2bb76ff1868920c0e40c2bc012d88c34610c6d"
+    },
+    {
+      "path": "app/src/views/EquipmentView.vue",
+      "sha256": "4b4ae21e24bf57f8a5554692329eb6b768692393a8b2573289bc36c8ed526999"
+    },
+    {
+      "path": "app/src/views/ImagesView.vue",
+      "sha256": "1be30e1844ae7554c113551f1a5efab8d51e6a2118f1a94fedb522c7c49fed71"
+    },
+    {
+      "path": "app/src/views/MiniBar.vue",
+      "sha256": "af15b0cfd74d98d975d1c2b848a0d3d79dbc3e9b534d475b6df9d32390dfbd9f"
+    },
+    {
+      "path": "app/src/views/RecordsView.vue",
+      "sha256": "fc3534a7ed42c16e18ce330a488b5e146791cb8ee7d30e719e7b43773de611c5"
+    },
+    {
+      "path": "app/src/views/SettingsView.vue",
+      "sha256": "74067a32b4331e12b10683919e804c1413318600def3121d0416c99cd1e496d4"
+    },
+    {
+      "path": "app/src/views/SetupView.vue",
+      "sha256": "767d3ea885ac2d94d57fc8b087fb8740faf0bb60dce167926c82030495b70a91"
+    },
+    {
+      "path": "app/src/views/SkillsView.vue",
+      "sha256": "a50fc5c23e776d7aca5ade0ec227d92b368509f4d904342283774db550148d9b"
+    },
+    {
+      "path": "app/src/views/TasksView.vue",
+      "sha256": "b28937a2bfa814be0ee0c11f860e1d84ca7c061c34a28fca77dba1e27ad72c50"
+    },
+    {
+      "path": "app/src/views/WidgetView.vue",
+      "sha256": "a9ad7258d6c388ceeda4743377f8007f98490d68ad8e1b16028d8ffe04bedac3"
+    },
+    {
+      "path": "app/src/views/WorldView.vue",
+      "sha256": "dba45ea2c5cacbe2121ef16e98adbe13272ca68f38bc28ee53c93b2f21de8b81"
+    },
+    {
+      "path": "app/src-tauri/capabilities/default.json",
+      "sha256": "c2ff45d2e4a580f8ea072d69b708edcf6048c4069d613ff9696a7301afa0ab83"
+    },
+    {
+      "path": "app/src-tauri/Cargo.lock",
+      "sha256": "5cedbb2a0fb904387343528b258c1c8be9274e5d6d9438d3a3406d5152a6a2de"
+    },
+    {
+      "path": "app/src-tauri/Cargo.toml",
+      "sha256": "3b879f0776052a1157d2d66b779677c599975b5b7ec81802a61c3b72c1bdeb85"
+    },
+    {
+      "path": "app/src-tauri/src/commands.rs",
+      "sha256": "8555dd1459977df729ce9d4ae2b79d886aa38e805e09dedaf16b7f2df7ca2a81"
+    },
+    {
+      "path": "app/src-tauri/src/db.rs",
+      "sha256": "d36cc2eef3ac11d3ba2fcf0eec50ccb13d9229e1663e32560fe6e84577de9536"
+    },
+    {
+      "path": "app/src-tauri/src/desktop.rs",
+      "sha256": "39e1ab376306d8f401e642fd5b130a272c79d026bc63472f19b620d528cbb23b"
+    },
+    {
+      "path": "app/src-tauri/src/lib.rs",
+      "sha256": "a61f8857142240325bef13a6d7501d54250f9b5f1acd345b1f84c590dddabcab"
+    },
+    {
+      "path": "app/src-tauri/src/main.rs",
+      "sha256": "9e574736f6954fd681960e43a6145d44f04e951a93895e3405cc6c9e5a833e9c"
+    },
+    {
+      "path": "app/src-tauri/src/models.rs",
+      "sha256": "3b81ebb4564d966249a1ea9cab0691ce554692b4cdb0857c6be41893a51ac5a5"
+    },
+    {
+      "path": "app/src-tauri/src/operations.rs",
+      "sha256": "fbdff1cc2b4fd608a7db800ae1de9948b8d67fddeff8d15faac3296ef1aaac6a"
+    },
+    {
+      "path": "app/src-tauri/src/paths.rs",
+      "sha256": "1dc75b22c6a7dbf8a55f43c3e1464927e40c8dc89851305d3396832d314ba627"
+    },
+    {
+      "path": "app/src-tauri/src/rpg_engine.rs",
+      "sha256": "5690c931c13b135f06afa6516e84051fa3fb654e169bc8046d60eb2199f34164"
+    },
+    {
+      "path": "app/src-tauri/src/services/action_task_service.rs",
+      "sha256": "4df685dd3e8487809c3320b116d400bd98ff993fa04b1d355083923c3609d3e3"
+    },
+    {
+      "path": "app/src-tauri/src/services/ai_service.rs",
+      "sha256": "0d43dc0177e94c7c22e2c942ac0c9b2b9f771f574c9c3084553f7c645f729a6d"
+    },
+    {
+      "path": "app/src-tauri/src/services/backup_service.rs",
+      "sha256": "ba642c82dc607daa401138eefba781d424d63efd1db7010dd57ac12a1d9f2e2a"
+    },
+    {
+      "path": "app/src-tauri/src/services/character_service.rs",
+      "sha256": "2f0364c895dce991067075e8632c526d5b7dc44a489982e97409e28ee37faa3e"
+    },
+    {
+      "path": "app/src-tauri/src/services/config_service.rs",
+      "sha256": "13e8bb0b753a63fac6f1062202813f325b921b186f9d5c2bc6d3132c1c332989"
+    },
+    {
+      "path": "app/src-tauri/src/services/equipment_service.rs",
+      "sha256": "9b57c4fcd75cf444aced9a275438dc02d32398a3048f20184714ac3fcb02db19"
+    },
+    {
+      "path": "app/src-tauri/src/services/export_service.rs",
+      "sha256": "40bffc9188fee037c8650117041dad41add7e2f9c500000238377820444b821d"
+    },
+    {
+      "path": "app/src-tauri/src/services/image_cleanup_service.rs",
+      "sha256": "e32fb8547f3fc6af1cc03231b83c561ef37e8f5bfe0359114c79dcc5c3ab1942"
+    },
+    {
+      "path": "app/src-tauri/src/services/image_service.rs",
+      "sha256": "723dfdac4f7a9b61a497f00d4d281adb448d514dee2dd733c0ac0d895c28c34d"
+    },
+    {
+      "path": "app/src-tauri/src/services/mcp_service.rs",
+      "sha256": "8ebe7610c409121a48fd4679514560ebbab350433f8950d51c5ec2ccdf30628e"
+    },
+    {
+      "path": "app/src-tauri/src/services/mod.rs",
+      "sha256": "e650fb2bbb90faee97e97b9fd77b846d52b7ee606616a9f493f378c1cb9256e1"
+    },
+    {
+      "path": "app/src-tauri/src/services/notification_service.rs",
+      "sha256": "606687af842d6bd322a3e1e63632c92583a7b370e0a5b24ca318303c0e520e39"
+    },
+    {
+      "path": "app/src-tauri/src/services/record_service.rs",
+      "sha256": "d46c0097f2da9a86d1de1a2ca32e0fbfffac1043608edc731cb4f19f1eee020f"
+    },
+    {
+      "path": "app/src-tauri/src/services/skill_service.rs",
+      "sha256": "f8b7627fb9a5953854a998863dabb1f1ca5eb40401fae108a271d27536d978ba"
+    },
+    {
+      "path": "app/src-tauri/src/services/stats_service.rs",
+      "sha256": "05aebebff616d0453eddd544670379bf777e8150fd9985d525956607936ee07c"
+    },
+    {
+      "path": "app/src-tauri/src/services/world_service.rs",
+      "sha256": "ff924ef082c22f31d81712606c753ffb4d8ebfd31c56dbbfc29328bc3080cd66"
+    },
+    {
+      "path": "app/src-tauri/tauri.conf.json",
+      "sha256": "d7e114b2b00ba80ed2b80593e3d876f869df02990a289b930606265f1a54c563"
+    },
+    {
+      "path": "app/vite.config.js",
+      "sha256": "7a5967fdf2f5b22d22e1be176596fba67e057ff5ed0f2223b9a7f817bd9b160e"
+    },
+    {
+      "path": "scripts/build-env.ps1",
+      "sha256": "5c5e22cc9267d35818a9aa368032696467ccd13ac507cacb6717b68f46057e83"
+    },
+    {
+      "path": "scripts/package-portable.ps1",
+      "sha256": "8cde7a35b9208263d69f079f293389d1967eff5825690032597f2caa0f7f6925"
+    },
+    {
+      "path": "scripts/tests/ui-state.test.mjs",
+      "sha256": "382467eb94edd7887a4f973213ded0f3f253a880ee3e7befeefd393c40c931c7"
+    }
+  ]
+}
