@@ -1,5 +1,6 @@
 <script setup>
 import { ref, useId } from 'vue';
+import { ChevronRight } from 'lucide-vue-next';
 
 defineProps({
   title: { type: String, default: '' },
@@ -19,10 +20,10 @@ const bodyId = useId();
     <span class="orn orn-bl"></span>
     <span class="orn orn-br"></span>
 
-    <header v-if="title" class="panel-head">
+    <header v-if="title" class="panel-head" :class="{ 'collapsible-head': collapsible }">
       <h2 class="panel-title">
         <button v-if="collapsible" class="panel-toggle" :aria-expanded="expanded" :aria-controls="bodyId" @click="expanded = !expanded">
-          <span aria-hidden="true">{{ expanded ? '▾' : '▸' }}</span> {{ title }}
+          {{ title }} <ChevronRight :size="16" class="panel-chevron" :class="{ expanded }" aria-hidden="true" />
         </button>
         <template v-else>{{ title }}</template>
       </h2>
@@ -31,7 +32,10 @@ const bodyId = useId();
       <slot v-if="!collapsible || expanded" name="actions" />
     </header>
 
-    <div v-show="!collapsible || expanded" :id="bodyId" class="panel-body">
+    <div v-if="collapsible" :id="bodyId" class="panel-collapse" :class="{ expanded }" :inert="!expanded || undefined" :aria-hidden="!expanded">
+      <div class="panel-clip"><div class="panel-body"><slot /></div></div>
+    </div>
+    <div v-else class="panel-body">
       <slot />
     </div>
   </section>
@@ -109,6 +113,9 @@ const bodyId = useId();
   white-space: nowrap;
 }
 .panel-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
@@ -119,6 +126,14 @@ const bodyId = useId();
   padding: 4px 0;
 }
 .panel-toggle:focus-visible { outline: 1px solid var(--c-soul); outline-offset: 4px; }
+.collapsible-head { transition: background .18s; }
+.collapsible-head:hover { background: rgba(124,255,31,.06); }
+.panel-chevron { color: var(--c-soul); transition: transform .22s ease-out; }
+.panel-chevron.expanded { transform: rotate(90deg); }
+.panel-collapse { display: grid; grid-template-rows: 0fr; visibility: hidden; opacity: 0; transition: grid-template-rows .22s ease-out, opacity .18s, visibility 0s .22s; }
+.panel-collapse.expanded { grid-template-rows: 1fr; visibility: visible; opacity: 1; transition-delay: 0s; }
+.panel-clip { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .panel-chevron,.panel-collapse { transition: none; } }
 .panel-sub {
   font-size: 12px;
   color: var(--t-time);

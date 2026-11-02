@@ -458,7 +458,7 @@ onMounted(load);
           <button class="btn btn-primary btn-sm" @click="saveSettings"><Save :size="12" /> 保存设置</button>
         </GothicPanel>
 
-        <GothicPanel title="音效" :subtitle="sfxEnabled ? '已开启' : '已关闭'" collapsible>
+        <GothicPanel title="哥特声学" :subtitle="sfxEnabled ? '已开启' : '已关闭'" collapsible>
           <label class="check-row">
             <input :checked="sfxEnabled" type="checkbox" @change="toggleSfx" />
             <span>
@@ -502,7 +502,7 @@ onMounted(load);
           </div>
         </GothicPanel>
 
-        <GothicPanel title="AI 军师" :subtitle="ai.enabled ? '已启用' : '未启用'" collapsible>
+        <GothicPanel title="AI 军师" :subtitle="ai.enabled ? '已启用' : '未启用'">
           <label class="check-row">
             <input v-model="ai.enabled" type="checkbox" />
             <span><Sparkles :size="11" /> 启用 AI 军师（复盘 / 建任务 / 装备命名 / 教练）</span>
@@ -538,7 +538,7 @@ onMounted(load);
       </div>
 
       <div class="col">
-        <GothicPanel title="外接工具 · MCP" :subtitle="`${mcpServers.length} 个服务`" class="mcp-panel" collapsible>
+        <GothicPanel title="外接神域 · MCP 契约" :subtitle="`${mcpServers.length} 个服务`" class="mcp-panel">
           <template #actions>
             <button class="btn btn-primary btn-sm" @click="openCreateMcp"><Plus :size="12" /> 新增 MCP 契约</button>
           </template>
@@ -619,9 +619,9 @@ onMounted(load);
         <GothicPanel title="关于" subtitle="ABOUT">
           <div class="about">
             <div class="about-row"><Info :size="12" /><span>LifeRPG · 绿火毁灭术</span></div>
-            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.6</span></div>
+            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.7</span></div>
             <div class="about-row"><span class="k">架构</span><span class="v">Tauri v2 · Vue 3 · Rust · SQLite</span></div>
-            <div class="about-row"><span class="k">数据</span><span class="v">本地优先，零联网</span></div>
+            <div class="about-row"><span class="k">数据</span><span class="v">本地存储</span></div>
           </div>
         </GothicPanel>
       </div>

@@ -1,0 +1,17 @@
+[
+  {
+    "path": "dist/LifeRPG-portable-v2.3.0-rc.7.zip",
+    "bytes": 11236912,
+    "sha256": "ad2d24a66adb60aaadc409b23b30a8c9b4a851f90d260a13d61f2f142d723991"
+  },
+  {
+    "path": "dist/LifeRPG-portable-v2.3.0-rc.7/LifeRPG.exe",
+    "bytes": 15142912,
+    "sha256": "7a3d2c2da8fe221779250e2724217fcc9b7be62ebda6b93378c8338d5c425521"
+  },
+  {
+    "path": ".tmp/cargo-target/release/liferpg.exe",
+    "bytes": 15142912,
+    "sha256": "7a3d2c2da8fe221779250e2724217fcc9b7be62ebda6b93378c8338d5c425521"
+  }
+]

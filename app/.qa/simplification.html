@@ -10,7 +10,7 @@ import '/src/styles/base.css';
 const tasks = [];
 window.__TAURI_INTERNALS__ = { invoke: async (cmd, args) => {
   if(cmd === 'task_list') return [...tasks];
-  if(cmd === 'task_create') { const task = {content:'',category:'默认',quadrant:'Q2',growthAttribute:'mind',experience:25,status:'Pending',id:String(tasks.length+1),...args.input}; tasks.push(task); return task; }
+  if(cmd === 'task_create') { const task = {content:'',category:'默认',quadrant:'Q2',growthAttribute:'general',experience:25,status:'Pending',id:String(tasks.length+1),...args.input}; tasks.push(task); return task; }
   if(cmd === 'config_get') return {hotkey:'CommandOrControl+Shift+L',opacity:97};
   if(cmd === 'app_state') return {dataDir:'D:\\LifeRPG-Test',exeDir:'D:\\LifeRPG-Test',runtimeDir:'D:\\LifeRPG-Test\\.runtime'};
   if(cmd === 'ai_config_get') return {enabled:false};

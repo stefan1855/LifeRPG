@@ -1,7 +1,7 @@
 <script setup>
 const saving = ref(false);
 import { computed, onMounted, onUnmounted, watch, reactive, ref } from 'vue';
-import { Plus, Check, Undo2, Trash2, Pencil, Filter, CalendarDays, Sparkles } from 'lucide-vue-next';
+import { Plus, Check, Undo2, Trash2, Pencil, Filter, CalendarDays, Sparkles, ChevronRight } from 'lucide-vue-next';
 import ModalShell from '../components/ModalShell.vue';
 import { api, ATTRIBUTE_META, QUADRANTS, attrMeta, fmtDate, quadrantMeta } from '../api';
 import { notify, showLevelUp } from '../stores/toast';
@@ -11,6 +11,7 @@ const tasks = ref([]);
 const loading = ref(true);
 const filter = ref('pending');
 const quadrantFilter = ref('');
+const taskDefaults = { quadrant: 'Q2', growthAttribute: 'mind', experience: 25 };
 
 const showEditor = ref(false);
 const draftGenerated=ref(false);
@@ -23,9 +24,7 @@ const form = reactive({
   title: '',
   content: '',
   category: '默认',
-  quadrant: 'Q2',
-  growthAttribute: 'mind',
-  experience: 25,
+  ...taskDefaults,
   dueDate: '',
 });
 
@@ -73,9 +72,9 @@ function openCreate(quadrant, title = '') {
     title: title.trim(),
     content: '',
     category: '默认',
-    quadrant: quadrant || 'Q2',
-    growthAttribute: 'mind',
-    experience: quadrant ? quadrantMeta(quadrant).exp : 25,
+    quadrant: quadrant || taskDefaults.quadrant,
+    growthAttribute: taskDefaults.growthAttribute,
+    experience: quadrant ? quadrantMeta(quadrant).exp : taskDefaults.experience,
     dueDate: '',
   });
   showEditor.value = true;
@@ -123,7 +122,7 @@ async function quickCreate() {
   if (!title || quickAdding.value || aiParsing.value) return;
   quickAdding.value = true;
   try {
-    await api.createTask({ title });
+    await api.createTask({ title, ...taskDefaults });
     if (quickText.value.trim() === title) quickText.value = '';
     filter.value = 'pending';
     quadrantFilter.value = '';
@@ -156,7 +155,7 @@ async function aiCreate() {
     form.content = `（AI 解析自：「${text}」）`;
     draftGenerated.value=true;
     showTaskOptions.value = true;
-    quickText.value = '';
+    if (quickText.value.trim() === text) quickText.value = '';
     notify.success('AI 已解析，确认后铭刻');
   } catch (e) {
     notify.error('AI 解析失败：' + e.message);
@@ -294,9 +293,10 @@ onMounted(load);
       <button class="btn btn-ghost btn-sm" :disabled="aiParsing || quickAdding || !quickText.trim()" @click="aiCreate">
         <Sparkles :size="13" /> {{ aiParsing ? '解析中…' : 'AI 解析' }}
       </button>
-      <button class="btn btn-ghost btn-sm" @click="openCreate(undefined, quickText)">
-        更多设置
+      <button class="btn btn-ghost btn-sm" @click="openCreate(quadrantFilter || undefined, quickText)">
+        详细新建
       </button>
+      <span class="quick-defaults">默认：{{ quadrantMeta(taskDefaults.quadrant).label }} · {{ attrMeta(taskDefaults.growthAttribute).label }} +{{ taskDefaults.experience }} EXP</span>
     </div>
 
     <!-- 四象限矩阵 -->
@@ -353,7 +353,8 @@ onMounted(load);
     <!-- 编辑弹窗 -->
     <ModalShell
       v-if="showEditor" :state="form" :busy="saving" :initial-dirty="draftGenerated"
-      :title="editingId ? '编辑任务' : '新建任务'"
+      :title="editingId ? '编辑行动契约' : '铭刻新的行动契约'"
+      subtitle="TASK CONTRACT"
       :width="560"
       @close="showEditor = false"
     >
@@ -365,8 +366,13 @@ onMounted(load);
         <span>截止时间（可选）</span>
         <input v-model="form.dueDate" type="datetime-local" class="input" />
       </label>
-      <details class="task-options" :open="showTaskOptions">
-        <summary>更多设置 · 详情、四象限、经验与属性</summary>
+      <button class="options-toggle" :aria-expanded="showTaskOptions" aria-controls="task-options" @click="showTaskOptions = !showTaskOptions">
+        <span>更多设置</span>
+        <span class="options-value">{{ quadrantMeta(form.quadrant).label }} · {{ attrMeta(form.growthAttribute).label }} +{{ form.experience }} EXP</span>
+        <ChevronRight :size="16" class="options-chevron" :class="{ expanded: showTaskOptions }" />
+      </button>
+      <div id="task-options" class="options-collapse" :class="{ expanded: showTaskOptions }" :inert="!showTaskOptions || undefined" :aria-hidden="!showTaskOptions">
+        <div class="options-clip">
         <div class="task-options-body">
           <label class="field">
             <span>任务详情</span>
@@ -396,7 +402,8 @@ onMounted(load);
             <input v-model="form.category" class="input" placeholder="默认" />
           </label>
         </div>
-      </details>
+        </div>
+      </div>
 
       <template #footer="{ close }">
         <button class="btn btn-ghost" @click="close">取消</button>
@@ -523,8 +530,18 @@ onMounted(load);
   box-shadow: 0 0 0 1px rgba(192, 166, 76, 0.25);
 }
 .ai-input::placeholder { color: var(--t-disabled); }
-.task-options summary { cursor: pointer; color: var(--t-sub); font-size: 13px; padding: 8px 0; }
+.quick-defaults { flex-basis: 100%; color: var(--t-time); font-size: 12px; }
+.options-toggle { display: flex; align-items: center; gap: 8px; padding: 9px 10px; color: var(--t-sub); font: inherit; font-size: 13px; text-align: left; background: rgba(0,0,0,.3); border: 1px solid rgba(109,91,42,.45); cursor: pointer; transition: background .18s, border-color .18s; }
+.options-toggle:hover { background: rgba(124,255,31,.06); border-color: var(--c-bronze); }
+.options-toggle:focus-visible { outline: 1px solid var(--c-soul); outline-offset: 2px; }
+.options-value { color: var(--t-time); font-size: 12px; }
+.options-chevron { margin-left: auto; flex-shrink: 0; color: var(--c-soul); transition: transform .22s ease-out; }
+.options-chevron.expanded { transform: rotate(90deg); }
+.options-collapse { display: grid; grid-template-rows: 0fr; visibility: hidden; opacity: 0; transition: grid-template-rows .22s ease-out, opacity .18s, visibility 0s .22s; }
+.options-collapse.expanded { grid-template-rows: 1fr; visibility: visible; opacity: 1; transition-delay: 0s; }
+.options-clip { min-height: 0; overflow: hidden; }
 .task-options-body { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+@media (prefers-reduced-motion: reduce) { .options-chevron,.options-collapse { transition: none; } }
 
 .matrix {
   flex: 1;

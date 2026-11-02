@@ -2197,7 +2197,7 @@ dependencies = [
 
 [[package]]
 name = "liferpg"
-version = "2.3.0-rc.6"
+version = "2.3.0-rc.7"
 dependencies = [
  "base64 0.22.1",
  "chrono",

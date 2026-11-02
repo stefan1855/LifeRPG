@@ -1,0 +1,26 @@
+[
+  {
+    "aiVisible": true,
+    "columns": "699px 699px",
+    "height": 920,
+    "overflow": false,
+    "visibleServiceButtons": 1,
+    "width": 1460
+  },
+  {
+    "aiVisible": true,
+    "columns": "1020px",
+    "height": 700,
+    "overflow": false,
+    "visibleServiceButtons": 1,
+    "width": 1068
+  },
+  {
+    "aiVisible": true,
+    "columns": "608px",
+    "height": 560,
+    "overflow": false,
+    "visibleServiceButtons": 1,
+    "width": 656
+  }
+]

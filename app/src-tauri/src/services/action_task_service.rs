@@ -186,3 +186,38 @@ impl ActionTaskService {
         Ok(affected > 0)
     }
 }
+
+#[cfg(test)]
+mod quick_add_regression {
+    use super::*;
+    use crate::{db::Db, services::character_service::CharacterService};
+
+    #[test]
+    fn quick_add_payload_settles_mind_once_and_rolls_back() {
+        let mut conn = Connection::open_in_memory().unwrap();
+        Db::ensure_schema(&conn).unwrap();
+        let input: CreateTaskInput = serde_json::from_str(
+            r#"{"title":"快速任务回归","quadrant":"Q2","growthAttribute":"mind","experience":25}"#,
+        ).unwrap();
+        let task = ActionTaskService::create_task(&conn, input).unwrap();
+        assert_eq!((task.quadrant.as_str(), task.growth_attribute.as_str(), task.experience), ("Q2", "mind", 25));
+        let character = CharacterService::get_default_character(&conn).unwrap();
+        let mind_before: i32 = conn.query_row("SELECT Experience FROM CharacterAttributes WHERE CharacterId=?1 AND AttributeKey='mind'", [&character.id], |row| row.get(0)).unwrap();
+
+        let result = CharacterService::apply_task_completion(&mut conn, &task.id).unwrap();
+        assert!(result.applied);
+        assert_eq!(result.total_experience_granted, 25);
+        assert_eq!(result.gains[0].attribute_key, "mind");
+        assert!(CharacterService::apply_task_completion(&mut conn, &task.id).unwrap().is_duplicate);
+        assert_eq!(CharacterService::get_default_character(&conn).unwrap().total_experience, character.total_experience + 25);
+        let mind_after: i32 = conn.query_row("SELECT Experience FROM CharacterAttributes WHERE CharacterId=?1 AND AttributeKey='mind'", [&character.id], |row| row.get(0)).unwrap();
+        assert_eq!(mind_after, mind_before + 25);
+        let incorrect_logs: i32 = conn.query_row("SELECT COUNT(*) FROM AttributeLogs WHERE SourceId=?1 AND AttributeKey<>'mind'", [&task.id], |row| row.get(0)).unwrap();
+        assert_eq!(incorrect_logs, 0);
+
+        CharacterService::rollback_task_completion(&mut conn, &task.id).unwrap();
+        assert_eq!(CharacterService::get_default_character(&conn).unwrap().total_experience, character.total_experience);
+        let mind_restored: i32 = conn.query_row("SELECT Experience FROM CharacterAttributes WHERE CharacterId=?1 AND AttributeKey='mind'", [&character.id], |row| row.get(0)).unwrap();
+        assert_eq!(mind_restored, mind_before);
+    }
+}

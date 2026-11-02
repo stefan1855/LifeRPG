@@ -71,4 +71,8 @@ docs/simplification-2026-11-02/*
 !docs/simplification-2026-11-02/artifact-hashes.json
 !docs/simplification-2026-11-02/task-editor.jpg
 !docs/simplification-2026-11-02/settings.jpg
+docs/rc7-audit-2026-11-02/*
+!docs/rc7-audit-2026-11-02/artifact-hashes.json
+!docs/rc7-audit-2026-11-02/browser-checks.json
+!docs/rc7-audit-2026-11-02/task-editor-preview.jpg
 
