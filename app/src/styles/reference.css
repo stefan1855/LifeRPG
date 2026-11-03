@@ -1,0 +1,25 @@
+/* Reference kit v1: fixed corners, low-contrast stone and actual painted materials. */
+@font-face{font-family:'Life Song';src:url('../assets/reference/noto-serif-sc.woff2') format('woff2');font-weight:200 900;font-display:swap}
+@font-face{font-family:'Life Condensed';src:url('../assets/reference/roboto-condensed.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Life Cinzel';src:url('../assets/reference/cinzel.woff2') format('woff2');font-weight:400 900;font-display:swap}
+:root{--f-title:'Life Song',serif;--f-body:'Life Song',serif;--f-mono:'Life Condensed',sans-serif;--f-latin:'Life Cinzel',serif;--t-body:#c5bc95;--t-sub:#ad9e76;--t-time:#a39976;--topbar-h:72px}
+.num{font-family:var(--f-mono);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.025em}
+.app-bg{background-image:linear-gradient(#05080599,#050805c9),url('../assets/reference/background-world-ultrawide.webp');background-size:cover;background-position:center;opacity:1;background-blend-mode:normal}
+.app-mist{background-image:none;animation:none}
+.btn:not(.btn-danger){font-family:var(--f-body);font-weight:500;min-height:34px;height:auto;padding:7px 20px;border:1px solid transparent;border-image-source:url('../assets/reference/button-normal.webp');border-image-slice:65 125 fill;border-image-width:11px 20px;border-image-repeat:stretch;background:transparent;box-shadow:none;border-radius:0;color:#cfbf83;transition:color .16s,filter .16s}
+.btn:not(.btn-danger):hover{border-image-source:url('../assets/reference/button-hover.webp');color:#d6ef91;box-shadow:none}
+.btn.btn-primary{border-image-source:url('../assets/reference/button-hover.webp');color:#cfea78;text-shadow:0 0 7px #7cff1f35}
+.btn:not(.btn-danger):active{border-image-source:url('../assets/reference/button-pressed.webp')}
+.btn:not(.btn-danger):disabled{border-image-source:url('../assets/reference/button-disabled.webp');color:#8f8b73;opacity:.65;filter:saturate(.45)}
+.btn.btn-sm{min-height:32px;padding:5px 15px;font-size:13px}
+.empty-state::before{display:none}
+.empty-state{color:var(--t-sub);text-shadow:none}
+#app .reference-panel{background:#080e08 url('../assets/reference/panel-material-extended.webp') center/440px;box-shadow:0 6px 20px #0005;border:0;isolation:isolate}
+#app .reference-panel::after{content:'';position:absolute;inset:-4px;z-index:3;border:20px solid transparent;border-image:url('../assets/reference/panel-frame-clean.webp') 180 / 20px stretch;pointer-events:none;opacity:1}
+#app .reference-panel::before{display:none}
+#app .reference-panel>.orn,#app .reference-panel>.relic-corner{display:none}
+#app .reference-panel .panel-title{font-size:18px;color:#d2cb80;text-shadow:0 0 8px #7cff1f15}
+#app .reference-panel .panel-head{border-bottom:1px solid #77612e55;min-height:49px;padding:12px 19px 9px}
+#app .reference-panel .panel-body::before{display:none}
+#app .character-panel::after{border-image-source:url('../assets/reference/character-card-frame.webp');border-image-slice:200 210;border-image-width:24px;inset:-3px}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}

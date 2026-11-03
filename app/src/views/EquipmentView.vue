@@ -556,7 +556,7 @@ onMounted(load);
   position: absolute;
   inset: 0;
   border: 6px solid transparent;
-  border-image: url('../assets/textures/frame_panel.webp') 30 / 6px stretch;
+  border-image: url('../assets/reference/panel-frame-clean.webp') 180 / 16px stretch;
   pointer-events: none;
   opacity: 0.8;
 }

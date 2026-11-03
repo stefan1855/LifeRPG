@@ -14,7 +14,7 @@ const bodyId = useId();
 </script>
 
 <template>
-  <section class="panel" :class="{ dense, glow }">
+  <section class="panel reference-panel" :class="{ dense, glow }">
     <span class="orn orn-tl"></span>
     <span class="orn orn-tr"></span>
     <span class="orn orn-bl"></span>

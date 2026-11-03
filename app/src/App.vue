@@ -135,7 +135,7 @@ async function togglePin() {
           <span class="name">LIFE<span class="dot">·</span>RPG</span>
           <span class="tag">绿火毁灭术</span>
         </div>
-        <div class="drag-fill" data-tauri-drag-region><span class="page-caption" data-tauri-drag-region>✧ {{ current.label }} ✧</span></div>
+        <div class="drag-fill" data-tauri-drag-region><span class="page-caption" data-tauri-drag-region>{{ current.label }}</span></div>
         <div class="win-actions">
           <button class="gothic-wbtn" title="收成桌面挂件" @click="switchMode('widget')">
             <PanelTopClose :size="12" />
@@ -193,228 +193,19 @@ async function togglePin() {
   </div>
 </template>
 
-<style scoped>
-.boot-splash {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-.boot-sigil {
-  position: relative;
-  z-index: 1;
-  font-size: 34px;
-  color: var(--c-glow);
-  text-shadow: var(--glow-soul-strong);
-  animation: soulPulse 1.8s ease-in-out infinite;
-}
-.app-root {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  opacity: var(--app-opacity, 1);
-  transition: opacity 0.16s ease;
-}
-.shell {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
 
-/* ---- 标题栏 ---- */
-.titlebar {
-  display: flex;
-  align-items: center;
-  height: var(--topbar-h);
-  padding: 0 12px;
-  border-bottom: 1px solid rgba(109, 91, 42, 0.45);
-  background: linear-gradient(180deg, rgba(12, 18, 10, 0.96), rgba(5, 8, 5, 0.9));
-  flex: 0 0 auto;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.sigil {
-  color: var(--c-gold-bright);
-  font-size: 15px;
-  text-shadow: var(--glow-gold);
-}
-.name {
-  font-family: var(--f-title);
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  color: var(--t-title);
-  text-shadow: 0 0 14px rgba(124, 255, 31, 0.3);
-}
-.dot {
-  color: var(--c-soul);
-}
-.tag {
-  margin-left: 6px;
-  padding: 1px 7px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  color: var(--t-sub);
-  border: 1px solid rgba(109, 91, 42, 0.6);
-}
-.drag-fill {
-  flex: 1;
-  height: 100%;
-}
-.win-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-right: 6px;
-}
-.gothic-wbtn.on {
-  color: var(--c-soul);
-  border-color: var(--c-soul);
-  box-shadow: 0 0 10px rgba(124, 255, 31, 0.45);
-}
-.gothic-wbtn.danger:hover {
-  color: #ffd9d3;
-  border-color: var(--t-danger);
-  box-shadow: 0 0 10px rgba(224, 90, 74, 0.45);
-}
 
-/* ---- 主体 ---- */
-.body {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
 
-.sidebar {
-  width: var(--nav-w);
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid rgba(109, 91, 42, 0.45);
-  background:
-    url('./assets/textures/mat_metal_iron.webp') center / 300px,
-    linear-gradient(180deg, rgba(9, 14, 9, 0.94), rgba(4, 6, 4, 0.97));
-  background-blend-mode: soft-light, normal;
-  box-shadow: inset -12px 0 24px rgba(0, 0, 0, 0.6);
-}
-.nav-list {
-  flex: 1;
-  padding: 14px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.nav-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 40px;
-  padding: 0 12px;
-  font-size: 13px;
-  color: var(--t-sub);
-  background: linear-gradient(180deg, rgba(26, 22, 10, 0.6), rgba(8, 10, 6, 0.7));
-  border: 1px solid rgba(109, 91, 42, 0.28);
-  cursor: pointer;
-  transition: all 0.16s;
-  text-align: left;
-  box-shadow: inset 0 1px 0 rgba(192, 166, 76, 0.1);
-}
-.nav-item .ico {
-  opacity: 0.75;
-}
-.nav-item:hover {
-  color: var(--t-panel);
-  background: rgba(124, 255, 31, 0.04);
-  border-color: rgba(109, 91, 42, 0.45);
-}
-.nav-item.active {
-  color: var(--c-glow);
-  background: linear-gradient(90deg, rgba(124, 255, 31, 0.1), rgba(124, 255, 31, 0.01) 70%);
-  border-color: rgba(124, 255, 31, 0.22);
-  text-shadow: 0 0 12px rgba(124, 255, 31, 0.45);
-}
-.nav-item.active .ico {
-  opacity: 1;
-  filter: drop-shadow(0 0 6px rgba(124, 255, 31, 0.7));
-}
-.glowbar {
-  position: absolute;
-  left: -1px;
-  top: 6px;
-  bottom: 6px;
-  width: 2px;
-  background: transparent;
-}
-.nav-item.active .glowbar {
-  background: var(--c-soul);
-  box-shadow: var(--glow-soul);
-}
-.sidebar-foot {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-top: 1px solid rgba(109, 91, 42, 0.28);
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  color: var(--t-disabled);
-}
-.rune {
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--c-gold);
-  transform: rotate(45deg);
-  animation: soulPulse 3s ease-in-out infinite;
-}
 
-.content {
-  flex: 1;
-  min-width: 0;
-  padding: 16px;
-  overflow: hidden;
-  display: flex;
-}
 
-/* ---- 视图切换动画 ---- */
-.view-enter-active,
-.view-leave-active {
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-.view-enter-from {
-  opacity: 0;
-  transform: translateY(6px);
-}
-.view-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-</style>
+
 
 
 
 
 <style scoped>
-@media(max-width:900px){
-  .sidebar{width:64px}.nav-list{padding:12px 8px}.nav-item{justify-content:center;padding:0}
-  .nav-item>span,.sidebar-foot,.tag{display:none}.content{padding:10px}
-}
-</style>
-
-<style scoped>
-
-.nav-list{min-height:0;overflow-y:auto}.nav-item{flex-shrink:0}
-.dashboard-background{opacity:.075}
-.sidebar{width:64px}.nav-list{padding:12px 8px;gap:7px}.nav-item{justify-content:center;padding:0;height:43px}.nav-item>span,.sidebar-foot,.tag{display:none}.drag-fill{display:flex;align-items:center;justify-content:center;min-width:0}.page-caption{font:600 23px var(--f-title);letter-spacing:.16em;color:#d8e995;text-shadow:0 0 16px #a0c53d35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.immersive .content{padding:12px}.immersive .titlebar{background:radial-gradient(ellipse at 50% 0,#26341588,transparent 70%),linear-gradient(#090e08,#030603)}.immersive::after{content:'';position:absolute;inset:0;pointer-events:none;border:1px solid #706032;box-shadow:inset 0 0 0 3px #040704,inset 0 0 0 4px #36321b;z-index:5}@media(max-width:900px){.page-caption{font-size:17px;letter-spacing:.04em}.name{font-size:12px}.win-actions{gap:5px}.immersive .content{padding:9px}}
-
-</style>
-
-<style scoped>
-.nav-toggle{flex-shrink:0;min-height:36px;margin:8px 8px 0;background:#10170c;border:1px solid #66542b;color:#cbbb80;cursor:pointer;font:13px var(--f-body)}.sidebar.expanded{width:200px}.sidebar.expanded .nav-item{justify-content:flex-start;padding:0 12px}.sidebar.expanded .nav-item>span{display:inline}.sidebar.expanded .nav-list{padding:10px}.sidebar.expanded .nav-item{gap:10px}.sidebar.expanded .nav-toggle{text-align:left;padding-left:12px}
+.app-root{position:relative;height:100%;overflow:hidden;opacity:var(--app-opacity,1)}.boot-splash{position:relative;display:grid;place-items:center;height:100%}.boot-sigil{z-index:1;font-size:34px;color:var(--c-glow)}.shell{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:0 22px 19px 35px;isolation:isolate}.shell::after{content:'';position:absolute;inset:0;pointer-events:none;border:0 solid transparent;border-image:url('./assets/reference/outer-chrome-frame.webp') 150 250 130 / 77px 125px 65px stretch;z-index:5}.titlebar{position:relative;display:flex;align-items:center;height:var(--topbar-h);flex:none;padding:0 56px 6px;z-index:6}.brand{display:flex;align-items:center;gap:6px;width:155px;flex:none}.sigil{font-size:15px;color:#aa9e54}.name{font:600 13px var(--f-latin);letter-spacing:.1em;color:#b3ba79}.dot{color:#9cc64e}.tag{display:none}.drag-fill{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%}.page-caption{font:700 clamp(25px,2.65vw,41px)/1.3 var(--f-title);letter-spacing:.09em;color:#cfea78;text-shadow:0 0 10px #a8ff4a20;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.win-actions{display:flex;align-items:center;gap:9px;width:155px;justify-content:flex-end;flex:none}.gothic-wbtn{width:24px;height:24px}.gothic-wbtn.on{color:#c6f284;border-color:#8cb34c}.gothic-wbtn.danger:hover{color:#f1a88f;border-color:#b97150}.body{display:flex;flex:1;min-height:0;position:relative;z-index:2;gap:8px}.sidebar{width:50px;flex:none;display:flex;flex-direction:column;padding-top:4px;border-right:1px solid #5b4e293d;background:#050a0575;min-height:0}.nav-toggle{flex:none;min-height:31px;margin:0 4px 7px;background:#111709;border:1px solid #62542c;color:#b8ac75;cursor:pointer;font:13px var(--f-body)}.nav-list{display:flex;flex-direction:column;gap:7px;flex:1;min-height:0;overflow-y:auto;padding:0 4px 12px}.nav-item{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;height:41px;flex:none;padding:0;color:#a99a6e;background:#080d07;border:1px solid #4e422655;cursor:pointer}.nav-item>span{display:none}.nav-item:hover{color:#d3d996;border-color:#9b914a}.nav-item.active{color:#d0ec91;border-color:#7d993f;background:linear-gradient(90deg,#81a92c22,transparent)}.nav-item.active .ico{filter:drop-shadow(0 0 4px #91cd3b50)}.glowbar{position:absolute;left:0;top:7px;bottom:7px;width:2px}.nav-item.active .glowbar{background:#b8e16a}.sidebar.expanded{width:185px}.sidebar.expanded .nav-item{justify-content:flex-start;padding:0 10px;font:14px var(--f-body)}.sidebar.expanded .nav-item>span{display:inline}.sidebar.expanded .nav-toggle{text-align:left;padding-left:10px}.sidebar-foot{display:none}.content{display:flex;flex:1;min-width:0;overflow:hidden;padding:4px 3px 8px}.view-enter-active,.view-leave-active{transition:opacity .2s ease}.view-enter-from,.view-leave-to{opacity:0}
+@media(max-width:1100px){.shell{padding:0 13px 16px}.shell::after{border-image-width:65px 85px 45px}.titlebar{padding:0 15px 8px;height:66px}.brand{width:100px}.name{font-size:11px}.win-actions{width:140px;gap:6px}.page-caption{font-size:29px}.sidebar.expanded{width:170px}}
+@media(max-width:760px){.shell{padding:0 9px 12px}.shell::after{border-image-width:55px 60px 35px}.titlebar{height:61px;padding:0 6px 8px}.brand{display:none}.drag-fill{justify-content:flex-start;padding-left:13px}.page-caption{font-size:25px;letter-spacing:.03em}.win-actions{width:136px;gap:5px}.body{gap:6px}.sidebar{width:43px}.sidebar.expanded{width:155px}.nav-item{height:38px}.content{padding-right:0}}
+@media(prefers-reduced-motion:reduce){.view-enter-active,.view-leave-active{transition:none}}
 </style>

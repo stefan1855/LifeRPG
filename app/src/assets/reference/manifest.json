@@ -1,0 +1,991 @@
+{
+  "assets": [
+    {
+      "id": "background-world-extended",
+      "source": "ready/backgrounds/background-world-extended.png",
+      "sourceSha256": "e1af4a63befdbddf06b5e6bba6c17853cf66f083b9f4c85cd2e250a31c031add",
+      "cropXYXY": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "file": "background-world-extended.webp",
+      "sha256": "b583871e951b1a3a504a83e0652e3329d6171e161bd37a851f42d71f55c589a7"
+    },
+    {
+      "id": "background-world-ultrawide",
+      "source": "ready/backgrounds/background-world-ultrawide.png",
+      "sourceSha256": "669cc3c798cbf33ec5e753bfb0a7c6f20359ea89a7114f06de22b147c66ea352",
+      "cropXYXY": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "size": [
+        2172,
+        724
+      ],
+      "file": "background-world-ultrawide.webp",
+      "sha256": "947a22cd2ae8337219fc780d237c51c778324c1292dc0cdc01b29c29f95dd21b"
+    },
+    {
+      "id": "character-scene-extended",
+      "source": "ready/backgrounds/character-scene-extended.png",
+      "sourceSha256": "f4a418764c6fafde2188e4940766f0d913e2a9ded4a4c7a78a4c76efc4f0433d",
+      "cropXYXY": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "file": "character-scene-extended.webp",
+      "sha256": "644b189dceec6a37ab41659d9ef386d6e836eb33da9a414e1c639c92a866a246"
+    },
+    {
+      "id": "equipment-empty-scene",
+      "source": "ready/backgrounds/equipment-empty-scene.png",
+      "sourceSha256": "1a4e1528102caebbb0402a511a1bd45468ef920a28a504382ce03a0043184623",
+      "cropXYXY": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "file": "equipment-empty-scene.webp",
+      "sha256": "06988fd55c10092a097758b3d2b87052f2b8ce14789821f7cd88f266621e3b44"
+    },
+    {
+      "id": "panel-material-extended",
+      "source": "ready/materials/panel-material-extended.png",
+      "sourceSha256": "d6ce72234117cd109b4d5fd57fdeaa20e6097d937dd12af0844ec85e7df87b52",
+      "cropXYXY": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "file": "panel-material-extended.webp",
+      "sha256": "41f52cc30ed5c9b8588873f412e4a254e38449863bf6b04a47533eb1595c4b44"
+    },
+    {
+      "id": "character-cutout",
+      "source": "ready/character/character-cutout.png",
+      "sourceSha256": "5cc287f2072690e029d15ecc5534efe454ab13f4615c0c7b3fa4c79ebdb4395f",
+      "cropXYXY": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "file": "character-cutout.webp",
+      "sha256": "46fe4b22366cb20b90abfb65d6660692821246bdad60d9848df50779f2797790"
+    },
+    {
+      "id": "outer-chrome-frame",
+      "source": "ready/frames/outer-chrome-frame.png",
+      "sourceSha256": "6c11db4e1a80e0a140331f3abf13da9cf05b99c53bbc0c41ae26529cc6b84285",
+      "cropXYXY": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "file": "outer-chrome-frame.webp",
+      "sha256": "a3c007150c20972fac0beeceda025e45be1c92ffb711ebb906dfa335811e78c7"
+    },
+    {
+      "id": "panel-frame-clean",
+      "source": "ready/frames/panel-frame-clean.png",
+      "sourceSha256": "8bb70c7b9def4cc3515d1f975f646295465755a6e6204b3ae33854f93fa9bee7",
+      "cropXYXY": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "file": "panel-frame-clean.webp",
+      "sha256": "9b22292415d6ba07ac64deff57831e8892ae78b3c69cbf26af16c317b591ab47"
+    },
+    {
+      "id": "character-card-frame",
+      "source": "ready/frames/character-card-frame.png",
+      "sourceSha256": "22e9705ef141e0719a3da9efa061a32a2a4dacdcfe047cc24e8acbdb139e9137",
+      "cropXYXY": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "file": "character-card-frame.webp",
+      "sha256": "e667c21a24623632bc58a54c5676a61ffc3324255a21b8252bfcf498565ca09f"
+    },
+    {
+      "id": "contract-core-emblem",
+      "source": "ready/contract/contract-core-emblem.png",
+      "sourceSha256": "5ddc1022d7953077609fd9b23d7b8f5ca6442a3a5bc983d420e3c28e6be00ae4",
+      "cropXYXY": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "file": "contract-core-emblem.webp",
+      "sha256": "9b945984ff369e2851e6962fe4065058e5c7da16dece0003c513d5bd91e708b0"
+    },
+    {
+      "id": "contract-orbit",
+      "source": "ready/contract/contract-orbit.png",
+      "sourceSha256": "30735bb27f55df290b098d64109338117bfe8420f8a757ad2d54d75aa2abe9fb",
+      "cropXYXY": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "file": "contract-orbit.webp",
+      "sha256": "12e0712e4ce5a1c68434380d653d40e4292066892710fc2f70f4527d6d133bdc"
+    },
+    {
+      "id": "ritual-pedestal",
+      "source": "ready/contract/ritual-pedestal.png",
+      "sourceSha256": "1da106ef4748cde67148d5707d7e569bb53b3a8562ab1685194e0ff526e9d302",
+      "cropXYXY": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "file": "ritual-pedestal.webp",
+      "sha256": "b3c11830607c3b068a2f36dcdb8c1c5b9e64735fd09815f65312a518cc58e68b"
+    },
+    {
+      "id": "level-pennant",
+      "source": "ready/plates/level-pennant.png",
+      "sourceSha256": "51af14b690d6c984c431dc82c2a7fa5a1885a9e1c1a9217d21fe875467c26d44",
+      "cropXYXY": [
+        0,
+        0,
+        390,
+        600
+      ],
+      "size": [
+        390,
+        600
+      ],
+      "file": "level-pennant.webp",
+      "sha256": "a955b0f2df79fb0b9a9e386e46bc3400478569e7f38b7f75b52d4bef14596005"
+    },
+    {
+      "id": "equipment-empty-slot",
+      "source": "ready/plates/equipment-empty-slot.png",
+      "sourceSha256": "b94841996c7ae1313a35ede06d9ce43b9a82440e62c20f15cd07ad3a96f3369e",
+      "cropXYXY": [
+        0,
+        0,
+        390,
+        380
+      ],
+      "size": [
+        390,
+        380
+      ],
+      "file": "equipment-empty-slot.webp",
+      "sha256": "4f8687355689158fcbabe825774f9b7286bfafd07f99d4dcb51b248a615d9ef0"
+    },
+    {
+      "id": "portal-row-empty",
+      "source": "ready/plates/portal-row-empty.png",
+      "sourceSha256": "653365c6044ec38412a74880f07102552b4edb8c4f313065e54920f5aa556a7e",
+      "cropXYXY": [
+        0,
+        0,
+        660,
+        175
+      ],
+      "size": [
+        660,
+        175
+      ],
+      "file": "portal-row-empty.webp",
+      "sha256": "707fe3cb1e1d7c578cabbebc5c7d8f7a734802a7892e1ea0b9c71f2f318ee218"
+    },
+    {
+      "id": "header-divider",
+      "source": "ready/plates/header-divider.png",
+      "sourceSha256": "4ce02b3123958047df76bb16f5c2b27d6fb002ad480a3d52e5833404988c7fd8",
+      "cropXYXY": [
+        0,
+        0,
+        530,
+        100
+      ],
+      "size": [
+        530,
+        100
+      ],
+      "file": "header-divider.webp",
+      "sha256": "aa752e11411a1fea159d77bf1de477a89466e931256cb08c3307e364902d15d4"
+    },
+    {
+      "id": "experience-empty",
+      "source": "ready/bars/experience-empty.png",
+      "sourceSha256": "032f5ed3d5022889a270c441bf0f37630031eae2be60e1f77fa0915960b21bac",
+      "cropXYXY": [
+        0,
+        0,
+        1536,
+        224
+      ],
+      "size": [
+        1536,
+        224
+      ],
+      "file": "experience-empty.webp",
+      "sha256": "ae3d0c646e074fc3eb1230a8dbd40a4c15987c506d5fa85073ff864567470c73"
+    },
+    {
+      "id": "experience-fill",
+      "source": "ready/bars/experience-fill.png",
+      "sourceSha256": "148f6c2d5f567a972d4cc79b56bccba78c7bcf5f05ddeaed3e4c56bcf6447514",
+      "cropXYXY": [
+        0,
+        0,
+        1358,
+        94
+      ],
+      "size": [
+        1358,
+        94
+      ],
+      "file": "experience-fill.webp",
+      "sha256": "64de5a68ad8942629e610223d3a9babe2e92ecb6f6027bf5270816ef71a941b9"
+    },
+    {
+      "id": "stat-trough",
+      "source": "ready/bars/stat-trough.png",
+      "sourceSha256": "1eaf3604343da3c868ebce02434dae518c8c8a7a5274775dcfc38bd5d768908b",
+      "cropXYXY": [
+        0,
+        0,
+        1425,
+        115
+      ],
+      "size": [
+        1425,
+        115
+      ],
+      "file": "stat-trough.webp",
+      "sha256": "f8beeb9913a8f6e260f62f76407045969499814304d6a72ac63091fe2a03580d"
+    },
+    {
+      "id": "button-normal",
+      "source": "ready/buttons/button-normal.png",
+      "sourceSha256": "d68f1ab3b8f073c53dc22a36abf799023a43720e798e04b36bd14c26bc6789b9",
+      "cropXYXY": [
+        0,
+        0,
+        1174,
+        220
+      ],
+      "size": [
+        1174,
+        220
+      ],
+      "file": "button-normal.webp",
+      "sha256": "aaa54fb70264a8e5b286ba3f38d18f5d65889d4248ff1ffbc37354eb718a46e0"
+    },
+    {
+      "id": "button-hover",
+      "source": "ready/buttons/button-hover.png",
+      "sourceSha256": "8189e4e21ea69c8a9942fa602c00d0082e74e279374eb6df534a5aca675ddcf1",
+      "cropXYXY": [
+        0,
+        0,
+        1174,
+        220
+      ],
+      "size": [
+        1174,
+        220
+      ],
+      "file": "button-hover.webp",
+      "sha256": "4e8583bf6ad1b92a1fbadf369483d52662f57f14a35f9123120b245ee70ab440"
+    },
+    {
+      "id": "button-pressed",
+      "source": "ready/buttons/button-pressed.png",
+      "sourceSha256": "167bc72545b63369fed3c35bbdf21d29a29fa52b96f4975585d03fcbd9c1c0ae",
+      "cropXYXY": [
+        0,
+        0,
+        1174,
+        220
+      ],
+      "size": [
+        1174,
+        220
+      ],
+      "file": "button-pressed.webp",
+      "sha256": "27abf4c62a3702e645ffdda0d4d16e38a958acd9fe52e3f5e179f766de64cf9c"
+    },
+    {
+      "id": "button-disabled",
+      "source": "ready/buttons/button-disabled.png",
+      "sourceSha256": "ddebb4ab354e0de28c58039df4f8121d209e1c7cc9b48e02745930ad692d19ac",
+      "cropXYXY": [
+        0,
+        0,
+        1174,
+        220
+      ],
+      "size": [
+        1174,
+        220
+      ],
+      "file": "button-disabled.webp",
+      "sha256": "6794825755c447f758f764ba56f3bca41bb479d9a0275f3908cff42d94d5cbc0"
+    },
+    {
+      "id": "node-normal",
+      "source": "ready/nodes/node-normal.png",
+      "sourceSha256": "63dae3eda2414c43aef756f458c99190e2ea0ad695135f21547e1ad9e1a05f63",
+      "cropXYXY": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "size": [
+        627,
+        627
+      ],
+      "file": "node-normal.webp",
+      "sha256": "d6ad1a343b5cc136a07aa38133d33e93e839e76f8ee705cf1a56468a13101c59"
+    },
+    {
+      "id": "node-hover",
+      "source": "ready/nodes/node-hover.png",
+      "sourceSha256": "29855ff154ad1e2b2a2ecc59885ff88eaa7c9395c32589a6d93ee567b9206e99",
+      "cropXYXY": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "size": [
+        627,
+        627
+      ],
+      "file": "node-hover.webp",
+      "sha256": "347bb6142f93a707b4427aca1e8195b4aba44082048ed3d5b176266ce8109c84"
+    },
+    {
+      "id": "node-active",
+      "source": "ready/nodes/node-active.png",
+      "sourceSha256": "8e3c31b71d74f5cfe062dc5d3ddff5a03fa1dbcc3d927fb2559a47b57868043d",
+      "cropXYXY": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "size": [
+        627,
+        627
+      ],
+      "file": "node-active.webp",
+      "sha256": "c06d9cd3afa043f96c3fb41aa392d29eb818305887d0195a3150859a9936d775"
+    },
+    {
+      "id": "node-dormant",
+      "source": "ready/nodes/node-dormant.png",
+      "sourceSha256": "4447f87d1fda49478824b8e5aae0bee935de59ca2f8e6e8e95cfdc4cac2d3edd",
+      "cropXYXY": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "size": [
+        627,
+        627
+      ],
+      "file": "node-dormant.webp",
+      "sha256": "1d8ab3adfa9246c77da005652403c99bd8da1f2abcd508b1c34bf8a23504d17e"
+    },
+    {
+      "id": "rune-flesh",
+      "source": "ready/runes/rune-flesh.png",
+      "sourceSha256": "cc9784e8f3e391c5bbcb78afa09ab98f607c08af9f0f16bbe06aaac3ce996aa4",
+      "cropXYXY": [
+        127,
+        64,
+        432,
+        433
+      ],
+      "size": [
+        305,
+        369
+      ],
+      "file": "rune-flesh.webp",
+      "sha256": "353d84c84c40e2239be396afbd01ff886852cd83558376cbf22c72efe87e0bf1"
+    },
+    {
+      "id": "rune-will",
+      "source": "ready/runes/rune-will.png",
+      "sourceSha256": "69bf811fa04975fe9f559d1254d305a031c5a0cd9c82492ebc204600eac0b9e4",
+      "cropXYXY": [
+        111,
+        68,
+        407,
+        451
+      ],
+      "size": [
+        296,
+        383
+      ],
+      "file": "rune-will.webp",
+      "sha256": "e2564de050e7d681938167539e22b748b9e7788c571423dcdf28bb29a1ad8a5a"
+    },
+    {
+      "id": "rune-curse",
+      "source": "ready/runes/rune-curse.png",
+      "sourceSha256": "63091003c4e25bfcca1f29f2f31af68476dd313f768870563d0b1f035b2eef76",
+      "cropXYXY": [
+        92,
+        86,
+        444,
+        438
+      ],
+      "size": [
+        352,
+        352
+      ],
+      "file": "rune-curse.webp",
+      "sha256": "8b879df82ba6fe20f2e06d99aec742c49a1cf2255112d42cf16d9840f172b762"
+    },
+    {
+      "id": "rune-whisper",
+      "source": "ready/runes/rune-whisper.png",
+      "sourceSha256": "ea95f6a562a26cdb4044d28f14a0bcdd8e24cc8264476f91e4d45c5d284ca1c5",
+      "cropXYXY": [
+        107,
+        69,
+        428,
+        404
+      ],
+      "size": [
+        321,
+        335
+      ],
+      "file": "rune-whisper.webp",
+      "sha256": "8b69989f1373632a01057a486570069b4bc07356e865f88f0d07a825de7a9ef0"
+    },
+    {
+      "id": "rune-fel",
+      "source": "ready/runes/rune-fel.png",
+      "sourceSha256": "0877198dac772f90790339fc811317a7aac5e12078817ac50ed0393fcfedde15",
+      "cropXYXY": [
+        125,
+        56,
+        392,
+        411
+      ],
+      "size": [
+        267,
+        355
+      ],
+      "file": "rune-fel.webp",
+      "sha256": "a13556aa5d4b141da01fa9c048500b639a0fb3efc48ced471a06ccaeaf6c8bdd"
+    },
+    {
+      "id": "rune-soul",
+      "source": "ready/runes/rune-soul.png",
+      "sourceSha256": "c3ba9d95fb443cf5d6a62bac6f4163bfdeb331302e4cb82d5186bd818e4973a8",
+      "cropXYXY": [
+        83,
+        63,
+        412,
+        406
+      ],
+      "size": [
+        329,
+        343
+      ],
+      "file": "rune-soul.webp",
+      "sha256": "f56c6614915ec3c6ce681d7a640eea2ba5450697016057b0f65d4811d427b739"
+    },
+    {
+      "id": "history-fel-surge",
+      "source": "ready/history/history-fel-surge.png",
+      "sourceSha256": "76d3d02a839ddb3f12b1d1cdc6e28a721ee4639cd2bc0dccefee5f00c0b5d0fb",
+      "cropXYXY": [
+        90,
+        102,
+        429,
+        432
+      ],
+      "size": [
+        339,
+        330
+      ],
+      "file": "history-fel-surge.webp",
+      "sha256": "807a0d0bae13edcf23be56d9010763b7dee6de10b7ab1e3943000232d7ec514d"
+    },
+    {
+      "id": "history-void-will",
+      "source": "ready/history/history-void-will.png",
+      "sourceSha256": "00354d2366c361f1b5f10d3116305a0c05b2c19cf68003dbb248ea3abc209e57",
+      "cropXYXY": [
+        87,
+        104,
+        424,
+        432
+      ],
+      "size": [
+        337,
+        328
+      ],
+      "file": "history-void-will.webp",
+      "sha256": "25a3e683124e2282cee9c329465ed9b06ec221dff3e085590934b09af14006f6"
+    },
+    {
+      "id": "history-blood-flesh",
+      "source": "ready/history/history-blood-flesh.png",
+      "sourceSha256": "5e4d98461517bbc01970b3de0b107194443a497b99af332a660e4bfbc19545e6",
+      "cropXYXY": [
+        83,
+        103,
+        421,
+        432
+      ],
+      "size": [
+        338,
+        329
+      ],
+      "file": "history-blood-flesh.webp",
+      "sha256": "27634141c93e0d376124b3245d743c8c955a90b358758d46603a0c2f0cc72606"
+    },
+    {
+      "id": "history-curse-bind",
+      "source": "ready/history/history-curse-bind.png",
+      "sourceSha256": "88a67f85219d39944f4dbae8233caff5382c0c7b8c7f7e56f69661bdd28e4704",
+      "cropXYXY": [
+        90,
+        75,
+        429,
+        398
+      ],
+      "size": [
+        339,
+        323
+      ],
+      "file": "history-curse-bind.webp",
+      "sha256": "21656fc304362a717b839bd964c891e4f3a7edb60e108a8bd6e7e7018d6c94f6"
+    },
+    {
+      "id": "history-whisper-tongue",
+      "source": "ready/history/history-whisper-tongue.png",
+      "sourceSha256": "5181407d70f12a01b6dee39bec842c328b879b77d46c172ef0deb52361b56c36",
+      "cropXYXY": [
+        85,
+        75,
+        424,
+        399
+      ],
+      "size": [
+        339,
+        324
+      ],
+      "file": "history-whisper-tongue.webp",
+      "sha256": "77eeb850484bf6156a32b1cdabccdcf1429a79893b7935b084715e805b60ae17"
+    },
+    {
+      "id": "history-soul-fragment",
+      "source": "ready/history/history-soul-fragment.png",
+      "sourceSha256": "24976ce8cad2d81f51baefe6594e57cc27440d3853d27f73f07939592c4a203a",
+      "cropXYXY": [
+        83,
+        75,
+        421,
+        398
+      ],
+      "size": [
+        338,
+        323
+      ],
+      "file": "history-soul-fragment.webp",
+      "sha256": "eb715b07cfa72e8d54190c514e5174576ddd98fb0d620b94c4a965ecc1854489"
+    },
+    {
+      "id": "equipment-head",
+      "source": "ready/equipment/equipment-head.png",
+      "sourceSha256": "207b6210f88d217469c5ec3c39a25980247c0260c4ae09a1afda8fa30d79b27e",
+      "cropXYXY": [
+        74,
+        69,
+        302,
+        340
+      ],
+      "size": [
+        228,
+        271
+      ],
+      "file": "equipment-head.webp",
+      "sha256": "0e833d9b3a4e22e4db68dcde4e9b44bfa0ad4987591ad101c8ee7fd2d26d6f6d"
+    },
+    {
+      "id": "equipment-shoulders",
+      "source": "ready/equipment/equipment-shoulders.png",
+      "sourceSha256": "c11ef14071fb30e446f7a101b2c1699dec9a8d9c2404051927b8d05715ee0232",
+      "cropXYXY": [
+        55,
+        95,
+        307,
+        319
+      ],
+      "size": [
+        252,
+        224
+      ],
+      "file": "equipment-shoulders.webp",
+      "sha256": "9b41247ba3ccda6b0c02a3e3398c906cd8b6f858d921721d4687ec4b65e55871"
+    },
+    {
+      "id": "equipment-chest",
+      "source": "ready/equipment/equipment-chest.png",
+      "sourceSha256": "2374ea9e36b08e98731278e2b81469502b4aa914d2ab91205490abeb93525dcd",
+      "cropXYXY": [
+        28,
+        66,
+        303,
+        339
+      ],
+      "size": [
+        275,
+        273
+      ],
+      "file": "equipment-chest.webp",
+      "sha256": "8aed0ee92afab1994386f7d9e2dff35793bee8c1180e8fa92a95ad5696e0dc9f"
+    },
+    {
+      "id": "equipment-bracers",
+      "source": "ready/equipment/equipment-bracers.png",
+      "sourceSha256": "f18a0d2db44b4ccaf09aaf97c682adbe89d5e6192ae125bd39183ff082048275",
+      "cropXYXY": [
+        60,
+        89,
+        294,
+        330
+      ],
+      "size": [
+        234,
+        241
+      ],
+      "file": "equipment-bracers.webp",
+      "sha256": "f4532f05899296e59f6a40c94f6514cecf136bec184642bbf02b0d9746505d45"
+    },
+    {
+      "id": "equipment-hands",
+      "source": "ready/equipment/equipment-hands.png",
+      "sourceSha256": "30029edf52d806893344130246e019d1a13340c948bb90715646a82901f53987",
+      "cropXYXY": [
+        73,
+        71,
+        308,
+        315
+      ],
+      "size": [
+        235,
+        244
+      ],
+      "file": "equipment-hands.webp",
+      "sha256": "03e3fc9f06d709726bbea70fddaab92f281dbb806c5aeb863bbc689e461910b8"
+    },
+    {
+      "id": "equipment-waist",
+      "source": "ready/equipment/equipment-waist.png",
+      "sourceSha256": "1a8c58f26ec2c3b50f3699bb07b7566daf1a0cf99fbbddeaf6eaf8c6cbdef2fe",
+      "cropXYXY": [
+        53,
+        108,
+        312,
+        282
+      ],
+      "size": [
+        259,
+        174
+      ],
+      "file": "equipment-waist.webp",
+      "sha256": "6ff3d7ccfa3c2bcd735f05bd6e740490209345d5df60727a7e62be7eda8936d6"
+    },
+    {
+      "id": "equipment-legs",
+      "source": "ready/equipment/equipment-legs.png",
+      "sourceSha256": "62fc31132876e3996573944fda53a740361380223bd880a39cae49d278975a17",
+      "cropXYXY": [
+        75,
+        46,
+        280,
+        320
+      ],
+      "size": [
+        205,
+        274
+      ],
+      "file": "equipment-legs.webp",
+      "sha256": "4fd902b797fc2680812218a61d8c7bb0bb9e4d49ec6b36d3e27ad4a5f78bd9a4"
+    },
+    {
+      "id": "equipment-feet",
+      "source": "ready/equipment/equipment-feet.png",
+      "sourceSha256": "6e7ef4fe28077feb2fd409ff44a348ed92521046f5c89350ea08799143667e79",
+      "cropXYXY": [
+        55,
+        80,
+        296,
+        315
+      ],
+      "size": [
+        241,
+        235
+      ],
+      "file": "equipment-feet.webp",
+      "sha256": "9637e2785f170f9d1b0f7d8b1b5a6bd3af87206879b4c74ee96a4e6331635595"
+    },
+    {
+      "id": "equipment-accessory-1",
+      "source": "ready/equipment/equipment-accessory-1.png",
+      "sourceSha256": "05d14a5d0b90926ecabee257acf1b8cfe400d8677561b7fb2cd23ccbbd578bb8",
+      "cropXYXY": [
+        82,
+        34,
+        283,
+        282
+      ],
+      "size": [
+        201,
+        248
+      ],
+      "file": "equipment-accessory-1.webp",
+      "sha256": "c1af4d07d59d587ed7643108a79b35abe5cfe173cd2f70af5839b3618c51a19f"
+    },
+    {
+      "id": "equipment-accessory-2",
+      "source": "ready/equipment/equipment-accessory-2.png",
+      "sourceSha256": "2bff1a78430c704cbfdf956c76fcd9be894cfd13a89d2f5402fcb650b55b2e6b",
+      "cropXYXY": [
+        76,
+        37,
+        292,
+        287
+      ],
+      "size": [
+        216,
+        250
+      ],
+      "file": "equipment-accessory-2.webp",
+      "sha256": "1e212046f12a29d00218ffdc6c0d3b584cb33c6439e36248c9625cc39f057e2e"
+    },
+    {
+      "id": "equipment-mainhand",
+      "source": "ready/equipment/equipment-mainhand.png",
+      "sourceSha256": "6e1752112dffc1733f4047ec046d9d804dfa6021b3f5efba8628e6b23728361b",
+      "cropXYXY": [
+        55,
+        32,
+        310,
+        293
+      ],
+      "size": [
+        255,
+        261
+      ],
+      "file": "equipment-mainhand.webp",
+      "sha256": "327e7b872071c311304b87381657a7c1cf5400e173d2bafe0bb960b19af9b889"
+    },
+    {
+      "id": "equipment-offhand",
+      "source": "ready/equipment/equipment-offhand.png",
+      "sourceSha256": "0d993725dcfa1bb0fcc5c88b685e6631529e255b9f87f628aa22fcecc4a256b2",
+      "cropXYXY": [
+        54,
+        10,
+        315,
+        302
+      ],
+      "size": [
+        261,
+        292
+      ],
+      "file": "equipment-offhand.webp",
+      "sha256": "0b7eb543b0f0f84766b18c1bc5343b6a5ad7e87187e79b787df5d3deed8086ac"
+    },
+    {
+      "id": "icon-skill",
+      "source": "ready/controls/icon-skill.png",
+      "sourceSha256": "8dae9eaef621d5abc7288227998d30e66fd70431f7aa9ca14a1f3ca282b7358b",
+      "cropXYXY": [
+        164,
+        111,
+        416,
+        453
+      ],
+      "size": [
+        252,
+        342
+      ],
+      "file": "icon-skill.webp",
+      "sha256": "482b4b6e1cdd5c63133a727fe69186726867eea9a7745d957b7ca0c5443d1185"
+    },
+    {
+      "id": "icon-contract",
+      "source": "ready/controls/icon-contract.png",
+      "sourceSha256": "5f4d59205bcbe4d4e6c946b9cd6015fcb5d33f1a299d53ef380c7a85bde9a7bf",
+      "cropXYXY": [
+        108,
+        118,
+        404,
+        454
+      ],
+      "size": [
+        296,
+        336
+      ],
+      "file": "icon-contract.webp",
+      "sha256": "200e418c99a00d5e915e20b2fdca2638f63b2ddf569fdeb88871da917459e387"
+    },
+    {
+      "id": "icon-reputation",
+      "source": "ready/controls/icon-reputation.png",
+      "sourceSha256": "e90a3b8cdfecca01b47e50c14ba01999fc6c0547ac19feb00c171c8a35b281d3",
+      "cropXYXY": [
+        75,
+        108,
+        430,
+        454
+      ],
+      "size": [
+        355,
+        346
+      ],
+      "file": "icon-reputation.webp",
+      "sha256": "7169ac9395a587fd511532087f21b934f89822cab1b2c5945d904a7a048438e7"
+    },
+    {
+      "id": "icon-refresh",
+      "source": "ready/controls/icon-refresh.png",
+      "sourceSha256": "e31853293e0f8db4d766056014077bcdd337094415ae42af4f746529790ad917",
+      "cropXYXY": [
+        91,
+        99,
+        402,
+        404
+      ],
+      "size": [
+        311,
+        305
+      ],
+      "file": "icon-refresh.webp",
+      "sha256": "91dc0517a4735808942ae1bee4dcfd1b3dcde542225a40a418fa9d82256c53a6"
+    },
+    {
+      "id": "chevron-right",
+      "source": "ready/controls/chevron-right.png",
+      "sourceSha256": "820426547da14bdb5d5501668eecccd994550eef39033ca352b2c164f69c7f15",
+      "cropXYXY": [
+        196,
+        92,
+        404,
+        418
+      ],
+      "size": [
+        208,
+        326
+      ],
+      "file": "chevron-right.webp",
+      "sha256": "08bff2c0969f53ebc324c1ac9be63e8ea16f649d323a8c0e5fed1173db17c260"
+    },
+    {
+      "id": "chevron-up",
+      "source": "ready/controls/chevron-up.png",
+      "sourceSha256": "49912db597a2e2a28631fbf5239085a2fe0aa1bd13634f4e3c634a8e20a6561a",
+      "cropXYXY": [
+        109,
+        158,
+        405,
+        353
+      ],
+      "size": [
+        296,
+        195
+      ],
+      "file": "chevron-up.webp",
+      "sha256": "279d60f15cc44a3483ffaf7567b88841cbeacd91f0943ac7953d3dedee09aea9"
+    }
+  ],
+  "fonts": [
+    {
+      "file": "noto-serif-sc.woff2",
+      "source": "NotoSerifSC[wght].ttf",
+      "sha256": "8773993382708adddd6d9aa5a340b644bc062f1d2da7916701d11ea3ad620d3e"
+    },
+    {
+      "file": "roboto-condensed.woff2",
+      "source": "RobotoCondensed[wght].ttf",
+      "sha256": "e7f4fa9de941bdabb56edb16b379c30fcb067c1c5763965aa40be9476aa1c3dd"
+    },
+    {
+      "file": "cinzel.woff2",
+      "source": "Cinzel[wght].ttf",
+      "sha256": "b91bb88284cd3f6f3cae007d3a7cfb323037ff179b16525c9bc3f30dab2bab15"
+    }
+  ],
+  "method": "Lossless WebP; integer crop only. Original PNG masters retained in the reference kit."
+}

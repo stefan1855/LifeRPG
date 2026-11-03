@@ -619,7 +619,7 @@ onMounted(load);
         <GothicPanel title="关于" subtitle="ABOUT">
           <div class="about">
             <div class="about-row"><Info :size="12" /><span>LifeRPG · 绿火毁灭术</span></div>
-            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.7</span></div>
+            <div class="about-row"><span class="k">版本</span><span class="v num">2.3.0-rc.8</span></div>
             <div class="about-row"><span class="k">架构</span><span class="v">Tauri v2 · Vue 3 · Rust · SQLite</span></div>
             <div class="about-row"><span class="k">数据</span><span class="v">本地存储</span></div>
           </div>

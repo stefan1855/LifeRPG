@@ -6,7 +6,7 @@ const props = defineProps({
   label: { type: String, default: '' },
   value: { type: String, default: '' },
   height: { type: Number, default: 18 },
-  showShine: { type: Boolean, default: true },
+  showShine: { type: Boolean, default: false },
 });
 
 const clamped = computed(() => Math.max(0, Math.min(100, props.percent)));
@@ -38,7 +38,7 @@ const display = computed(() => props.value || `${clamped.value.toFixed(1)}%`);
   position: relative;
   flex: 1;
   height: 100%;
-  background: url('../assets/textures/bar_trough.webp') repeat-x center / auto 100%;
+  background: url('../assets/reference/stat-trough.webp') no-repeat center / 100% 100%;
   border: 2px solid #2b2412;
   border-radius: 2px;
   overflow: hidden;
@@ -50,7 +50,7 @@ const display = computed(() => props.value || `${clamped.value.toFixed(1)}%`);
 .fill {
   position: absolute;
   inset: 1px auto 1px 1px;
-  background: url('../assets/textures/bar_fill.webp') repeat-x center / auto 100%;
+  background: url('../assets/reference/experience-fill.webp') no-repeat center / 100% 100%;
   box-shadow: 0 0 14px rgba(124, 255, 31, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }

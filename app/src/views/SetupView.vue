@@ -260,7 +260,7 @@ onMounted(load);
   position: absolute;
   inset: 0;
   border: 13px solid transparent;
-  border-image: url('../assets/textures/frame_panel.webp') 30 / 13px stretch;
+  border-image: url('../assets/reference/panel-frame-clean.webp') 180 / 24px stretch;
   pointer-events: none;
 }
 .corner {

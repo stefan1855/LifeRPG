@@ -1,6 +1,6 @@
 [package]
 name = "liferpg"
-version = "2.3.0-rc.7"
+version = "2.3.0-rc.8"
 description = "LifeRPG - 暗黑哥特人生 RPG 桌面客户端"
 authors = ["苏丽珂"]
 edition = "2021"

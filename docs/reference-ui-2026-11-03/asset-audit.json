@@ -1,0 +1,23 @@
+{
+  "sourceKit": "assets/reference-ui-v1",
+  "sourceReadyTexturesReviewed": 110,
+  "runtimeTextures": 57,
+  "fonts": 3,
+  "fileHashesAndImageDecodesPassed": true,
+  "originalReferencePixelReconstructionIdentical": true,
+  "visualReview": {
+    "palette": "black iron / worn bronze / olive / green soul fire",
+    "character": "approved faceless green-flame warlock; removed previous alternate portrait",
+    "equipment": "12 distinct painted icons, single column",
+    "contract": "six distinct rune layers, thorn frames, spiked core and ritual orbit",
+    "scaling": "fixed border-image corners, independent progress fill, trimmed icon cells",
+    "typography": "offline Song serif with role-specific weights and condensed numeric font",
+    "coverage": "dashboard reference plus shared frame, button and typography on existing screens"
+  },
+  "restrictions": [
+    "Raw source slices preserve baked UI words and are excluded from runtime imports.",
+    "Superseded FX sheets excluded.",
+    "Repainted/outpainted content remains an interpretation, not a claim of original hidden pixels.",
+    "No blanket pixel-identity claim for responsive UI; exact identity only applies to raw source crops."
+  ]
+}

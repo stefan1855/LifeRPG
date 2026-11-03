@@ -1,0 +1,57 @@
+{
+  "environment": "Headless Chromium, actual Vue components, synthetic Tauri command responses; not native desktop acceptance",
+  "url": "http://127.0.0.1:5174",
+  "sizes": [
+    {
+      "width": 1672,
+      "height": 941,
+      "overflow": [],
+      "columns": 3
+    },
+    {
+      "width": 1460,
+      "height": 920,
+      "overflow": [],
+      "columns": 3
+    },
+    {
+      "width": 1250,
+      "height": 850,
+      "overflow": [],
+      "columns": 2
+    },
+    {
+      "width": 1068,
+      "height": 700,
+      "overflow": [],
+      "columns": 2
+    },
+    {
+      "width": 760,
+      "height": 560,
+      "overflow": [],
+      "columns": 1
+    },
+    {
+      "width": 480,
+      "height": 700,
+      "overflow": [],
+      "columns": 1
+    }
+  ],
+  "checks": {
+    "sixRunesTwelveSingleColumnSlotsAndAllImagesLoaded": true,
+    "referenceColumnsFitBaselineWindow": true,
+    "characterEditSavesThroughExistingApi": true,
+    "historyPagination100To125": true,
+    "pendingTaskSettlementAndReload": true,
+    "runeNavigatesToAttributes": true,
+    "equipmentSlotNavigatesToInventory": true,
+    "portalNavigatesToSkills": true,
+    "emptyLongTextAndZeroExperience": true,
+    "fullExperience": true,
+    "tasksPageLoads": true,
+    "settingsPageLoads": true
+  },
+  "runtimeErrors": []
+}

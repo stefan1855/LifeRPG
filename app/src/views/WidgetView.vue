@@ -249,7 +249,7 @@ onMounted(load);
   inset: 0;
   border: 10px solid transparent;
   /* 挂件专用小尺寸边框：72px 源图 + 18px 切片，避免通用 120px 图被压扁 */
-  border-image: url('../assets/textures/frame_panel_sm.webp') 18 / 10px stretch;
+  border-image: url('../assets/reference/panel-frame-clean.webp') 180 / 18px stretch;
   pointer-events: none;
   z-index: 2;
 }
