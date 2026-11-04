@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::time::Duration;
 
-use crate::services::config_service::ConfigService;
+use crate::services::config_service::{ConfigService, WidgetSettings};
 
 /// AI 军师：走用户本地网关（OpenAI 兼容协议），可选开关，失败静默降级
 pub struct AiService;
@@ -23,9 +23,9 @@ impl Default for AiConfig {
     fn default() -> Self {
         Self {
             enabled: false,
-            base_url: "http://127.0.0.1:8317/v1".into(),
-            model: "gemini-3.8-flash-high".into(),
-            model_light: Some("gemini-3-flash".into()),
+            base_url: String::new(),
+            model: String::new(),
+            model_light: None,
             api_key: None,
         }
     }
@@ -33,18 +33,21 @@ impl Default for AiConfig {
 
 impl AiConfig {
     pub fn load() -> Self {
-        let cfg = ConfigService::load();
+        Self::from_settings(ConfigService::load())
+    }
+
+    fn from_settings(cfg: WidgetSettings) -> Self {
         Self {
             enabled: cfg.ai_enabled.unwrap_or(false),
             base_url: cfg
                 .ai_base_url
                 .filter(|s| !s.trim().is_empty())
-                .unwrap_or_else(|| Self::default().base_url),
+                .unwrap_or_default(),
             model: cfg
                 .ai_model
                 .filter(|s| !s.trim().is_empty())
-                .unwrap_or_else(|| Self::default().model),
-            model_light: cfg.ai_model_light,
+                .unwrap_or_default(),
+            model_light: cfg.ai_model_light.filter(|s| !s.trim().is_empty()),
             api_key: cfg.ai_api_key,
         }
     }
@@ -60,7 +63,19 @@ impl AiService {
         if !cfg.enabled {
             return Err("AI 未开启：请到「设置 → AI 军师」打开".into());
         }
-        let base = cfg.base_url.trim_end_matches('/');
+        let base = cfg.base_url.trim().trim_end_matches('/');
+        if base.is_empty() {
+            return Err("AI 网关地址未填写：请到「设置 → AI 军师」填写并保存".into());
+        }
+        let parsed = reqwest::Url::parse(base)
+            .map_err(|_| "AI 网关地址无效：请填写完整的 HTTP 或 HTTPS 地址".to_string())?;
+        if !matches!(parsed.scheme(), "http" | "https") || parsed.host_str().is_none() {
+            return Err("AI 网关地址无效：请填写完整的 HTTP 或 HTTPS 地址".into());
+        }
+        let model = model.trim();
+        if model.is_empty() {
+            return Err("AI 模型未填写：请到「设置 → AI 军师」填写并保存".into());
+        }
         let url = format!("{}/chat/completions", base);
 
         let body = serde_json::json!({
@@ -162,6 +177,45 @@ mod tests {
         };
         let err = AiService::chat(&cfg, "any", "sys", "user").unwrap_err();
         assert!(err.contains("AI 未开启"), "unexpected error: {}", err);
+    }
+
+    #[test]
+    fn runtime_ai_config_keeps_blanks_and_existing_user_values() {
+        let defaults = AiConfig::default();
+        assert!(defaults.base_url.is_empty());
+        assert!(defaults.model.is_empty());
+        assert!(defaults.model_light.is_none());
+        assert!(defaults.api_key.is_none());
+        let blank = AiConfig::from_settings(WidgetSettings::default());
+        assert!(blank.base_url.is_empty());
+        assert!(blank.model.is_empty());
+        assert!(blank.model_light.is_none());
+
+        let cfg = AiConfig::from_settings(WidgetSettings {
+            ai_enabled: Some(true), ai_base_url: Some("https://user.example/v1".into()),
+            ai_model: Some("user-model".into()), ai_model_light: Some("  ".into()),
+            ai_api_key: Some("test-key".into()), ..Default::default()
+        });
+        assert!(cfg.enabled);
+        assert_eq!(cfg.base_url, "https://user.example/v1");
+        assert_eq!(cfg.model, "user-model");
+        assert!(cfg.model_light.is_none());
+        assert_eq!(cfg.api_key.as_deref(), Some("test-key"));
+    }
+
+    #[test]
+    fn incomplete_ai_config_fails_before_network_request() {
+        let mut cfg = AiConfig { enabled: true, ..Default::default() };
+        let err = AiService::chat(&cfg, "", "sys", "user").unwrap_err();
+        assert!(err.contains("网关地址未填写"));
+        for url in ["localhost:8317", "file:///test", "not a url"] {
+            cfg.base_url = url.into();
+            let err = AiService::chat(&cfg, "main", "sys", "user").unwrap_err();
+            assert!(err.contains("网关地址无效"), "{}", err);
+        }
+        cfg.base_url = "https://gateway.example/v1".into();
+        let err = AiService::chat(&cfg, "  ", "sys", "user").unwrap_err();
+        assert!(err.contains("模型未填写"));
     }
 
     #[test]

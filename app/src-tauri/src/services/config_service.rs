@@ -43,9 +43,9 @@ impl Default for WidgetSettings {
             view_mode: Some("main".to_string()),
             autostart: Some(false),
             ai_enabled: Some(false),
-            ai_base_url: Some("http://127.0.0.1:8317/v1".to_string()),
-            ai_model: Some("gemini-3.8-flash-high".to_string()),
-            ai_model_light: Some("gemini-3-flash".to_string()),
+            ai_base_url: None,
+            ai_model: None,
+            ai_model_light: None,
             ai_api_key: None,
             obsidian_vault: None,
             mcp_servers: Some(Vec::new()),
@@ -143,21 +143,13 @@ impl ConfigService {
                 current.ai_enabled = Some(v);
             }
             if let Some(v) = obj.get("aiBaseUrl").and_then(|v| v.as_str()) {
-                if !v.trim().is_empty() {
-                    current.ai_base_url = Some(v.to_string());
-                }
+                current.ai_base_url = optional_text(v);
             }
             if let Some(v) = obj.get("aiModel").and_then(|v| v.as_str()) {
-                if !v.trim().is_empty() {
-                    current.ai_model = Some(v.to_string());
-                }
+                current.ai_model = optional_text(v);
             }
             if let Some(v) = obj.get("aiModelLight").and_then(|v| v.as_str()) {
-                current.ai_model_light = if v.trim().is_empty() {
-                    None
-                } else {
-                    Some(v.to_string())
-                };
+                current.ai_model_light = optional_text(v);
             }
             if let Some(v) = obj.get("aiApiKey").and_then(|v| v.as_str()) {
                 if !v.trim().is_empty() {
@@ -197,9 +189,74 @@ impl ConfigService {
         Ok(())
     }
 }
+
+fn optional_text(value: &str) -> Option<String> {
+    let value = value.trim();
+    if value.is_empty() { None } else { Some(value.to_string()) }
+}
+
 #[cfg(test)]
 mod recovery_tests {
     use super::*;
+
+    #[test]
+    fn new_and_legacy_configs_without_ai_fields_stay_blank() {
+        for cfg in [
+            WidgetSettings::default(),
+            serde_json::from_str::<WidgetSettings>(r#"{"opacity":85}"#).unwrap(),
+            serde_json::from_str::<WidgetSettings>(
+                r#"{"aiBaseUrl":null,"aiModel":null,"aiModelLight":null,"aiApiKey":null}"#,
+            ).unwrap(),
+        ] {
+            assert_eq!(cfg.ai_enabled, Some(false));
+            assert!(cfg.ai_base_url.is_none());
+            assert!(cfg.ai_model.is_none());
+            assert!(cfg.ai_model_light.is_none());
+            assert!(cfg.ai_api_key.is_none());
+        }
+    }
+
+    #[test]
+    fn ai_fields_can_be_cleared_and_reloaded_without_losing_saved_key() {
+        let initial: WidgetSettings = serde_json::from_value(serde_json::json!({
+            "dataDir": "D:/isolated", "aiEnabled": true,
+            "aiBaseUrl": "https://gateway.example/v1", "aiModel": "main-model",
+            "aiModelLight": "light-model", "aiApiKey": "test-key"
+        })).unwrap();
+        let partial = ConfigService::merge_with_patch(initial.clone(), &serde_json::json!({"opacity":80}));
+        assert_eq!(partial.ai_base_url, initial.ai_base_url);
+        assert_eq!(partial.ai_model, initial.ai_model);
+        assert_eq!(partial.ai_model_light, initial.ai_model_light);
+        assert_eq!(partial.ai_api_key, initial.ai_api_key);
+
+        let cleared = ConfigService::merge_with_patch(partial, &serde_json::json!({
+            "aiBaseUrl":"", "aiModel":"  ", "aiModelLight":"\t", "aiApiKey":""
+        }));
+        let root = std::env::temp_dir().join(format!("liferpg-ai-config-{}", uuid::Uuid::new_v4()));
+        fs::create_dir_all(&root).unwrap();
+        let path = root.join("config.json");
+        assert!(ConfigService::read_at(&path).unwrap().ai_base_url.is_none());
+        ConfigService::write_at(&path, &cleared).unwrap();
+        let loaded = ConfigService::read_at(&path).unwrap();
+        assert!(loaded.ai_base_url.is_none());
+        assert!(loaded.ai_model.is_none());
+        assert!(loaded.ai_model_light.is_none());
+        assert_eq!(loaded.ai_api_key.as_deref(), Some("test-key"));
+        assert_eq!(loaded.data_dir.as_deref(), Some("D:/isolated"));
+        assert_eq!(loaded.ai_enabled, Some(true));
+
+        let updated = ConfigService::merge_with_patch(loaded, &serde_json::json!({
+            "aiBaseUrl":" https://new.example/v1 ", "aiModel":" main ",
+            "aiModelLight":" light ", "aiApiKey":"replacement-test-key"
+        }));
+        assert_eq!(updated.ai_base_url.as_deref(), Some("https://new.example/v1"));
+        assert_eq!(updated.ai_model.as_deref(), Some("main"));
+        assert_eq!(updated.ai_model_light.as_deref(), Some("light"));
+        assert_eq!(updated.ai_api_key.as_deref(), Some("replacement-test-key"));
+        assert_eq!(root.parent(), Some(std::env::temp_dir().as_path()));
+        fs::remove_dir_all(root).unwrap();
+    }
+
     #[test]
     fn missing_corrupt_and_unreadable_config_are_distinct() {
         let root=std::env::temp_dir().join(format!("liferpg-config-{}",uuid::Uuid::new_v4()));

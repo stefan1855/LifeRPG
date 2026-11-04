@@ -256,9 +256,9 @@ async function load() {
     exeDir.value = state?.exeDir || '';
     runtimeDir.value = state?.runtimeDir || '';
     ai.enabled = !!aiCfg?.enabled;
-    ai.baseUrl = aiCfg?.baseUrl || 'http://127.0.0.1:8317/v1';
-    ai.model = aiCfg?.model || 'gemini-3.8-flash-high';
-    ai.modelLight = aiCfg?.modelLight || 'gemini-3-flash';
+    ai.baseUrl = aiCfg?.baseUrl ?? '';
+    ai.model = aiCfg?.model ?? '';
+    ai.modelLight = aiCfg?.modelLight ?? '';
     ai.apiKey = '';
   } catch (e) {
     notify.error('读取设置失败：' + e.message);
@@ -509,16 +509,16 @@ onMounted(load);
           </label>
           <label class="field">
             <span>网关地址（OpenAI 兼容）</span>
-            <input v-model="ai.baseUrl" class="input" placeholder="http://127.0.0.1:8317/v1" />
+            <input v-model="ai.baseUrl" class="input" placeholder="填写 OpenAI 兼容接口地址" />
           </label>
           <div class="field-row">
             <label class="field">
               <span>主力模型（复盘）</span>
-              <input v-model="ai.model" class="input" placeholder="gemini-3.8-flash-high" />
+              <input v-model="ai.model" class="input" placeholder="填写模型名称" />
             </label>
             <label class="field">
               <span>轻量模型（建任务等）</span>
-              <input v-model="ai.modelLight" class="input" placeholder="gemini-3-flash" />
+              <input v-model="ai.modelLight" class="input" placeholder="留空沿用主力模型" />
             </label>
           </div>
           <label class="field">
