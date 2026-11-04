@@ -1,0 +1,9 @@
+{
+  "id": "B-soul-grimoire",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: logo-brand / production Windows application icon option. The reference image supplies ONLY the LifeRPG black-iron, aged-bronze and olive/lime soul-fire palette; do not copy its full UI. Design ONE compact closed black-iron GRIMOIRE seen front-on, tiny dark bronze protective corner brackets, a single lime-green vertical flame rune engraved in its center and three small stepped page edges at bottom right. Bold minimal silhouette, at most 3 major shapes, no delicate lettering or countless page lines. No skull or hood. Output ONE isolated centered 1024x1024 RGBA application icon on real transparent background, full shape within central 78% with clean margins. Premium hand-painted game emblem, coherent light from upper-left. Use very limited detail so it reads at 16, 32 and 48px. Dark charcoal/olive bodies, subdued aged bronze, green #7CFF1F focal accent with restrained glow, absolutely no purple, cyan, red or gold-wash. No rounded app square backdrop, no mockup, no captions, no sheet/grid, no watermark. Actual alpha outside the symbol.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/source/reference.png"
+  ],
+  "transparent_background": true
+}

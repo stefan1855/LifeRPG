@@ -1,0 +1,9 @@
+{
+  "id": "A-soul-flame",
+  "mode": "built-in-imagegen",
+  "prompt": "Use case: logo-brand / production Windows application icon option. The reference image supplies ONLY the LifeRPG black-iron, aged-bronze and olive/lime soul-fire palette; do not copy its full UI. Design ONE unmistakable lime green SOUL FLAME rising from the center of a compact blackened-bronze circular signet. Three broad flame lobes, a small dark hollow in the center, only 4 restrained thorn points on the bronze ring. Simple strong silhouette, roughly circular app mark. No skull, hood, book, letters or UI. Output ONE isolated centered 1024x1024 RGBA application icon on real transparent background, full shape within central 78% with clean margins. Premium hand-painted game emblem, coherent light from upper-left. Use very limited detail so it reads at 16, 32 and 48px. Dark charcoal/olive bodies, subdued aged bronze, green #7CFF1F focal accent with restrained glow, absolutely no purple, cyan, red or gold-wash. No rounded app square backdrop, no mockup, no captions, no sheet/grid, no watermark. Actual alpha outside the symbol.",
+  "referenced_image_paths": [
+    "D:/Projects/LifeRPG/assets/reference-ui-v1/source/reference.png"
+  ],
+  "transparent_background": true
+}
